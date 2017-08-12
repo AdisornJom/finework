@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <p:panel header="#{msgs['menu.master.create.s202']}">
+        <h:form id="listForm">
+            
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+            
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:fieldset legend="#{msgs['desc']}" style="border: 0px;">
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <div class="ui-fluid">
+                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">                           
+                            <h:panelGroup>
+                                <p:outputLabel for="type_obj" value="ประเภท :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="type_obj" value="#{s202Controller.selected.runningType}" style="width: 430px;">
+                                    <f:selectItem itemLabel="B101 - ใบแจ้งหนี้" itemValue="novat" />
+                                    <f:selectItem itemLabel="B102 - ใบวางบิล" itemValue="check" />
+                                    <f:selectItem itemLabel="B103 - โอนเงินเข้าบัญชีบริษัท" itemValue="acc" />
+                                    <f:selectItem itemLabel="B104 - ใบส่งของ" itemValue="delivery" />
+                                    <f:selectItem itemLabel="(B105-B111) - ใบบิล" itemValue="B105_B111" />
+                                    <f:selectItem itemLabel="ใบแจ้งหนี้" itemValue="B112" />
+                                    <f:selectItem itemLabel="ใบกำกับภาษี, ใบกำกับภาษี(1)" itemValue="goodreceipt|salesinvoice" />
+                                    <f:selectItem itemLabel="B203 - บันทึกการรับเงินประกันโครงการ" itemValue="B203" />
+                                    <f:selectItem itemLabel="B204 - ใบลดหนี้" itemValue="B204" />
+                                    <f:selectItem itemLabel="B205 - บันทึกการรับเงิน" itemValue="B205" />
+                                    <f:selectItem itemLabel="P101 - บันทึกรายการการผลิต" itemValue="MAF" />
+                                    <f:selectItem itemLabel="P104 - บันทึกค่าใช้จ่าย" itemValue="EXPMF" />
+                                    <f:selectItem itemLabel="P105 - บันทึกการจ่ายเงิน" itemValue="PMAF" />
+                                    <f:selectItem itemLabel="T101 - จองรายการขนส่ง" itemValue="PTP" />
+                                    <f:selectItem itemLabel="T103 - รายการขนส่ง" itemValue="TP" />
+                                </p:selectOneMenu>
+                           </h:panelGroup>
+                            <h:panelGroup>
+                                <p:outputLabel for="incrementno" value="#{msgs['s202.sequence.incrementno']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="incrementno" value="#{s202Controller.selected.incrementno}" style="width: 430px;"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="currentnext" value="รูปแบบเลขรัน :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="currentnext" value="#{s202Controller.selected.currentnext}" style="width: 430px;"/>
+                                <br/>
+                                <p:outputLabel value="ยกตัวอย่าง ใส่ '0000' => ผลลัพท์ '0005' เป็นต้น" styleClass="sub-label"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel for="prefix" value="#{msgs['s202.sequence.prefix']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="prefix" value="#{s202Controller.selected.prefix}" style="width: 430px;"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel for="suffix" value="#{msgs['s202.sequence.suffix']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="suffix" value="#{s202Controller.selected.suffix}" style="width: 430px;"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel for="runingno" value="เลขที่รัน ปัจจุบัน :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="runingno" value="#{s202Controller.selected.runningno}" style="width: 430px;"/>
+                            </h:panelGroup>
+                            
+                             <h:panelGroup>
+                                <p:outputLabel for="startnewyear_running" value="#{msgs['s202.sequence.resetNo']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                 <p:selectOneMenu id="startnewyear_running" value="#{s202Controller.selected.startnewyear}"  style="width: 430px;">
+                                    <f:selectItem itemLabel="#{msgs['s202.sequence.reset']}" itemValue="Y" />
+                                    <f:selectItem itemLabel="#{msgs['s202.sequence.noreset']}" itemValue="N" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                           
+                        </p:panelGrid>
+                    </div>
+
+                </p:panel>
+            </p:fieldset>
+
+            <h:panelGrid columns="2" cellpadding="0" cellspacing="1" style="margin-left: 15px;margin-bottom: 10px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{s202Controller.create()}" styleClass="edit-btn" update=":content"/>
+
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" styleClass="clear-btn" update=":content" 
+                                 actionListener="#{naviController.next('stock/s202/index')}"/>
+            </h:panelGrid>
+        </h:form>
+    </p:panel>
+</ui:composition>

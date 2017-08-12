@@ -1,0 +1,123 @@
+#wrapper {
+    min-height:100%;
+    position:relative;
+}
+
+#top_line {
+    /*background-color: #ff6600;*/
+    background-image: url('../images/top_line.png')!important;
+    margin: 0px 0px 0px 0px;
+    height: 3px;
+    width: 100%;
+}
+
+#top {
+    /*position: relative;*/
+    background-color: #4b69d8;
+    /*background-image: url('../images/bar.png')!important;*/
+    color: white;
+    padding: 0px;
+    /*    padding-top: 2px;
+        padding-bottom: 5px;
+        padding-left: 4px;
+        padding-right: 4px;*/
+    margin: 0px 0px 0px 0px;
+    height: 70px;
+    text-transform: uppercase;
+}
+
+#line {
+    background-color: #FC9634;
+    margin: 0px 0px 0px 0px;
+    height: 5px;
+    width: 100%;
+}
+
+/*#footer {
+    background-image: url('../images/bar.png')!important;
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    color: #000000; 
+    font-size: 11px;
+    position: absolute;
+    background-color: #dddddd;
+    height: 32px;
+    margin: 0px 0px 0px 0px;
+    width:100%;
+}*/
+
+
+#bottom {
+    /*background-image: url('../images/bar.png')!important;*/
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    color: #000000; 
+    font-size: 11px;
+    position: absolute;
+    background-color: #1FA485;
+    padding-left: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;  
+    padding-right: 0px;
+    margin: 0px 0px 0px 0px;
+    width:100%;
+    bottom:0;
+    left:0;
+}
+
+#content_center {
+    /*position: relative;*/
+    background-color: #ddd;
+    padding: 5px;
+    overflow: visible;
+    min-height: 100%;
+    padding-bottom: 50px; /* Height of the footer element */
+    min-height: 560px;
+}
+
+/*.center_content {
+    position: relative;
+    background-color: #dddddd;
+    padding: 5px;
+    overflow: visible;
+    min-height: 400px;
+    padding-bottom:40px;  Height of the footer element 
+}*/
+
+#top a:link, #top a:visited {
+    color: white;
+    font-weight : bold;
+    text-decoration: none;
+}
+
+#top a:link:hover, #top a:visited:hover  {
+    color: black;
+    font-weight : bold;
+    text-decoration : underline;
+}
+
+#contrainer{
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    /*background:url('../images/login_bg.png') no-repeat;*/
+    /*background-color: #666666;*/
+    /*min-height: 580px;*/
+    /*width: 100%;*/
+}
+
+
+#login_content{
+    background-color: #4b69d8;
+    /*background-image: url('../images/bar.png')!important;*/
+    margin-top: 120px;
+    margin-bottom: 80px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 20px;
+    padding-left: 20px;
+    width: 420px;
+    height: 280px;
+    border: 0px;
+    border-radius: 5px;
+    box-shadow:1px 1px 8px #666666;
+    opacity:0.92;
+}

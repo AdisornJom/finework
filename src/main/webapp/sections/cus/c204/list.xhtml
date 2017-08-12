@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+    </style>
+
+    <h:form id="listForm">
+
+        <h:panelGroup style="height: 200px;" layout="block" rendered="#{empty c204Controller.items}">
+            <h:graphicImage value="./resources/images/arr_search.jpg" width="200" style="float: right;margin-top: 0px;"/>
+        </h:panelGroup>
+
+        <p:dataTable var="item" value="#{c204Controller.items}" binding="#{bindingController.dataTableModel}" rendered="#{not empty c204Controller.items}">
+
+            <p:column headerText="No" style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+            
+            <p:column headerText="ชื่อผู้จัดส่งวัตถุดิบ" sortBy="#{item.supplierNameTh}" style="width: 190px;">
+                <h:outputText value="#{item.supplierNameTh}"/>
+            </p:column>
+            
+            <p:column headerText="ชื่อผู้ติดต่อ" sortBy="#{item.supplierContact}" style="width: 130px;">
+                <h:outputText value="#{item.supplierContact}"/>
+            </p:column>
+
+            <p:column headerText="ที่อยู่ผู้จัดส่งวัตถุดิบ" sortBy="#{item.supplierAddress}" style="width: 250px;">
+                <h:outputText value="#{item.supplierAddress}"/>
+            </p:column>
+            
+            <p:column headerText="เบอร์โทร"  style="width: 120px;">
+                <h:outputText value="#{item.tel}"/>
+            </p:column>
+            
+            <p:column headerText="Tax ID"  style="width: 80px;">
+                <h:outputText value="#{item.taxId}"/>
+            </p:column>
+
+            <p:column headerText="#{msgs['createdt']}" sortBy="#{item.createdDt}" style="width: 80px;text-align: center">
+                <h:outputText value="#{item.createdDt}">
+                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column style="width: 65px;text-align: center">
+                <p:tooltip for="edit" value="#{msgs['btn.edit']}" trackMouse="true"/>
+                <p:commandButton id="edit" title="#{msgs['btn.edit']}" icon="fa fa-edit" action="#{c204Controller.next('cus/c204/edit')}" update=":content">
+                    <f:setPropertyActionListener value="#{item}" target="#{c204Controller.selected}" />
+                </p:commandButton>
+
+                <p:tooltip for="del" value="#{msgs['btn.delete']}" trackMouse="true"/>
+                <p:commandButton id="del" title="#{msgs['btn.delete']}"  icon="fa fa-trash"  action="#{c204Controller.delete()}" update=":content">
+                    <p:confirm header="#{msgs['dialog.confirm']}" message="#{msgs['dialog.message']}" />
+                    <f:setPropertyActionListener value="#{item}" target="#{c204Controller.selected}" />
+                </p:commandButton>
+
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{c204Controller.items.size()}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

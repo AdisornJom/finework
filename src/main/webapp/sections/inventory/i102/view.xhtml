@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 430px;
+        }
+        .pe-inputNumber {
+           /* text-align: right;*/
+            width: 130px !important;
+            font-size: 24px;
+        }
+    </style>
+    <p:panel header="I102 - รับวัสดุภัณฑ์นำเข้า">
+        <h:form id="listForm">
+            
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+            
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:fieldset legend="#{msgs['desc']}" style="border: 0px;">
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                            <h:panelGroup>
+                                <p:outputLabel value="ประเภทวัสดุภัณฑ์ ："/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputText value="#{i102Controller.selected.materialId.classifyId.classifyDesc}" styleClass="lb_bold"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="ชื่อวัสดุภัณฑ์ ："/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputText value="#{i102Controller.selected.materialId.materialDesc}" styleClass="lb_bold"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="ผู้จัดส่งวัตถุดิบ(Supplier) ："/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputText value="#{i102Controller.selected.supplierId.supplierNameTh}" styleClass="lb_bold"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="ประเภท :" />
+                            </h:panelGroup>
+                            <h:outputText value="#{i102Controller.selected.status eq 'Y' ? 'รับสินค้า' : i102Controller.selected.status eq 'R' ? 'คืนสินค้า':'ปรับปรุง Stock'}" 
+                              style="color: #{i102Controller.selected.status eq 'Y' ? 'green' : i102Controller.selected.status eq 'R' ?'blue':'red'}"/>
+
+                             <h:panelGroup>
+                                <p:outputLabel  value="จำนวน :" />
+                            </h:panelGroup>
+                            <h:panelGroup >
+                                 <h:outputText value="#{i102Controller.selected.quantity}" style="color:green;" styleClass="lb_bold">
+                                     <f:convertNumber  pattern="#,##0.00" />
+                                 </h:outputText>     
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="หน่วย :" />
+                            </h:panelGroup>
+                            <h:outputText value="#{i102Controller.selected.unit}" />
+                            
+                           <h:panelGroup >
+                                <p:outputLabel value="วันที่รับวัสดุภัณฑ์ ："/>
+                            </h:panelGroup>
+                            <h:panelGroup >
+                                <h:outputText value="#{i102Controller.selected.receiptsDate}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                                </h:outputText>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="หมายเหตุ ："/>
+                            </h:panelGroup>
+                            <p:inputTextarea  value="#{i102Controller.selected.remark}" cols="30" rows="3" 
+                                             maxlength="250" style="width: 460px;" readonly="true" styleClass="readonly"/>
+
+                        </p:panelGrid>
+                </p:panel>
+            </p:fieldset>
+
+            <h:panelGrid columns="2" cellpadding="0" cellspacing="1" style="margin-left: 15px;margin-bottom: 10px;">
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" styleClass="clear-btn" update=":content" 
+                                 actionListener="#{naviController.next('inventory/i102/index')}"/>
+            </h:panelGrid>
+        </h:form>
+    </p:panel>
+</ui:composition>

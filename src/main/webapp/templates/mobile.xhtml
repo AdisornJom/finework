@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pm="http://primefaces.org/mobile">
+
+    <f:view renderKitId="PRIMEFACES_MOBILE" />
+
+    <h:head>
+        <h:outputStylesheet name="#{request.contextPath}/resources/mobile/css/demo.css" />
+        <ui:insert name="head" />
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-12200033-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+    </h:head>
+
+    <h:body>
+
+        <pm:page styleClass="jqm-demos">
+
+            <pm:header styleClass="jqm-header">
+                <p:graphicImage name="mobile/images/stb168.png" alt="PrimeFaces Mobile" />
+            </pm:header>
+
+            <ui:insert name="content" />
+
+            <pm:footer styleClass="jqm-footer" fixed="true" tapToggle="false">
+                <p style="text-align: center;">Doctor Gaming © 2015. All Rights Reserved.</p>
+            </pm:footer>
+            
+        </pm:page>
+
+    </h:body>
+
+</html>

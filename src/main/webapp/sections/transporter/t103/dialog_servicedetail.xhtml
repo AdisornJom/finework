@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .cold1{width: 20%;}
+        .cold2{width: 70%;}
+        .cold3{width: 10%;}
+    </style>
+    
+
+    <p:dialog id="dlg2" header="กรอกรายเอียด....." modal="true" 
+              widgetVar="selectServiceDetail_dialog" width="800" 
+              binding="#{bindingController.defaultDialogModel}" closeOnEscape="true" styleClass="customDialog">
+        <p:ajax event="close" update="listFormService" listener="#{t103Controller.dialogServiceClose}" />
+        <p:messages id="dialog" autoUpdate="false" showIcon="false"/>
+        <h:form id="listFormService">
+             <p:panelGrid id="detail" columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                 <h:panelGroup>
+                     <p:outputLabel for="detail" value="รายการบริการขนส่ง :" />
+                     <font class="require">*</font>
+                 </h:panelGroup>
+                 <h:panelGroup>
+                     <p:autoComplete id="transportS" dropdown="true" value="#{t103Controller.tpServices_selected_dialog}" 
+                                     completeMethod="#{t103Controller.completeTransportService}" 
+                                     var="tpservice" itemLabel="#{tpservice.tpserviceDesc}" 
+                                     itemValue="#{tpservice}" 
+                                     converter="#{transportServiceConverter}"
+                                     scrollHeight="250"   >
+                         <p:ajax event="query"  global="false"/>
+                     </p:autoComplete>
+                     <p:watermark  for="transportS" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                 </h:panelGroup>
+             </p:panelGrid>
+
+             <h:form id="listFormService1">
+                 <p:panelGrid id="detail1" columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                     <h:panelGroup>
+                         <p:outputLabel for="plot" value="จำนวน :" />
+                     </h:panelGroup>
+                     <p:inputText id="plot" value="#{t103Controller.tpServiceDetail_selected.volume}" maxlength="50" style="width: 120px;text-align: right;"/>
+
+                     <h:panelGroup>
+                         <p:outputLabel id="calculateType1" for="volume" value="ราคา :" />
+                     </h:panelGroup>
+                     <p:inputText id="volume" value="#{t103Controller.tpServiceDetail_selected.amount}" maxlength="20" style="width: 120px; text-align: right;"/> 
+                 </p:panelGrid>    
+                 <br/>
+
+                 <h:panelGroup layout="block" style="text-align: center" >
+                     <p:commandButton styleClass="search-btn" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" global="false" 
+                                      update="listFormService  dialog"
+                                      actionListener="#{t103Controller.addDialogServiceDetail()}">
+                     </p:commandButton> 
+                 </h:panelGroup>
+                  <br/>
+                 <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{t103Controller.tpService_items_dialog}" var="detail">
+                       <p:column headerText="#" style="text-align: center;width: 5%;">
+                            <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+                       
+                        <p:column headerText="รายการบริการขนส่ง" style="width: 55%;" >
+                            <h:outputText value="#{detail.tpserviceId.tpserviceDesc}"  />
+                        </p:column>
+                        
+                        <p:column headerText="จำนวน" style="width: 20%;" >
+                            <h:outputText  value="#{detail.volume}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+                       
+                        <p:column headerText="ราคา" style="width: 20%;">
+                            <h:outputText  value="#{detail.amount}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="#{msgs['common.manage']}" style="width:8%;text-align: center">
+                            <p:commandButton title="#{msgs['btn.delete']}" icon="fa fa-trash" action="#{t103Controller.deleteDialogServiceDetail()}" styleClass="delete-btn"
+                                             update="listFormService:listFormService1:dt_itemDetail" global="false">
+                                <f:setPropertyActionListener value="#{detail}" target="#{t103Controller.tpServiceDetail_selected}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+            
+
+                 <br/>
+                 <h:panelGroup layout="block" style="text-align: center" >
+                     <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                      actionListener="#{t103Controller.addServiceDetail()}">
+                     </p:commandButton> 
+                     <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                      oncomplete="PF('selectServiceDetail_dialog').hide();"
+                                      actionListener="#{t103Controller.clearData_sysPrepareTransportDetail()}" />
+                 </h:panelGroup>
+             </h:form>
+        </h:form>
+
+
+    </p:dialog>
+
+</ui:composition>
+        

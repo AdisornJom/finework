@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <p:panel header="#{msgs['menu.master.create.s202']}">
+        <h:form id="listForm">
+            
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+            
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:fieldset legend="#{msgs['desc']}" style="border: 0px;">
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <div class="ui-fluid">
+                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                            <h:panelGroup>
+                                <p:outputLabel for="custName" value="#{msgs['s202.sequence.name']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:autoComplete id="custName" dropdown="true" value="#{b101Controller.cust_selected}" 
+                                                 completeMethod="#{b101Controller.completeCustomer}" 
+                                                 var="cust" itemLabel="#{cust.customerNameTh}" 
+                                                 itemValue="#{cust}" 
+                                                 converter="#{customerConverter}"
+                                                 scrollHeight="250"  
+                                                 style="width: 400px;" >
+                                    <p:ajax event="query" listener="#{b101Controller.onItemSelectCustomer}" update="listForm:address" global="false"/>
+                                </p:autoComplete>
+                                <p:watermark  for="custName" value="กรอกข้อมูลเพื่อ ค้นหา" id="watermark" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['m201.detail']} ："/>
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <p:inputTextarea id="address" value="#{b101Controller.cust_selected.customerAddress}" cols="50" rows="4" maxlength="250" style="width: 400px;"/>
+
+                            
+                        </p:panelGrid>
+                    </div>
+
+                </p:panel>
+            </p:fieldset>
+
+            <h:panelGrid columns="2" cellpadding="0" cellspacing="1" style="margin-left: 15px;margin-bottom: 10px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{b101Controller.create()}" styleClass="edit-btn" update=":content"/>
+
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" styleClass="clear-btn" update=":content" 
+                                 actionListener="#{naviController.next('stock/s202/index')}"/>
+            </h:panelGrid>
+        </h:form>
+    </p:panel>
+</ui:composition>

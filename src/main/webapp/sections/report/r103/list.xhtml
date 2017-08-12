@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+    </style>
+    <style>
+            .range3month {
+                background-color: rgb(89, 202, 3) !important;
+            }
+            .range6month {
+                background-color: #FFFF00;
+            }
+            .range12month {
+                background-color: #FF0000;
+            }
+    </style>
+
+    <h:form id="listForm">
+        <h:panelGroup style="height: 200px;" layout="block" rendered="#{empty r103Controller.items}">
+            <h:graphicImage value="./resources/images/arr_search.jpg" width="200" style="float: right;margin-top: 0px;"/>
+        </h:panelGroup>
+
+        <p:dataTable id="equipment" var="item" value="#{r103Controller.items}"  rendered="#{not empty r103Controller.items}" 
+                    binding="#{bindingController.dataTableModel}" rowStyleClass="#{(item.rangeMonth) ge 3 ? item.rangeMonth ge 4 ? item.rangeMonth ge 6 ? 'range12month' : 'range6month' : 'range3month' : null}">
+
+            <p:column headerText="No" style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+            
+            <p:column headerText="รูป" style="text-align: center;width: 40px;">
+                <p:graphicImage id="imageBtn101" value="#{commonController.IMAGES_URL}/product/#{item.materialImg}" width="50px" height="50px"/>
+                <p:overlayPanel  id="imagePanel101" for="imageBtn101" hideEffect="fade">
+                    <p:graphicImage value="#{commonController.IMAGES_URL}/product/#{item.materialImg}" width="600" height="450"/>
+                </p:overlayPanel>
+            </p:column>
+            
+            <p:column headerText="รูป 3 มิติ" style="text-align: center;width: 40px;">
+                <p:graphicImage id="imageBtn3101" value="#{commonController.IMAGES_URL}/product_dimension/#{item.materialImgDimension}" width="50px" height="50px"/>
+                <p:overlayPanel  id="imagePanel3101" for="imageBtn3101" hideEffect="fade">
+                    <p:graphicImage value="#{commonController.IMAGES_URL}/product_dimension/#{item.materialImgDimension}" width="600" height="450"/>
+                </p:overlayPanel>
+            </p:column>
+            
+            <p:column headerText="ชื่อวัสดุภัณฑ์(Thai)" sortBy="#{item.materialDesc}" style="width: 110px;">
+                <h:outputText value="#{item.materialDesc}"/>
+            </p:column>
+            
+            <p:column headerText="ประเภทวัสดุภัณฑ์" sortBy="#{item.classifyId.classifyDesc}" style="width: 90px;">
+                <h:outputText value="#{item.classifyId.classifyDesc}"/>
+            </p:column>
+            
+            <p:column  headerText="ราคา ณ วันที่รับสินค้า" sortBy="#{item.price}" style="width: 80px;text-align: center">
+                <h:outputText value="#{item.price}" style="float: right;" styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0.00"/>
+                </h:outputText>     
+            </p:column>
+            
+            <p:column headerText="วันที่ทำรายการรับล่าสุด" sortBy="#{item.receiptsLastDate}" style="width: 80px;text-align: center">
+                <h:outputText value="#{item.receiptsLastDate}">
+                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                </h:outputText>
+            </p:column>
+            
+            <p:column headerText="วันที่ทำรายการออกล่าสุด" sortBy="#{item.expensesLastDate}" style="width: 80px;text-align: center">
+                <h:outputText value="#{item.expensesLastDate}">
+                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column style="width: 50px;text-align: center" rendered="false">
+                <p:tooltip for="edit" value="#{msgs['btn.edit']}" trackMouse="true"/>
+                <p:commandButton id="edit" title="#{msgs['btn.edit']}" icon="fa fa-edit" action="#{r103Controller.prepareEdit('inventory/i101/edit')}" update=":content">
+                    <f:setPropertyActionListener value="#{item}" target="#{r103Controller.selected}" />
+                </p:commandButton>
+
+                <p:tooltip for="del" value="#{msgs['btn.delete']}" trackMouse="true"/>
+                <p:commandButton id="del" title="#{msgs['btn.delete']}"  icon="fa fa-trash"  action="#{r103Controller.delete()}" update=":content">
+                    <p:confirm header="#{msgs['dialog.confirm']}" message="#{msgs['dialog.message']}" />
+                    <f:setPropertyActionListener value="#{item}" target="#{r103Controller.selected}" />
+                </p:commandButton>
+
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{r103Controller.items.size()}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

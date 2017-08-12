@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+     <style>
+        .pe-inputNumber {
+           /* text-align: right;*/
+            width: 200px !important;
+            font-size: 24px;
+        }
+        
+    </style>
+
+    <p:panel header="#{msgs['menu.master.edit.C201']}">
+        <h:form id="listForm">
+
+            <p:messages id="edit_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:fieldset legend="#{msgs['desc']}" style="border: 0px;">
+
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <div class="ui-fluid">
+                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                            <h:panelGroup>
+                                <p:outputLabel for="item_name_th" value="#{msgs['c201.custom.name_th']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="item_name_th" value="#{c201Controller.selected.workunitName}" style="width: 400px;"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="item_name_en" value="#{msgs['c201.custom.name_en']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="item_name_en" value="#{c201Controller.selected.workunitNameEn}" style="width: 400px;"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel  value="ระยะทางขนส่ง :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="status" value="#{c201Controller.selected.distance}" style="width: 400px;">
+                                    <f:selectItem itemLabel="ระยะใกล้" itemValue="1" />
+                                    <f:selectItem itemLabel="ระยะไกล" itemValue="2" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                        </p:panelGrid>
+                    </div>
+
+                </p:panel>
+
+            </p:fieldset>
+
+            <p:fieldset style="border: 0px;">
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <div class="ui-fluid">
+                        <p:panelGrid columns="5" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-4,ui-grid-col-3" styleClass="ui-panelgrid-blank">
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.createDate']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{c201Controller.selected.createdDt}" styleClass="sub-label">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:ss"/>
+                                </h:outputText>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.createBy']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{c201Controller.selected.createdBy}" styleClass="sub-label"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.modifiedDt']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{c201Controller.selected.modifiedDt}" styleClass="sub-label">
+                                    <f:convertDateTime pattern="dd/MM/yyyy  HH:ss"/>
+                                </h:outputText>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.modifiedBy']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{c201Controller.selected.modifiedBy}" styleClass="sub-label"/>
+                            </h:panelGroup>
+                        </p:panelGrid>
+                    </div>
+                </p:panel>
+            </p:fieldset>
+
+            <h:panelGrid columns="2" cellpadding="0" cellspacing="1" style="margin-left: 15px;margin-bottom: 10px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{c201Controller.edit()}" styleClass="edit-btn" update=":content"/>
+                
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" styleClass="clear-btn" update=":content" 
+                                 actionListener="#{c201Controller.cancel('cus/c201/index')}"/>
+            </h:panelGrid>
+
+        </h:form>
+    </p:panel>
+</ui:composition>

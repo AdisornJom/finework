@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+       .ui-autocomplete-input{ 
+            width: 160px;
+        }
+       .comboColumn {
+            width: 200px;
+       }
+    </style>
+    <p:panel header="R111 - สรุปรายการผลติตามผู้ควบคุมงาน(โฟร์แมน)">
+
+        <p:toolbar style="margin-bottom: 3px;">
+             <f:facet name="right" >
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columnClasses="col1,col2,col1,comboColumn,col1,comboColumn,col1,col2,col1,col2" border="0" columns="11" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
+                        <p:outputLabel value="เลขที่ ："/>
+                        <p:inputText value="#{r111Controller.documentno}" style="width: 120px"/>
+                        
+                        <p:outputLabel value="ชื่อเล่นผู้ควบคุมงาน(โฟร์แมน) ："/>
+                        <h:panelGroup>
+                            <p:autoComplete id="foreManName" dropdown="true" value="#{r111Controller.foreman_selected}" 
+                                            completeMethod="#{r111Controller.completeForeman}" 
+                                            var="foreman" itemLabel="#{foreman.foremanNickname}" 
+                                            itemValue="#{foreman}" 
+                                            converter="#{foremanConverter}"
+                                            scrollHeight="250" forceSelection="true" 
+                                            >
+                                <p:ajax event="query"  global="false"/>
+                            </p:autoComplete>
+                            <p:watermark  for="foreManName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                         </h:panelGroup>
+                        
+                        <p:outputLabel value="วันที่ ："/>
+                        <p:calendar id="startDate" value="#{r111Controller.startDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+
+                        <p:outputLabel value="ถึง ："/>
+                        <p:calendar id="toDate" value="#{r111Controller.toDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+
+                        <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
+                                        actionListener="${r111Controller.search()}" styleClass="search-btn" update=":content"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+        <ui:include src="list.xhtml"/>
+
+    </p:panel>
+
+</ui:composition>

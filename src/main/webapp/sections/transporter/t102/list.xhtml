@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+    </style>
+
+    <h:form id="listForm">
+         <p:dataTable id="billingTable1" var="item" value="#{t102Controller.items}" binding="#{bindingController.dataTableModel}">
+                  
+             <p:column selectionMode="multiple" style="text-align: center;width: 25px;"  rendered="false"/>
+
+            <p:column headerText="ลำดับ" style="text-align: center;width: 20px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+            
+             <p:column headerText="ใบงานเลขที่"  sortBy="#{item.documentNo}" style="width: 50px;">
+                 <h:outputText value="#{item.documentNo}"/>
+            </p:column>
+             
+            <p:column headerText="ชื่อเล่นผู้ควบคุมงาน(โฟร์แมน)"  style="width: 105px;">
+                <h:outputText value="#{item.foremanId.foremanNickname}"/>
+            </p:column>
+             
+            <p:column headerText="หน่วยงาน/โครงการ"  style="width: 125px;">
+                <h:outputText value="#{item.workunitId.workunitName}"/>
+            </p:column>
+             
+             <p:column  headerText="วันที่ทำรายการ " sortBy="#{item.prepareTpDate}" style="width: 30px;text-align: center">
+                <h:outputText value="#{item.prepareTpDate}">
+                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                </h:outputText>
+            </p:column>
+             
+            <p:column headerText="วันที่ตรวจสอบ" sortBy="#{item.investigateDate}" style="width: 30px;text-align: center">
+                 <h:outputText value="#{item.investigateDate}">
+                     <f:convertDateTime pattern="dd-MM-yyyy"/>
+                 </h:outputText>
+             </p:column>
+
+             <p:column headerText="วันที่ต้องการส่ง" sortBy="#{item.tpDate}" style="width: 30px;text-align: center">
+                 <h:outputText value="#{item.tpDate}">
+                     <f:convertDateTime pattern="dd-MM-yyyy"/>
+                 </h:outputText>
+             </p:column>
+                                
+             <p:column headerText="สถานะ"  style="width: 40px;">
+                 <h:outputText value="#{item.status eq 1?'ยกเลิก':
+                                        item.status eq 2?'รอตรวจสอบ':
+                                        item.status eq 3?'เตรียมขนส่ง':
+                                        item.status eq 4?'ดำเนินการขนส่ง':
+                                        item.status eq 5?'ขนส่งสำเร็จ':
+                                        item.status eq 6?'ขนส่งไม่สำเร็จ':''}"  
+                               
+                               styleClass="lb_bold" style="#{item.status eq 1?'color:red;':
+                                                             item.status eq 2?'color:#b76060;':
+                                                             item.status eq 3?'color:#0951fb;':
+                                                             item.status eq 4?'color:#0e7508;':
+                                                             item.status eq 5?'color:green;':
+                                                             item.status eq 6?'color:red;':''}"/> 
+            </p:column>
+
+            <p:column style="width: 30px;text-align: center">
+                <p:commandButton id="report" icon="fa fa-print"  action="#{t102Controller.reportPDF()}" update=":content" styleClass="print-btn" ajax="fasle" rendered="false">
+                    <f:setPropertyActionListener value="#{item}" target="#{t102Controller.selected}" />
+                </p:commandButton>
+                
+                 <p:commandButton id="view" icon="fa fa-bars"  action="#{t102Controller.prepareEdit('transporter/t102/view')}" update=":content" styleClass="edit-btn" >
+                    <f:setPropertyActionListener value="#{item}" target="#{t102Controller.selected}" />
+                </p:commandButton>
+                
+                <p:commandButton id="edit" icon="fa fa-edit"  action="#{t102Controller.prepareEdit('transporter/t102/edit')}" update=":content" styleClass="edit-btn" disabled="#{item.status ne 2}">
+                    <f:setPropertyActionListener value="#{item}" target="#{t102Controller.selected}"  />
+                </p:commandButton>
+
+                <p:commandButton id="del" icon="fa fa-trash"  action="#{t102Controller.delete()}" update=":content" styleClass="delete-btn" rendered="#{p:ifGranted('ROLE_ADMIN')}">
+                    <p:confirm header="#{msgs['dialog.confirm']}" message="#{msgs['dialog.message']}" />
+                    <f:setPropertyActionListener value="#{item}" target="#{t102Controller.selected}" />
+                </p:commandButton>
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{t102Controller.items.size()}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+            
+        </p:dataTable>
+      
+    </h:form>
+
+</ui:composition>

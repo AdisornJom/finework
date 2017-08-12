@@ -1,0 +1,24 @@
+
+.ui-datatable{
+    background: #f0f0f0;
+}
+
+.ui-datatable thead th
+{   
+    background: transparent !important;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    /*filter : none;*/
+    /*background: #F5F5F5;*/
+}
+
+.ui-menu.ui-widget li > .ui-menuitem-link.ui-state-hover {
+    filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+    background: #00A94E !important;
+}
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    filter : none;
+}
+
+

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+    </style>
+
+    <h:form id="listForm">
+        <h:panelGroup style="height: 200px;" layout="block" rendered="#{empty r102Controller.lazyMaterialModel}">
+            <h:graphicImage value="./resources/images/arr_search.jpg" width="200" style="float: right;margin-top: 0px;"/>
+        </h:panelGroup>
+
+        <p:dataTable id="equipment" var="item" value="#{r102Controller.lazyMaterialModel}" binding="#{bindingController.lazyDataTableModel}" 
+                     rendered="#{not empty r102Controller.lazyMaterialModel}">
+
+            <p:column headerText="No" style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+            
+            <p:column headerText="รูป" style="text-align: center;width: 40px;">
+                <p:graphicImage id="imageBtn101" value="#{commonController.IMAGES_URL}/product/#{item.materialImg}" width="50px" height="50px"/>
+                <p:overlayPanel  id="imagePanel101" for="imageBtn101" hideEffect="fade">
+                    <p:graphicImage value="#{commonController.IMAGES_URL}/product/#{item.materialImg}" width="600" height="450"/>
+                </p:overlayPanel>
+            </p:column>
+            
+            <p:column headerText="รูป 3 มิติ" style="text-align: center;width: 40px;">
+                <p:graphicImage id="imageBtn3101" value="#{commonController.IMAGES_URL}/product_dimension/#{item.materialImgDimension}" width="50px" height="50px"/>
+                <p:overlayPanel  id="imagePanel3101" for="imageBtn3101" hideEffect="fade">
+                    <p:graphicImage value="#{commonController.IMAGES_URL}/product_dimension/#{item.materialImgDimension}" width="600" height="450"/>
+                </p:overlayPanel>
+            </p:column>
+            
+            <p:column headerText="ชื่อวัสดุภัณฑ์(Thai)" sortBy="#{item.materialDesc}" style="width: 180px;">
+                <h:outputText value="#{item.materialDesc}"/>
+            </p:column>
+            
+            <p:column headerText="ประเภทวัสดุภัณฑ์" sortBy="#{item.classifyId.classifyDesc}" style="width: 130px;">
+                <h:outputText value="#{item.classifyId.classifyDesc}"/>
+            </p:column>
+            
+            <p:column  headerText="คำนวณราคาตาม" style="width: 90px;text-align: center">
+                <h:outputText value="#{item.classifyId.calculateType eq 1 ? 'จำนวน':'น้ำหนัก'}"  styleClass="lb_bold"/>   
+            </p:column>
+            
+            <p:column  headerText="น้ำหนัก(ก.ก)"  style="width: 90px;text-align: center">
+                <h:outputText value="#{item.weightKg}" style="float: right;" styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0.00"/>
+                </h:outputText>     
+            </p:column>
+            
+            <p:column  headerText="จำนวน"  style="width: 90px;text-align: center">
+                <h:outputText value="#{item.amount}" style="float: right;" styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0.00"/>
+                </h:outputText>     
+            </p:column>
+            
+            <p:column  headerText="ราคาต่อหน่วย" style="width: 80px;text-align: center">
+                 <h:outputText value="#{item.unitPrice}" style="float: right;" styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0.00"/>
+                </h:outputText>     
+            </p:column>
+            
+            <p:column  headerText="ราคา ณ วันที่รับสินค้า"  style="width: 90px;text-align: center">
+                <h:outputText value="#{item.price}" style="float: right;" styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0.00"/>
+                </h:outputText>     
+            </p:column>
+
+             <p:column  headerText="คงเหลือ"  style="width: 90px;text-align: center">
+                 <h:outputText value="#{item.quantity}" 
+                               style="float: right;font-size: 18px;color: #{item.checkStock ne true  ? 'green' : 'red'}"  
+                               styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0"/>
+                </h:outputText>     
+            </p:column>
+            
+            <p:column  headerText="หน่วย"  style="width: 40px;text-align: center">
+                <h:outputText value="#{item.unit}" />    
+            </p:column>
+            
+            <p:column  headerText="มูลค่ารวมสินค้า" style="width: 100px;text-align: center">
+                <h:outputText value="#{item.balance}" style="float: right;font-size: 18px;color:green" styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0.00"/>
+                </h:outputText>     
+            </p:column>
+
+            <p:columnGroup type="footer">
+                <p:row>
+                    <p:column colspan="9" footerText="Total:" style="font-size: 18px;font-weight: bold;text-align:right;color:green" />
+                    <p:column footerText="#{r102Controller.totalPriceImport}" style="font-weight: bold;text-align:right;color:blue;"/>
+                    <p:column footerText="#{r102Controller.totalQuantity}" style="font-weight: bold;text-align:right;color:blue;"/>
+                    <p:column/>
+                    <p:column footerText="#{r102Controller.totalBalance}" style="font-weight: bold;text-align:right;color:blue;"/>
+                </p:row>
+            </p:columnGroup>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{r102Controller.lazyMaterialModel.rowCount}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

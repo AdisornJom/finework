@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .cold1{width: 20%;}
+        .cold2{width: 70%;}
+        .cold3{width: 10%;}
+    </style>
+    
+
+    <p:dialog id="dlg2" header="กรอกรายเอียด....." modal="true" 
+              widgetVar="selectExpDetail_dialog" width="800" 
+              binding="#{bindingController.defaultDialogModel}" closeOnEscape="true" styleClass="customDialog">
+        <p:ajax event="close" update="rToolbarForm listFormManufactoryExp" listener="#{p105Controller.dialogExpClose}" />
+        
+        <p:toolbar style="margin-bottom: 3px;">
+            <f:facet name="right" >
+                <h:form id="rToolbarForm1">
+                    <h:panelGrid columnClasses="cold1,cold2,cold3" border="0" columns="3" cellpadding="2" cellspacing="1"  style="margin-left: 10px;">
+                        <p:outputLabel value="ใบงานเลขที่ ："/>
+                        <h:panelGroup>
+                            <p:autoComplete id="custName1" dropdown="true" value="#{p105Controller.manufactory_selected}" 
+                                                     completeMethod="#{p105Controller.completeManufactory}" 
+                                                     var="manufactory" itemLabel="#{manufactory.documentno}" 
+                                                     itemValue="#{manufactory}" 
+                                                     converter="#{manufactoryConverter}"
+                                                     scrollHeight="200">
+                                <p:ajax event="query"  global="false" />
+                            </p:autoComplete>
+                            <p:watermark  for="custName1" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                        </h:panelGroup>
+                                                
+                        <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
+                                         actionListener="${p105Controller.searchManufactoryExpenses()}" styleClass="search-btn" update="listFormManufactoryExp"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+       
+        <h:form id="listFormManufactoryExp">
+             <p:dataTable id="itemExp_dialog"  var="item2" value="#{p105Controller.manufactoryExpenses_items_dialog}"
+                          selection="#{p105Controller.selectd_manufactoryExpenses_items_dialog}" rowKey="#{item2.expensesId}"
+                         binding="#{bindingController.dataTableModel}"  scrollable="true" scrollHeight="275">
+
+                <p:column selectionMode="multiple" style="text-align: center;width: 5%;" />
+                
+                 <p:column headerText="#" style="text-align: center;width: 5%" rendered="false">
+                    <h:outputText value="#{(rowNumber+1)}" />
+                </p:column>
+                
+                <p:column headerText="ใบเบิกเลขที่" style="width: 40%;">
+                    <h:outputText value="#{item2.documentNo}" />
+                </p:column>
+                
+                <p:column headerText="ประเภท" style="width: 30%;">
+                    <h:outputText value="#{item2.deductionId.deductionDesc}" />
+                </p:column>
+                 
+                <p:column  headerText="จำนวนเงิน " style="text-align: center;width: 20%;">
+                    <h:outputText value="#{item2.amount}" style="float: right;">
+                         <f:convertNumber  pattern="#,##0.00"/>
+                     </h:outputText>  
+                </p:column>                 
+
+                <f:facet name="footer" rendered="#{not empty p105Controller.manufactoryExpenses_items_dialog}">
+                    <h:outputText value="#{msgs['messages.code.2022']} "/>
+                    <h:outputText value="#{p105Controller.manufactoryExpenses_items_dialog.size()}">
+                        <f:convertNumber pattern="#,##0"/>
+                    </h:outputText>
+                    <h:outputText value=" #{msgs['messages.code.2023']}"/>
+                </f:facet>
+            </p:dataTable>
+
+            <br/>
+            <h:panelGroup layout="block" style="text-align: center" >
+                <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                 actionListener="#{p105Controller.addExpensesDetail()}">
+                </p:commandButton> 
+                <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 oncomplete="PF('selectExpDetail_dialog').hide();"
+                                 actionListener="#{p105Controller.clearData_sysPaymentManufactoryDetail()}" />
+            </h:panelGroup>
+        </h:form>
+
+
+    </p:dialog>
+
+</ui:composition>
+        

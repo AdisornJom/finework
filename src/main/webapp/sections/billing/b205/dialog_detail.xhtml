@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .cold1{width: 20%;}
+        .cold2{width: 70%;}
+        .cold3{width: 10%;}
+    </style>
+    
+
+    <p:dialog id="dlg1" header="กรอกรายเอียด....." modal="true" 
+              widgetVar="selectDetail_dialog" width="800" 
+              binding="#{bindingController.defaultDialogModel}" closeOnEscape="true" styleClass="customDialog">
+        <p:ajax event="close" update="rToolbarForm listFormBilling" listener="#{b205Controller.dialogClose}" />
+        
+        <p:toolbar style="margin-bottom: 3px;">
+            <f:facet name="right" >
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columnClasses="cold1,cold2,cold3" border="0" columns="3" cellpadding="2" cellspacing="1"  style="margin-left: 10px;">
+                        <p:outputLabel value="บิลเลขที่ :"/>
+                        <p:inputText value="#{b205Controller.documentNoBill}" placeholder="#{msgs['btn.search']}"/>
+                        <p:spacer/>
+                        
+                        <p:outputLabel value="ชื่อลูกค้า ："/>
+                        <h:panelGroup>
+                            <p:autoComplete id="custName" dropdown="true" value="#{b205Controller.billing_selected}" 
+                                                     completeMethod="#{b205Controller.completeBilling}" 
+                                                     var="billing" itemLabel="#{billing.customerId.customerNameTh}" 
+                                                     itemValue="#{billing}" 
+                                                     converter="#{billingConverter}"
+                                                     scrollHeight="200" >
+                                <p:ajax event="query"  global="false" />
+                            </p:autoComplete>
+                            <p:watermark  for="custName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                        </h:panelGroup>
+                                                
+                        <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
+                                         actionListener="${b205Controller.searchBilling()}" styleClass="search-btn" update="listFormBilling"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+       
+        <h:form id="listFormBilling">
+             <p:dataTable id="itemBilling_dialog"  var="item2" value="#{b205Controller.billing_items_dialog}"
+                         selection="#{b205Controller.selectd_billing_items_dialog}" rowKey="#{item2.billingId}"
+                         binding="#{bindingController.dataTableModel}"  scrollable="true" scrollHeight="275">
+
+                <p:column selectionMode="multiple" style="text-align: center;width: 5%;" />
+                
+                <p:column headerText="บิลเลขที่" style="width: 15%;" >
+                    <h:outputText value="#{item2.documentno}"  />
+                </p:column>
+                
+                <p:column headerText="ชื่อลูกค้า" style="width: 35%;">
+                    <h:outputText value="#{item2.customerId.customerNameTh}" />
+                </p:column>
+                
+                <p:column  headerText="วันที่ทำรายการ " style="text-align: center;width: 20%;">
+                      <h:outputText value="#{item2.sendDate}">
+                          <f:convertDateTime pattern="dd-MM-yyyy"/>
+                      </h:outputText>
+                </p:column>
+
+                <p:column  headerText="จำนวนเงินรวม " style="text-align: center;width: 25%">
+                    <h:outputText value="#{item2.realTotalPrice}" style="float: right;" styleClass="lb_bold">
+                          <f:convertNumber  pattern="#,##0.00"/>
+                      </h:outputText>     
+                </p:column>
+
+                <f:facet name="footer" rendered="#{not empty b205Controller.billing_items_dialog}">
+                    <h:outputText value="#{msgs['messages.code.2022']} "/>
+                    <h:outputText value="#{b205Controller.billing_items_dialog.size()}">
+                        <f:convertNumber pattern="#,##0"/>
+                    </h:outputText>
+                    <h:outputText value=" #{msgs['messages.code.2023']}"/>
+                </f:facet>
+            </p:dataTable>
+
+            <br/>
+            <h:panelGroup layout="block" style="text-align: center" >
+                <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                 actionListener="#{b205Controller.addDetail()}">
+                </p:commandButton> 
+                <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 oncomplete="PF('selectDetail_dialog').hide();"
+                                 actionListener="#{b205Controller.clearData_sysPaymentDetail()}" />
+            </h:panelGroup>
+        </h:form>
+
+
+    </p:dialog>
+
+</ui:composition>
+        

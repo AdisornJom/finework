@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+
+    <h:form id="listForm">
+        <p:dataTable var="item" binding="#{bindingController.dataTableModel}">
+
+            <p:column headerText="ลำดับ" style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+
+
+            <p:column headerText="รหัสสินค้า">
+                <h:outputText />
+            </p:column>
+
+            <p:column headerText="ภาษา" >
+                <h:outputText />
+            </p:column>
+
+            <p:column headerText="หัวข้อ">
+                <h:outputText />
+            </p:column>
+
+            <p:column headerText="เวลา" >
+                <h:outputText />
+            </p:column>
+
+            <p:column headerText="สถานะ">
+                <h:outputText />
+            </p:column>
+
+            <p:column headerText="จัดการ" style="width: 170px;text-align: center">
+                <p:tooltip for="edit" value="แก้ไข" trackMouse="true"/>
+                <p:commandButton id="edit" icon="fa fa-fw fa-edit"/>
+                <p:tooltip for="view" value="รายละเอียด" trackMouse="true"/>
+                <p:commandButton id="view" icon="fa fa-fw fa-file-text-o"/>
+                <p:tooltip for="delete" value="ลบ" trackMouse="true"/>
+                <p:commandButton id="delete" icon="fa fa-fw fa-trash-o"/>
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="0">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

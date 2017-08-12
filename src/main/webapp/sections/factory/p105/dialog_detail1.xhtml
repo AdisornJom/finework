@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .cold1{width: 20%;}
+        .cold2{width: 70%;}
+        .cold3{width: 10%;}
+    </style>
+    
+
+    <p:dialog id="dlg1" header="กรอกรายเอียด....." modal="true" 
+              widgetVar="selectDetail_dialog" width="800" 
+              binding="#{bindingController.defaultDialogModel}" closeOnEscape="true" styleClass="customDialog">
+        
+        <h:form id="listFormBilling">
+             <p:panelGrid id="detail" columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                 <h:panelGroup>
+                     <p:outputLabel for="detail" value="รายการผลิต :" />
+                     <font class="require">*</font>
+                 </h:panelGroup>
+                 <h:panelGroup>
+                     <p:autoComplete id="custName" dropdown="true" value="#{p105Controller.manufacturing_selected}" 
+                                     completeMethod="#{p105Controller.completeManufacturing}" 
+                                     var="fact" itemLabel="#{fact.manufacturingDesc}" 
+                                     itemValue="#{fact}" 
+                                     converter="#{manufacturingConverter}"
+                                     scrollHeight="250"   >
+                         <p:ajax event="query"  global="false"/>
+                     </p:autoComplete>
+                     <p:watermark  for="custName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                 </h:panelGroup>
+             </p:panelGrid>
+
+            <br/>
+            <h:panelGroup layout="block" style="text-align: center" >
+                <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                 actionListener="#{p105Controller.addDetail()}">
+                </p:commandButton> 
+                <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 oncomplete="PF('selectDetail_dialog').hide();"
+                                 actionListener="#{p105Controller.clearData_sysManufactoryDetail()}" />
+            </h:panelGroup>
+        </h:form>
+
+
+    </p:dialog>
+
+</ui:composition>
+        

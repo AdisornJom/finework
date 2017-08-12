@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+        .ui-datatable table{border-collapse:collapse;width:auto !important;table-layout:fixed;}
+        .ui-datatable-tablewrapper{overflow:auto;}
+        .ui-toolbar-group-left {padding-top: 3px;}
+    </style>
+
+
+    <p:schedule value="#{dashBoardController.eventModel}"/>
+
+    <p:tabView rendered="false" orientation="right">
+        <p:tab title="Transaction">
+
+            <p:panel rendered="false" header="กราฟแสดงข้อมูลผล WIN LOSS" style="margin-bottom: 2px;margin-top: 0px;">
+                <p:chart type="bar" model="#{dashBoardController.barModel}"/>
+            </p:panel>
+
+
+            <p:chart type="pie" model="#{dashBoardController.pieModel1}" style="width:400px;height:300px" />
+
+        </p:tab>
+
+        <p:tab title="Calandar">
+            <p:schedule value="#{dashBoardController.eventModel}"/>
+        </p:tab>
+
+    </p:tabView>
+
+
+</ui:composition>

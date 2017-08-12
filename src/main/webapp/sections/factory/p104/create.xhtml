@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 370px;
+        }
+
+        .customDialog .ui-dialog-title {
+            font-size: 150% !important;
+            color: #ffffff;
+        }
+
+        .customDialog .ui-dialog-content {
+            padding: 0;
+            margin: 10px 10px;
+        }
+        .customDialog .ui-dialog-titlebar.ui-widget-header {
+            background: #C0C0C0;
+            color: black;
+            box-shadow: none;
+        }
+        .pe-inputNumber {
+            text-align: right;
+            width:120px;
+            float:right;
+            font-size: 24px;
+        }
+    </style>
+    <p:panel header="P104 - สร้าง บันทึกค่าใช้จ่าย">
+
+        <h:form id="listForm">
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+
+            <p:panel id="panel1" style="max-width: 900px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:panel id="panel2" header="#{msgs['m101.commoninfo']}"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+                    <h:panelGroup>
+                        <p:outputLabel value="ใบงานเลขที่ ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:commandButton styleClass="search-btn" style="margin: 5px" icon="fa fa-search" binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" oncomplete="PF('selectFactory_dialog').show()" 
+                                    update="listFormManufactory">
+                        </p:commandButton>
+                        <p:spacer/>
+                        <h:outputText  value="#{p104Controller.manufactoryDocumentno}"  styleClass="lb_bold"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup >
+                        <p:outputLabel value="ชื่อเล่นผู้รับเหมา ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{p104Controller.sysManufoactory.contractorId.contractorNickname}" styleClass="lb_bold"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel value="วันที่ทำเบิก :"/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:calendar  binding="#{bindingController.calendar}" value="#{p104Controller.selected.expensesDate}" size="10" />
+
+                     <h:panelGroup>
+                       <p:outputLabel value="ประเภท ："/>
+                       <font class="require">*</font>
+                     </h:panelGroup>
+                    <h:panelGroup>
+                        <p:autoComplete id="deductionName" dropdown="true" value="#{p104Controller.expDeduction_selected}" 
+                                        completeMethod="#{p104Controller.completeExpensesDeduction}" 
+                                        var="deduction" itemLabel="#{deduction.deductionDesc}" 
+                                        itemValue="#{deduction}" 
+                                        converter="#{expensesManufactoryDeductionConverter}"
+                                        scrollHeight="250" forceSelection="true" 
+                                        >
+                            <p:ajax event="query"  global="false"/>
+                        </p:autoComplete>
+                        <p:watermark  for="deductionName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                         <p:outputLabel for="price" value="จำนวนเงิน(บาท) :" />
+                         <font class="require">*</font>
+                     </h:panelGroup>
+                     <h:panelGroup>
+                         <p:inputText id="price" value="#{p104Controller.selected.amount}" maxlength="20" style="width: 150px;text-align: right;"/>
+                     </h:panelGroup>
+
+                     <h:panelGroup>
+                         <p:outputLabel value="หมายเหตุ ："/>
+                     </h:panelGroup>
+                     <p:inputTextarea value="#{p104Controller.selected.remark}" cols="30" rows="3" maxlength="250" style="width: 400px;" />
+                     
+                </p:panelGrid>
+            </p:panel>
+            
+            <p:panel  id="detail_list" style="border: 0px" rendered="false">
+                <p:panel  header="#{msgs['btn.view']}" style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+                        <h:panelGroup>
+                            <p:outputLabel value="หมายเหตุ ："/>
+                        </h:panelGroup>
+                        <p:inputTextarea id="remark" value="#{p104Controller.selected.remark}" cols="30" rows="3" 
+                                         maxlength="250" style="width: 400px;" />
+                   </p:panelGrid>
+                    <p:commandButton id="dialogDetail" styleClass="search-btn" style="margin: 5px" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" oncomplete="PF('selectDetail_dialog').show()" 
+                                    update="listFormDetail:detail"/>
+                    <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{p104Controller.selected.sysExpensesManufactoryDetailList}" var="detail">
+                        <p:column headerText="ลำดับ" style="text-align: center;width: 5px;">
+                            <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+                        
+                        <p:column headerText="รายการ" style="width: 98px;" >
+                            <h:outputText value="#{detail.detail}"  />
+                        </p:column>
+                        
+                        <p:column headerText="จำนวน" style="width: 16px;">
+                            <h:outputText  value="#{detail.amount}"  style="float: right;" styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="#{msgs['common.manage']}" style="width:5px;text-align: center">
+                            <p:commandButton title="#{msgs['btn.delete']}" icon="fa fa-trash" action="#{p104Controller.deleteDetail()}" styleClass="delete-btn"
+                                             update="listForm:dt_itemDetail" global="false">
+                                <f:setPropertyActionListener value="#{detail}" target="#{p104Controller.facDetail_selected}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>                
+                </p:panel>
+            </p:panel>
+
+            <h:panelGroup style="margin: 5px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{p104Controller.create()}" styleClass="edit-btn" update=":content"/>
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 actionListener="#{p104Controller.cancel('factory/p104/index')}" styleClass="clear-btn" update=":content"/>
+            </h:panelGroup>
+        </h:form>
+    </p:panel>
+
+   <ui:include src="dialog_Factory.xhtml" />
+   <ui:include src="dialog_detail.xhtml" />
+
+</ui:composition>

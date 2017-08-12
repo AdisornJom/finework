@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+    </style>
+
+    <h:form id="listForm">
+        <p:toolbar style="margin-top: 3px;margin-bottom: 3px;" >
+            <f:facet name="left" >
+                <h:form id="rToolbarForm">
+                 <h:panelGroup layout="block" style="text-align: right" >
+                     <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                 actionListener="#{b201Controller.printPdfMuti()}">
+                     </p:commandButton> 
+                 </h:panelGroup>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+       <p:dataTable id="billingTable" var="item" value="#{b201Controller.lazyBillingModel}"
+                    selection="#{b201Controller.selectdPrint1}" rowKey="#{item.billingId}" binding="#{bindingController.lazyDataTableModel}">
+                  
+            <p:column selectionMode="multiple" style="text-align: center;width: 30px;" />
+
+            <p:column headerText="ลำดับ" style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+            
+            <p:column headerText="เลขที่"  sortBy="#{item.documentno}" style="width: 50px;">
+                <h:outputText value="#{item.documentno}"/>
+            </p:column>
+
+            <p:column headerText="ชื่อลูกค้า"  style="width: 180px;">
+                <h:outputText value="#{item.customerId.customerNameTh}"/>
+            </p:column>
+            
+            <p:column headerText="หน่วยงาน"  style="width: 180px;">
+                <h:outputText value="#{item.workunitId.workunitName}"/>
+            </p:column>
+
+            <p:column  headerText="วันที่ทำรายการ " sortBy="#{item.sendDate}" style="width: 80px;text-align: center">
+                <h:outputText value="#{item.sendDate}">
+                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                </h:outputText>
+            </p:column>
+            
+             <p:column  headerText="จำนวนเงินรวม " sortBy="#{item.billTotal}" style="width: 80px;text-align: center">
+                <h:outputText value="#{item.billTotal}" style="float: right;" styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0.00"/>
+                </h:outputText>     
+            </p:column>
+            
+            <p:column  headerText="ภาษีมูลค่าเพิ่ม " sortBy="#{item.billVat}" style="width: 80px;text-align: center">
+                <h:outputText value="#{item.billVat}" style="float: right;" styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0.00"/>
+                </h:outputText>     
+            </p:column>
+            
+            <p:column  headerText="จำนวนเงินออกบิล " sortBy="#{item.realTotalPrice}" style="width: 80px;text-align: center" >
+                <h:outputText value="#{item.realTotalPrice}" style="float: right;" styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0.00"/>
+                </h:outputText>     
+            </p:column>
+            
+            <p:column headerText="สถานะการพิมพ์"  style="width: 70px;text-align: center;">
+                <h:panelGroup>
+                 <ui:repeat var="item1" value="#{item.sysPrintBillingList}" size="1">
+                         <h:outputText value="พิมพ์แล้ว " rendered="#{item1.printId != null}" style="float: center;"  styleClass="lb_bold"/>
+                         <p:commandButton id="view" icon="fa fa-bars"  action="#{b201Controller.prepareEdit('billing/b201/view_print')}" update=":content" styleClass="print-btn">
+                            <f:setPropertyActionListener value="#{item}" target="#{b201Controller.selected}" />
+                        </p:commandButton>
+                 </ui:repeat>
+               </h:panelGroup>
+            </p:column>
+            
+            <p:column style="width: 85px;text-align: center">
+                <p:tooltip for="report" value="ออกรายงาน" trackMouse="true"/>
+                <p:commandButton id="report" icon="fa fa-print"  action="#{b201Controller.reportPDF()}"
+                                 update=":content" styleClass="print-btn" ajax="fasle" onclick="setTimeout('location.reload();', 1000);">
+                    <f:setPropertyActionListener value="#{item}" target="#{b201Controller.selected}" />
+                </p:commandButton>
+                
+                <p:tooltip for="edit" value="#{msgs['btn.edit']}" trackMouse="true"/>
+                <p:commandButton id="edit" icon="fa fa-edit"  action="#{b201Controller.prepareEdit('billing/b201/edit')}" update=":content" styleClass="edit-btn">
+                    <f:setPropertyActionListener value="#{item}" target="#{b201Controller.selected}" />
+                </p:commandButton>
+
+                <p:tooltip for="del" value="#{msgs['btn.delete']}" trackMouse="true"/>
+                <p:commandButton id="del" icon="fa fa-trash"  action="#{b201Controller.delete()}" update=":content" styleClass="delete-btn">
+                    <p:confirm header="#{msgs['dialog.confirm']}" message="#{msgs['dialog.message']}" />
+                    <f:setPropertyActionListener value="#{item}" target="#{b201Controller.selected}" />
+                </p:commandButton>
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{b201Controller.lazyBillingModel.rowCount}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+            
+        </p:dataTable>
+       
+    </h:form>
+
+</ui:composition>

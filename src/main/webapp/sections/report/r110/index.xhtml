@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+       .ui-autocomplete-input{ 
+            width: 160px;
+        }
+       .comboColumn {
+            width: 200px;
+       }
+    </style>
+    <p:panel header="R110 - สรุปรายการผลิตตามโครงการ">
+
+        <p:toolbar style="margin-bottom: 3px;">
+             <f:facet name="right" >
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columnClasses="col1,col2,col1,comboColumn,col1,comboColumn,col1,col2,col1,col2" border="0" columns="11" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
+                        <p:outputLabel value="เลขที่ ："  rendered="false"/>
+                        <p:inputText value="#{r110Controller.documentno}" style="width: 120px" rendered="false"/>
+                        
+                        <h:panelGroup>
+                            <p:outputLabel value="โครงการ ："/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:autoComplete id="workunit" dropdown="true" value="#{r110Controller.workunit_selected}" 
+                                            completeMethod="#{r110Controller.completeWorkunit}" 
+                                            var="wkunit" itemLabel="#{wkunit.workunitName}" 
+                                            itemValue="#{wkunit}" 
+                                            converter="#{workUnitConverter}"
+                                            scrollHeight="250" >
+                                <p:ajax event="query" global="false"/>
+                            </p:autoComplete>
+                            <p:watermark  for="workunit" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="วันที่ ："/>
+                        <p:calendar id="startDate" value="#{r110Controller.startDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+
+                        <p:outputLabel value="ถึง ："/>
+                        <p:calendar id="toDate" value="#{r110Controller.toDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+
+                        <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
+                                        actionListener="${r110Controller.search()}" styleClass="search-btn" update=":content"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+        <ui:include src="list.xhtml"/>
+
+    </p:panel>
+
+</ui:composition>

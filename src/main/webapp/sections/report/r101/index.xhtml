@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <p:panel header="R101 - รายงานการออกบิล">
+
+        <p:toolbar style="margin-bottom: 3px;">
+             <f:facet name="right" >
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columnClasses="col1,col2,col1,col2,col1,col2" border="0" columns="10" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
+                        <p:outputLabel value="ประเภท ："/>
+                        <p:selectOneMenu value="#{r101Controller.billType}" style="width: 150px">
+                               <f:selectItem itemValue="" itemLabel="ทั้งหมด"/>
+                               <f:selectItem itemValue="NOVAT" itemLabel="B101 - ใบแจ้งหนี้"/>
+                               <f:selectItem itemValue="CHECK" itemLabel="B102 - ใบวางบิล"/>
+                               <f:selectItem itemValue="ACC" itemLabel="B103 - โอนเงินเข้าบัญชีบริษัท"/>
+                               <f:selectItem itemValue="DELIVERY" itemLabel="B104 - ใบส่งของ"/>
+                               <f:selectItem itemValue="B105" itemLabel="B105 - งานราวระเบียง"/>
+                               <f:selectItem itemValue="B106" itemLabel="B106 - ป้ายบ้าน, จักรยาน, ฝาถังขยะ"/>
+                               <f:selectItem itemValue="B107" itemLabel="B107 - ใบส่งของ(LH1)"/>
+                               <f:selectItem itemValue="B108" itemLabel="B108 - ใบส่งของ(LH2)"/>
+                               <f:selectItem itemValue="B109" itemLabel="B109 - ใบแจ้งหนี้"/>
+                               <f:selectItem itemValue="B110" itemLabel="B110 - ใบแจ้งหนี้(2)"/>
+                               <f:selectItem itemValue="GOODRECEIPT" itemLabel="B201 - ใบกำกับภาษี" />
+                               <f:selectItem itemValue="SALESINVOICE" itemLabel="B202 - ใบกำกับภาษี(1)" />
+                        </p:selectOneMenu> 
+                        
+                        <p:outputLabel value="ชื่อลูกค้า ："/>
+                        <p:inputText value="#{r101Controller.companyName}" />
+                        
+                        <p:outputLabel value="วันที่ทำรายการ ："/>
+                        <p:calendar binding="#{bindingController.calendar}" value="#{r101Controller.startDate}" size="10"/>
+
+                        <p:outputLabel value="ถึง ："/>
+                        <p:calendar binding="#{bindingController.calendar}" value="#{r101Controller.toDate}" size="10"/>
+
+                        <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
+                                        actionListener="${r101Controller.search()}" styleClass="search-btn" update=":content"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+        <ui:include src="list.xhtml"/>
+
+    </p:panel>
+
+</ui:composition>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+    </style>
+
+    <h:form id="listForm">
+        <p:toolbar style="margin-top: 3px;margin-bottom: 3px;"  >
+            <f:facet name="left" >
+                  <h:panelGroup layout="block" style="text-align: right" rendered="#{not empty r104Controller.items}">
+                     <p:commandButton icon="fa fa-print"  styleClass="print-btn" binding="#{bindingController.btnSave}" value="พิมพ์ทั้งหมด ที่เลือก" ajax="false" onclick="setTimeout('location.reload();', 2000);" update=":content"
+                                 actionListener="#{r104Controller.printPdfMuti()}">
+                     </p:commandButton> 
+                 </h:panelGroup>
+            </f:facet>
+        </p:toolbar>
+         <p:dataTable id="billingTable1" var="item" value="#{r104Controller.items}"
+                      selection="#{r104Controller.printSelected}" rowKey="#{item.paymentFactoryId}" 
+                    binding="#{bindingController.dataTableModel}">
+                  
+             <p:column selectionMode="multiple" style="text-align: center;width: 30px;"  />
+
+            <p:column headerText="ลำดับ" style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+            
+            <p:column headerText="เลขที่"  sortBy="#{item.documentno}" style="width: 50px;">
+                <h:outputText value="#{item.documentNo}"/>
+            </p:column>
+             
+            <p:column headerText="ชื่อเล่นผู้รับเหมา"  style="width: 100px;">
+                <h:outputText value="#{item.contractorId.contractorNickname}"/>
+            </p:column>
+            
+            <p:column headerText="ผู้รับเหมา"  style="width: 110px;">
+                <h:outputText value="#{item.contractorId.contractorNameTh}"/>
+            </p:column>
+
+             <p:column  headerText="วันที่ทำรายการ " sortBy="#{item.factoryDate}" style="width: 50px;text-align: center">
+                 <h:outputText value="#{item.factoryDate}">
+                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                </h:outputText>
+            </p:column>
+            
+             <p:column  headerText="จำนวนเงินรวมทั้งสิ้น " sortBy="#{item.facNet}" style="width: 80px;text-align: center">
+                <h:outputText value="#{item.facNet}"  styleClass="lb_bold" style="float: right;#{item.facNet gt 0?'color:green;':'color:red;'}">
+                    <f:convertNumber  pattern="#,##0.00"/>
+                </h:outputText>     
+            </p:column>
+            
+            
+            <p:column style="width: 55px;text-align: center">
+                <p:tooltip for="report" value="ออกรายงาน" trackMouse="true" />
+                <p:commandButton id="report" icon="fa fa-print"  action="#{r104Controller.reportPDF()}" 
+                                 update=":content" styleClass="print-btn" ajax="fasle" onclick="setTimeout('location.reload();', 1000);">
+                    <f:setPropertyActionListener value="#{item}" target="#{r104Controller.selected}" />
+                </p:commandButton>
+                
+               <p:tooltip for="view" value="#{msgs['btn.view']}" trackMouse="true" />
+                <p:commandButton id="view" icon="fa fa-file-text-o"  action="#{r104Controller.prepareEdit('report/r104/view')}" update=":content" styleClass="edit-btn">
+                    <f:setPropertyActionListener value="#{item}" target="#{r104Controller.selected}" />
+                </p:commandButton>
+
+                <p:tooltip for="del" value="#{msgs['btn.delete']}" trackMouse="true" rendered="false"/>
+                <p:commandButton id="del" icon="fa fa-trash"  action="#{r104Controller.delete()}" update=":content" styleClass="delete-btn" rendered="false">
+                    <p:confirm header="#{msgs['dialog.confirm']}" message="#{msgs['dialog.message']}" />
+                    <f:setPropertyActionListener value="#{item}" target="#{r104Controller.selected}" />
+                </p:commandButton>
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{r104Controller.items.size()}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+            
+        </p:dataTable>
+      
+    </h:form>
+
+</ui:composition>

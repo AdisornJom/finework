@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+    </style>
+
+    <h:form id="listForm">
+         <p:dataTable id="paymentManufactory" var="item" value="#{r107Controller.lazyPaymentManufactoryModel}" binding="#{bindingController.lazyDataTableModel}">
+
+            <p:column headerText="ลำดับ" style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+            
+            <p:column headerText="เลขที่"  sortBy="#{item.documentno}" style="width: 50px;">
+                <h:outputText value="#{item.documentNo}"/>
+            </p:column>
+             
+            <p:column headerText="ชื่อเล่นผู้รับเหมา"  style="width: 100px;">
+                <h:outputText value="#{item.contractorId.contractorNickname}"/>
+            </p:column>
+            
+            <p:column headerText="ผู้รับเหมา"  style="width: 110px;">
+                <h:outputText value="#{item.contractorId.contractorNameTh}"/>
+            </p:column>
+
+             <p:column  headerText="วันที่ทำรายการ " sortBy="#{item.factoryDate}" style="width: 50px;text-align: center">
+                 <h:outputText value="#{item.factoryDate}">
+                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                </h:outputText>
+            </p:column>
+            
+             <p:column  headerText="จำนวนเงินรวมทั้งสิ้น " sortBy="#{item.facNet}" style="width: 80px;text-align: center">
+                <h:outputText value="#{item.facNet}" styleClass="lb_bold" style="float: right;#{item.facNet gt 0?'color:green;':'color:red;'}">
+                    <f:convertNumber  pattern="#,##0.00"/>
+                </h:outputText>     
+            </p:column>
+            
+            
+             <p:column style="width: 55px;text-align: center" rendered="false">
+                <p:tooltip for="report" value="ออกรายงาน" trackMouse="true" />
+                <p:commandButton id="report" icon="fa fa-print"  action="#{r107Controller.reportPDF()}" 
+                                 update=":content" styleClass="print-btn" ajax="fasle" onclick="setTimeout('location.reload();', 1000);">
+                    <f:setPropertyActionListener value="#{item}" target="#{r107Controller.selected}" />
+                </p:commandButton>
+                
+                <p:tooltip for="edit" value="#{msgs['btn.edit']}" trackMouse="true"/>
+                <p:commandButton id="edit" icon="fa fa-edit"  action="#{r107Controller.prepareEdit('factory/p105/edit')}" update=":content" styleClass="edit-btn">
+                    <f:setPropertyActionListener value="#{item}" target="#{r107Controller.selected}" />
+                </p:commandButton>
+
+                <p:tooltip for="del" value="#{msgs['btn.delete']}" trackMouse="true" rendered="false"/>
+                <p:commandButton id="del" icon="fa fa-trash"  action="#{r107Controller.delete()}" update=":content" styleClass="delete-btn" rendered="false">
+                    <p:confirm header="#{msgs['dialog.confirm']}" message="#{msgs['dialog.message']}" />
+                    <f:setPropertyActionListener value="#{item}" target="#{r107Controller.selected}" />
+                </p:commandButton>
+            </p:column>
+             <p:columnGroup type="footer">
+                 <p:row>
+                     <p:column colspan="5" footerText="รวมทั้งหมด" style="font-weight: bold;text-align:right;">
+                     </p:column>
+                     <p:column footerText="#{r107Controller.sumPayment}" style="font-weight: bold;text-align:right;#{r107Controller.sumPaymentflag eq false?'color:green;':'color:red;'}">
+                     </p:column>
+                 </p:row>
+             </p:columnGroup>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{r107Controller.lazyPaymentManufactoryModel.rowCount}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+            
+        </p:dataTable>
+      
+    </h:form>
+
+</ui:composition>

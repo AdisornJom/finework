@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 430px;
+        }
+        .pe-inputNumber {
+           /* text-align: right;*/
+            width: 130px !important;
+            font-size: 24px;
+        }
+    </style>
+    <p:panel header="I102 - รับวัสดุภัณฑ์นำเข้า">
+        <h:form id="listForm">
+            
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+            
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:fieldset legend="#{msgs['desc']}" style="border: 0px;">
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                            <h:panelGroup>
+                                <p:outputLabel value="ชื่อวัสดุภัณฑ์ ："/>
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:autoComplete id="materialName" dropdown="true" value="#{i102Controller.material_selected}" 
+                                                         completeMethod="#{i102Controller.completeMaterial}" 
+                                                         var="material" itemLabel="#{material.materialDesc}" 
+                                                         itemValue="#{material}" 
+                                                         converter="#{materialConverter}"
+                                                         scrollHeight="250"   >
+                                    <p:ajax event="query"  global="false" />
+                                </p:autoComplete>
+                                <p:watermark  for="materialName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="ผู้จัดส่งวัตถุดิบ(Supplier) ："/>
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:autoComplete id="supplierName" dropdown="true" value="#{i102Controller.supplier_selected}" 
+                                                         completeMethod="#{i102Controller.completeSupplier}" 
+                                                         var="supplier" itemLabel="#{supplier.supplierNameTh}" 
+                                                         itemValue="#{supplier}" 
+                                                         converter="#{suppliersConverter}"
+                                                         scrollHeight="250"   >
+                                    <p:ajax event="query"  global="false" />
+                                </p:autoComplete>
+                                <p:watermark  for="supplierName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel for="status" value="ประเภท :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <p:selectOneMenu id="status" value="#{i102Controller.selected.status}"  style="width: 110px;">
+                                <f:selectItem itemValue="" itemLabel="-"/>
+                                <f:selectItem itemLabel="รับสินค้า" itemValue="Y" />
+                                <f:selectItem itemLabel="คืนสินค้า" itemValue="R" />
+                                <f:selectItem itemLabel="ปรับปรุง Stock" itemValue="P" />
+                            </p:selectOneMenu>
+
+                             <h:panelGroup>
+                                <p:outputLabel  value="จำนวน :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup >
+                                 <pe:inputNumber decimalPlaces="0" value="#{i102Controller.selected.quantity}"  emptyValue="0"  thousandSeparator=","  styleClass="lb_bold" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel for="unit" value="หน่วย :" />
+                            </h:panelGroup>
+                            <p:selectOneMenu id="unit" value="#{i102Controller.selected.unit}"  style="width: 110px;">
+                                <f:selectItem itemValue="" itemLabel="-"/>
+                                <f:selectItems value="#{comboController.equipments}" />
+                            </p:selectOneMenu>
+                            
+                           <h:panelGroup >
+                                <p:outputLabel value="วันที่รับวัสดุภัณฑ์ ："/>
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup >
+                                <p:calendar  binding="#{bindingController.calendar}" value="#{i102Controller.selected.receiptsDate}" size="10"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="หมายเหตุ ："/>
+                            </h:panelGroup>
+                            <p:inputTextarea id="remark" value="#{i102Controller.selected.remark}" cols="30" rows="3" 
+                                             maxlength="250" style="width: 460px;" />
+
+                        </p:panelGrid>
+                </p:panel>
+            </p:fieldset>
+
+            <h:panelGrid columns="2" cellpadding="0" cellspacing="1" style="margin-left: 15px;margin-bottom: 10px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{i102Controller.create()}" styleClass="edit-btn" update=":content"/>
+
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" styleClass="clear-btn" update=":content" 
+                                 actionListener="#{naviController.next('inventory/i102/index')}"/>
+            </h:panelGrid>
+        </h:form>
+    </p:panel>
+</ui:composition>

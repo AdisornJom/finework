@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <p:panel header="S208 - แก้ไขรายการบริการขนส่ง">
+        <h:form id="listForm">
+
+            <p:messages id="edit_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:fieldset legend="#{msgs['desc']}" style="border: 0px;">
+
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <div class="ui-fluid">
+                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                            <h:panelGroup>
+                                <p:outputLabel for="item_name_th" value="รายการบริการขนส่ง(Thai) :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="item_name_th" value="#{s208Controller.selected.tpserviceDesc}" style="width: 460px;"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="item_name_en" value="รายการบริการขนส่ง(English) :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="item_name_en" value="#{s208Controller.selected.tpserviceDescEn}" style="width: 460px;"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel  value="รายละเอียด :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputTextarea value="#{s208Controller.selected.detail}" cols="50" rows="4" maxlength="250" style="width: 460px;"/>
+                            </h:panelGroup>
+                            
+                        </p:panelGrid>
+                    </div>
+
+                </p:panel>
+
+            </p:fieldset>
+
+            <p:fieldset style="border: 0px;">
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <div class="ui-fluid">
+                        <p:panelGrid columns="5" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-4,ui-grid-col-3" styleClass="ui-panelgrid-blank">
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.createDate']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{s208Controller.selected.createdDt}" styleClass="sub-label">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:ss"/>
+                                </h:outputText>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.createBy']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{s208Controller.selected.createdBy}" styleClass="sub-label"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.modifiedDt']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{s208Controller.selected.modifiedDt}" styleClass="sub-label">
+                                    <f:convertDateTime pattern="dd/MM/yyyy  HH:ss"/>
+                                </h:outputText>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.modifiedBy']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{s208Controller.selected.modifiedBy}" styleClass="sub-label"/>
+                            </h:panelGroup>
+                        </p:panelGrid>
+                    </div>
+                </p:panel>
+            </p:fieldset>
+
+            <h:panelGrid columns="2" cellpadding="0" cellspacing="1" style="margin-left: 15px;margin-bottom: 10px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{s208Controller.edit()}" styleClass="edit-btn" update=":content"/>
+                
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" styleClass="clear-btn" update=":content" 
+                                 actionListener="#{s208Controller.cancel('stock/s208/index')}"/>
+            </h:panelGrid>
+
+        </h:form>
+    </p:panel>
+</ui:composition>

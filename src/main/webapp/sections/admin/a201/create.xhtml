@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <p:panel header="#{msgs['a201.profile.employee']}">
+        <h:form id="listForm">
+            
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+            
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:fieldset legend="#{msgs['a201.profile.general']}" style="border: 0px;">
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <div class="ui-fluid">
+                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                            <h:panelGroup>
+                                <p:outputLabel for="firstname" value="#{msgs['a201.profile.firstname']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="firstname" value="#{a201Controller.selected.firstName}" style="width: 430px;"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="lastname" value="#{msgs['a201.profile.lastname']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="lastname" value="#{a201Controller.selected.lastName}" style="width: 430px;"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="role" value="#{msgs['a201.profile.role']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="role" value="#{a201Controller.selected.roleId.id}" style="width: 430px;">
+                                    <f:selectItem itemLabel="" itemValue=""/>
+                                    <f:selectItems value="#{comboController.adminUserRole}" var="item" itemValue="#{item.id}" itemLabel="#{item.roleName}" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="position" value="#{msgs['a201.profile.position']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="position" value="#{a201Controller.selected.position}" style="width: 430px;"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="organization" value="#{msgs['a201.profile.organization']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="organization" value="#{a201Controller.selected.organization}" style="width: 430px;"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="email" value="#{msgs['a201.profile.email']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="email" value="#{a201Controller.selected.email}" style="width: 430px;"
+                                             validatorMessage="#{msgs['messages.code.1003']}">
+                                </p:inputText>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="mobile" value="#{msgs['a201.profile.mobile']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputMask id="mobile" value="#{a201Controller.selected.mobile}" mask="099-999-9999" style="width: 430px;"/>
+                            </h:panelGroup>
+                        </p:panelGrid>
+                    </div>
+
+                </p:panel>
+            </p:fieldset>
+            
+             <p:fieldset legend="สถานะการเข้าถึง" style="border: 0px;">
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <div class="ui-fluid">
+                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-7" styleClass="ui-panelgrid-blank" >
+                            <h:panelGroup>
+                                <p:outputLabel value="B101 - ใบแจ้งหนี้"/>
+                            </h:panelGroup>
+                            <p:selectBooleanCheckbox value="#{a201Controller.selected.user_novat_type}"/>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="B102 - ใบวางบิล"/>
+                            </h:panelGroup>
+                                <p:selectBooleanCheckbox value="#{a201Controller.selected.user_check_type}" />
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="B103 - โอนเงินเข้าบัญชีบริษัท"/>
+                            </h:panelGroup>
+                            <p:selectBooleanCheckbox value="#{a201Controller.selected.user_acc_type}"/>
+ 
+                            <h:panelGroup>
+                                <p:outputLabel value="B104 - ใบส่งของ"/>
+                            </h:panelGroup>
+                            <p:selectBooleanCheckbox value="#{a201Controller.selected.user_delivery_type}"/>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="B105 - งานราวระเบียง"/>
+                            </h:panelGroup>
+                            <p:selectBooleanCheckbox value="#{a201Controller.selected.user_b105}"/>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="B106 - ป้ายบ้าน, จักรยาน, ฝาถังขยะ"/>
+                            </h:panelGroup>
+                            <p:selectBooleanCheckbox value="#{a201Controller.selected.user_b106}"/>
+                            
+                             <h:panelGroup>
+                                <p:outputLabel value="B107 - ใบส่งของ(LH1)"/>
+                            </h:panelGroup>
+                            <p:selectBooleanCheckbox value="#{a201Controller.selected.user_b107}"/>
+                            
+                             <h:panelGroup>
+                                <p:outputLabel value="B108 - ใบส่งของ(LH2)"/>
+                            </h:panelGroup>
+                            <p:selectBooleanCheckbox value="#{a201Controller.selected.user_b108}"/>
+                                                        
+                            <h:panelGroup>
+                                <p:outputLabel value="B109 - ใบแจ้งหนี้"/>
+                            </h:panelGroup>
+                            <p:selectBooleanCheckbox value="#{a201Controller.selected.user_b109}"/>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="B110 - ใบแจ้งหนี้(2)"/>
+                            </h:panelGroup>
+                            <p:selectBooleanCheckbox value="#{a201Controller.selected.user_b110}"/>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="B201 - ใบกำกับภาษี"/>
+                            </h:panelGroup>
+                            <p:selectBooleanCheckbox value="#{a201Controller.selected.user_good_receipt}"/>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="B202 - ใบกำกับภาษี(1)"/>
+                            </h:panelGroup>
+                            <p:selectBooleanCheckbox value="#{a201Controller.selected.user_sales_invoice}"/>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="R102 - รายงานสรุปรายการวัสดุภัณฑ์"/>
+                            </h:panelGroup>
+                            <p:selectBooleanCheckbox value="#{a201Controller.selected.user_r102}"/>
+
+                            <h:panelGroup>
+                               <p:outputLabel value="P104 - บันทึกค่าใช้จ่าย"/>
+                            </h:panelGroup>
+                            <p:selectBooleanCheckbox value="#{a201Controller.selected.user_p104}"/>
+
+                            <h:panelGroup>
+                               <p:outputLabel value="P105 - บันทึกการจ่ายเงิน"/>
+                            </h:panelGroup>
+                            <p:selectBooleanCheckbox value="#{a201Controller.selected.user_p105}"/>
+                            
+                        </p:panelGrid>
+                    </div>
+                </p:panel>
+            </p:fieldset>
+
+            <p:fieldset legend="#{msgs['a201.profile.access']}" style="border: 0px;">
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <div class="ui-fluid">
+                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                            <h:panelGroup>
+                                <p:outputLabel for="username" value="#{msgs['a201.profile.username']} :" />
+                            </h:panelGroup>
+                            <h:panelGrid cellpadding="0" cellspacing="0">
+                                <p:inputText id="username" value="#{a201Controller.selected.username}"  style="width: 430px;" />
+                                <p:outputLabel value="#{msgs['messages.code.1008']}" styleClass="sub-label"/>
+                            </h:panelGrid>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="password1" value="#{msgs['a201.profile.password']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:password id="password1" value="#{a201Controller.selected.password}"  style="width: 430px;"
+                                            feedback="true" promptLabel="#{msgs['userinfo.passwd.input']}" 
+                                            goodLabel="#{msgs['userinfo.passwd.good']}" weakLabel="#{msgs['userinfo.passwd.weak']}" 
+                                            strongLabel="#{msgs['userinfo.passwd.strong']}">
+                                </p:password>
+                                <p:outputLabel value=" #{msgs['messages.code.1004']}" styleClass="sub-label"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="password2" value="#{msgs['a201.profile.confirmPassword']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:password id="password2" value="#{a201Controller.selected.confirmPassword}"  style="width: 430px;"
+                                            feedback="true" promptLabel="#{msgs['userinfo.passwd.input']}" 
+                                            goodLabel="#{msgs['userinfo.passwd.good']}" weakLabel="#{msgs['userinfo.passwd.weak']}" 
+                                            strongLabel="#{msgs['userinfo.passwd.strong']}">
+                                </p:password>
+                            </h:panelGroup>
+                        </p:panelGrid>
+                    </div>
+                </p:panel>
+            </p:fieldset>
+
+            <p:fieldset style="border: 0px;">
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <div class="ui-fluid">
+                        <p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3" styleClass="ui-panelgrid-blank">
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.createDate']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{a201Controller.selected.createdDt}" styleClass="sub-label">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:ss"/>
+                                </h:outputText>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.createBy']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{a201Controller.selected.createdBy}" styleClass="sub-label"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.modifiedDt']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{a201Controller.selected.modifiedDt}" styleClass="sub-label">
+                                    <f:convertDateTime pattern="dd/MM/yyyy  HH:ss"/>
+                                </h:outputText>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.createBy']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{a201Controller.selected.modifiedBy}" styleClass="sub-label"/>
+                            </h:panelGroup>
+                        </p:panelGrid>
+                    </div>
+                </p:panel>
+            </p:fieldset>
+
+            <h:panelGrid columns="2" cellpadding="0" cellspacing="1" style="margin-left: 15px;margin-bottom: 10px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{a201Controller.create()}" styleClass="edit-btn" update=":content"/>
+
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" styleClass="clear-btn" update=":content" 
+                                 actionListener="#{naviController.next('admin/a201/index')}"/>
+            </h:panelGrid>
+        </h:form>
+    </p:panel>
+</ui:composition>

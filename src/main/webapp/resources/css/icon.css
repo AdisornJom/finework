@@ -1,0 +1,177 @@
+.icon-batch{
+    background-image: url('../images/icon/enabled-on-16.png')!important;margin-right:3px
+}
+
+.icon-cancel{
+    background-image: url('../images/icon/enabled-off.png')!important;margin-right:3px
+}
+
+.icon-add{
+    background-image: url('../images/icon/plus.png')!important;margin-right:3px
+}
+
+.icon-edit{
+    background-image: url('../images/icon/edit.png')!important;margin-right:3px
+}
+
+.icon-delete{
+    background-image: url('../images/icon/bin_closed.png')!important;margin-right:3px
+}
+
+.icon-view{
+    background-image: url('../images/icon/details.png')!important;margin-right:3px
+}
+
+.icon-search{
+    background-image: url('../images/icon/search.png')!important;margin-right:3px
+}
+
+.icon-print{
+    background-image: url('../images/icon/printer.png')!important;margin-right:3px
+}
+
+.icon-excel{
+    background-image: url('../images/icon/doc_excel_table.png')!important;margin-right:3px
+}
+
+.icon-pdf{
+    background-image: url('../images/icon/pdf.png')!important;margin-right:3px
+}
+
+.icon-config{
+    background-image: url('../images/icon/config.png')!important;margin-right:3px
+}
+
+.icon-data{
+    background-image: url('../images/icon/doc_text_image.png')!important;margin-right:3px
+}
+
+.icon-report{
+    background-image: url('../images/icon/chart.png')!important;margin-right:3px
+}
+
+.icon-home{
+    background-image: url('../images/icon/house.png')!important;margin-right:3px
+}
+
+.icon-person{
+    background-image: url('../images/icon/person.png')!important;margin-right:3px
+}
+
+.icon-theme{
+    background-image: url('../images/icon/control_wheel.png')!important;margin-right:3px
+}
+
+.icon-key{
+    background-image: url('../images/icon/key.png')!important;margin-right:3px
+}
+
+.icon-save{
+    background-image: url('../images/icon/disk.png')!important;margin-right:3px
+}
+
+.icon-help{
+    background-image: url('../images/icon/help.png')!important;margin-right:3px
+}
+
+.icon-toolbox{
+    background-image: url('../images/icon/toolbox.png')!important;margin-right:3px
+}
+
+.icon-environment{
+    background-image: url('../images/icon/doc_convert.png')!important;margin-right:3px
+}
+
+.icon-camera_find{
+    background-image: url('../images/icon/camera_find.png')!important;margin-right:3px
+}
+
+.icon-reset{
+    background-image: url('../images/icon/enabled-off.png')!important;margin-right:3px
+}
+
+.icon-logout{
+    background-image: url('../images/icon/logout.png')!important;margin-right:3px
+}
+
+
+.icon-folder-open{
+    background-image:url('../images/icon/folder-open-16.png')!important;margin-right:3px
+}
+
+.icon-folder-close{
+    background-image:url('../images/icon/folder-new-16.png')!important;margin-right:3px
+}
+
+.icon-file{
+    background-image:url('../images/icon/page.png')!important;margin-right:3px
+}
+
+.icon-import{
+    background-image:url('../images/icon/page.png')!important;margin-right:3px
+}
+
+.icon-check{
+    background-image:url('../images/icon/enabled-on-16.png')!important;margin-right:3px
+}
+
+
+.icon-branch{
+    background-image:url('../images/icon/indicator-on-16.png')!important;margin-right:3px
+}
+
+.icon-folder-collapsed{
+    background-image:url('../images/icon/lp.gif')!important;margin-right:3px
+}
+
+.icon-folder-open{
+    background-image:url('../images/icon/lm.gif')!important;margin-right:3px
+}
+
+.icon-pass{
+    background-image:url('../images/icon/indicator-on-16.png')!important;margin-right:3px
+}
+
+.icon-fail{
+    background-image:url('../images/icon/indicator-off-16.png')!important;margin-right:3px
+}
+
+.icon-user{
+    background-image:url('../images/icon/person.png')!important;margin-right:3px
+}
+.icon-image{
+    background-image:url('../images/icon/photo.png')!important;margin-right:3px
+}
+
+.icon-member{
+    background-image:url('../images/icon/people.png')!important;margin-right:3px
+}
+
+.icon-website{
+    background-image:url('../images/icon/lightbulb.png')!important;margin-right:3px
+}
+
+.icon-not-start{
+    background-image:url('../images/red.png')!important;
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+}
+
+.icon-working{
+    background-image:url('../images/green.png')!important;
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+}
+
+.icon-finish{
+    background-image:url('../images/blue.png')!important;
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+}
+
+.icon-logout{
+    background-image:url('../images/logout.png')!important;margin-right:3px
+}

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <p:panel id="content_panel" header="#{msgs['menu.website.w106']}">
+        <h:form>
+
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:outputLabel value="* Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+            </p:panel>
+            <p:panel style="max-width: 800px;margin-bottom: 10px;">
+                <div class="ui-grid ui-grid-responsive">
+
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-10">
+                            <div class="ui-fluid">
+                                <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+
+                                    <h:panelGroup>
+                                        <p:outputLabel value="ภาษา："/>
+                                        <p:selectOneMenu>
+                                            <f:selectItem itemLabel="English" itemValue="english" />
+                                            <f:selectItem itemLabel="Chinese" itemValue="chinese" />
+                                            <f:selectItem itemLabel="Thailand" itemValue="thailand" />
+                                        </p:selectOneMenu>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup>
+                                        <p:outputLabel value="ชนิด："/>
+                                        <p:selectOneMenu>
+                                            <f:selectItem itemLabel="รูปภาพหลัก" itemValue="mainPic" />
+                                            <f:selectItem itemLabel="รูปเล็กด้านบน" itemValue="topPic" />
+                                            <f:selectItem itemLabel="รูปเล็กด้านล่าง" itemValue="bottomPic" />
+                                        </p:selectOneMenu>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup>
+                                        <font class="require">*</font>
+                                        <p:outputLabel value="ลำดับ："/>
+                                        <p:inputText />
+                                        <p:outputLabel value="(ค้นหาอัตโนมัติ และผู้ดูแลระบบสามารถปรับเปลี่ยนได้ และค่าซีเรียลนัมเบอร์จะต้อง >0）" styleClass="sub-label"/>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup>
+                                        <font class="require">*</font>
+                                        <p:outputLabel value="หัวข้อ"/>
+                                        <p:inputTextarea />
+                                        <p:outputLabel value="เคล็ดลับ:ไม่ควรระบุเกิน 100 ตัวอักษร" styleClass="sub-label"/>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup>
+                                        <font class="require">*</font>
+                                        <p:outputLabel value="เลือกช่วงเวลา："/>
+                                        <p:outputLabel value="เริ่มจาก" />
+                                        <p:calendar/>
+                                        <p:outputLabel value="เคล็ดลับ:กรุณาเลือกเวลาเริ่มต้น" styleClass="sub-label"/><br/>
+                                        <p:outputLabel value="ถึง" />
+                                        <p:calendar/>
+                                        <p:outputLabel value="เคล็ดลับ:กรุณาเลือกเวลาเริ่มต้น" styleClass="sub-label"/>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup>
+                                        <p:outputLabel value="สถานะ："/>
+                                        <p:selectOneRadio>
+                                            <f:selectItem itemLabel="แสดง" itemValue="show" />
+                                            <f:selectItem itemLabel="ซ่อน" itemValue="hide" />
+                                        </p:selectOneRadio>
+                                    </h:panelGroup>
+                                </p:panelGrid>
+
+                                <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+                                    <h:panelGroup>
+                                        <font class="require">*</font>
+                                        <p:outputLabel value="อัพโหลดรูปภาพ："/>                                        
+                                        <br/>
+                                        <p:graphicImage url="http://placehold.it/200x100" />
+                                        <br/>
+                                        <p:outputLabel value="เคล็ดลับ: รูปภาพควรจะมีขนาด 671x341 เป็น .JPG,JPEG,GIF,PNG,BMP" styleClass="sub-label"/>
+                                        <p:selectOneRadio>
+                                            <f:selectItem itemLabel="ลิงค์รูปภาพ" itemValue="link" />
+                                            <f:selectItem itemLabel="อัพโหลดรูปภาพ" itemValue="upload" />
+                                        </p:selectOneRadio>
+                                    </h:panelGroup>
+
+                                    <h:panelGroup>
+                                        <p:outputLabel/>
+                                        <p:outputLabel value="ลิงค์ URL รูปภาพ"/>
+                                        <p:inputText />
+                                        <p:outputLabel value="เคล็ดลับ:กรุณาใส่ url รูปภาพ" styleClass="sub-label"/>
+                                    </h:panelGroup>
+                                    <h:panelGroup rendered="false">
+                                        <p:fileUpload />
+                                    </h:panelGroup>
+
+                                    <h:panelGroup>
+                                        <p:outputLabel/>
+                                        <p:outputLabel value="ลิงค์ URL"/>
+                                        <p:inputText />
+                                        <p:outputLabel value="เคล็ดลับ:กรุณาใส่ url รูปภาพ" styleClass="sub-label"/>
+                                    </h:panelGroup>
+
+                                </p:panelGrid>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </p:panel>
+
+            <h:panelGroup style="margin-left: 0px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}"/>
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" />
+            </h:panelGroup>
+
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                    <div class="ui-fluid">
+                        <p:panel header="ผลลัพธ์" styleClass="content-block">
+                            <ui:include src="list.xhtml"/>
+                        </p:panel>
+                    </div>
+                </div>
+            </div>
+            
+        </h:form>
+
+    </p:panel>
+</ui:composition>

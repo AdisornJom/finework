@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+    </style>
+
+    <h:form id="listForm">
+        <p:toolbar style="margin-top: 3px;margin-bottom: 3px;"  rendered="false">
+            <f:facet name="left" rendered="false">
+                  <h:panelGroup layout="block" style="text-align: right" rendered="#{not empty r106Controller.items}">
+                     <p:commandButton icon="fa fa-print"  styleClass="print-btn" binding="#{bindingController.btnSave}" value="พิมพ์ทั้งหมด ที่เลือก" ajax="false" onclick="setTimeout('location.reload();', 2000);" update=":content"
+                                 actionListener="#{r106Controller.printPdfMuti()}">
+                     </p:commandButton> 
+                 </h:panelGroup>
+            </f:facet>
+        </p:toolbar>
+         <p:dataTable id="billingTable1" var="item" value="#{r106Controller.items}"
+                      selection="#{r106Controller.printSelected}" rowKey="#{item.contractorId}" 
+                    binding="#{bindingController.dataTableModel}">
+                  
+             <p:column selectionMode="multiple" style="text-align: center;width: 30px;"  rendered="false"/>
+
+            <p:column headerText="ลำดับ" style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+
+            <p:column headerText="ชื่อเล่นผู้รับเหมา"  style="width: 100px;">
+                <h:outputText value="#{item.nickname}"/>
+            </p:column>
+            
+            <p:column headerText="ผู้รับเหมา"  style="width: 110px;">
+                <h:outputText value="#{item.name}"/>
+            </p:column>
+
+             <p:column  headerText="จำนวนเงินรวมทั้งสิ้น " sortBy="#{item.factoryNet}" style="width: 80px;text-align: center">
+                 <h:outputText value="#{item.factoryNet}"  styleClass="lb_bold" style="float: right;#{item.factoryNet gt 0?'color:green;':'color:red;'}">
+                    <f:convertNumber  pattern="#,##0.00"/>
+                </h:outputText>     
+            </p:column>
+            
+            
+            <p:column style="width: 55px;text-align: center" rendered="false">
+                <p:tooltip for="report" value="ออกรายงาน" trackMouse="true"  rendered="false" />
+                <p:commandButton id="report" icon="fa fa-print"  action="#{r106Controller.reportPDF()}"  rendered="false"
+                                 update=":content" styleClass="print-btn" ajax="fasle" onclick="setTimeout('location.reload();', 1000);">
+                    <f:setPropertyActionListener value="#{item}" target="#{r106Controller.selected}" />
+                </p:commandButton>
+                
+               <p:tooltip for="view" value="#{msgs['btn.view']}" trackMouse="true" />
+                <p:commandButton id="view" icon="fa fa-file-text-o"  action="#{r106Controller.prepareEdit('report/r106/view')}" update=":content" styleClass="edit-btn">
+                    <f:setPropertyActionListener value="#{item}" target="#{r106Controller.selected}" />
+                </p:commandButton>
+
+                <p:tooltip for="del" value="#{msgs['btn.delete']}" trackMouse="true" rendered="false"/>
+                <p:commandButton id="del" icon="fa fa-trash"  action="#{r106Controller.delete()}" update=":content" styleClass="delete-btn" rendered="false">
+                    <p:confirm header="#{msgs['dialog.confirm']}" message="#{msgs['dialog.message']}" />
+                    <f:setPropertyActionListener value="#{item}" target="#{r106Controller.selected}" />
+                </p:commandButton>
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{r106Controller.items.size()}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+            
+        </p:dataTable>
+      
+    </h:form>
+
+</ui:composition>

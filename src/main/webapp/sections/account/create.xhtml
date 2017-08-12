@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:form id="createForm">
+        <p:dialog widgetVar="create" header="เพิ่มข้อมูล รายรับ/รายจ่าย" binding="#{bindingController.defaultDialogModel}" width="520">
+
+            <p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" styleClass="ui-panelgrid-blank">
+
+                <p:calendar placeholder="วันที่" binding="#{bindingController.calendar}" maxdate="#{accountController.currentDt}"/>
+                <p:selectOneRadio>
+                    <f:selectItem itemLabel="รายรับ" itemValue="1"/>
+                    <f:selectItem itemLabel="รายจ่าย" itemValue="2"/>
+                </p:selectOneRadio>
+
+                <p:selectOneMenu style="width: 160px;">
+                    <f:selectItem itemLabel="รายการ" itemValue=""/>
+                    <f:selectItem itemLabel="DG - Server" itemValue="1"/>
+                    <f:selectItem itemLabel="DG - Livechat" itemValue="1"/>
+                    <f:selectItem itemLabel="DG - Meeting" itemValue="1"/>
+                    <f:selectItem itemLabel="WEB - STB168" itemValue="1"/>
+                    <f:selectItem itemLabel="WEB - Mixbet88" itemValue="1"/>
+                    <f:selectItem itemLabel="WEB - HBObet" itemValue="1"/>
+                    <f:selectItem itemLabel="WEB - Winner99" itemValue="1"/>
+                    <f:selectItem itemLabel="WEB - THbet" itemValue="1"/>
+                    <f:selectItem itemLabel="WEB - MA7" itemValue="1"/>
+                    <f:selectItem itemLabel="WEB - Bet2Day" itemValue="1"/>
+                    <f:selectItem itemLabel="WEB - Bethizt" itemValue="1"/>
+                    <f:selectItem itemLabel="WEB - Eurobet" itemValue="1"/>
+                    <f:selectItem itemLabel="WEB - Bet365Bkk" itemValue="1"/>
+                </p:selectOneMenu>
+
+                <p:inputText placeholder="จำนวนเงิน" style="width: 180px;"/>
+
+                <p:inputTextarea rows="3" placeholder="หมายเหตุ" style="width: 400px;"/>
+
+            </p:panelGrid>
+
+            <f:facet name="footer">
+                <h:panelGroup id="controlPanel" layout="block" style="text-align: right;">
+                    <p:commandButton binding="#{bindingController.btnSave}" value="บันทึก" icon="fa fa-plus-square-o"/>
+                    <p:commandButton binding="#{bindingController.btnSave}" value="บันทึก/เพิ่ม" icon="fa fa-plus-square"/>
+                </h:panelGroup>
+            </f:facet>
+
+        </p:dialog>
+    </h:form>
+
+</ui:composition>

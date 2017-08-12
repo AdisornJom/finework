@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="log" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="5a098c98-3af3-4c32-b9a9-d4afc9d57be3">
+    <property name="ireport.zoom" value="1.2100000000000002"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+    <style name="table">
+        <box>
+            <pen lineWidth="1.0" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table_CH" mode="Opaque" backcolor="#D5D4D4">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <style name="td_border">
+        <box>
+            <pen lineWidth="0.0"/>
+            <topPen lineWidth="0.0"/>
+            <leftPen lineWidth="0.75"/>
+            <bottomPen lineWidth="1.0"/>
+            <rightPen lineWidth="0.75"/>
+        </box>
+    </style>
+    <style name="top_border">
+        <box>
+            <topPen lineWidth="0.75"/>
+        </box>
+    </style>
+    <style name="left_top" mode="Opaque" backcolor="#FFFFFF">
+        <box>
+            <pen lineWidth="0.5" lineColor="#000000"/>
+        </box>
+    </style>
+    <subDataset name="dataset1" uuid="0c6198d3-a5cc-4876-b5c4-8d9583ea58d2"/>
+    <parameter name="current_date" class="java.util.Date"/>
+    <field name="uid.firstName" class="java.lang.String"/>
+    <field name="uid.username" class="java.lang.String"/>
+    <field name="ip" class="java.lang.String"/>
+    <field name="browser" class="java.lang.String"/>
+    <field name="type" class="java.lang.String"/>
+    <field name="detail" class="java.lang.String"/>
+    <field name="createdDt" class="java.util.Date"/>
+    <field name="uid.lastName" class="java.lang.String"/>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="33" splitType="Stretch">
+            <staticText>
+                <reportElement uuid="768924ba-5f23-4cef-b7bc-376f295963e7" x="169" y="0" width="212" height="20"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Tahoma" size="16" isBold="true" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H"/>
+                </textElement>
+                <text><![CDATA[ประวัติการเข้าใช้งานระบบ]]></text>
+            </staticText>
+        </band>
+    </title>
+    <pageHeader>
+        <band height="25" splitType="Stretch">
+            <staticText>
+                <reportElement uuid="32fb050c-f95b-4657-a93f-c981fdb55583" style="table_CH" x="6" y="1" width="114" height="24"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Tahoma" isBold="true" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H"/>
+                </textElement>
+                <text><![CDATA[ชื่อ-สกุล]]></text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="63556d69-4bd5-4a4e-bbb3-73ee06560ef6" style="table_CH" x="120" y="1" width="82" height="24"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Tahoma" isBold="true" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H"/>
+                </textElement>
+                <text><![CDATA[บัญชีผู้ใช้งาน]]></text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="5fc176d8-cb27-4241-ba3e-7cc2a712eedf" style="table_CH" x="334" y="1" width="47" height="24"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Tahoma" isBold="true" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H"/>
+                </textElement>
+                <text><![CDATA[ประเภท]]></text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="0fac86b2-94ae-4d85-9f94-01e8f9706a22" style="table_CH" x="482" y="1" width="72" height="24"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Tahoma" isBold="true" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H"/>
+                </textElement>
+                <text><![CDATA[เวลา]]></text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="117b5848-1003-4c0d-be6d-d1b0bcfd6fa1" style="table_CH" x="266" y="1" width="68" height="24"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Tahoma" isBold="true" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H"/>
+                </textElement>
+                <text><![CDATA[บราวเซอร์]]></text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="4956ca6c-990b-4630-b759-d650502a6751" style="table_CH" x="202" y="1" width="64" height="24"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Tahoma" isBold="true" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H"/>
+                </textElement>
+                <text><![CDATA[หมายเลยไอพี]]></text>
+            </staticText>
+            <staticText>
+                <reportElement uuid="29701282-65f8-45c9-9ae0-ef208b70ea9b" style="table_CH" x="381" y="1" width="101" height="24"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Tahoma" isBold="true" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H"/>
+                </textElement>
+                <text><![CDATA[รายละเอียด]]></text>
+            </staticText>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band splitType="Stretch"/>
+    </columnHeader>
+    <detail>
+        <band height="18">
+            <textField isBlankWhenNull="true">
+                <reportElement uuid="2c425da3-7fe4-431c-b926-dd5a34c5763f" style="td_border" x="6" y="-1" width="114" height="19"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Tahoma" size="8" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H"/>
+                    <paragraph leftIndent="5"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{uid.firstName} +" "+$F{uid.lastName}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement uuid="04f72388-7575-40e0-9b12-64a968512399" style="td_border" x="120" y="-1" width="82" height="19"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="8"/>
+                    <paragraph leftIndent="5"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{uid.username}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement uuid="47adfc7b-27f1-4dba-a23d-b67ad03c5084" style="td_border" x="202" y="-1" width="64" height="19"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{ip}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement uuid="80ff4068-6270-48ed-876c-954689ab0269" style="td_border" x="266" y="-1" width="68" height="19"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{browser}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement uuid="75c450fa-afbf-43d2-80ee-17371b64ae6e" style="td_border" x="334" y="-1" width="47" height="19"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement uuid="693ade94-2d57-4911-a2ca-6d0c5bc13b58" style="td_border" x="381" y="-1" width="101" height="19"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="8"/>
+                    <paragraph leftIndent="5"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{detail}]]></textFieldExpression>
+            </textField>
+            <textField pattern="dd/MM/yyyy HH.mm" isBlankWhenNull="true">
+                <reportElement uuid="3029f78f-a08f-4c58-bc20-42c21c8bc576" style="td_border" x="482" y="-1" width="72" height="19"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font fontName="Tahoma" size="8" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{createdDt}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band splitType="Stretch"/>
+    </columnFooter>
+    <pageFooter>
+        <band height="25" splitType="Stretch">
+            <textField pattern="dd/MM/yyyy HH.mm">
+                <reportElement uuid="076f5a5e-35a8-4755-ae15-fe5d45b90274" x="6" y="5" width="148" height="20"/>
+                <textElement verticalAlignment="Middle">
+                    <font fontName="Tahoma" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{current_date}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement uuid="a085b782-2bc4-4aca-a419-ec7e2a8de4c1" x="482" y="5" width="72" height="20"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="Tahoma" pdfFontName="tahoma.ttf" pdfEncoding="Identity-H"/>
+                </textElement>
+                <textFieldExpression><![CDATA["หน้า "+$V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+    <summary>
+        <band splitType="Stretch"/>
+    </summary>
+</jasperReport>

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./templates/error-template.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        <h:outputText value="#{apps['app.name']}"></h:outputText>
+    </ui:define>
+
+    <ui:define name="content">
+         <p:panel style="height: 400px;">
+            <p:panel header="Page Expired" style="margin-top: 50px;margin-bottom: 100px;margin-left: auto;margin-right: auto;width: 500px;">
+                <p:spacer width="28"/>
+                Time Out
+
+                <br/>
+                <br/>
+                <br/>
+
+                <h:form>
+                    <p:commandButton value="Back to main" action="#{loginController.logout()}"/>
+                    <p:commandButton value="Previous page" onclick="history.back();"/>
+                </h:form>
+
+            </p:panel>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

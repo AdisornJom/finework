@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+    </style>
+
+     <h:form id="listForm">
+         <p:dataTable id="billingTable" var="item" value="#{r101Controller.lazyBillingReportModel}" binding="#{bindingController.lazyDataTableModel}">
+
+            <p:column headerText="ลำดับ" style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+
+            <p:column headerText="ประเภท" sortBy="#{item.billingType}" style="width: 100px;">
+                <h:outputText value="#{item.billingType eq 'NOVAT' ? 'B101 - ใบแจ้งหนี้' : 
+                                       item.billingType eq 'CHECK' ?'B102 - ใบวางบิล':
+                                       item.billingType eq 'ACC' ?'B103 - โอนเงินเข้าบัญชีบริษัท':
+                                       item.billingType eq 'DELIVERY' ?'B104 - ใบส่งของ':
+                                       item.billingType eq 'B105' ?'B105 - งานราวระเบียง':
+                                       item.billingType eq 'B106' ?'B106 - ป้ายบ้าน, จักรยาน, ฝาถังขยะ':
+                                       item.billingType eq 'B107' ?'B107 - ใบส่งของ(LH1)':
+                                       item.billingType eq 'B108' ?'B108 - ใบส่งของ(LH2)':
+                                       item.billingType eq 'B109' ?'B109 - ใบแจ้งหนี้':
+                                       item.billingType eq 'B110' ? 'B110 - ใบแจ้งหนี้(2)' :
+                                       item.billingType eq 'GOODRECEIPT' ?'B101 - ใบกำกับภาษี':
+                                       item.billingType eq 'SALESINVOICE' ?'B202 - ใบกำกับภาษี(1)':''}"/>
+            </p:column>
+            
+            <p:column headerText="ชื่อลูกค้า"  style="width: 200px;">
+                <h:outputText value="#{item.customerId.customerNameTh}"/>
+            </p:column>
+            
+            <p:column headerText="หน่วยงาน" style="width: 200px;">
+                <h:outputText value="#{item.workunitId.workunitName}"/>
+            </p:column>
+            
+            <p:column  headerText="ผู้ทำรายการ " sortBy="#{item.createdBy}" style="width: 100px;text-align: center">
+                <h:outputText value="#{item.createdBy}"/>
+            </p:column>
+
+            <p:column  headerText="วันที่เริ่มทำรายการ " sortBy="#{item.sendDate}" style="width: 60px;text-align: center">
+                <h:outputText value="#{item.sendDate}">
+                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                </h:outputText>
+            </p:column>
+            
+            <p:column style="width: 25px;text-align: center">
+                <p:tooltip for="report" value="ออกรายงาน" trackMouse="true"/>
+                <p:commandButton id="report" icon="fa fa-print"  action="#{r101Controller.reportPDF()}"
+                                 update=":content" styleClass="print-btn" ajax="fasle">
+                    <f:setPropertyActionListener value="#{item}" target="#{r101Controller.selected}" />
+                </p:commandButton>
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{r101Controller.lazyBillingReportModel.rowCount}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

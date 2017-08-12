@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 370px;
+        }
+
+        .customDialog .ui-dialog-title {
+            font-size: 150% !important;
+            color: #ffffff;
+        }
+
+        .customDialog .ui-dialog-content {
+            padding: 0;
+            margin: 10px 10px;
+        }
+        .customDialog .ui-dialog-titlebar.ui-widget-header {
+            background: #C0C0C0;
+            color: black;
+            box-shadow: none;
+        }
+        .pe-inputNumber {
+            text-align: right;
+            width:120px;
+            float:right;
+            font-size: 24px;
+        }
+        
+        .ui-datatable tbody  {
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        
+        
+        
+        .ui-datatable table tbody tr td .ui-row-editor .ui-icon-pencil 
+        {
+           background: none !important;
+           text-indent: initial;
+           font: normal normal normal 14px/1 FontAwesome;
+           font-size: 28px;
+           text-rendering: auto;
+           -webkit-font-smoothing: antialiased;
+           -moz-osx-font-smoothing: grayscale;
+           transform: translate(0, 0);
+           height: 28px;
+           width:57px;
+        }
+        .ui-datatable table tbody tr td .ui-row-editor .ui-icon-pencil:before {
+           content: "\f044";
+        }
+        .ui-datatable table tbody tr td .ui-row-editor .ui-icon-pencil:hover {
+           font-weight: bold;
+           color: #03a50e;
+        }
+
+        .ui-datatable table tbody tr td .ui-row-editor .ui-icon-check 
+        {
+           background: none !important;
+           text-indent: initial;
+           font: normal normal normal 14px/1 FontAwesome;
+           font-size: 27px;
+           text-rendering: auto;
+           -webkit-font-smoothing: antialiased;
+           -moz-osx-font-smoothing: grayscale;
+           transform: translate(0, 0);
+           height: 30px;
+           width: 24px;
+        }
+        .ui-datatable table tbody tr td .ui-row-editor .ui-icon-check:before {
+           content: "\f058";
+        }
+        .ui-datatable table tbody tr td .ui-row-editor .ui-icon-check:hover {
+           font-weight: bold;
+           color: #03a50e;
+        }
+
+
+        .ui-datatable table tbody tr td .ui-row-editor .ui-icon-close 
+        {
+           background: none !important;
+           text-indent: initial;
+           font: normal normal normal 14px/1 FontAwesome;
+           font-size: 28px;
+           text-rendering: auto;
+           -webkit-font-smoothing: antialiased;
+           -moz-osx-font-smoothing: grayscale;
+           transform: translate(0, 0);
+           height: 27px;
+           width: 29px;
+        }
+        .ui-datatable table tbody tr td .ui-row-editor .ui-icon-close:before {
+           content: "\f057";
+        }
+        .ui-datatable table tbody tr td .ui-row-editor .ui-icon-close:hover {
+           font-weight: bold;
+           color: #03a50e;
+        }
+        
+        .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td, .ui-datatable tfoot th {
+            border-color: #c3c3c3;
+        }
+    </style>
+    <p:panel header="T101 - สร้าง จองรายการขนส่ง">
+
+        <h:form id="listForm">
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+
+            <p:panel id="panel1" style="max-width: 900px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:panel id="panel2" header="#{msgs['m101.commoninfo']}"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+                    <h:panelGroup rendered="false">
+                        <p:outputLabel value="เลขที่ ："/>
+                    </h:panelGroup>
+                    <p:inputText id="seq" value="#{t101Controller.selected.documentno}" style="width: 150px;" readonly="true" rendered="false" />
+                   
+                    <h:panelGroup>
+                        <p:outputLabel value="ชื่อผู้ควบคุมงาน(โฟร์แมน) ："/>
+                         <font class="require">*</font>
+                    </h:panelGroup>
+                   <h:panelGroup>
+                       <p:autoComplete id="foreManName" dropdown="true" value="#{t101Controller.foreman_selected}" 
+                                       completeMethod="#{t101Controller.completeForeman}" 
+                                       var="foreman" itemLabel="#{foreman.foremanNickname}" 
+                                       itemValue="#{foreman}" 
+                                       converter="#{foremanConverter}"
+                                       scrollHeight="250" forceSelection="true" >
+                           <p:ajax event="query"  global="false"/>
+                       </p:autoComplete>
+                       <p:watermark  for="foreManName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                    </h:panelGroup>
+                    
+                    <h:panelGroup>
+                        <p:outputLabel value="หน่วยงาน/โครงการ ："/>
+                         <font class="require">*</font>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:autoComplete id="workunit" dropdown="true" value="#{t101Controller.workunit_selected}" 
+                                        completeMethod="#{t101Controller.completeWorkunit}" 
+                                        var="wkunit" itemLabel="#{wkunit.workunitName}" 
+                                        itemValue="#{wkunit}" 
+                                        converter="#{workUnitConverter}"
+                                        scrollHeight="250" >
+                            <p:ajax event="query" global="false"/>
+                        </p:autoComplete>
+                        <p:watermark  for="workunit" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                    </h:panelGroup>
+                    
+                    <h:panelGroup>
+                        <p:outputLabel value="วันที่ทำรายการ ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:calendar  binding="#{bindingController.calendar}" value="#{t101Controller.selected.prepareTpDate}" size="10" />
+                    
+                    <h:panelGroup>
+                        <p:outputLabel value="วันที่ต้องการส่ง ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:calendar  binding="#{bindingController.calendar}" value="#{t101Controller.selected.tpDate}" size="10" />
+                    
+                </p:panelGrid>
+            </p:panel>
+
+            <p:panel  id="detail_list" style="border: 0px">
+                <p:panel  header="#{msgs['btn.view']}" style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+                        <h:panelGroup>
+                            <p:outputLabel value="หมายเหตุ ："/>
+                        </h:panelGroup>
+                        <p:inputTextarea id="remark" value="#{t101Controller.selected.remark}" cols="30" rows="3" 
+                                         maxlength="250" style="width: 400px;" />
+                   </p:panelGrid>
+                   <p:commandButton styleClass="search-btn" style="margin: 5px" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" oncomplete="PF('selectDetail_dialog').show()" 
+                                    actionListener="#{t101Controller.searchManufactory()}"  update="listFormTransport"/>
+
+                   <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{t101Controller.selected.sysPrepareTransportDetailList}" var="detail" >
+                       <p:column headerText="#" style="text-align: center;width: 5%;">
+                            <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+                       
+                        <p:column headerText="ใบงานเลขที่" style="width: 12%;" >
+                            <h:outputText value="#{detail.factoryRealId.factoryId.documentno}"  />
+                        </p:column>
+                       
+                        <p:column headerText="หน่วยงาน/โครงการ" style="width: 21%;" >
+                            <h:outputText value="#{detail.factoryRealId.manufactoryDetailId.workunitId.workunitName}"  />
+                        </p:column>
+                        
+                        <p:column headerText="รายการผลิต" style="width: 29%;" >
+                            <h:outputText value="#{detail.factoryRealId.manufactoryDetailId.manufacturingId.manufacturingDesc} (#{detail.factoryRealId.manufactoryDetailId.manufacturingId.calculateType eq 1?'จำนวน':
+                                                   detail.factoryRealId.manufactoryDetailId.manufacturingId.calculateType eq 2?'ความยาว/เมตร':'ชุด'})"  />
+                            <h:outputText value="#{detail.factoryRealId.manufactoryDetailId.length}"  rendered="#{detail.factoryRealId.manufactoryDetailId.manufacturingId.calculateType eq 2?true:false}">
+                                <f:convertNumber  pattern="(#,##0.00)"/>
+                            </h:outputText>  
+                        </p:column>
+                       
+                        <p:column headerText="แปลง" style="width:12%;" >
+                            <h:outputText  value="#{detail.factoryRealId.manufactoryDetailId.plot}"/>  
+                        </p:column>
+                       
+                        <p:column headerText="จำนวน" style="width: 12%;">
+                            <h:outputText  value="#{detail.factoryRealId.volumeReal}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+                       
+                       <p:column headerText="หน่วย" style="width: 8%;">
+                           <h:outputText  value="#{detail.factoryRealId.manufactoryDetailId.unit}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="#{msgs['common.manage']}" style="width:9%;text-align: center">
+                             <h:panelGroup>
+                                 <p:commandButton title="#{msgs['btn.delete']}" icon="fa fa-trash" action="#{t101Controller.deleteDetail()}" styleClass="delete-btn"
+                                                  update="listForm:dt_itemDetail" global="false">
+                                     <f:setPropertyActionListener value="#{detail}" target="#{t101Controller.prepareTransport_selected}" />
+                                 </p:commandButton>
+                             </h:panelGroup>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </p:panel>
+
+            <h:panelGroup style="margin: 5px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{t101Controller.create()}" styleClass="edit-btn" update=":content"/>
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 actionListener="#{t101Controller.cancel('transporter/t101/index')}" styleClass="clear-btn" update=":content"/>
+            </h:panelGroup>
+        </h:form>
+    </p:panel>
+
+  <ui:include src="dialog_detail.xhtml" />
+
+</ui:composition>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <p:dialog id="dlg1" header="กรอกรายเอียด....." modal="true" 
+              widgetVar="selectDetail_dialog" width="600" 
+              binding="#{bindingController.defaultDialogModel}" closeOnEscape="true" styleClass="customDialog">
+       
+        <h:form id="listFormDetail">
+            <p:panelGrid id="detail" columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                <h:panelGroup>
+                    <p:outputLabel for="detail" value="วัสดุภัณฑ์ :" />
+                    <font class="require">*</font>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:autoComplete id="material_items" dropdown="true" value="#{i103Controller.material_selected}" 
+                                    completeMethod="#{i103Controller.completeMaterial}" 
+                                    var="detail" itemLabel="#{detail.materialDesc}" 
+                                    itemValue="#{detail}" 
+                                    converter="#{materialConverter}"
+                                    scrollHeight="250" >
+                        <p:ajax event="query"  global="false"/>
+                    </p:autoComplete>
+                    <p:watermark  for="material_items" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <p:outputLabel for="volume" value="จำนวน :" />
+                    <font class="require">*</font>
+                </h:panelGroup>
+                <p:inputText id="volume" value="#{i103Controller.dvDetail_selected.quantity}" maxlength="20" 
+                             style="width: 100px; text-align: right;"/>
+                   
+                <h:panelGroup>
+                    <p:outputLabel for="unit" value="หน่วย :" />
+                    <font class="require">*</font>
+                </h:panelGroup>
+                <p:selectOneMenu id="unit" value="#{i103Controller.dvDetail_selected.unit}"  style="width: 100px;">
+                    <f:selectItems value="#{comboController.equipments}" />
+                </p:selectOneMenu>
+            </p:panelGrid>
+
+            <br/>
+            <h:panelGroup layout="block" style="text-align: center" >
+                <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                 actionListener="#{i103Controller.addDetail()}">
+                </p:commandButton> 
+                <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 oncomplete="PF('selectDetail_dialog').hide();"
+                                 actionListener="#{i103Controller.clearData_sysMaterialExpensesDetail()}" />
+            </h:panelGroup>
+        </h:form>
+
+
+    </p:dialog>
+
+</ui:composition>
+        

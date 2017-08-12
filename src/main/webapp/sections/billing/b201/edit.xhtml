@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 370px;
+        }
+
+        .customDialog .ui-dialog-title {
+            font-size: 150% !important;
+            color: #ffffff;
+        }
+
+        .customDialog .ui-dialog-content {
+            padding: 0;
+            margin: 10px 10px;
+        }
+        .customDialog .ui-dialog-titlebar.ui-widget-header {
+            background: #C0C0C0;
+            color: black;
+            box-shadow: none;
+        }
+        .pe-inputNumber {
+            text-align: right;
+            width:120px;
+            float:right;
+            font-size: 24px;
+        }
+    </style>
+    <p:panel header="B201 - แก้ไข ใบกำกับภาษี">
+
+        <h:form id="listForm">
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+
+            <p:panel id="panel1" style="max-width: 900px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:panel id="panel2" header="#{msgs['m101.commoninfo']}"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+                    <h:panelGroup>
+                        <p:outputLabel value="เลขที่ ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{b201Controller.selected.documentno}"   styleClass="lb_bold"/>
+                    </h:panelGroup>
+                                        
+                    <h:panelGroup>
+                        <p:outputLabel value="ชื่อลูกค้า ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:autoComplete id="custName" dropdown="true" value="#{b201Controller.selected.customerId}" 
+                                                 completeMethod="#{b201Controller.completeCustomer}" 
+                                                 var="cust" itemLabel="#{cust.customerNameTh}" 
+                                                 itemValue="#{cust}" 
+                                                 converter="#{customerConverter}"
+                                                 scrollHeight="250"   >
+                            <p:ajax event="query"  global="false" />
+                            <p:ajax event="itemSelect"  update="listForm:address" global="false" />
+                        </p:autoComplete>
+                        <p:watermark  for="custName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                    </h:panelGroup>
+                    
+                     <h:panelGroup>
+                        <p:outputLabel value="ที่อยู่ลูกค้า ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:inputTextarea id="address" value="#{b201Controller.selected.customerId.customerAddress}" cols="50" rows="3" 
+                                     maxlength="250" style="width: 400px;" readonly="true" styleClass="readonly"/>
+
+                    <h:panelGroup>
+                        <p:outputLabel value="วันที่ทำรายการ ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:calendar  binding="#{bindingController.calendar}" value="#{b201Controller.selected.sendDate}" size="10" />
+
+
+                    <h:panelGroup>
+                        <p:outputLabel value="หน่วยงาน ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:autoComplete id="workunit" dropdown="true" value="#{b201Controller.selected.workunitId}" 
+                                       completeMethod="#{b201Controller.completeWorkunit}" 
+                                                 var="wkunit" itemLabel="#{wkunit.workunitName}" 
+                                                 itemValue="#{wkunit}" 
+                                                 converter="#{workUnitConverter}"
+                                                 scrollHeight="250" >
+                          <p:ajax event="query" global="false"/>
+                       </p:autoComplete>
+                        <p:watermark  for="workunit" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                    </h:panelGroup>
+                </p:panelGrid>
+            </p:panel>
+
+            <p:panel  id="detail_list" style="border: 0px">
+                <p:panel  header="#{msgs['btn.view']}" style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                   <p:commandButton styleClass="search-btn" style="margin: 5px" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" 
+                                    actionListener="#{b201Controller.prepareEdit()}"
+                                    oncomplete="PF('selectDetail_dialog').show()" update="listFormDetail:detail"/>
+
+                   <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{b201Controller.selected.sysBillingDetailList}" var="detail">
+                        <p:column headerText="ลำดับ" style="text-align: center;width: 22px;">
+                            <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+                        
+                        <p:column headerText="เลขที่" style="width: 40px;" rendered="false">
+                            <h:outputText value="#{detail.billNo}"  />
+                        </p:column>
+                        
+                        <p:column headerText="รายการ" style="width: 214px;">
+                            <h:outputText value="#{detail.detail}" />
+                        </p:column>
+                        
+                        <p:column headerText="ปริมาณ" style="width: 40px;">
+                            <h:outputText  value="#{detail.volume}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+                        
+                        <p:column headerText="หน่วย" style="width: 40px;">
+                            <h:outputText value="#{detail.unit}"  />
+                        </p:column>
+                        
+                        <p:column headerText="ราคา/หน่วย" style="width: 50px;">
+                            <h:outputText value="#{detail.price}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="จำนวนเงิน"  style="width: 70px;">
+                            <h:outputText value="#{detail.totalPrice}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="#{msgs['common.manage']}" style="width: 26px;text-align: center">
+                            <p:commandButton title="#{msgs['btn.delete']}"  icon="fa fa-trash" 
+                                             action="#{b201Controller.deleteDetail()}" styleClass="delete-btn"
+                                             update="listForm:dt_itemDetail listForm:footer_itemDetail" global="false">
+                                <f:setPropertyActionListener value="#{detail}" target="#{b201Controller.blDetail_selected}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                   
+                    <p:panelGrid id="footer_itemDetail" columns="3" layout="grid"  columnClasses="ui-grid-col-11,ui-grid-col-3,ui-grid-col-1" styleClass="ui-panelgrid-blank"> 
+                      <h:panelGroup >
+                          <p:outputLabel value="จำนวนเงินรวม ：" style="float:right;"/>
+                      </h:panelGroup>
+                      <h:panelGroup>
+                          <h:outputText value="#{b201Controller.total}" 
+                                        style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                             <f:convertNumber  pattern="#,##0.00"/>
+                          </h:outputText>  
+                      </h:panelGroup>
+                      <h:panelGroup/>
+                      
+                       <h:panelGroup >
+                          <p:outputLabel value="ส่วนลด ：" style="float:right;"/>
+                      </h:panelGroup>
+                      <h:panelGroup>
+                          <pe:inputNumber decimalPlaces="2" value="#{b201Controller.total_discount}"  emptyValue="0.00" styleClass="lb_bold" style="width: 20px;">
+                              <p:ajax event="blur" listener="#{b201Controller.checkTotalPrice()}" update=":content" global="false" />
+                          </pe:inputNumber>
+                      </h:panelGroup>
+                      <h:panelGroup/> 
+                      
+                      <h:panelGroup >
+                          <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>
+                      </h:panelGroup>
+                      <h:panelGroup>
+                            <h:outputText value="#{b201Controller.total_vat}" 
+                                        style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                             <f:convertNumber  pattern="#,##0.00"/>
+                          </h:outputText>  
+                      </h:panelGroup>
+                      <h:panelGroup/>  
+                      
+                      <h:panelGroup >
+                          <p:outputLabel value="จำนวนเงินรวมทั้งสิ้น ：" style="float:right;"/>
+                      </h:panelGroup>
+                      <h:panelGroup>
+                            <h:outputText value="#{b201Controller.total_net}" 
+                                        style="float:right;background-color:#ccff99"  styleClass="lb_bold">
+                             <f:convertNumber  pattern="#,##0.00"/>
+                          </h:outputText>  
+                      </h:panelGroup>
+                     <h:panelGroup/> 
+                     
+                    <h:panelGroup >
+                          <font class="require" style="float:right;">*</font>
+                          <p:outputLabel value="จำนวนเงินออกบิล ：" style="float:right;"/>
+                      </h:panelGroup>
+                      <h:panelGroup>
+                          <pe:inputNumber decimalPlaces="2" value="#{b201Controller.realTotalPrice}"  emptyValue="0.00"  styleClass="lb_bold" style="width: 20px;" >
+                               <p:ajax event="blur" listener="#{b201Controller.checkRealTotalPrice()}" update=":content" global="false" />
+                          </pe:inputNumber>
+                      </h:panelGroup>
+                     <h:panelGroup/> 
+                    
+                    </p:panelGrid>
+                    <p:panelGrid id="footer_itemDetail_last" columns="3" layout="grid"  columnClasses="ui-grid-col-9,ui-grid-col-3,ui-grid-col-3" styleClass="ui-panelgrid-blank"> 
+                      <h:panelGroup >
+                          <p:outputLabel value="วันที่ครบกำหนดชำระ ：" style="float:right;background-color:#ffbac0"/>
+                      </h:panelGroup>
+                      <h:panelGroup >
+                          <p:calendar  binding="#{bindingController.calendar}" value="#{b201Controller.selected.billDateLast}" size="10"/>
+                      </h:panelGroup>
+                      <h:panelGroup/>
+                    </p:panelGrid>  
+
+                </p:panel>
+            </p:panel>
+
+            <h:panelGroup style="margin: 5px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{b201Controller.edit()}" styleClass="edit-btn" update=":content"/>
+                
+                <p:commandButton binding="#{bindingController.btnSave}" value="รายงาน" rendered="false"
+                                 actionListener="#{b201Controller.reportPDF()}" ajax="fasle" styleClass="print-btn" update=":content"/>
+                 
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 actionListener="#{b201Controller.cancel('billing/b201/index')}" styleClass="clear-btn" update=":content"/>
+            </h:panelGroup>
+        </h:form>
+    </p:panel>
+
+   <ui:include src="dialog_detail.xhtml" />
+
+</ui:composition>

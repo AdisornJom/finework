@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <p:panel header="B201 - ใบกำกับภาษี">
+
+        <p:toolbar style="margin-bottom: 3px;">
+            <f:facet name="left" >
+                <h:form>
+                    <h:panelGrid cellpadding="1" cellspacing="1">
+                       <h:panelGroup>
+                        <p:commandButton styleClass="search-btn" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" update=":content" 
+                                         actionListener="#{b201Controller.prepareCreate('billing/b201/create')}"/>
+
+                        <p:commandButton styleClass="delete-btn" binding="#{bindingController.btnAdd}" value="จองหมายเลขฟอร์ม" update=":content" 
+                                         actionListener="#{b201Controller.prepareCreateDraft('billing/b201/draft')}"/>
+                       </h:panelGroup>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+             <f:facet name="right" >
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columnClasses="col1,col2,col1,col2,col1,col2" border="0" columns="10" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
+                        <p:outputLabel value="เลขที่ ："/>
+                        <p:inputText value="#{b201Controller.documentno}"/>
+                        
+                        <p:outputLabel value="ชื่อลูกค้า ："/>
+                        <p:inputText value="#{b201Controller.companyName}" />
+                        
+                        <p:outputLabel value="วันที่ทำรายการ ："/>
+                        <p:calendar id="startDate" value="#{b201Controller.startDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+
+                        <p:outputLabel value="ถึง ："/>
+                        <p:calendar id="toDate" value="#{b201Controller.toDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+
+                        <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
+                                        actionListener="${b201Controller.search()}" styleClass="search-btn" update=":content"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+        <ui:include src="list.xhtml"/>
+
+    </p:panel>
+
+</ui:composition>

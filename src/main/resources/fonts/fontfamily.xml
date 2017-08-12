@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fontFamilies>
+
+    <fontFamily name="Tahoma">
+        <normal>fonts/tahoma.ttf</normal>
+        <bold>fonts/tahoma.ttf</bold>
+        <pdfEncoding>Identity-H</pdfEncoding>
+        <pdfEmbedded>true</pdfEmbedded>
+        <exportFonts>
+            <export key="net.sf.jasperreports.html">'DejaVu Sans', Arial, Helvetica, sans-serif</export>
+            <export key="net.sf.jasperreports.xhtml">'DejaVu Sans', Arial, Helvetica, sans-serif</export>
+        </exportFonts>
+    </fontFamily>
+    
+    <fontFamily name="Loma">
+        <normal>fonts/Loma.ttf</normal>
+        <bold>fonts/Loma-Bold.ttf</bold>
+        <italic>fonts/Loma-Oblique.ttf</italic>
+        <boldItalic>fonts/Loma-BoldOblique.ttf</boldItalic>
+        <pdfEncoding>Identity-H</pdfEncoding>
+        <pdfEmbedded>true</pdfEmbedded>
+        <exportFonts>
+            <export key="net.sf.jasperreports.html">'Loma', Arial, Helvetica, sans-serif</export>
+            <export key="net.sf.jasperreports.xhtml">'Loma', Arial, Helvetica, sans-serif</export>
+        </exportFonts>
+    </fontFamily>
+    
+    <fontFamily name="freesiaupc">
+        <normal>fonts/freesiaupc.ttf</normal>
+        <bold>fonts/freesiaupc.ttf</bold>
+        <pdfEncoding>Identity-H</pdfEncoding>
+        <pdfEmbedded>true</pdfEmbedded>
+        <exportFonts/>
+    </fontFamily>
+
+</fontFamilies>

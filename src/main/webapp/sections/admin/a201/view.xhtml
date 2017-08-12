@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+     <p:panel header="#{msgs['a201.profile.view.employee']}">
+        <h:form id="listForm">
+           <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                <div class="ui-fluid">
+                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                            <h:panelGroup>
+                                <p:outputLabel for="username" value="#{msgs['a201.profile.username']} :" />
+                            </h:panelGroup>
+                            <h:panelGrid cellpadding="0" cellspacing="0">
+                                <p:inputText id="username" value="#{a201Controller.selected.username}" readonly="true" styleClass="readonly" style="width: 400px;" />
+                            </h:panelGrid>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="firstname" value="#{msgs['a201.profile.firstname']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                              <p:inputText id="firstname" value="#{a201Controller.selected.firstName}" readonly="true" styleClass="readonly" style="width: 400px;"/>
+                            </h:panelGroup>
+                        
+                            <h:panelGroup>
+                                <p:outputLabel for="lastname" value="#{msgs['a201.profile.lastname']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="lastname" value="#{a201Controller.selected.lastName}" readonly="true" styleClass="readonly" style="width: 400px;"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel for="role" value="#{msgs['a201.profile.role']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="role" value="#{a201Controller.selected.roleId.id}" disabled="true" style="width: 400px;">
+                                    <f:selectItems value="#{comboController.adminUserRole}" var="item" itemValue="#{item.id}" itemLabel="#{item.roleName}" />
+                              </p:selectOneMenu>
+                            </h:panelGroup>
+                        
+                            <h:panelGroup>
+                                <p:outputLabel for="position" value="#{msgs['a201.profile.position']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="position" value="#{a201Controller.selected.position}" readonly="true" styleClass="readonly"  style="width: 400px;"/>
+                            </h:panelGroup>
+                                
+                            <h:panelGroup>
+                                <p:outputLabel for="organization" value="#{msgs['a201.profile.organization']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="organization" value="#{a201Controller.selected.organization}" readonly="true" styleClass="readonly"  style="width: 400px;"/>
+                           </h:panelGroup>
+                                
+                            <h:panelGroup>
+                                <p:outputLabel for="email" value="#{msgs['a201.profile.email']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="email" value="#{a201Controller.selected.email}" readonly="true" styleClass="readonly" style="width: 400px;"/>
+                                             
+                            </h:panelGroup>
+                                
+                            <h:panelGroup>
+                                <p:outputLabel for="mobile" value="#{msgs['a201.profile.mobile']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                               <p:inputMask id="mobile" value="#{a201Controller.selected.mobile}" mask="099-999-9999" readonly="true" styleClass="readonly" style="width: 400px;"/>
+                            </h:panelGroup>
+                        
+                            <h:panelGroup>
+                                <p:outputLabel for="status" value="#{msgs['a201.profile.status']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="status" value="#{a201Controller.selected.status}" disabled="true" style="width: 400px;">
+                                    <f:selectItem itemLabel="ปกติ" itemValue="1" />
+                                    <f:selectItem itemLabel="ระงับ" itemValue="0" />
+                                </p:selectOneMenu>
+                           </h:panelGroup>
+                    </p:panelGrid>
+                </div>
+
+            </p:panel>
+
+            <h:panelGroup style="margin-left: 0px;">
+                <p:commandButton binding="#{bindingController.btnView}" value="#{msgs['btn.ok']}"
+                                actionListener="#{depositRequestController.next('admin/a201/index')}" update=":content"/>
+            </h:panelGroup>
+        </h:form>
+    </p:panel>
+</ui:composition>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <p:panel header="#{msgs['menu.master.edit.s202']}">
+        <h:form id="listForm">
+
+            <p:messages id="edit_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:fieldset legend="#{msgs['desc']}" style="border: 0px;">
+
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <div class="ui-fluid">
+                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">                            
+                            <h:panelGroup>
+                                <p:outputLabel for="type_obj" value="ประเภท :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputText id="type_obj" 
+                                 value="#{ s202Controller.selected.runningType eq 'novat' ? 'B101 - ใบแจ้งหนี้' 
+                                          :s202Controller.selected.runningType eq 'check' ? 'B102 - ใบวางบิล' 
+                                          :s202Controller.selected.runningType eq 'acc' ? 'B103 - โอนเงินเข้าบัญชีบริษัท' 
+                                          :s202Controller.selected.runningType eq 'delivery' ? 'B104 - ใบส่งของ' 
+                                          :s202Controller.selected.runningType eq 'B105_B111' ?'(B105-B111) - ใบบิล' 
+                                          :s202Controller.selected.runningType eq 'B112' ?'B112 - ใบส่งของ(ระบบขนส่ง)' 
+                                          :s202Controller.selected.runningType eq 'B203' ? 'B203 - บันทึกการรับเงินประกันโครงการ' 
+                                          :s202Controller.selected.runningType eq 'B204' ? 'B204 - ใบลดหนี้' 
+                                          :s202Controller.selected.runningType eq 'B205' ? 'B205 - บันทึกการรับเงิน' 
+                                          :s202Controller.selected.runningType eq 'MAF' ? 'P101 - บันทึกรายการการผลิต' 
+                                          :s202Controller.selected.runningType eq 'EXPMF' ? 'P104 - บันทึกค่าใช้จ่าย' 
+                                          :s202Controller.selected.runningType eq 'PMAF' ? 'P105 - บันทึกการจ่ายเงิน' 
+                                          :s202Controller.selected.runningType eq 'PTP' ? 'T101 - จองรายการขนส่ง' 
+                                          :s202Controller.selected.runningType eq 'TP' ? 'T103 - รายการขนส่ง' 
+                                          :s202Controller.selected.runningType eq 'goodreceipt|salesinvoice'?'B201 - ใบกำกับภาษี &lt;br/&gt; B202 - ใบกำกับภาษี(1)':''}" escape="false"
+                                           styleClass="lb_bold"/>
+                           </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="incrementno" value="#{msgs['s202.sequence.incrementno']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="incrementno" value="#{s202Controller.selected.incrementno}" style="width: 430px;"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="currentnext" value="รูปแบบเลขรัน :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="currentnext" value="#{s202Controller.selected.currentnext}" style="width: 430px;"/>
+                                <br/>
+                                 <p:outputLabel value="ยกตัวอย่าง ใส่ '0000' => ผลลัพท์ '0005' เป็นต้น" styleClass="sub-label"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel for="prefix" value="#{msgs['s202.sequence.prefix']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="prefix" value="#{s202Controller.selected.prefix}" style="width: 430px;"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel for="suffix" value="#{msgs['s202.sequence.suffix']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="suffix" value="#{s202Controller.selected.suffix}" style="width: 430px;"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel for="runingno" value="เลขที่รัน ปัจจุบัน :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="runingno" value="#{s202Controller.selected.runningno}" style="width: 430px;"/>
+                            </h:panelGroup>
+                            
+                             <h:panelGroup>
+                                <p:outputLabel for="startnewyear_running" value="#{msgs['s202.sequence.resetNo']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="startnewyear_running" value="#{s202Controller.selected.startnewyear}"  style="width: 430px;">
+                                    <f:selectItem itemLabel="#{msgs['s202.sequence.reset']}" itemValue="Y" />
+                                    <f:selectItem itemLabel="#{msgs['s202.sequence.noreset']}" itemValue="N" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="status_runing" value="#{msgs['s202.sequence.status']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneMenu id="status_runing" value="#{s202Controller.selected.status}" style="width: 430px;">
+                                    <f:selectItem itemLabel="#{msgs['common.active']}" itemValue="Y" />
+                                    <f:selectItem itemLabel="#{msgs['common.inactive']}" itemValue="N" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                        </p:panelGrid>
+                    </div>
+
+                </p:panel>
+
+            </p:fieldset>
+
+            <p:fieldset style="border: 0px;">
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <div class="ui-fluid">
+                        <p:panelGrid columns="5" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-4,ui-grid-col-3" styleClass="ui-panelgrid-blank">
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.createDate']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{s202Controller.selected.createdDt}" styleClass="sub-label">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:ss"/>
+                                </h:outputText>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.createBy']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{s202Controller.selected.createdBy}" styleClass="sub-label"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.modifiedDt']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{s202Controller.selected.modifiedDt}" styleClass="sub-label">
+                                    <f:convertDateTime pattern="dd/MM/yyyy  HH:ss"/>
+                                </h:outputText>
+                            </h:panelGroup>
+                    
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['a201.profile.modifiedBy']} ：" styleClass="sub-label"/>
+                                <h:outputText value="#{s202Controller.selected.modifiedBy}" styleClass="sub-label"/>
+                            </h:panelGroup>
+                        </p:panelGrid>
+                    </div>
+                </p:panel>
+            </p:fieldset>
+
+            <h:panelGrid columns="2" cellpadding="0" cellspacing="1" style="margin-left: 15px;margin-bottom: 10px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{s202Controller.edit()}" styleClass="edit-btn" update=":content"/>
+                
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" styleClass="clear-btn" update=":content" 
+                                 actionListener="#{s202Controller.cancel('stock/s202/index')}"/>
+            </h:panelGrid>
+
+        </h:form>
+    </p:panel>
+</ui:composition>

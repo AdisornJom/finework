@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <p:dialog id="dlg1" header="กรอกรายเอียด....." modal="true" 
+              widgetVar="selectDetail_dialog" width="600" 
+              binding="#{bindingController.defaultDialogModel}" closeOnEscape="true" styleClass="customDialog">
+       
+        <h:form id="listFormDetail">
+            <p:panelGrid id="detail" columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                <h:panelGroup rendered="false">
+                    <p:outputLabel value="เลขที่ ："/>
+                </h:panelGroup>
+               <p:inputText  rendered="false" value="#{b201Controller.blDetail_selected.billNo}" maxlength="20" style="width: 100px;;"/>
+                
+                <h:panelGroup>
+                    <p:outputLabel for="detail" value="รายการ :" />
+                    <font class="require">*</font>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:autoComplete id="detail_items" dropdown="true" value="#{b201Controller.detail_selected}" 
+                                    completeMethod="#{b201Controller.completeDetail}" 
+                                    var="detail" itemLabel="#{detail.detailDesc}" 
+                                    itemValue="#{detail}" 
+                                    converter="#{detailConverter}"
+                                    scrollHeight="250" >
+                        <p:ajax event="query"  global="false"/>
+                        <p:ajax event="itemSelect"  update="listFormDetail:unitpriceStandard" global="false"/> 
+                    </p:autoComplete>
+                    <p:watermark  for="detail_items" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                </h:panelGroup>
+                
+                <h:panelGroup>
+                    <p:outputLabel for="volume" value="ปริมาณ :" />
+                </h:panelGroup>
+                <p:inputText id="volume" value="#{b201Controller.blDetail_selected.volume}" maxlength="20" 
+                             style="width: 100px; text-align: right;"/>
+                   
+                <h:panelGroup>
+                    <p:outputLabel for="unit" value="หน่วย :" />
+                </h:panelGroup>
+                <p:selectOneMenu id="unit" value="#{b201Controller.blDetail_selected.unit}"  style="width: 100px;">
+                    <f:selectItem itemValue="" itemLabel="-"/>
+                    <f:selectItems value="#{comboController.equipments}" />
+                </p:selectOneMenu>
+
+                <h:panelGroup>
+                    <p:outputLabel for="unitPrice" value="ราคา/หน่วย :" />
+                </h:panelGroup>
+                 <h:panelGroup>
+                    <p:inputText id="unitPrice" value="#{b201Controller.blDetail_selected.price}" maxlength="20" 
+                                 style="width: 100px;text-align: right;"/>
+                     <p:outputLabel  value="  ราคามาตรฐาน :  " />
+                     <h:outputText id="unitpriceStandard" value="#{b201Controller.detail_selected.price}" style="width: 50px;" styleClass="lb_bold">
+                             <f:convertNumber  pattern="#,##0.00"/>
+                     </h:outputText> 
+                </h:panelGroup>
+                
+                <h:panelGroup>
+                    <p:outputLabel for="totalPrice" value="จำนวนเงิน :" />
+                </h:panelGroup>
+                 <h:panelGroup>
+                     <p:inputText id="totalPrice" value="#{b201Controller.blDetail_selected.totalPrice}" maxlength="20" 
+                                 style="width: 100px;text-align: right;"/>
+                </h:panelGroup>
+            </p:panelGrid>
+
+            <br/>
+            <h:panelGroup layout="block" style="text-align: center" >
+                <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                 actionListener="#{b201Controller.addDetail()}">
+                </p:commandButton> 
+                <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 oncomplete="PF('selectDetail_dialog').hide();"
+                                 actionListener="#{b201Controller.clearData_sysBillingDetail()}" />
+            </h:panelGroup>
+        </h:form>
+
+
+    </p:dialog>
+
+</ui:composition>
+        

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+    </style>
+
+    <h:form id="listForm">
+
+        <h:panelGroup style="height: 200px;" layout="block" rendered="#{empty s202Controller.items}">
+            <h:graphicImage value="./resources/images/arr_search.jpg" width="200" style="float: right;margin-top: 0px;"/>
+        </h:panelGroup>
+
+        <p:dataTable var="item" value="#{s202Controller.items}" binding="#{bindingController.dataTableModel}" rendered="#{not empty s202Controller.items}">
+
+            <p:column headerText="No" style="text-align: center;width: 30px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column> 
+
+            <p:column headerText="ประเภท" sortBy="#{item.runningType}" style="width: 70px;">
+                 <h:outputText value="#{item.runningType eq 'novat' ? 'B101 - ใบแจ้งหนี้':
+                                        item.runningType eq 'check' ? 'B102 - ใบวางบิล':
+                                        item.runningType eq 'acc' ? 'B103 - โอนเงินเข้าบัญชีบริษัท':
+                                        item.runningType eq 'delivery' ? 'B104 - ใบส่งของ' :
+                                        item.runningType eq 'B105_B111' ? '(B105-B111) - ใบบิล' :
+                                        item.runningType eq 'B112' ? 'B112 - ใบส่งของ(ระบบขนส่ง)' :
+                                        item.runningType eq 'B203' ? 'B203 - บันทึกการรับเงินประกันโครงการ' :
+                                        item.runningType eq 'B204' ? 'B204 - ใบลดหนี้' :
+                                        item.runningType eq 'B205' ? 'B205 - บันทึกการรับเงิน' :
+                                        item.runningType eq 'MAF' ? 'P101 - บันทึกรายการการผลิต' :
+                                        item.runningType eq 'EXPMF' ? 'P104 - บันทึกค่าใช้จ่าย' :
+                                        item.runningType eq 'PMAF' ? 'P105 - บันทึกการจ่ายเงิน' :
+                                        item.runningType eq 'PTP' ? 'T101 - จองรายการขนส่ง' :
+                                        item.runningType eq 'TP' ? 'T103 - รายการขนส่ง' :
+                                        item.runningType eq 'goodreceipt|salesinvoice'?'B201 - ใบกำกับภาษี &lt;br/&gt; B202 - ใบกำกับภาษี(1)':''}" escape="false"/>
+            </p:column>
+            
+            <p:column headerText="#{msgs['s202.sequence.incrementno']}"  style="width: 50px;">
+                <h:outputText value="#{item.incrementno}"/>
+            </p:column>
+            
+            <p:column headerText="รูปแบบเลขรัน"  style="width: 70px;">
+                <h:outputText value="#{item.currentnext}"/>
+            </p:column>
+            
+            <p:column headerText="#{msgs['s202.sequence.prefix']}" sortBy="#{item.prefix}" style="width: 50px;">
+                <h:outputText value="#{item.prefix}"/>
+            </p:column>
+            
+            <p:column headerText="#{msgs['s202.sequence.suffix']}" sortBy="#{item.suffix}" style="width: 50px;">
+                <h:outputText value="#{item.suffix}"/>
+            </p:column>
+            
+            <p:column headerText="เลขรัน ปัจจุบัน"  style="width: 50px;">
+                <h:outputText value="#{item.runningno}"/>
+            </p:column>
+            
+            <p:column headerText="#{msgs['s202.sequence.status']}" sortBy="#{item.status}" style="width: 50px;">
+                 <h:outputText value="#{item.status eq 'Y' ? msgs['common.active'] : msgs['common.inactive']}"
+                              style="#{item.status eq 'Y' ? 'color:#0030cc;':'color: #cc0030;'}"/>
+            </p:column>
+
+            <p:column style="width: 65px;text-align: center">
+                <p:tooltip for="edit" value="#{msgs['btn.edit']}" trackMouse="true"/>
+                <p:commandButton id="edit" title="#{msgs['btn.edit']}" icon="fa fa-edit" action="#{s202Controller.next('stock/s202/edit')}" update=":content">
+                    <f:setPropertyActionListener value="#{item}" target="#{s202Controller.selected}" />
+                </p:commandButton>
+
+                <p:tooltip for="del" value="#{msgs['btn.delete']}" trackMouse="true"/>
+                <p:commandButton id="del" title="#{msgs['btn.delete']}"  icon="fa fa-trash"  action="#{s202Controller.delete()}" update=":content">
+                    <p:confirm header="#{msgs['dialog.confirm']}" message="#{msgs['dialog.message']}" />
+                    <f:setPropertyActionListener value="#{item}" target="#{s202Controller.selected}" />
+                </p:commandButton>
+
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{s202Controller.items.size()}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

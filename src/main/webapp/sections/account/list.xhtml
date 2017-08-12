@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+    </style>
+
+    <h:form id="listForm">
+
+        <p:dataTable id="passbook_tbl" var="item" binding="#{bindingController.dataTableModel}" editable="true" value="#{accountController.items}">
+
+            <p:ajax event="rowEdit" update="passbook_tbl" global="false"/>
+            <p:ajax event="rowEditCancel" update="passbook_tbl" global="false"/>
+
+
+            <p:column headerText="ลำดับ" style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+
+            <p:column headerText="วันที่" style="width: 120px;text-align: center;">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{item.created}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/> 
+                        </h:outputText>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:calendar style="width: 100px;" value="#{item.created}" navigator="true" maxdate="#{accountController.currentDt}"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="รายการ" sortBy="#{item.detail}" style="max-width: 300px;">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{item.detail}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:selectOneMenu value="#{item.detail}" style="width: 300px;">
+                            <f:selectItem itemLabel="DG - Server" itemValue="1"/>
+                            <f:selectItem itemLabel="DG - Livechat" itemValue="2"/>
+                            <f:selectItem itemLabel="DG - Meeting" itemValue="3"/>
+                            <f:selectItem itemLabel="WEB - STB168" itemValue="4"/>
+                            <f:selectItem itemLabel="WEB - Mixbet88" itemValue="5"/>
+                            <f:selectItem itemLabel="WEB - HBObet" itemValue="6"/>
+                            <f:selectItem itemLabel="WEB - Winner99" itemValue="7"/>
+                            <f:selectItem itemLabel="WEB - THbet" itemValue="8"/>
+                            <f:selectItem itemLabel="WEB - MA7" itemValue="9"/>
+                            <f:selectItem itemLabel="WEB - Bet2Day" itemValue="10"/>
+                            <f:selectItem itemLabel="WEB - Bethizt" itemValue="11"/>
+                            <f:selectItem itemLabel="WEB - Eurobet" itemValue="12"/>
+                            <f:selectItem itemLabel="WEB - Bet365Bkk" itemValue="13"/>
+                        </p:selectOneMenu>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="รายการรับ" sortBy="#{item.amount}" style="width: 100px;">
+
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:panelGroup style="float: right;">
+                            <h:outputText value="-" rendered="#{item.type eq '2'}"/>
+                            <h:outputText value="#{item.type eq '1' ? item.amount : '-'}" rendered="#{item.type eq '1'}" style="color: blue;">
+                                <f:convertNumber pattern="#,##0.00"/>
+                            </h:outputText>
+                        </h:panelGroup>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{item.amount}" style="width: 120px;" rendered="#{item.type eq '1'}">
+                            <f:convertNumber pattern="#,##0.00"/>
+                        </p:inputText>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="รายการจ่าย" sortBy="#{item.amount}" style="width: 100px;">
+
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:panelGroup style="float: right;">
+                            <h:outputText value="-" rendered="#{item.type eq '1'}"/>
+                            <h:outputText value="-" style="color: red;" rendered="#{item.type eq '2'}"/>
+
+                            <h:outputText value="#{item.type eq '2' ? item.amount : '-'}" rendered="#{item.type eq '2'}" style="color: red;">
+                                <f:convertNumber pattern="#,##0.00"/>
+                            </h:outputText>
+                        </h:panelGroup>
+                    </f:facet>
+
+                    <f:facet name="input">
+                        <p:inputText value="#{item.amount}" style="width: 120px;" rendered="#{item.type eq '2'}">
+                            <f:convertNumber pattern="#,##0.00"/>
+                        </p:inputText>
+                    </f:facet>
+                </p:cellEditor>
+
+
+            </p:column>
+
+            <p:column headerText="รวม" sortBy="#{item.total}" style="width: 100px;">
+                <h:outputText value="#{item.total}" style="float: right;">
+                    <f:convertNumber pattern="#,##0.00"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="หมายเหตุ" sortBy="#{item.remark}">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{item.remark}"/>
+                    </f:facet>
+                    <f:facet name="input">
+                        <p:inputText value="#{item.remark}" style="width: 350px;"/>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+
+            <p:columnGroup type="footer">
+                <p:row>
+                    <p:column colspan="5" style="text-align:right;font-weight: bold;" footerText="รวมทั้งหมด" />
+                    <p:column footerText="10,000,000.00" style="text-align: right;font-weight: bold;"/>
+                    <p:column footerText=""/>
+                    <p:column footerText="" rendered="#{p:ifGranted('ROLE_ADMIN')}"/>
+                </p:row>
+            </p:columnGroup>
+
+            <p:column style="width: 32px;text-align: center" rendered="#{p:ifGranted('ROLE_ADMIN')}">
+                <p:rowEditor/>
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{accountController.items.size()}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

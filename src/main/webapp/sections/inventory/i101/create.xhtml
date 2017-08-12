@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 430px;
+        }
+        .pe-inputNumber {
+           /* text-align: right;*/
+            width: 200px !important;
+            font-size: 24px;
+        }
+
+    </style>
+    <p:panel header="I101 - สร้างรายการวัสดุภัณฑ์">
+        <h:form id="listForm">
+            
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+            
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:fieldset legend="#{msgs['desc']}" style="border: 0px;">
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                             <h:panelGroup>
+                                <p:outputLabel value="รหัสวัสดุภัณฑ์ :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText value="#{i101Controller.selected.materialCode}" style="width: 460px;"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="ชื่อวัสดุภัณฑ์(Thai) :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText value="#{i101Controller.selected.materialDesc}" style="width: 460px;"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel  value="ชื่อวัสดุภัณฑ์(English) :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText value="#{i101Controller.selected.materialDescEn}" style="width: 460px;"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel  value="รายละเอียด :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputTextarea value="#{i101Controller.selected.detail}" cols="50" rows="4" maxlength="250" style="width: 460px;"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel  value="ประเภทวัสดุภัณฑ์ :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:autoComplete id="clasSify" dropdown="true" value="#{i101Controller.sysMaterialClassify}" 
+                                                completeMethod="#{i101Controller.completeClassify}" 
+                                                var="classify" itemLabel="#{classify.classifyDesc}" 
+                                                itemValue="#{classify}" 
+                                                converter="#{materialClasifyConverter}"
+                                                scrollHeight="250"  >
+                                    <p:ajax event="query"  global="false"/>
+                                </p:autoComplete>
+                                <p:watermark  for="clasSify" value="-" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup rendered="false">
+                                <p:outputLabel  value="ราคา ณ วันที่รับเข้าสินค้า :" />
+                            </h:panelGroup>
+                            <h:panelGroup rendered="false">
+                                <pe:inputNumber decimalPlaces="2" value="#{i101Controller.selected.price}"  emptyValue="0.00" styleClass="lb_bold"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup >
+                                <p:outputLabel  value="น้ำหนัก(กิโลกรัม) :" />
+                            </h:panelGroup>
+                            <h:panelGroup >
+                                <pe:inputNumber decimalPlaces="2" value="#{i101Controller.selected.weightKg}"  emptyValue="0.00"  thousandSeparator=","  styleClass="lb_bold" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup >
+                                <p:outputLabel  value="จำนวน :" />
+                            </h:panelGroup>
+                            <h:panelGroup >
+                                <pe:inputNumber decimalPlaces="2" value="#{i101Controller.selected.amount}"  emptyValue="0.00"  thousandSeparator=","  styleClass="lb_bold" />
+                                <p:spacer width="8"  />
+                                 <p:selectOneMenu id="unit" value="#{i101Controller.selected.unit}"  style="width: 100px;vertical-align:middle;">
+                                    <f:selectItem  itemLabel="-"  itemValue="" />
+                                    <f:selectItems value="#{comboController.equipments}" />
+                                </p:selectOneMenu>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup >
+                                <p:outputLabel  value="ราคา/หน่วย :" />
+                            </h:panelGroup>
+                            <h:panelGroup >
+                                <pe:inputNumber decimalPlaces="2" value="#{i101Controller.selected.unitPrice}"  emptyValue="0.00"  thousandSeparator=","  styleClass="lb_bold" />
+                            </h:panelGroup>
+                            
+                             <h:panelGroup >
+                                <p:outputLabel  value="" />
+                            </h:panelGroup>
+                            <h:panelGroup >
+                                <p:spacer height="8"  />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup rendered="false">
+                                <p:outputLabel  value="วัสดุภัณฑ์คงเหลือ :" />
+                            </h:panelGroup>
+                            <h:panelGroup rendered="false">
+                                 <pe:inputNumber decimalPlaces="0" value="#{i101Controller.selected.quantity}"  emptyValue="0"  thousandSeparator=","  styleClass="lb_bold" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup >
+                                <p:outputLabel  value="แจ้งเตือนวัสดุภัณฑ์ใกล้หมด :" />
+                            </h:panelGroup>
+                            <h:panelGroup >
+                                <pe:inputNumber decimalPlaces="0" value="#{i101Controller.selected.alertStock}"  emptyValue="0"  thousandSeparator=","  styleClass="lb_bold" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="รูปภาพ :"/>
+                            </h:panelGroup>
+                            <h:panelGroup id="newimg">
+                                <h:graphicImage value="#{commonController.IMAGES_URL}/product/#{i101Controller.newFile}" width="670"/>
+                                <h:outputLabel value="ภาพขนาด 1048x385 pixel เท่านั้น ไฟล์ jpeg, png" style="font-weight: bolder;" styleClass="sub-label"/>
+                            </h:panelGroup>
+
+                            <p:outputLabel value="อัพโหลดรูปภาพ :"/>
+                            <p:fileUpload fileUploadListener="#{i101Controller.handleFileUpload}"
+                                          auto="true"
+                                          mode="advanced"
+                                          skinSimple="true"
+                                          sizeLimit="307200000"
+                                          cancelLabel="#{msgs['btn.cancel']}"
+                                          uploadLabel="#{msgs['btn.upload']}"
+                                          label="#{msgs['btn.choose']}"
+                                          allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                          style="margin-bottom: 4px;width: 460px;" update="newimg"/>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="รูปภาพ มิติ:"/>
+                            </h:panelGroup>
+                            <h:panelGroup id="newimg1">
+                                <h:graphicImage value="#{commonController.IMAGES_URL}/product_dimension/#{i101Controller.newFileDimension}" width="670"/>
+                                <h:outputLabel value="ภาพขนาด 1048x385 pixel เท่านั้น ไฟล์ jpeg, png" style="font-weight: bolder;" styleClass="sub-label"/>
+                            </h:panelGroup>
+
+                            <p:outputLabel value="อัพโหลดรูปภาพ :"/>
+                            <p:fileUpload fileUploadListener="#{i101Controller.handleFileUpload1}"
+                                          auto="true"
+                                          mode="advanced"
+                                          skinSimple="true"
+                                          sizeLimit="307200000"
+                                          cancelLabel="#{msgs['btn.cancel']}"
+                                          uploadLabel="#{msgs['btn.upload']}"
+                                          label="#{msgs['btn.choose']}"
+                                          allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                          style="margin-bottom: 4px;width: 460px;" update="newimg1"/>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="รายละเอียดรูปภาพ:"/>
+                            </h:panelGroup>
+                            <h:panelGroup id="newimg2">
+                                <h:graphicImage value="#{commonController.IMAGES_URL}/product_detail/#{i101Controller.newFileDetail}" width="670"/>
+                                <h:outputLabel value="ภาพขนาด 1048x385 pixel เท่านั้น ไฟล์ jpeg, png" style="font-weight: bolder;" styleClass="sub-label"/>
+                            </h:panelGroup>
+
+                            <p:outputLabel value="อัพโหลดรูปภาพ :"/>
+                            <p:fileUpload fileUploadListener="#{i101Controller.handleFileUpload2}"
+                                          auto="true"
+                                          mode="advanced"
+                                          skinSimple="true"
+                                          sizeLimit="307200000"
+                                          cancelLabel="#{msgs['btn.cancel']}"
+                                          uploadLabel="#{msgs['btn.upload']}"
+                                          label="#{msgs['btn.choose']}"
+                                          allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                          style="margin-bottom: 4px;width: 460px;" update="newimg2"/>
+
+                        </p:panelGrid>
+                </p:panel>
+            </p:fieldset>
+
+            <h:panelGrid columns="2" cellpadding="0" cellspacing="1" style="margin-left: 15px;margin-bottom: 10px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{i101Controller.create()}" styleClass="edit-btn" update=":content"/>
+
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" styleClass="clear-btn" update=":content" 
+                                 actionListener="#{naviController.next('inventory/i101/index')}"/>
+            </h:panelGrid>
+        </h:form>
+    </p:panel>
+</ui:composition>

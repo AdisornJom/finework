@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:form id="menuForm">
+
+        <p:menubar id="menuBar" style="margin-bottom: 2px;" styleClass="ui-menubar">
+
+            <p:menuitem value="#{msgs['menu.home']}" icon="fa fa-home" actionListener="#{naviController.next('dashboard/index','dashboardController','แดชบอร์ด')}" ajax="false"/>
+
+            <p:submenu label="การจัดการข้อมูล" icon="fa fa-gear" rendered="#{p:ifGranted('ROLE_ADMIN') or p:ifGranted('ROLE_USER')}">
+                <p:menuitem value="#{msgs['menu.master.S201']}" actionListener="#{naviController.next('stock/s201/index','s201Controller','S201 - รายการสินค้า')}" ajax="false"/>
+                <p:menuitem value="#{msgs['menu.master.s202']}" rendered="#{p:ifGranted('ROLE_ADMIN')}"  actionListener="#{naviController.next('stock/s202/index','s202Controller','S201 - ข้อมูล Runing No.')}" update=":content"/>
+                <p:menuitem value="S203 - แบบแปลนบ้าน" actionListener="#{naviController.next('stock/s203/index','s203Controller','S203 - แบบแปลนบ้าน')}"  ajax="false"/>
+                <p:menuitem value="S204 - ประเภทวัสดุภัณฑ์" actionListener="#{naviController.next('inventory/i100/index','i100Controller','S204 - ประเภทวัสดุภัณฑ์')}" ajax="false"/>
+                <p:menuitem value="S205 - รายการการผลิต" actionListener="#{naviController.next('stock/s205/index','s205Controller','S205 - รายการการผลิต')}" ajax="false"/>
+                <p:menuitem value="S206 - รายการค่าใช้จ่าย" actionListener="#{naviController.next('stock/s206/index','s206Controller','S206 - รายการค่าใช้จ่าย')}" ajax="false"/>
+                <p:menuitem value="S207 - ประเภทรถขนส่ง" actionListener="#{naviController.next('stock/s207/index','s207Controller','S207 - ประเภทรถขนส่ง')}" ajax="false"/>
+                <p:menuitem value="S208 - รายการบริการขนส่ง" actionListener="#{naviController.next('stock/s208/index','s208Controller','S208 - รายการบริการขนส่ง')}" ajax="false"/>
+            </p:submenu>
+
+            <p:submenu label="#{msgs['menu.member']}" icon="fa fa-user">
+                <p:menuitem value="#{msgs['menu.master.C201']}" actionListener="#{naviController.next('cus/c201/index','c201Controller','C201 - ข้อมูลหน่วยงาน')}" ajax="false"/>
+                <p:menuitem value="#{msgs['menu.master.C202']}" actionListener="#{naviController.next('cus/c202/index','c202Controller','C202 - ข้อมุลลูกค้า')}" ajax="false"/>
+                <p:menuitem value="C203 - ข้อมูลผู้รับเหมา" actionListener="#{naviController.next('cus/c203/index','c203Controller','C203 - ข้อมูลผู้รับเหมา')}" ajax="false"/>
+                <p:menuitem value="C204 - ผู้จัดส่งวัตถุดิบ(Supplier)" actionListener="#{naviController.next('cus/c204/index','c204Controller','C204 - ผู้จัดส่งวัตถุดิบ(Supplier)')}" ajax="false"/>
+                <p:menuitem value="C205 - ข้อมูลผู้ควบคุมงาน(โฟร์แมน)" actionListener="#{naviController.next('cus/c205/index','c205Controller','C205 - ข้อมูลผู้ควบคุมงาน(โฟร์แมน)')}" ajax="false"/>
+                <p:menuitem value="C206 - ข้อมูลพนักงานขับรถ" actionListener="#{naviController.next('cus/c206/index','c206Controller','C206 - ข้อมูลพนักงานขับรถ')}" ajax="false"/>
+                <p:menuitem value="C207 - ข้อมูลพนักงานติดรถ" actionListener="#{naviController.next('cus/c207/index','c207Controller','C207 - ข้อมูลพนักงานติดรถ')}" ajax="false"/>
+            </p:submenu>
+            
+            <p:submenu label="สินค้าคงคลัง" icon="fa fa-cube">
+                <p:menuitem value="I101 - รายการวัสดุภัณฑ์" actionListener="#{naviController.next('inventory/i101/index','i101Controller','I101 - รายการวัสดุภัณฑ์')}" ajax="false"/>
+                <p:menuitem value="I102 - วัสดุภัณฑ์นำเข้า"  actionListener="#{naviController.next('inventory/i102/index','i102Controller','I102 - วัสดุภัณฑ์นำเข้า')}" ajax="false"/>
+                <p:menuitem value="I103 - วัสดุภัณฑ์นำออก"  actionListener="#{naviController.next('inventory/i103/index','i103Controller','I103 - วัสดุภัณฑ์นำออก')}" ajax="false"/>
+                <p:menuitem value="I104 - วัสดุภัณฑ์ใกล้จะหมด"  actionListener="#{naviController.next('inventory/i104/index','i104Controller','I104 - วัสดุภัณฑ์ใกล้จะหมด')}" ajax="false"/>
+            </p:submenu>
+            
+            <p:submenu label="รายการการผลิต" icon="fa fa-cubes">
+                <p:menuitem value="P101 - บันทึกรายการการผลิต" actionListener="#{naviController.next('factory/p101/index','p101Controller','P101 - บันทึกรายการการผลิต')}" ajax="false"/>
+                <p:menuitem value="P102 - บันทึกรายการที่ทำ" actionListener="#{naviController.next('factory/p102/index','p102Controller','P102 - บันทึกรายการที่ทำ')}" ajax="false"/>
+                <p:menuitem value="P103 - สรุปผลรายการการผลิต" actionListener="#{naviController.next('factory/p103/index','p103Controller','P103 - สรุปผลรายการการผลิต')}" ajax="false"/>
+                <p:menuitem value="P104 - บันทึกค่าใช้จ่าย" rendered="#{userInfoController.adminUser.user_p104}" actionListener="#{naviController.next('factory/p104/index','p104Controller','P104 - บันทึกค่าใช้จ่าย')}" ajax="false"/>
+                <p:menuitem value="P105 - บันทึกการจ่ายเงิน" rendered="#{userInfoController.adminUser.user_p105}" actionListener="#{naviController.next('factory/p105/index','p105Controller','P105 - บันทึกการจ่ายเงิน')}" ajax="false"/>
+                <p:menuitem value="P106 - บันทึกการจ่ายเงิน(ฉบับย่อ)" rendered="#{userInfoController.adminUser.user_p105}" actionListener="#{naviController.next('factory/p106/index','p106Controller','P106 - บันทึกการจ่ายเงิน(ฉบับย่อ)')}" ajax="false"/>
+           </p:submenu>
+
+            <p:submenu label="วางบิล" icon="fa fa-shopping-cart">
+                <p:menuitem value="B101 - ใบแจ้งหนี้" rendered="#{userInfoController.adminUser.user_novat_type}" actionListener="#{naviController.next('billing/b101/index','b101Controller','B101 - ใบแจ้งหนี้')}" ajax="false"/>
+                <p:menuitem value="B102 - ใบวางบิล" rendered="#{userInfoController.adminUser.user_check_type}" actionListener="#{naviController.next('billing/b102/index','b102Controller','B102 - ใบวางบิล')}" ajax="false"/>
+                <p:menuitem value="B103 - โอนเงินเข้าบัญชีบริษัท" rendered="#{userInfoController.adminUser.user_acc_type}" actionListener="#{naviController.next('billing/b103/index','b103Controller','B103 - โอนเงินเข้าบัญชีบริษัท')}" ajax="false"/>
+                <p:menuitem value="B104 - ใบส่งของ" rendered="#{userInfoController.adminUser.user_delivery_type}" actionListener="#{naviController.next('billing/b104/index','b104Controller','B104 - ใบส่งของ')}" ajax="false"/>
+                <p:menuitem value="B105 - งานราวระเบียง" rendered="#{userInfoController.adminUser.user_b105}" actionListener="#{naviController.next('billing/b105/index','b105Controller','B105 - งานราวระเบียง')}" ajax="false"/>
+                <p:menuitem value="B106 - ป้ายบ้าน, จักรยาน, ฝาถังขยะ" rendered="#{userInfoController.adminUser.user_b106}" actionListener="#{naviController.next('billing/b106/index','b106Controller','B106 - ป้ายบ้าน, จักรยาน, ฝาถังขยะ')}" ajax="false"/>
+                <p:menuitem value="B107 - ใบส่งของ(LH1)" rendered="#{userInfoController.adminUser.user_b107}" actionListener="#{naviController.next('billing/b107/index','b107Controller','B107 - ใบส่งของ(LH1)')}" ajax="false"/>
+                <p:menuitem value="B108 - ใบส่งของ(LH2)" rendered="#{userInfoController.adminUser.user_b108}" actionListener="#{naviController.next('billing/b108/index','b108Controller','B108 - ใบส่งของ(LH2)')}" ajax="false"/>
+                <p:menuitem value="B109 - ใบแจ้งหนี้" rendered="#{userInfoController.adminUser.user_b109}" actionListener="#{naviController.next('billing/b109/index','b109Controller','B109 - ใบแจ้งหนี้')}" ajax="false"/>
+                <p:menuitem value="B110 - ใบแจ้งหนี้(2)" rendered="#{userInfoController.adminUser.user_b110}" actionListener="#{naviController.next('billing/b110/index','b110Controller','B110 - ใบแจ้งหนี้(2)')}" ajax="false"/>
+                <p:menuitem value="B111 - ใบส่งของ(ผู้รับเหมา)"  actionListener="#{naviController.next('billing/b111/index','b111Controller','B111 - ใบส่งของ(ผู้รับเหมา)')}" ajax="false"/>
+                <p:menuitem value="B112 - ใบส่งของ(ระบบขนส่ง)"  actionListener="#{naviController.next('billing/b112/index','b112Controller','B112 - ใบส่งของ(ระบบขนส่ง)')}" ajax="false"/>
+            </p:submenu>
+            
+            <p:submenu label="จัดซื้อจัดขาย" icon="fa fa fa-gavel" >
+                 <p:menuitem value="B201 - ใบกำกับภาษี" rendered="#{userInfoController.adminUser.user_good_receipt}" actionListener="#{naviController.next('billing/b201/index','b201Controller','B201 - ใบกำกับภาษี')}" ajax="false"/>
+                 <p:menuitem value="B202 - ใบกำกับภาษี(1)" rendered="#{userInfoController.adminUser.user_sales_invoice}" actionListener="#{naviController.next('billing/b202/index','b202Controller','B202 - ใบกำกับภาษี(1)')}" ajax="false"/>
+                 <p:menuitem value="B203 - บันทึกการรับเงินประกันโครงการ"  actionListener="#{naviController.next('billing/b203/index','b203Controller','B203 - บันทึกการรับเงินประกันโครงการ')}" ajax="false"/>
+                 <p:menuitem value="B204 - ใบลดหนี้"  actionListener="#{naviController.next('billing/b204/index','b204Controller','B204 - ใบลดหนี้')}" ajax="false"/>
+                 <p:menuitem value="B205 - บันทึกการรับเงิน"  actionListener="#{naviController.next('billing/b205/index','b205Controller','B205 - บันทึกการรับเงิน')}" ajax="false"/>
+            </p:submenu>
+            
+            <p:submenu label="ขนส่ง" icon="fa fa fa-truck" >
+                 <p:menuitem value="T101 - จองรายการขนส่ง" actionListener="#{naviController.next('transporter/t101/index','t101Controller','T101 - จองรายการขนส่ง')}" ajax="false"/>
+                 <p:menuitem value="T102 - ใบเตรียมพร้อมขนส่ง"  actionListener="#{naviController.next('transporter/t102/index','t102Controller','T102 - ใบเตรียมพร้อมขนส่ง')}" ajax="false"/>
+                 <p:menuitem value="T103 - รายการขนส่ง"  actionListener="#{naviController.next('transporter/t103/index','t103Controller','T103 - รายการขนส่ง')}" ajax="false"/>
+                 <p:menuitem value="T104 - สถานะการขนส่ง"  actionListener="#{naviController.next('transporter/t104/index','t104Controller','T104 - สถาณะการขนส่ง')}" ajax="false"/>
+                 <p:menuitem value="T105 - รายได้พนักงานขนส่ง"  actionListener="#{naviController.next('transporter/t105/index','t105Controller','T105 - รายได้พนักงานขนส่ง')}" ajax="false" />
+                 <p:menuitem value="T106 - ค่าใช้จ่ายระบบขนส่ง"  actionListener="#{naviController.next('transporter/t106/index','t106Controller','T1056 - ค่าใช้จ่ายระบบขนส่ง')}" ajax="false" rendered="false"/>
+                 <p:menuitem value="T107 - สรุปเงินเดือนพนักงานขนส่ง"  actionListener="#{naviController.next('transporter/t107/index','t107Controller','T107 - สรุปเงินเดือนพนักงานขนส่ง')}" ajax="false" rendered="false"/>
+            </p:submenu>
+            
+            <p:submenu label="รายงาน" icon="fa fa fa-gavel" >
+                 <p:menuitem value="R101 - รายงานการออกบิล"  actionListener="#{naviController.next('report/r101/index','r101Controller','R101 - รายงานการออกบิล')}" ajax="false"/>
+                 <p:menuitem value="R102 - รายงานสรุปรายการวัสดุภัณฑ์" rendered="#{userInfoController.adminUser.user_r102}" actionListener="#{naviController.next('report/r102/index','r102Controller','R102 - รายงานสรุปรายการวัสดุภัณฑ์')}" ajax="false"/>
+                 <p:menuitem value="R103 - รายงานวัสดุภัณฑ์ที่ไม่เคลื่อนไหว"  actionListener="#{naviController.next('report/r103/index','r103Controller','R103 - รายงานวัสดุภัณฑ์ที่ไม่เคลื่อนไหว')}" ajax="false"/>
+                 <p:menuitem value="R104 - รายงานผู้รับเหมาเบิกเกิน"  actionListener="#{naviController.next('report/r104/index','r104Controller','R104 - รายงานผู้รับเหมาเบิกเกิน')}" ajax="false"/>
+                 <p:menuitem value="R105 - รายงานสรุปรายการสั่งผลิต"  actionListener="#{naviController.next('report/r105/index','r105Controller','R105 - รายงานสรุปการจ่ายเงิน')}" ajax="false"/>
+                 <p:menuitem value="R106 - รายงานสรุปการจ่ายเงิน(ผู้รับเหมา)"  actionListener="#{naviController.next('report/r106/index','r106Controller','R106 - รายงานสรุปการจ่ายเงิน(ผู้รับเหมา)')}" ajax="false"/>
+                 <p:menuitem value="R107 - รายงานสรุปการจ่ายเงินทั้งหมด"  actionListener="#{naviController.next('report/r107/index','r107Controller','R107 - รายงานสรุปการจ่ายเงินทั้งหมด')}" ajax="false"/>
+                 <p:menuitem value="R108 - รายงานสรุปการปฏิบัติงาน"  actionListener="#{naviController.next('report/r108/index','r108Controller','R108 - รายงานสรุปการปฏิบัติงาน')}" ajax="false"/>
+                 <p:menuitem value="R109 - สรุปจำนวนเงิน(การปฏิบัติ)"  actionListener="#{naviController.next('report/r109/index','r109Controller','R109 - สรุปจำนวนเงิน(การปฏิบัติ)')}" ajax="false"/>
+                 <p:menuitem value="R110 - สรุปรายการผลิตตามโครงการ"  actionListener="#{naviController.next('report/r110/index','r110Controller','R110 - สรุปรายการผลิตตามโครงการ')}" ajax="false"/>
+                 <p:menuitem value="R111 - สรุปรายการผลติตามผู้ควบคุมงาน(โฟร์แมน)"  actionListener="#{naviController.next('report/r111/index','r111Controller','R111 - สรุปรายการผลติตามผู้ควบคุมงาน(โฟร์แมน)')}" ajax="false"/>
+            </p:submenu>
+
+            <p:submenu label="#{msgs['menu.admin']}" icon="fa fa-users" rendered="#{p:ifGranted('ROLE_ADMIN')}">
+                <p:menuitem value="#{msgs['menu.admin.a201']}" actionListener="#{naviController.next('admin/a201/index','a201Controller','A201 - รายการเจ้าหน้าที่')}" update=":content"/>
+                <p:menuitem value="#{msgs['menu.admin.a202']}" actionListener="#{naviController.next('admin/a202/index','a202Controller','A202 - ประวัติการเข้าระบบ')}" update=":content"/>
+            </p:submenu>
+
+        </p:menubar>
+    </h:form>
+
+</ui:composition>

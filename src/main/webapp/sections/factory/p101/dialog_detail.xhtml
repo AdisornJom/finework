@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .cold1{width: 35%;}
+        .cold2{width: 55%;}
+        .cold3{width: 10%;}
+    </style>
+    
+
+    <p:dialog id="dlg1" header="กรอกรายเอียด....." modal="true" 
+              widgetVar="selectDetail_dialog" width="977" 
+              binding="#{bindingController.defaultDialogModel}"  styleClass="customDialog">
+        <p:messages id="dialog" autoUpdate="false" showIcon="false"/>
+        <h:form id="listFormBilling">
+             <p:panelGrid id="detail" columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                 
+                 <h:panelGroup>
+                     <p:outputLabel value="หน่วยงาน/โครงการ ："/>
+                 </h:panelGroup>
+                 <h:panelGroup>
+                     <p:autoComplete id="workunit" dropdown="true" value="#{p101Controller.workunit_selected}" 
+                                     completeMethod="#{p101Controller.completeWorkunit}" 
+                                     var="wkunit" itemLabel="#{wkunit.workunitName}" 
+                                     itemValue="#{wkunit}" 
+                                     converter="#{workUnitConverter}"
+                                     scrollHeight="250" >
+                         <p:ajax event="query" global="false"/>
+                     </p:autoComplete>
+                     <p:watermark  for="workunit" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                 </h:panelGroup>
+                 
+                 <h:panelGroup>
+                     <p:outputLabel for="detail" value="รายการผลิต :" />
+                     <font class="require">*</font>
+                 </h:panelGroup>
+                 <h:panelGroup>
+                     <p:autoComplete id="custName" dropdown="true" value="#{p101Controller.manufacturing_selected}" 
+                                     completeMethod="#{p101Controller.completeManufacturing}" 
+                                     var="fact" itemLabel="#{fact.manufacturingDesc}" 
+                                     itemValue="#{fact}" 
+                                     converter="#{manufacturingConverter}"
+                                     scrollHeight="250"   >
+                         <p:ajax event="query"  global="false"/>
+                         <p:ajax event="itemSelect"  update="listFormBilling:listFormBilling1:detail1" global="false" />
+                     </p:autoComplete>
+                     <p:watermark  for="custName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                 </h:panelGroup>
+             </p:panelGrid>
+
+             <h:form id="listFormBilling1">
+                 <p:panelGrid id="detail1" columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                     <h:panelGroup>
+                         <p:outputLabel for="plot" value="แปลง :" />
+                     </h:panelGroup>
+                     <p:inputText id="plot" value="#{p101Controller.facDetail_selected.plot}" maxlength="50" style="width: 120px;"/>
+
+                     <h:panelGroup  id="lengthLabel" rendered="#{p101Controller.manufacturing_selected.calculateType eq 2?true:false}">
+                         <p:outputLabel for="length" value="ความยาว/เมตร :" />
+                     </h:panelGroup>
+                     <h:panelGroup  id="lengthG" rendered="#{p101Controller.manufacturing_selected.calculateType eq 2?true:false}">
+                         <p:inputText id="length" value="#{p101Controller.facDetail_selected.length}" maxlength="20"  style="width: 120px; text-align: right;"/>
+                     </h:panelGroup>
+
+                     <h:panelGroup>
+                         <p:outputLabel id="calculateType1" for="volume" value="จำนวนที่สั่งผลิต :" />
+                         <font class="require">*</font>
+                     </h:panelGroup>
+                     <h:panelGroup>
+                         <p:inputText id="volume" value="#{p101Controller.facDetail_selected.volumeTarget}" maxlength="20" 
+                                      style="width: 120px; text-align: right;vertical-align:middle"/> <p:spacer/>
+                         <p:selectOneMenu id="unit" value="#{p101Controller.facDetail_selected.unit}"  style="width: 100px;vertical-align:middle">
+                             <f:selectItems value="#{comboController.equipments}" />
+                         </p:selectOneMenu>
+                     </h:panelGroup>
+                 </p:panelGrid>    
+                 <br/>
+
+                 <h:panelGroup layout="block" style="text-align: center" >
+                     <p:commandButton styleClass="search-btn" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" global="false" 
+                                      update="listFormBilling:listFormBilling1:dt_itemDetail dialog"
+                                      actionListener="#{p101Controller.addDetailDialog()}">
+                     </p:commandButton> 
+                 </h:panelGroup>
+                  <br/>
+                 <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{p101Controller.sysManufactoryDetailList}" var="detail">
+                       <p:column headerText="#" style="text-align: center;width: 5%;">
+                            <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+                       
+                        <p:column headerText="หน่วยงาน/โครงการ" style="width: 21%;" >
+                             <h:outputText value="#{detail.workunitId.workunitName}"  />
+                        </p:column>
+                        
+                        <p:column headerText="รายการผลิต" style="width: 30%;" >
+                            <h:outputText value="#{detail.manufacturingId.manufacturingDesc} (#{detail.manufacturingId.calculateType eq 1?'จำนวน':
+                                                   detail.manufacturingId.calculateType eq 2?'ความยาว/เมตร':'ชุด'})"  />
+                            <h:outputText value="#{detail.length}"  rendered="#{detail.manufacturingId.calculateType eq 2?true:false}">
+                                <f:convertNumber  pattern="(#,##0.00)"/>
+                            </h:outputText>  
+                        </p:column>
+                       
+                        <p:column headerText="แปลง" style="width: 8%;" >
+                            <h:outputText  value="#{detail.plot}"/>  
+                        </p:column>
+                       
+                        <p:column headerText="ราคาต่อหน่วย" style="width: 14%;" >
+                             <h:outputText  value="#{detail.manufacturingId.unitPrice}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+                       
+                        <p:column headerText="จำนวนที่สั่งผลิต" style="width: 14%;">
+                            <h:outputText  value="#{detail.volumeTarget}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+                        
+                        <p:column headerText="หน่วย" style="width: 8%;">
+                            <h:outputText  value="#{detail.unit}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="#{msgs['common.manage']}" style="width:8%;text-align: center">
+                            <p:commandButton title="#{msgs['btn.delete']}" icon="fa fa-trash" action="#{p101Controller.deleteDialogDetail()}" styleClass="delete-btn"
+                                             update="listFormBilling:listFormBilling1:dt_itemDetail" global="false">
+                                <f:setPropertyActionListener value="#{detail}" target="#{p101Controller.facDetail_selected}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+            
+
+                 <br/>
+                 <h:panelGroup layout="block" style="text-align: center" >
+                     <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                      actionListener="#{p101Controller.addDetail()}">
+                     </p:commandButton> 
+                     <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                      oncomplete="PF('selectDetail_dialog').hide();"
+                                      actionListener="#{p101Controller.clearData_sysManufactoryDetail()}" />
+                 </h:panelGroup>
+             </h:form>
+        </h:form>
+
+
+    </p:dialog>
+
+</ui:composition>
+        

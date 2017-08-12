@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 430px;
+        }
+    </style>
+    <p:panel header="#{msgs['menu.master.create.S201']}">
+        <h:form id="listForm">
+            
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+            
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:fieldset legend="#{msgs['desc']}" style="border: 0px;">
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                             <h:panelGroup>
+                                <p:outputLabel value="รหัสสินค้า :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText value="#{s201Controller.selected.detailCode}" style="width: 460px;"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="#{msgs['s201.stock.name_th']} :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText value="#{s201Controller.selected.detailDesc}" style="width: 460px;"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel  value="#{msgs['s201.stock.name_en']} :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText value="#{s201Controller.selected.detailDescEn}" style="width: 460px;"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel  value="ราคามาตรฐาน :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText  value="#{s201Controller.selected.price}" maxlength="20" style="width: 460px;text-align: right;"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel  value="รายละเอียด :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputTextarea value="#{s201Controller.selected.detail}" cols="50" rows="4" maxlength="250" style="width: 460px;"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel  value="แบบแปลนบ้าน :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:autoComplete id="housePlan" dropdown="true" value="#{s201Controller.sysHousePlan}" 
+                                                completeMethod="#{s201Controller.completeHousePlan}" 
+                                                var="houseplan" itemLabel="#{houseplan.detailDesc}" 
+                                                itemValue="#{houseplan}" 
+                                                converter="#{housePlanConverter}"
+                                                scrollHeight="250"  >
+                                    <p:ajax event="query"  global="false"/>
+                                </p:autoComplete>
+                                <p:watermark  for="housePlan" value="-" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="รูปภาพ :"/>
+                            </h:panelGroup>
+                            <h:panelGroup id="newimg">
+                                <h:graphicImage value="#{commonController.IMAGES_URL}/product/#{s201Controller.newFile}" width="670"/>
+                                <h:outputLabel value="ภาพขนาด 1048x385 pixel เท่านั้น ไฟล์ jpeg, png" style="font-weight: bolder;" styleClass="sub-label"/>
+                            </h:panelGroup>
+
+                            <p:outputLabel value="อัพโหลดรูปภาพ :"/>
+                            <p:fileUpload fileUploadListener="#{s201Controller.handleFileUpload}"
+                                          auto="true"
+                                          mode="advanced"
+                                          skinSimple="true"
+                                          sizeLimit="307200000"
+                                          cancelLabel="#{msgs['btn.cancel']}"
+                                          uploadLabel="#{msgs['btn.upload']}"
+                                          label="#{msgs['btn.choose']}"
+                                          allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                          style="margin-bottom: 4px;width: 460px;" update="newimg"/>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="รูปภาพ มิติ:"/>
+                            </h:panelGroup>
+                            <h:panelGroup id="newimg1">
+                                <h:graphicImage value="#{commonController.IMAGES_URL}/product_dimension/#{s201Controller.newFileDimension}" width="670"/>
+                                <h:outputLabel value="ภาพขนาด 1048x385 pixel เท่านั้น ไฟล์ jpeg, png" style="font-weight: bolder;" styleClass="sub-label"/>
+                            </h:panelGroup>
+
+                            <p:outputLabel value="อัพโหลดรูปภาพ :"/>
+                            <p:fileUpload fileUploadListener="#{s201Controller.handleFileUpload1}"
+                                          auto="true"
+                                          mode="advanced"
+                                          skinSimple="true"
+                                          sizeLimit="307200000"
+                                          cancelLabel="#{msgs['btn.cancel']}"
+                                          uploadLabel="#{msgs['btn.upload']}"
+                                          label="#{msgs['btn.choose']}"
+                                          allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                          style="margin-bottom: 4px;width: 460px;" update="newimg1"/>
+
+                        </p:panelGrid>
+                </p:panel>
+            </p:fieldset>
+
+            <h:panelGrid columns="2" cellpadding="0" cellspacing="1" style="margin-left: 15px;margin-bottom: 10px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{s201Controller.create()}" styleClass="edit-btn" update=":content"/>
+
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" styleClass="clear-btn" update=":content" 
+                                 actionListener="#{naviController.next('stock/s201/index')}"/>
+            </h:panelGrid>
+        </h:form>
+    </p:panel>
+</ui:composition>

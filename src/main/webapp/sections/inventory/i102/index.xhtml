@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+        .col1{
+            text-align: right;
+        }
+        .col2{
+        }
+    </style>
+    
+    <p:panel id="content_panel" header="I102 - วัสดุภัณฑ์นำเข้า">
+        
+        <p:toolbar style="margin-bottom: 3px;">
+            <f:facet name="left" >
+                <h:form id="lToolbarForm">
+                    <h:panelGrid columns="1" cellpadding="1" cellspacing="1">
+                        <p:commandButton binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" update=":content" 
+                                         actionListener="#{i102Controller.prepareCreate()}" styleClass="search-btn"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+             <f:facet name="right" >
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columnClasses="col1,col2,col1,col2,col1,col2,col1,col2" border="0" columns="10" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
+                        <p:outputLabel value="ชื่อวัสดุภัณฑ์ :"/>
+                        <p:inputText value="#{i102Controller.materialName}" style="width: 280px;"/>
+                        <p:outputLabel value="ผู้จัดส่งวัตถุดิบ :"/>
+                        <p:inputText value="#{i102Controller.supplierName}" />
+                        
+                        <p:outputLabel value="วันที่รับวัสดุภัณฑ์ ："/>
+                        <p:calendar id="startDate" value="#{i102Controller.startDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+
+                        <p:outputLabel value="ถึง ："/>
+                        <p:calendar id="toDate" value="#{i102Controller.toDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+
+                      <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" actionListener="${i102Controller.search()}" styleClass="search-btn" update=":content"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+     
+        
+        <ui:include src="list.xhtml"/>
+
+    </p:panel>
+
+</ui:composition>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+     
+    </style>
+    <p:panel header="B201 - รายละเอียดการพิมพ์ใบงาน">
+          <p:toolbar style="margin-top: 3px;margin-bottom: 3px;">
+            <f:facet name="left" >
+                <h:form id="lToolbarForm">
+                    <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.back']}" 
+                                 actionListener="#{b201Controller.backIndex('billing/b201/index')}"  icon="fa fa-step-backward" styleClass="clear-btn" update=":content"/>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+        <h:form id="listForm">
+            <p:panel  id="detail_list" style="border: 0px">
+                <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{b201Controller.selected.sysPrintBillingList}" var="detail">
+                        <p:column headerText="ลำดับ" style="text-align: center;width: 100px;">
+                            <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+                    
+                         <p:column headerText="เลขที่ใบกำกับภาษี" style="text-align: center;width: 200px;">
+                             <h:outputText value="#{detail.billingId.documentno}" />
+                        </p:column>
+                        
+                        <p:column headerText="บัญชีผู้ใช้งาน" style="width: 220px;" >
+                            <h:outputText value="#{detail.userId.username}"  />
+                        </p:column>
+                        
+                        <p:column headerText="ชื่อ-นามสกุล" >
+                            <h:outputText value="#{detail.userId.firstName} - #{detail.userId.lastName}" />
+                        </p:column>
+                    
+                        <p:column headerText="วันที่ ทำการพิมพ์" style="width: 210px;text-align: center">
+                            <h:outputText value="#{detail.createdDt}">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+                      
+                        <f:facet name="footer">
+                            <h:outputText value="#{msgs['messages.code.2022']} "/>
+                            <h:outputText value="#{b201Controller.selected.sysPrintBillingList.size()}">
+                                <f:convertNumber pattern="#,##0"/>
+                            </h:outputText>
+                            <h:outputText value=" #{msgs['messages.code.2023']}"/>
+                        </f:facet>
+                      
+                    </p:dataTable>
+            </p:panel>
+        </h:form>
+    </p:panel>
+
+</ui:composition>

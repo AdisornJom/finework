@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+       .ui-autocomplete-input{ 
+            width: 160px;
+        }
+       .comboColumn {
+            width: 200px;
+       }
+    </style>
+    <p:panel header="T101 - จองรายการขนส่ง">
+       <p:messages id="delete_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+        <p:toolbar style="margin-bottom: 3px;">
+            <f:facet name="left" >
+                <h:form>
+                    <h:panelGrid cellpadding="1" cellspacing="1">
+                       <h:panelGroup>
+                        <p:commandButton styleClass="search-btn" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" update=":content" 
+                                         actionListener="#{t101Controller.prepareCreate('transporter/t101/create')}"/>
+                       </h:panelGroup>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+             <f:facet name="right" >
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columnClasses="col1,col2,col1,comboColumn,col1,comboColumn,col1,col2,col1,col2" border="0" columns="11" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
+                        <p:outputLabel value="เลขที่ ："/>
+                        <p:inputText value="#{t101Controller.documentno}" style="width: 100px"/>
+                        
+                        <p:outputLabel value="หน่วยงาน/โครงการ ：" />
+                        <h:panelGroup >
+                            <p:autoComplete id="workunit" dropdown="true" value="#{t101Controller.workunit_find}" 
+                                            completeMethod="#{t101Controller.completeSelectWorkunit}" 
+                                            var="wkunit" itemLabel="#{wkunit.workunitName}" 
+                                            itemValue="#{wkunit}" 
+                                            converter="#{workUnitConverter}"
+                                            scrollHeight="250" >
+                                <p:ajax event="query" global="false"/>
+                            </p:autoComplete>
+                            <p:watermark  for="workunit" value="-" />
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="ชื่อเล่นผู้ควบคุมงาน ："/>
+                        <h:panelGroup>
+                            <p:autoComplete id="foreManName" dropdown="true" value="#{t101Controller.foreman_find}" 
+                                            completeMethod="#{t101Controller.completeForeman}" 
+                                            var="foreman" itemLabel="#{foreman.foremanNickname}" 
+                                            itemValue="#{foreman}" 
+                                            converter="#{foremanConverter}"
+                                            scrollHeight="250" forceSelection="true" 
+                                            >
+                                <p:ajax event="query"  global="false"/>
+                            </p:autoComplete>
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="วันที่ ："/>
+                        <p:calendar id="startDate" value="#{t101Controller.startDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+
+                        <p:outputLabel value="ถึง ："/>
+                        <p:calendar id="toDate" value="#{t101Controller.toDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+
+                        <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
+                                        actionListener="${t101Controller.search()}" styleClass="search-btn" update=":content"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+        <ui:include src="list.xhtml"/>
+
+    </p:panel>
+
+</ui:composition>

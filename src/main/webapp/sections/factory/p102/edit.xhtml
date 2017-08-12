@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 370px;
+        }
+
+        .customDialog .ui-dialog-title {
+            font-size: 150% !important;
+            color: #ffffff;
+        }
+
+        .customDialog .ui-dialog-content {
+            padding: 0;
+            margin: 10px 10px;
+        }
+        .customDialog .ui-dialog-titlebar.ui-widget-header {
+            background: #C0C0C0;
+            color: black;
+            box-shadow: none;
+        }
+        .pe-inputNumber {
+            text-align: right;
+            width:120px;
+            float:right;
+            font-size: 24px;
+        }
+    </style>
+    <p:panel header="P102 - แก้ไข บันทึกรายการที่ทำ">
+
+        <h:form id="listForm">
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+
+            <p:panel id="panel1" style="max-width: 900px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:panel id="panel2" header="#{msgs['m101.commoninfo']}"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                 <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+                    <h:panelGroup>
+                        <p:outputLabel value="ใบงานเลขที่ ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText  value="#{p102Controller.selected.factoryId.documentno}"  styleClass="lb_bold"/><br/>
+                    </h:panelGroup>
+                     
+                    <h:panelGroup>
+                        <p:outputLabel  value="รายการการผลิต :" />
+                    </h:panelGroup>
+                    <h:panelGroup>
+                         <h:outputText value="#{p102Controller.selected.manufactoryDetailId.manufacturingId.manufacturingDesc} (#{p102Controller.selected.manufactoryDetailId.manufacturingId.calculateType eq 1?'จำนวน':
+                                                   p102Controller.selected.manufactoryDetailId.manufacturingId.calculateType eq 2?'ความยาว/เมตร':'ชุด'})"  />
+                            <h:outputText value="#{p102Controller.selected.manufactoryDetailId.length}"  rendered="#{p102Controller.selected.manufactoryDetailId.manufacturingId.calculateType eq 2?true:false}">
+                                <f:convertNumber  pattern="(#,##0.00)"/>
+                            </h:outputText> <br/>
+                    </h:panelGroup>
+                     
+                     <h:panelGroup rendered="false">
+                        <p:outputLabel value="วันที่ทำ :"/>
+                    </h:panelGroup>
+                    <p:calendar  binding="#{bindingController.calendar}" value="#{p102Controller.selected.realDate}" size="10"  rendered="false"/>
+                    
+                     <h:panelGroup>
+                        <p:outputLabel value="วันที่ทำสำเร็จ :"/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:calendar  binding="#{bindingController.calendar}" value="#{p102Controller.selected.successDate}" size="10" />
+
+                    <h:panelGroup>
+                        <p:outputLabel for="volume1" value="จำนวนที่ทำจริง :" />
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                       <p:inputText id="volume1" value="#{p102Controller.selected.volumeReal}" maxlength="20" 
+                                 style="width: 130px; text-align: right;"/>
+                       <h:outputText  value="  #{p102Controller.selected.manufactoryDetailId.unit}"  styleClass="lb_bold"/>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup>
+                        <p:outputLabel value="หมายเหตุ ："/>
+                    </h:panelGroup>
+                    <p:inputTextarea id="remark" value="#{p102Controller.selected.remark}" cols="30" rows="3" 
+                                     maxlength="250" style="width: 400px;" />
+                </p:panelGrid>
+            </p:panel>
+
+            <h:panelGroup style="margin: 5px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{p102Controller.edit()}" styleClass="edit-btn" update=":content"/>
+                
+                <p:commandButton binding="#{bindingController.btnSave}" value="รายงาน" rendered="false"
+                                 actionListener="#{p102Controller.reportPDF()}" ajax="fasle" styleClass="print-btn" update=":content"/>
+                 
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 actionListener="#{p102Controller.cancel('factory/p102/index')}" styleClass="clear-btn" update=":content"/>
+            </h:panelGroup>
+        </h:form>
+    </p:panel>
+
+   <ui:include src="dialog_detail.xhtml" />
+
+</ui:composition>

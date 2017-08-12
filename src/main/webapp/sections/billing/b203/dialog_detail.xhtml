@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .cold1{width: 20%;}
+        .cold2{width: 70%;}
+        .cold3{width: 10%;}
+    </style>
+    
+
+    <p:dialog id="dlg1" header="กรอกรายเอียด....." modal="true" 
+              widgetVar="selectDetail_dialog" width="800" 
+              binding="#{bindingController.defaultDialogModel}" closeOnEscape="true" styleClass="customDialog">
+        <p:ajax event="close" update="listFormBilling" listener="#{b203Controller.dialogClose}" />
+        
+        <h:form id="listFormBilling">
+             <p:panelGrid id="detail" columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                <h:panelGroup>
+                    <p:outputLabel value="บิลเลขที่ ："/>
+                </h:panelGroup>
+                 <p:inputText  value="#{b203Controller.pyDetail_selected.billNo}" maxlength="20" style="width: 100px;;"/>
+                
+                <h:panelGroup>
+                    <p:outputLabel for="detail" value="ชื่อลูกค้า :" />
+                    <font class="require">*</font>
+                </h:panelGroup>
+               <h:panelGroup>
+                   <p:autoComplete id="custName" dropdown="true" value="#{b203Controller.cust_selected}" 
+                                   completeMethod="#{b203Controller.completeCustomer}" 
+                                   var="cust" itemLabel="#{cust.customerNameTh}" 
+                                   itemValue="#{cust}" 
+                                   converter="#{customerConverter}"
+                                   scrollHeight="250"   >
+                       <p:ajax event="query"  global="false"/>
+                   </p:autoComplete>
+                   <p:watermark  for="custName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+               </h:panelGroup>
+
+                <h:panelGroup>
+                    <p:outputLabel for="volume" value="จำนวนเงิน :" />
+                    <font class="require">*</font>
+                </h:panelGroup>
+                 <p:inputText id="volume" value="#{b203Controller.pyDetail_selected.totalPrice}" maxlength="20" 
+                             style="width: 100px; text-align: right;"/>
+             </p:panelGrid>
+
+            <br/>
+            <h:panelGroup layout="block" style="text-align: center" >
+                <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                 actionListener="#{b203Controller.addDetail()}">
+                </p:commandButton> 
+                <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 oncomplete="PF('selectDetail_dialog').hide();"
+                                 actionListener="#{b203Controller.clearData_sysPaymentDetail()}" />
+            </h:panelGroup>
+        </h:form>
+
+
+    </p:dialog>
+
+</ui:composition>
+        

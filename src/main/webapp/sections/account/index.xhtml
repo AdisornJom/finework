@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <p:panel id="content_panel" header="รายรับรายจ่าย">
+        <p:toolbar style="margin-bottom: 3px;">
+            <f:facet name="left" >
+                <h:form id="lToolbarForm">
+                    <h:panelGrid columns="1" cellpadding="1" cellspacing="1">
+                        <p:commandButton binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" oncomplete="PF('create').show()" update="cretaeForm"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+            <f:facet name="right" >
+
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columns="4" cellpadding="1" cellspacing="1">
+                        <p:calendar placeholder="วันที่" size="10" binding="#{bindingController.calendar}" maxdate="#{accountController.currentDt}"/>
+                        <p:calendar placeholder="ถึง" size="10" binding="#{bindingController.calendar}" maxdate="#{accountController.currentDt}"/>
+                        <p:inputText placeholder="#{msgs['btn.search']}" style="width: 100px;"/>
+                        <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" update="listForm"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+
+        <ui:include src="list.xhtml"/>
+        <ui:include src="create.xhtml"/>
+
+    </p:panel>
+
+</ui:composition>

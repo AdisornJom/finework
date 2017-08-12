@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .cold1{width: 20%;}
+        .cold2{width: 70%;}
+        .cold3{width: 10%;}
+    </style>
+    
+
+    <p:dialog id="dlg1" header="กรอกรายเอียด....." modal="true" 
+              widgetVar="selectDetail_dialog" width="800" 
+              binding="#{bindingController.defaultDialogModel}" closeOnEscape="true" styleClass="customDialog">
+        <p:ajax event="close" update="rToolbarForm listFormManufactory" listener="#{p102Controller.dialogClose}" />
+        
+        <p:toolbar style="margin-bottom: 3px;">
+            <f:facet name="right" >
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columnClasses="cold1,cold2,cold3" border="0" columns="3" cellpadding="2" cellspacing="1"  style="margin-left: 10px;">
+                        <p:outputLabel value="บิลเลขที่ :"/>
+                        <p:inputText value="#{p102Controller.documentNoBill}" placeholder="#{msgs['btn.search']}"/>
+                        <p:spacer/>
+                        
+                        <p:outputLabel value="ชื่อเล่นผู้รับเหมา ："/>
+                        <h:panelGroup>
+                            <p:autoComplete id="custName" dropdown="true" value="#{p102Controller.manufactory_selected}" 
+                                                     completeMethod="#{p102Controller.completeManufactory}" 
+                                                     var="manufactory" itemLabel="#{manufactory.contractorId.contractorNickname}" 
+                                                     itemValue="#{manufactory}" 
+                                                     converter="#{manufactoryConverter}"
+                                                     scrollHeight="200" >
+                                <p:ajax event="query"  global="false" />.
+                                
+                            </p:autoComplete>
+                            <p:watermark  for="custName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                        </h:panelGroup>
+                                                
+                        <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
+                                         actionListener="${p102Controller.searchManufactory()}" styleClass="search-btn" update="listFormManufactory"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+       
+        <h:form id="listFormManufactory">
+             <p:dataTable id="itemBilling_dialog"  var="item2" value="#{p102Controller.manufactory_items_dialog}"
+                          selection="#{p102Controller.selectd_manufactory_items_dialog}" rowKey="#{item2.factoryId}"
+                         binding="#{bindingController.dataTableModel}"  scrollable="true" scrollHeight="275">
+
+                 <p:column selectionMode="multiple" style="text-align: center;width: 5%;" rendered="false"/>
+                
+                <p:column headerText="#" style="text-align: center;width: 5%">
+                    <h:outputText value="#{(rowNumber+1)}" />
+                </p:column>
+                
+                <p:column headerText="บิลเลขที่" style="width: 15%;" >
+                    <h:outputText value="#{item2.documentno}"  />
+                </p:column>
+                
+                <p:column headerText="ชื่อเล่นผู้รับเหมา" style="width: 27%;">
+                    <h:outputText value="#{item2.contractorId.contractorNickname}" />
+                </p:column>
+                  
+                <p:column headerText="ผู้สั่งผลิต"  style="width: 20%;">
+                 <h:outputText value="#{item2.createdBy}"/>
+                </p:column>
+             
+                <p:column  headerText="วันที่ทำรายการ " style="text-align: center;width: 20%;">
+                    <h:outputText value="#{item2.factoryDate}">
+                          <f:convertDateTime pattern="dd-MM-yyyy"/>
+                      </h:outputText>
+                </p:column>
+                 
+                 <p:column  style="text-align: center;width:13%;">
+                     <p:commandButton id="report" icon="fa fa-plus-square" value="#{msgs['btn.ok']}"  action="#{p102Controller.addDetail()}" 
+                                      update=":content" styleClass="print-btn" ajax="fasle" >
+                         <f:setPropertyActionListener value="#{item2}" target="#{p102Controller.manufactory_selected}" />
+                     </p:commandButton>
+                </p:column>
+
+                <f:facet name="footer" rendered="#{not empty p102Controller.manufactory_items_dialog}">
+                    <h:outputText value="#{msgs['messages.code.2022']} "/>
+                    <h:outputText value="#{p102Controller.manufactory_items_dialog.size()}">
+                        <f:convertNumber pattern="#,##0"/>
+                    </h:outputText>
+                    <h:outputText value=" #{msgs['messages.code.2023']}"/>
+                </f:facet>
+            </p:dataTable>
+
+            <br/>
+            <h:panelGroup layout="block" style="text-align: center" >
+                <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 oncomplete="PF('selectDetail_dialog').hide();"
+                                 actionListener="#{p102Controller.clearData_sysManufactoryDetail()}" />
+            </h:panelGroup>
+        </h:form>
+
+
+    </p:dialog>
+
+</ui:composition>
+        

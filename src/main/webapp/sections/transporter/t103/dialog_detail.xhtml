@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .coldd1{width: 25%;}
+        .coldd2{width: 57%;}
+        .coldd3{width: 8%;}
+    </style>
+    
+
+    <p:dialog id="dlg1" header="กรอกรายเอียด....." modal="true" 
+              widgetVar="selectDetail_dialog" width="800" 
+              binding="#{bindingController.defaultDialogModel}" closeOnEscape="true" styleClass="customDialog">
+        <p:ajax event="close" update="rToolbarForm listFormPrepareTransport" listener="#{t103Controller.dialogClose}" />
+        
+        <p:toolbar style="margin-bottom: 3px;">
+            <f:facet name="right" >
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columnClasses="coldd1,coldd2,coldd3" border="0" columns="3" cellpadding="2" cellspacing="1"  style="margin-left: 10px;">
+                        <h:panelGroup>
+                            <p:outputLabel for="pptransportS" value="ใบจองเลขที่ :" />
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:autoComplete id="pptransportS" dropdown="true" value="#{t103Controller.tpPrepare_selected_dialog}" 
+                                            completeMethod="#{t103Controller.completePrepareTransport}" 
+                                            var="preparetp" itemLabel="#{preparetp.documentNo}" 
+                                            itemValue="#{preparetp}" 
+                                            converter="#{prepareTransportConverter}"
+                                            scrollHeight="250"   >
+                                <p:ajax event="query"  global="false"/>
+                            </p:autoComplete>
+                            <p:watermark  for="pptransportS" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                        </h:panelGroup>                 
+                        <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
+                                         actionListener="${t103Controller.searchPrepareTransport()}" styleClass="search-btn" update="listFormPrepareTransport"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+       
+        <h:form id="listFormPrepareTransport">
+             <p:dataTable id="itemBilling_dialog"  var="item2" value="#{t103Controller.prepareTransport_items_dialog}"
+                          selection="#{t103Controller.selectd_SysPrepareTransport_items_dialog}" rowKey="#{item2.prepareTpId}"
+                         binding="#{bindingController.dataTableModel}"  scrollable="true" scrollHeight="275">
+
+                <p:column selectionMode="multiple" style="text-align: center;width: 7%;" />
+                
+                 <p:column headerText="#" style="text-align: center;width: 5%" rendered="false">
+                    <h:outputText value="#{(rowNumber+1)}" />
+                </p:column>
+                
+                <p:column headerText="ใบจองเลขที่" style="width: 20%;">
+                    <h:outputText value="#{item2.documentNo}" />
+                </p:column>
+                 
+                <p:column headerText="หน่วยงาน/โครงการ"  style="width: 48%;">
+                    <h:outputText value="#{item2.workunitId.workunitName}"/>
+                </p:column>
+                
+                <p:column headerText="วันที่ทำรายการ" style="width: 15%;" >
+                    <h:outputText value="#{item2.prepareTpDate}" styleClass="lb_bold">
+                        <f:convertDateTime pattern="dd-MM-yyyy"/>
+                    </h:outputText>
+                </p:column>
+
+                <f:facet name="footer" rendered="#{not empty t103Controller.prepareTransport_items_dialog}">
+                    <h:outputText value="#{msgs['messages.code.2022']} "/>
+                    <h:outputText value="#{t103Controller.prepareTransport_items_dialog.size()}">
+                        <f:convertNumber pattern="#,##0"/>
+                    </h:outputText>
+                    <h:outputText value=" #{msgs['messages.code.2023']}"/>
+                </f:facet>
+            </p:dataTable>
+
+            <br/>
+            <h:panelGroup layout="block" style="text-align: center" >
+                <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                 actionListener="#{t103Controller.addDetail()}">
+                </p:commandButton> 
+                <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 oncomplete="PF('selectDetail_dialog').hide();"
+                                 actionListener="#{t103Controller.clearData_sysPrepareTransportDetail()}" />
+            </h:panelGroup>
+        </h:form>
+
+
+    </p:dialog>
+
+</ui:composition>
+        

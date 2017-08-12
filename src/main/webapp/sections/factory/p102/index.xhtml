@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+       .ui-autocomplete-input{ 
+            width: 160px;
+        }
+       .comboColumn {
+            width: 200px;
+       }
+    </style>
+    <p:panel header="P102 - บันทึกรายการที่ทำ">
+
+        <p:toolbar style="margin-bottom: 3px;">
+            <f:facet name="left" >
+                <h:form>
+                    <h:panelGrid cellpadding="1" cellspacing="1">
+                       <h:panelGroup>
+                        <p:commandButton styleClass="search-btn" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" update=":content" 
+                                         actionListener="#{p102Controller.prepareCreate('factory/p102/create')}"/>
+                       </h:panelGroup>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+             <f:facet name="right" >
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columnClasses="col1,col2,col1,comboColumn,col1,comboColumn,col1,col2" border="0" columns="12" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
+                        <p:outputLabel value="ใบงานเลขที่ ："/>
+                        <p:inputText value="#{p102Controller.documentno}" style="width: 100px"/>
+                        
+                        <p:outputLabel value="ผู้รับเหมา ："/>
+                        <h:panelGroup>
+                            <p:autoComplete id="contractorName" dropdown="true" value="#{p102Controller.contractor_find}" 
+                                            completeMethod="#{p102Controller.completeContractor}" 
+                                            var="contractor" itemLabel="#{contractor.contractorNickname}" 
+                                            itemValue="#{contractor}" 
+                                            converter="#{contractorConverter}"
+                                            scrollHeight="250" forceSelection="true" 
+                                            >
+                                <p:ajax event="query"  global="false"/>
+                            </p:autoComplete>
+                            <p:watermark  for="contractorName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                        </h:panelGroup>
+                        
+                          <p:outputLabel value="ผู้ควบคุมงาน ："/>
+                        <h:panelGroup>
+                            <p:autoComplete id="foreManName" dropdown="true" value="#{p102Controller.foreman_find}" 
+                                            completeMethod="#{p102Controller.completeForeman}" 
+                                            var="foreman" itemLabel="#{foreman.foremanNickname}" 
+                                            itemValue="#{foreman}" 
+                                            converter="#{foremanConverter}"
+                                            scrollHeight="250" forceSelection="true"  >
+                                <p:ajax event="query"  global="false"/>
+                            </p:autoComplete>
+                             <p:watermark  for="foreManName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="วันที่ทำสำเร็จ ："/>
+                        <p:calendar id="startDate" value="#{p102Controller.startDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="15" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+
+                        <p:outputLabel value="ถึง ："/>
+                        <p:calendar id="toDate" value="#{p102Controller.toDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="15" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+
+                        <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
+                                        actionListener="${p102Controller.search()}" styleClass="search-btn" update=":content"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+        <ui:include src="list.xhtml"/>
+
+    </p:panel>
+
+</ui:composition>

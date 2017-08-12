@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        </f:facet>
+
+        <link href="#{request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="#{request.contextPath}/resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link href="#{request.contextPath}/resources/css/icon.css" rel="stylesheet" type="text/css" />
+        <link href="#{request.contextPath}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <link href="#{request.contextPath}/favicon.ico" rel="icon" type="image/x-icon" />
+        <title>
+            <ui:insert name="title">Layout4</ui:insert>
+        </title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top_line"></div>
+        <div id="top">
+            <table style="height: 100%;width: 100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td style="width: 240px;"><h:graphicImage value="/resources/images/stb168.png" style="margin-left: 5px;"/></td>
+                    <td style="width: 100px;text-align: center;">
+
+                    </td>
+                    <td style="vertical-align: middle;">
+                        <table style="width: 100%" cellpadding="4" cellspacing="2" border="0">
+                            <tr>
+                                <td style="text-align: right;">
+                                    <h:panelGrid style="float: right;margin-right: 0px;" columns="10" border="0" cellpadding="2" cellspacing="0">
+                                        <h:graphicImage value="/resources/images/icon/user.png"/>
+                                        <h:outputLabel value="สวัสดีค่ะ "/>
+                                        <h:outputLabel value="คุณเอกสิทธิื" style="font-weight: bold;color: #ff9900"/>
+                                        <h:graphicImage value="/resources/images/refresh.png" width="22"/>
+                                        <h:graphicImage value="/resources/images/feed.png" width="22"/>
+                                        <h:graphicImage value="/resources/images/sign-out.png" width="22"/>
+                                    </h:panelGrid>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right;">
+                                    <h:panelGroup style="margin-right: 6px;">
+                                        <h:outputLabel value="ระบบภาษา : "/>
+                                        <h:selectOneMenu>
+                                            <f:selectItem itemLabel="English" itemValue="en"/>
+                                            <f:selectItem itemLabel="ภาษาไทย" itemValue="th"/>
+                                        </h:selectOneMenu>
+                                    </h:panelGroup>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="line"></div>
+        <h:form>
+
+            <p:tabMenu style="margin-bottom: 2px;">
+                <p:menuitem value="Home" icon="icon-home">
+                    <f:param name="i" value="0" />
+                </p:menuitem>
+                <p:menuitem value="Web site" icon="icon-website">
+                    <f:param name="i" value="0" />
+                </p:menuitem>
+                <p:menuitem value="Member" icon="icon-member">
+                    <f:param name="i" value="1" />
+                </p:menuitem>
+                <p:menuitem value="Affiliate" icon="icon-help">
+                    <f:param name="i" value="2" />
+                </p:menuitem>
+                <p:menuitem value="Cash" icon="icon-theme">
+                    <f:param name="i" value="3" />
+                </p:menuitem>
+                <p:menuitem value="Message" icon="icon-data">
+                    <f:param name="i" value="4" />
+                </p:menuitem>
+                <p:menuitem value="Point" icon="icon-toolbox">
+                    <f:param name="i" value="4" />
+                </p:menuitem>
+                <p:menuitem value="Report" icon="icon-report">
+                    <f:param name="i" value="4" />
+                </p:menuitem>
+                <p:menuitem value="Admin" icon="icon-config">
+                    <f:param name="i" value="4" />
+                </p:menuitem>
+            </p:tabMenu>
+
+            <pe:layout fullPage="false" style="width:100%;height:440px;" >  
+
+                <pe:layoutPane position="west" resizable="false" size="225">  
+                    <h:panelGrid cellpadding="4">
+                        <p:commandButton icon="icon-person" value="Basic config"  style="width: 200px;height: 32px;text-align: left;"/>
+                        <p:commandButton icon="icon-report" value="Live casino"  style="width: 200px;height: 32px;text-align: left;"/>
+                        <p:commandButton icon="icon-toolbox" value="Register config"  style="width: 200px;height: 32px;text-align: left;"/>
+                        <p:commandButton icon="icon-environment" value="Email config"  style="width: 200px;height: 32px;text-align: left;"/>
+                    </h:panelGrid>
+                </pe:layoutPane>
+
+                <pe:layoutPane position="center">  
+                    <p:panel header="#{msgs['menu.member.member_list']}">
+                        <p:toolbar style="margin-bottom: 3px;">
+                            <f:facet name="left" >
+                                <h:form id="lToolbarForm">
+                                    <p:commandButton binding="#{bindingController.btnExportExcel}" value="#{msgs['btn.export']}"/>
+                                </h:form>
+                            </f:facet>
+                            <f:facet name="right" >
+                                <h:form id="rToolbarForm">
+                                    <p:inputText placeholder="#{msgs['btn.search']}"/>
+                                    <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}"/>
+                                </h:form>
+                            </f:facet>
+                        </p:toolbar>
+
+                    </p:panel>
+
+
+                    <h:form id="listForm">
+
+
+                        <p:dataTable var="item" value="#{memberListController.items}" binding="#{bindingController.dataTableModel}">
+
+                            <p:column headerText="No" style="text-align: center;width: 32px;">
+                                <h:outputText value="#{(rowNumber+1)}" />
+                            </p:column>
+
+                            <p:column headerText="Belonging">
+                                <h:outputText value="#{item.belong}"/>
+                            </p:column>
+
+                            <p:column headerText="Username" sortBy="#{item.username}">
+                                <h:outputText value="#{item.username}"/>
+                            </p:column>
+
+                            <p:column headerText="member group">
+                                <h:outputText value="#{item.groupId}"/>
+                            </p:column>
+
+                            <p:column headerText="member status" sortBy="#{item.status}">
+                                <h:outputText value="#{item.status}"/>
+                            </p:column>
+
+                            <p:column headerText="balance">
+                                <h:outputText value=""/>
+                            </p:column>
+
+                            <p:column headerText="register time">
+                                <h:outputText value=""/>
+                            </p:column>
+
+                            <p:column headerText="login ip" style="width: 90px;">
+                                <h:outputText value="#{item.lastIp}"/>
+                            </p:column>
+
+                            <p:column style="width: 170px;text-align: center">
+                                <p:tooltip for="report" value="รายงาน" trackMouse="true"/>
+                                <p:commandButton id="report" icon="fa fa-fw fa-bar-chart-o" />
+                                <p:tooltip for="login" value="ประวัติ login" trackMouse="true"/>
+                                <p:commandButton id="login" icon="fa fa-fw fa-lock" />
+                                <p:tooltip for="change" value="บันทึกเปลี่ยนแปลง" trackMouse="true"/>
+                                <p:commandButton id="change" icon="fa fa-fw fa-life-bouy" />
+                                <p:tooltip for="edit" value="แก้ไข" trackMouse="true"/>
+                                <p:commandButton id="edit" icon="fa fa-fw fa-edit"/>
+                                <p:tooltip for="view" value="รายละเอียด" trackMouse="true"/>
+                                <p:commandButton id="view" icon="fa fa-fw fa-file-text-o"/>
+                            </p:column>
+
+                            <f:facet name="footer">
+                                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                                <h:outputText value="#{memberListController.items.size()}">
+                                    <f:convertNumber pattern="#,##0"/>
+                                </h:outputText>
+                                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+                            </f:facet>
+                        </p:dataTable>
+
+                    </h:form>
+                </pe:layoutPane>
+
+            </pe:layout>
+        </h:form>
+
+    </h:body>
+
+</html>
+

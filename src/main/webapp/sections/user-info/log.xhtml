@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <p:panel id="content_panel" header="#{msgs['menu.log']}">
+
+        <h:form id="listForm">
+
+            <h:panelGroup style="height: 200px;" layout="block" rendered="#{empty userLogController.items}">
+                <h:graphicImage value="./resources/images/arr_search.jpg" width="200" style="float: right;margin-top: 0px;"/>
+            </h:panelGroup>
+
+            <p:dataTable var="item" value="#{userLogController.items}" binding="#{bindingController.dataTableModel}" rendered="#{not empty userLogController.items}">
+
+                <p:column headerText="No" style="text-align: center;width: 32px;">
+                    <h:outputText value="#{(rowNumber+1)}" />
+                </p:column>
+
+                <p:column headerText="ชื่อ-นามสกุล" sortBy="#{item.userId.firstName}" style="width: 200px;">
+                    <h:outputText value="#{item.userId.firstName} #{item.userId.lastName}"/>
+                </p:column>
+
+                <p:column headerText="บัญชีผู้ใช้งาน" sortBy="#{item.userId.username}" style="width: 150px;">
+                    <h:outputText value="#{item.userId.username}"/>
+                </p:column>
+
+                <p:column headerText="ประเภท" sortBy="#{item.type}" style="width: 75px;text-align: center">
+                    <h:outputText value="#{item.type}"/>
+                </p:column>
+
+                <p:column headerText="รายละเอียด" sortBy="#{item.detail}">
+                    <h:outputText value="#{item.type eq 'Login' ? '-' : item.detail}"/>
+                </p:column>
+
+                <p:column headerText="บราวเซอร์" sortBy="#{item.browser}" style="width: 100px;">
+                    <h:outputText value="#{item.browser}"/>
+                </p:column>
+
+                <p:column headerText="อุปกรณ์" sortBy="#{item.device}" style="width: 100px;">
+                    <h:outputText value="#{item.device}"/>
+                </p:column>
+
+                <p:column headerText="ไอพี" sortBy="#{item.ip}" style="width: 100px;text-align: center">
+                    <h:outputText value="#{item.ip}"/>
+                </p:column>
+
+                <p:column headerText="วัน-เวลา" sortBy="#{item.createdDt}" style="width: 120px;text-align: center">
+                    <h:outputText value="#{item.createdDt}">
+                        <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                    </h:outputText>
+                </p:column>
+
+                <f:facet name="footer">
+                    <h:outputText value="#{msgs['messages.code.2022']} "/>
+                    <h:outputText value="#{userLogController.items.size()}">
+                        <f:convertNumber pattern="#,##0"/>
+                    </h:outputText>
+                    <h:outputText value=" #{msgs['messages.code.2023']}"/>
+                </f:facet>
+            </p:dataTable>
+
+        </h:form>
+    </p:panel>
+
+</ui:composition>

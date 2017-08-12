@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <p:panel header="#{msgs['menu.website.foot link_config']}">
+
+        <h:form>
+
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                <div class="ui-fluid">
+                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                        <h:panelGroup>
+                            <font class="require">*</font>
+                            <p:outputLabel value="อัพโหลดรูปภาพ："/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:graphicImage url="http://placehold.it/200x100" />
+                            <br/>
+                            <p:fileUpload mode="simple" skinSimple="true" />
+                            <br/>
+                            <p:outputLabel value="เคล็ดลับ:ขนาดรูปภาพต้องเป็น 70x43 pixel ไฟล์ภาพ .jpg .jpeg .gif .png .bmp" styleClass="sub-label"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <font class="require">*</font>
+                            <p:outputLabel value="ชื่อลิงค์："/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:inputText />
+                            <p:outputLabel value="เคล็ดลับ:กรุณาระบุชื่อลิงค์" styleClass="sub-label"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <font class="require">*</font>
+                            <p:outputLabel value="Link url："/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:inputText />
+                            <p:outputLabel value="เคล็ดลับ:กรุณาใส่ url" styleClass="sub-label"/>
+                        </h:panelGroup>
+
+                    </p:panelGrid>
+                </div>
+
+            </p:panel>
+
+            <h:panelGroup style="margin-left: 0px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}"/>
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" update=":content" actionListener="#{naviController.next('website/foot_link_config/index')}"/>
+            </h:panelGroup>
+        </h:form>
+
+    </p:panel>
+</ui:composition>

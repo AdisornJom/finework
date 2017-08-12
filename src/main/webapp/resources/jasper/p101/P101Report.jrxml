@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="P101Report" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="eb53d534-0f9f-4a9b-a4a2-98e2a6d8d8ae">
+	<property name="ireport.zoom" value="1.464100000000015"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="contractor_name" class="java.lang.String"/>
+	<parameter name="contractor_address" class="java.lang.String"/>
+	<parameter name="send_date" class="java.lang.String"/>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\Work\\A\\Report\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="subreport1" class="java.lang.String"/>
+	<parameter name="subreportDataSource1" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="org_name_th" class="java.lang.String"/>
+	<parameter name="org_name_eng" class="java.lang.String"/>
+	<parameter name="org_address_th" class="java.lang.String"/>
+	<parameter name="org_tel" class="java.lang.String"/>
+	<parameter name="org_bank" class="java.lang.String"/>
+	<parameter name="org_bank_name" class="java.lang.String"/>
+	<parameter name="org_recall" class="java.lang.String"/>
+	<parameter name="documentno" class="java.lang.String"/>
+	<parameter name="branch" class="java.lang.String"/>
+	<parameter name="taxid" class="java.lang.String"/>
+	<parameter name="org_branch" class="java.lang.String"/>
+	<parameter name="org_taxid" class="java.lang.String"/>
+	<parameter name="remark" class="java.lang.String"/>
+	<parameter name="producer" class="java.lang.String"/>
+	<parameter name="total_target" class="java.lang.String"/>
+	<field name="seq" class="java.lang.String"/>
+	<field name="detail" class="java.lang.String"/>
+	<field name="volumnTarget" class="java.lang.String"/>
+	<field name="workunit" class="java.lang.String"/>
+	<field name="plot" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="57" splitType="Stretch">
+			<staticText>
+				<reportElement x="312" y="4" width="180" height="20" uuid="91cb72bd-68c4-4451-9ce2-606f87786eb4"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="13" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[ใบสั่งผลิต]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="7" y="4" width="227" height="20" uuid="7ee7ecc2-96e9-49f7-9a29-619dfd0e2330"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{org_name_th}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="649" y="4" width="147" height="20" uuid="484b3c0d-e98e-4ea5-94e8-b85a4e503d42"/>
+				<textElement>
+					<font fontName="Tahoma" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{contractor_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="590" y="4" width="59" height="20" uuid="c69e4619-243e-48d9-8c23-3639a59d0127"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ผู้รับเหมา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="590" y="27" width="46" height="20" uuid="116bf68b-a819-4d46-848d-e7f435f03890"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[วันที่]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="649" y="27" width="124" height="20" uuid="20324cab-4332-4a85-92fc-b67bc9a47877"/>
+				<textElement>
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{send_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="43" y="27" width="194" height="20" uuid="ff5dbb47-befd-438a-ad82-afbd3d39facf"/>
+				<textElement>
+					<font fontName="Tahoma" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{documentno}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="27" width="36" height="20" uuid="ef3eed5e-e4b6-4e55-bb31-9791c38424f0"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เลขที่]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="9" y="0" width="33" height="20" backcolor="#FFFFFF" uuid="d7db9308-756d-4a68-a4b4-3c932d6e81b3"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ลำดับ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="43" y="0" width="213" height="20" backcolor="#FFFFFF" uuid="ea262047-8fd4-428b-86f6-3bec7b1fc4c2"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="363" y="0" width="53" height="20" backcolor="#FFFFFF" uuid="b0871115-54fb-4469-95a5-2bf4efbcda64"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[แปลง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="257" y="0" width="105" height="20" backcolor="#FFFFFF" uuid="f72416ec-2fe9-410b-9b54-793a69300de1"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[โครงการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="417" y="0" width="58" height="20" backcolor="#FFFFFF" uuid="1c7eed0d-1fe6-44e2-b19b-fb5b6cb57e7d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[จำนวนที่สั่ง]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="476" y="0" width="319" height="20" backcolor="#FFFFFF" uuid="9a657fe8-be14-4ca5-af38-a807deb20ab9"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[ผลิตแล้ว]]></text>
+			</staticText>
+			<line>
+				<reportElement x="7" y="0" width="789" height="1" uuid="be80cb13-d726-49ac-8a48-7b1535177d98"/>
+			</line>
+			<line>
+				<reportElement x="7" y="19" width="789" height="1" uuid="035360bd-d557-453c-b52f-a7eab0550f9f"/>
+			</line>
+			<line>
+				<reportElement x="7" y="0" width="1" height="19" uuid="41748e78-5a9f-4073-8f45-8a92d0bbff76"/>
+			</line>
+			<line>
+				<reportElement x="256" y="1" width="1" height="19" uuid="af308d68-64b7-4243-ade2-ac0e94da2c0d"/>
+			</line>
+			<line>
+				<reportElement x="42" y="0" width="1" height="19" uuid="44696cd1-c69b-4f1f-9d40-503abfffb0be"/>
+			</line>
+			<line>
+				<reportElement x="416" y="0" width="1" height="19" uuid="87fdd59e-ec34-401d-9903-1d41ffa61849"/>
+			</line>
+			<line>
+				<reportElement x="475" y="0" width="1" height="19" uuid="730b55c8-b4c9-45a3-a6bb-b04b5b21d9a9"/>
+			</line>
+			<line>
+				<reportElement x="795" y="1" width="1" height="19" uuid="cb743061-501a-4efa-9d3d-e3437766cf9b"/>
+			</line>
+			<line>
+				<reportElement x="362" y="0" width="1" height="19" uuid="e8af0bc1-ccbe-4f93-beb3-5ea0d0ef4a97"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="93" splitType="Stretch">
+			<subreport>
+				<reportElement x="6" y="0" width="788" height="90" uuid="ab32e35d-f01f-4fcd-902b-3f32d4772b09"/>
+				<subreportParameter name="subreportDataSource1"/>
+				<subreportParameter name="SUBREPORT_DIR"/>
+				<subreportParameter name="subreport1"/>
+				<dataSourceExpression><![CDATA[$P{subreportDataSource1}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}+"\\P101SubReport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="60" splitType="Stretch">
+			<elementGroup/>
+			<staticText>
+				<reportElement x="7" y="18" width="45" height="20" uuid="d1520c7b-05cc-4ebf-ac1e-896fb310a14c"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[หมายเหตุ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="53" y="18" width="537" height="40" uuid="273853c9-031d-46ef-8cc4-0c15192f02e0"/>
+				<textElement>
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{remark}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="604" y="18" width="45" height="20" uuid="a085bdaf-e013-4b8d-9ccd-903df3a7202d"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ผู้สั่งผลิต]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="650" y="18" width="124" height="20" uuid="b65f45be-e8f2-4976-9e82-79d1953d46f9"/>
+				<textElement>
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{producer}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

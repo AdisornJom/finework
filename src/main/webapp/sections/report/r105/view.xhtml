@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 370px;
+        }
+
+        .customDialog .ui-dialog-title {
+            font-size: 150% !important;
+            color: #ffffff;
+        }
+
+        .customDialog .ui-dialog-content {
+            padding: 0;
+            margin: 10px 10px;
+        }
+        .customDialog .ui-dialog-titlebar.ui-widget-header {
+            background: #C0C0C0;
+            color: black;
+            box-shadow: none;
+        }
+        .pe-inputNumber {
+            text-align: right;
+            width:120px;
+            float:right;
+            font-size: 24px;
+        }
+    </style>
+    <p:panel header="R105 - รายงานสรุปรายการสั่งผลิต">
+
+        <h:form id="listForm">
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+
+            <p:panel id="panel1" style="max-width: 900px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:panel id="panel2" header="#{msgs['m101.commoninfo']}"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+                    <h:panelGroup>
+                        <p:outputLabel value="ใบงานเลขที่ ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{r105Controller.selected.documentno}"   styleClass="lb_bold"/><br/>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup>
+                        <p:outputLabel value="ชื่อเล่นผู้รับเหมา ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{r105Controller.selected.contractorId.contractorNickname}" styleClass="lb_bold"/><br/>
+                    </h:panelGroup>
+                    
+                      <h:panelGroup>
+                        <p:outputLabel value="ผู้รับเหมา ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{r105Controller.selected.contractorId.contractorNameTh}" styleClass="lb_bold"/><br/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:outputLabel value="วันที่ทำรายการ ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{r105Controller.selected.factoryDate}" styleClass="lb_bold">
+                            <f:convertDateTime pattern="dd-MM-yyyy"/>
+                        </h:outputText>
+                    </h:panelGroup>
+                                        
+                  
+                </p:panelGrid>
+            </p:panel>
+
+            <p:panel  id="detail_list" style="border: 0px">
+                <p:panel  header="#{msgs['btn.view']}" style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+                        <h:panelGroup>
+                            <p:outputLabel value="หมายเหตุ ："/>
+                        </h:panelGroup>
+                        <p:inputTextarea id="remark" value="#{r105Controller.selected.remark}" cols="30" rows="3"  disabled="true"
+                                         maxlength="250" style="width: 400px;" />
+                   </p:panelGrid>
+                   <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{r105Controller.selected.sysManufactoryDetailList}" var="detail">
+                        <p:column headerText="ลำดับ" style="text-align: center;width: 3px;">
+                            <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+                        
+                        <p:column headerText="รายการผลิต" style="width: 80px;" >
+                            <h:outputText value="#{detail.manufacturingId.manufacturingDesc} (#{detail.manufacturingId.calculateType eq 1?'จำนวน':
+                                                   detail.manufacturingId.calculateType eq 2?'ความยาว/เมตร':'ชุด'})"  />
+                            <h:outputText value="#{detail.length}"  rendered="#{detail.manufacturingId.calculateType eq 2?true:false}">
+                                <f:convertNumber  pattern="(#,##0.00)"/>
+                            </h:outputText>  
+                        </p:column>
+                       
+                       <p:column  headerText="โครงการ "  style="width: 45px;">
+                           <h:outputText value="#{detail.workunitId.workunitName}"/> 
+                       </p:column>
+                       
+                        <p:column headerText="แปลง" style="width:11px" >
+                            <h:outputText  value="#{detail.plot}"/>  
+                        </p:column>
+                       
+                        <p:column headerText="จำนวนที่สั่งผลิต" style="width: 13px;">
+                            <h:outputText  value="#{detail.volumeTarget}"  style="float: right;color: red;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+                       
+                       <p:column headerText="จำนวนที่ทำ" style="width: 13px;">
+                           <h:outputText  value="#{detail.volume_real}"  style="float: right;color: green;" styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+                       
+                       <p:column headerText="คงเหลือ" style="width: 13px;">
+                           <h:outputText  value="#{detail.volumeTarget - detail.volume_real}"  style="float: right;color: #{detail.volumeTarget - detail.volume_real >= 0 ? 'red' : 'green'};" styleClass="lb_bold">
+                               <f:convertNumber  pattern="#,##0.00"/>
+                           </h:outputText>     
+                       </p:column>
+                       
+                        <p:column headerText="ราคาต่อหน่วย" style="width: 12px;" >
+                             <h:outputText  value="#{detail.manufacturingId.unitPrice}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+                        
+                        <p:column headerText="หน่วย" style="width: 8px;">
+                            <h:outputText  value="#{detail.unit}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+                       
+                       <p:column headerText="รวม" style="width: 30px;">
+                           <h:outputText  value="#{detail.total_volume_real}"  style="float: right;" styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+                    </p:dataTable>
+                    <p:panelGrid id="footer_itemDetail" columns="2" layout="grid"  columnClasses="ui-grid-col-12,ui-grid-col-3" styleClass="ui-panelgrid-blank"> 
+                       <h:panelGroup >
+                           <p:outputLabel value="จำนวนเงินรวม ：" style="float:right;" />
+                       </h:panelGroup>
+                       <h:panelGroup >
+                           <h:outputText value="#{r105Controller.total}" 
+                                         style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                               <f:convertNumber  pattern="#,##0.00"/>
+                           </h:outputText>  
+                       </h:panelGroup>
+                       
+                   </p:panelGrid>
+                    <p:panelGrid id="footer_itemDetail_last" columns="3" layout="grid"  columnClasses="ui-grid-col-9,ui-grid-col-3,ui-grid-col-3"  styleClass="ui-panelgrid-blank"> 
+                       <h:panelGroup>
+                          <h:outputText value="#{r105Controller.convertPriceToString(r105Controller.total)}" style="float:left;position: relative;left: 50%;color: #108040;font-size: 15px"  styleClass="lb_bold"/>
+                      </h:panelGroup>
+                     <h:panelGroup/>
+                    </p:panelGrid> 
+                </p:panel>
+            </p:panel>
+
+            <h:panelGroup style="margin: 5px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="รายงาน" rendered="false"
+                                 actionListener="#{r105Controller.reportPDF()}" ajax="fasle" styleClass="print-btn" update=":content"/>
+                 
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 actionListener="#{r105Controller.cancel('report/r105/index')}" styleClass="clear-btn" update=":content"/>
+            </h:panelGroup>
+        </h:form>
+    </p:panel>
+
+</ui:composition>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="B203Report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="eb53d534-0f9f-4a9b-a4a2-98e2a6d8d8ae">
+	<property name="ireport.zoom" value="1.6105100000000103"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="11"/>
+	<parameter name="payment_date" class="java.lang.String"/>
+	<parameter name="workunit" class="java.lang.String"/>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\Work\\A\\Report\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="subreport1" class="java.lang.String"/>
+	<parameter name="subreportDataSource1" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="org_name_th" class="java.lang.String"/>
+	<parameter name="org_name_eng" class="java.lang.String"/>
+	<parameter name="org_address_th" class="java.lang.String"/>
+	<parameter name="org_tel" class="java.lang.String"/>
+	<parameter name="taxid" class="java.lang.String"/>
+	<parameter name="org_branch" class="java.lang.String"/>
+	<parameter name="org_taxid" class="java.lang.String"/>
+	<parameter name="remark" class="java.lang.String"/>
+	<parameter name="org_address_th_detail" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="160" splitType="Stretch">
+			<staticText>
+				<reportElement x="241" y="120" width="305" height="20" uuid="91cb72bd-68c4-4451-9ce2-606f87786eb4"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="13" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[บันทึกการรับเงิน]]></text>
+			</staticText>
+			<image>
+				<reportElement x="7" y="8" width="82" height="78" uuid="04f0e9af-c913-4f6b-b163-6a8c2a0bbaa4"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="116" y="6" width="430" height="20" uuid="7ee7ecc2-96e9-49f7-9a29-619dfd0e2330"/>
+				<textElement>
+					<font fontName="Tahoma" size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{org_name_th}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="116" y="66" width="430" height="20" uuid="31b8c30d-bc11-4cb4-9b2f-88d132036a61"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{org_tel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="116" y="46" width="430" height="20" uuid="c1de87eb-acbc-4717-985e-0d42cf5839cb"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{org_address_th}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="116" y="26" width="430" height="20" uuid="8786cb01-9abb-45f0-861c-48de5aceacb8"/>
+				<textElement>
+					<font fontName="Tahoma" size="15" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{org_name_eng}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="82" splitType="Stretch">
+			<staticText>
+				<reportElement x="302" y="0" width="25" height="20" uuid="116bf68b-a819-4d46-848d-e7f435f03890"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[วันที่]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="36" width="202" height="20" uuid="056ddc17-5b86-46a4-a6e0-08271a7a258c"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{org_name_th}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="329" y="0" width="144" height="20" uuid="20324cab-4332-4a85-92fc-b67bc9a47877"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{payment_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="57" y="36" width="43" height="20" uuid="4fc95205-a21a-4410-90c4-421d0a6e6ccf"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ข้าพเจ้า]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="302" y="36" width="244" height="20" uuid="d69c870b-fbd8-44cf-a36c-b62501f51025"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เลขประจำตัวผู้เสียภาษี "+$P{org_taxid}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="19" y="60" width="527" height="20" uuid="aeb61f36-923b-43f2-b9e2-144f2bfdf655"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{org_address_th_detail}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="71" splitType="Stretch">
+			<subreport>
+				<reportElement x="9" y="28" width="537" height="40" uuid="ab32e35d-f01f-4fcd-902b-3f32d4772b09"/>
+				<subreportParameter name="subreportDataSource1"/>
+				<subreportParameter name="SUBREPORT_DIR"/>
+				<subreportParameter name="subreport1"/>
+				<dataSourceExpression><![CDATA[$P{subreportDataSource1}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}+"\\B203SubReport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="235" splitType="Stretch">
+			<elementGroup/>
+			<staticText>
+				<reportElement x="241" y="85" width="232" height="20" uuid="c71400a8-e095-4b62-a8de-c8516d13b2c3"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ลงชื่อ ....................................................   ผู้รับเงิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="57" y="25" width="136" height="20" uuid="9469f8fa-c4ce-469e-b4a9-255fdca5cb16"/>
+				<textElement>
+					<font fontName="Tahoma" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[เป็นค่าเงินประกันงานโครงการ ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="193" y="25" width="353" height="20" uuid="3a60d946-9529-4ce5-8538-f7b6d46447cb"/>
+				<textElement>
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{workunit}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="263" y="118" width="182" height="20" uuid="49c54564-11d1-422e-a2a8-da2df82b5574"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[( ................................................... )]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="263" y="213" width="182" height="20" uuid="327093a6-0650-4498-a001-9b188da83be1"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[( ................................................... )]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="241" y="180" width="247" height="20" uuid="12faeca1-b6e1-4862-8dc9-f4e669475d48"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ลงชื่อ ....................................................   ผู้จ่ายเงิน]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

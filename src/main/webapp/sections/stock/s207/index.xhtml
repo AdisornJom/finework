@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+        .col1{
+            text-align: right;
+        }
+        .col2{
+        }
+    </style>
+    
+    <p:panel id="content_panel" header="S207 - ข้อมูลรถขนส่ง">
+        
+        <p:toolbar style="margin-bottom: 3px;">
+            <f:facet name="left" >
+                <h:form id="lToolbarForm">
+                    <h:panelGrid columns="1" cellpadding="1" cellspacing="1">
+                        <p:commandButton binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" update=":content" 
+                                         actionListener="#{s207Controller.prepareCreate()}" styleClass="search-btn"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+             <f:facet name="right" >
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columnClasses="col1,col2,col1,col2,col1,col2,col1,col2" border="0" columns="10" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
+                        <p:outputLabel value="ประเภทรถ :"/>
+                        <p:selectOneMenu id="logisticCarType" value="#{s207Controller.logisticCarType}"  style="width: 200px;">
+                            <f:selectItem itemLabel="ทั้งหมด" itemValue=""/>
+                            <f:selectItems value="#{comboController.carTypes}" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="ทะเบียนรถ :"/>
+                        <p:inputText value="#{s207Controller.logisticRegisterCar}" style="width: 150px;"/>
+
+                      <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" actionListener="${s207Controller.search()}" styleClass="search-btn" update=":content"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+     
+        
+        <ui:include src="list.xhtml"/>
+
+    </p:panel>
+
+</ui:composition>

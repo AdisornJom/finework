@@ -1,0 +1,837 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="R002" pageWidth="595" pageHeight="842" columnWidth="277" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7ed308fb-dd6d-43ee-b932-b528f31b5d68">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="476"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PBR"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#D3D3D3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="text_field_name" fill="Solid" vAlign="Top" fontName="FreesiaUPC" fontSize="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<box bottomPadding="5"/>
+		<paragraph lineSpacing="1_1_2" leftIndent="4" rightIndent="4"/>
+	</style>
+	<style name="font" fontName="FreesiaUPC" fontSize="14" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
+		<paragraph lineSpacing="1_1_2"/>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#D3D3D3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#C6C6C6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="in_branchId" class="java.lang.Long">
+		<parameterDescription><![CDATA[Branch ID]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="in_accountId" class="java.lang.String">
+		<parameterDescription><![CDATA[Account Number]]></parameterDescription>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+DISTINCT acct."account_num" as "acctNum",
+acct."account_num_format" as "acctNumFormat",
+acct."report_order" as "reportOrder",
+b."brn_id" as "branchId",
+b."brn_num" as "branchCode",
+b."brn_nm_th" as "branchName",
+acct."account_name" as "acctName",
+sub."sub_account" as "subAcctNum",
+sub."account_period" as "acctPeriod",
+to_char(sub."eff_date", 'DD/MM/YYYY') as "effDate",
+to_char(sub."due_date", 'DD/MM/YYYY') as "dueDate",
+(SELECT max(safe_cut_off_dt) FROM "safe_date") as "safeDate",
+total."totalSub"
+
+from "branch" b INNER JOIN "fixed_account" acct
+ON acct."main_brn" = b."brn_num"
+INNER JOIN "fixed_sub_account" sub
+ON acct."account_id" = sub."account_id"
+INNER JOIN
+(
+select count(sub."sub_account") as "totalSub", acct."account_id"
+from "branch" b INNER JOIN "fixed_account" acct
+ON acct."main_brn" = b."brn_num"
+INNER JOIN "fixed_sub_account" sub
+ON acct."account_id" = sub."account_id"
+WHERE b."brn_id" = $P{in_branchId} and acct."account_id" = '$P!{in_accountId}'
+GROUP BY acct."account_id"
+) as total on total."account_id" = acct."account_id"
+
+WHERE b."brn_id" = $P{in_branchId} and acct."account_id" = '$P!{in_accountId}'
+
+ORDER BY  b."brn_num", acct."report_order", acct."account_num", sub."sub_account" asc]]>
+	</queryString>
+	<field name="acctNum" class="java.lang.String"/>
+	<field name="acctNumFormat" class="java.lang.String"/>
+	<field name="reportOrder" class="java.lang.Long"/>
+	<field name="branchId" class="java.lang.Long"/>
+	<field name="branchCode" class="java.lang.String"/>
+	<field name="branchName" class="java.lang.String"/>
+	<field name="acctName" class="java.lang.String"/>
+	<field name="subAcctNum" class="java.lang.String"/>
+	<field name="acctPeriod" class="java.lang.Long"/>
+	<field name="effDate" class="java.lang.String"/>
+	<field name="dueDate" class="java.lang.String"/>
+	<field name="safeDate" class="java.sql.Timestamp"/>
+	<field name="totalSub" class="java.lang.Long"/>
+	<variable name="CountRec" class="java.lang.Long" resetType="Page" calculation="Count">
+		<variableExpression><![CDATA[Boolean.TRUE]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<group name="group1" isResetPageNumber="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{acctNum}]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<property name="local_mesure_unitheight" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<printWhenExpression><![CDATA[$V{group1_COUNT}.intValue() < $F{totalSub}.intValue()]]></printWhenExpression>
+				<staticText>
+					<reportElement mode="Opaque" x="60" y="0" width="54" height="40" printWhenGroupChanges="group1" backcolor="#CCCCCC" uuid="4c8b64c6-963a-4daa-8ccc-3b84e8e55a20"/>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4">
+						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[Sub]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="113" y="0" width="100" height="40" printWhenGroupChanges="group1" backcolor="#CCCCCC" uuid="7cda47c9-59c6-4883-a525-b8f5ccc86e97">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4">
+						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+						<paragraph lineSpacing="Double"/>
+					</textElement>
+					<text><![CDATA[ระยะเวลาการฝาก (เดือน)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="212" y="0" width="90" height="40" printWhenGroupChanges="group1" backcolor="#CCCCCC" uuid="514ffe57-4ac2-40cc-9289-f7dd667e9bfb">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4">
+						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[วันที่ฝาก]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="301" y="0" width="90" height="40" printWhenGroupChanges="group1" backcolor="#CCCCCC" uuid="bedc65fa-fd82-48cd-adeb-2763a5bac2e9">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4">
+						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[วันที่ครบกำหนด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="391" y="20" width="50" height="20" printWhenGroupChanges="group1" backcolor="#CCCCCC" uuid="a3708ecd-9c01-4c49-9ec8-4a4223e1945b">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[มี]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="441" y="20" width="50" height="20" printWhenGroupChanges="group1" backcolor="#CCCCCC" uuid="f9b631bb-3706-4151-8889-3e0fc59b2836">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4">
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[ไม่มี]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="391" y="0" width="100" height="20" isPrintWhenDetailOverflows="true" printWhenGroupChanges="group1" backcolor="#CCCCCC" uuid="e1e9ed62-cf00-4356-a3a1-d928d3bebd5e">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4">
+						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[มีสมุดมาเปลี่ยน]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="304">
+				<property name="local_mesure_unitheight" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<rectangle>
+					<reportElement mode="Transparent" x="31" y="213" width="498" height="70" uuid="34aa12b1-1c3a-408a-85d2-1ac1edbf4b19"/>
+					<graphicElement>
+						<pen lineWidth="1.5"/>
+					</graphicElement>
+				</rectangle>
+				<staticText>
+					<reportElement x="339" y="47" width="166" height="20" uuid="17a9e0fb-1766-41be-9a73-c9ddc2f54614">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box leftPadding="0" rightPadding="0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[(                                               )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="339" y="7" width="166" height="20" uuid="a121dcd1-98fc-46f6-ba7d-9a5d91e2c4a0">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="5" leftPadding="4" rightPadding="2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[ข้าพเจ้าจึงได้ลงลายมือชื่อไว้เป็นหลักฐาน]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="358" y="27" width="130" height="20" uuid="32280c0c-34c0-4cde-b177-cca801b0420e">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+					</reportElement>
+					<box leftPadding="4" rightPadding="2">
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="339" y="67" width="166" height="20" uuid="6774ac33-512e-4faf-8d6d-202b0f91ff89">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="5" leftPadding="4" rightPadding="2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[เจ้าของบัญชี / ผู้มีอำนาจลงนาม]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="93" width="514" height="20" uuid="5325396c-da24-41b6-ab80-294b4bfc23af"/>
+					<box topPadding="5" leftPadding="4" rightPadding="2"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[ข้าพเจ้าได้รับสมุดเงินฝากประจำเล่มใหม่ เลขที่ ________________________ เรียบร้อยแล้ว]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="333" y="134" width="166" height="20" uuid="24772dc8-75d2-44ed-92a6-7d1c471a5ef9">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box leftPadding="4" rightPadding="2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[(                                               )]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="333" y="154" width="166" height="20" uuid="800fa605-42ac-4044-9ad1-0bab3e830288">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="5" leftPadding="4" rightPadding="2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[ผู้รับสมุด]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="358" y="116" width="130" height="18" uuid="b91b1765-a13e-4a52-bcf2-4005a0ecf596">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box leftPadding="4" rightPadding="2">
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="91" y="189" width="190" height="20" uuid="a0688e03-013e-4a9b-9a66-88a50fdfbe62"/>
+					<box leftPadding="4" rightPadding="2">
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="31" y="189" width="60" height="20" uuid="24e66920-616b-4003-b7cf-e418db659271"/>
+					<box topPadding="5" leftPadding="4" rightPadding="2"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[หมายเหตุ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="333" y="173" width="166" height="20" uuid="e8e4366d-152d-413d-be16-7e0da7f3429e">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box topPadding="5" leftPadding="4" rightPadding="2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<text><![CDATA[(___/_________/_____)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="51" y="254" width="130" height="20" uuid="efc8863e-e9fb-4829-b2b8-958ea9cd82f1"/>
+					<box topPadding="5" leftPadding="4" rightPadding="2"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="FreesiaUPC" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ลงลายมือชื่อผู้ดูแลลูกค้า]]></text>
+				</staticText>
+				<textField pattern="">
+					<reportElement x="428" y="254" width="82" height="20" uuid="f9622a51-b740-4496-9633-e0c677ee40fd"/>
+					<box topPadding="5" leftPadding="4" bottomPadding="0" rightPadding="2"/>
+					<textElement textAlignment="Right" verticalAlignment="Bottom">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("HH:mm:ss").format($F{safeDate})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="51" y="234" width="130" height="20" uuid="0ad54701-62ea-4aa8-baf9-2ed32a25dfc7"/>
+					<box topPadding="5" leftPadding="4" rightPadding="2"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="FreesiaUPC" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ลงลายมือชื่อพนักงานสาขา]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="181" y="234" width="150" height="20" uuid="2f548a2d-791e-4219-b797-2e894c946a55"/>
+					<box leftPadding="4" rightPadding="2">
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="181" y="254" width="150" height="20" uuid="6f065e8e-0433-4c90-a078-831bfdc4fe07"/>
+					<box leftPadding="4" rightPadding="2">
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="368" y="254" width="60" height="20" uuid="9f745c6a-15d5-477c-a297-47972c409416"/>
+					<box topPadding="5" leftPadding="4" rightPadding="2"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="FreesiaUPC" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Run Time :]]></text>
+				</staticText>
+				<textField pattern="">
+					<reportElement x="428" y="234" width="82" height="20" uuid="8baa5c37-d4bf-4867-ab23-f54f76770df7"/>
+					<box topPadding="5" leftPadding="4" bottomPadding="0" rightPadding="2"/>
+					<textElement textAlignment="Right" verticalAlignment="Bottom">
+						<font fontName="FreesiaUPC" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{safeDate})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="31" y="215" width="100" height="20" uuid="0f329a81-03d0-4c44-bf71-756f0457104b"/>
+					<box topPadding="5" leftPadding="4" rightPadding="2"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14" isBold="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[สำหรับเจ้าหน้าที่]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="368" y="234" width="60" height="20" uuid="7028e234-4e1a-4bba-86bd-406f2290fe70"/>
+					<box topPadding="5" leftPadding="4" rightPadding="2"/>
+					<textElement textAlignment="Left" verticalAlignment="Bottom">
+						<font fontName="FreesiaUPC" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Run Date :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="31" y="284" width="60" height="20" uuid="25924368-ce1f-4a5e-afb0-0ef48560af92">
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box topPadding="5" leftPadding="4" rightPadding="2"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14" isBold="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[หมายเหตุ:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="91" y="284" width="438" height="20" uuid="1e0ba548-1203-482d-9387-e91586ab0240">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box topPadding="5" leftPadding="4" rightPadding="2"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="FreesiaUPC" size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[เอกสารเก็บเข้าแฟ้มการเปลี่ยนสมุดบัญชีเงินฝากประจำแบบตลอดไป  ห้ามทำลาย]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="345" y="27" width="14" height="20" uuid="e3fbc7b6-840d-4e92-9ed9-743179176976"/>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font fontName="FreesiaUPC" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[X]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="345" y="116" width="14" height="18" uuid="c578705d-1f86-47d4-92a8-39403d7590c0"/>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font fontName="FreesiaUPC" size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[X]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="130">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="82" width="555" height="20" uuid="c42e230c-7585-4f3d-bacf-6b67567b6d70">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="FreesiaUPC" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ทะเบียนเปลี่ยนสมุดบัญชีเงินฝากประจำ (Fixed Deposit)]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" evaluationTime="Page">
+				<reportElement style="font" x="440" y="106" width="70" height="20" uuid="2fe09c3f-5806-47c0-b0d3-a68949e551cd">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="4" bottomPadding="4" rightPadding="2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page No.  " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Group" evaluationGroup="group1">
+				<reportElement x="510" y="106" width="45" height="20" uuid="591f9a32-27db-4692-ac32-b7bcde7d3d3f">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="4" bottomPadding="4" rightPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" / " +$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="461" y="84" width="94" height="20" uuid="7491872a-b978-4202-935d-947bbe89ba37">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="4" bottomPadding="4" rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="12"/>
+					<paragraph lineSpacing="1_1_2" rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ลำดับที่.    " + $F{reportOrder}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="253">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+			<staticText>
+				<reportElement x="30" y="7" width="42" height="20" uuid="303d03a8-2a3b-4706-a8c6-1420c075d261"/>
+				<box topPadding="5" leftPadding="4" bottomPadding="4" rightPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[สาขา]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="30" width="501" height="163" uuid="3df1622c-e839-4cf5-8658-d69ac26e3e66">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="4" leftPadding="0" bottomPadding="4" rightPadding="0"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="FreesiaUPC" size="14"/>
+					<paragraph lineSpacing="Double" lineSpacingSize="2.0" firstLineIndent="0"/>
+				</textElement>
+				<text><![CDATA[        ข้าพเจ้าได้ทำการตรวจสอบยอดเงินในบัญชีเงินฝากประจำของข้าพเจ้า และขอยืนยันว่ายอดเงินที่ปรากฏอยู่ในบัญชีของ
+ข้าพเจ้าเป็นยอดเงินที่ถูกต้องครบถ้วนแล้ว และข้าพเจ้าได้รับสมุดเงินฝากประจำรูปแบบใหม่เรียบร้อยแล้ว ตั้งแต่วันที่ข้าพเจ้า
+ลงนามรับสมุด โดยให้ถือว่าตัวอย่างลายมือชื่อที่ให้ไว้ในการ์ดตัวอย่างลายมือชื่อ และด้านหลังสมุดคู่ฝากเล่มใหม่ มีผลผูกพันกับ
+ธนาคารตลอดไปจนกว่าจะมีการเปลี่ยนแปลง
+        - ในกรณีที่ข้าพเจ้าไม่ได้นำสมุดเงินฝากประจำเล่มเดิมมาแสดงต่อธนาคาร โดยที่สมุดเงินฝากเล่มดังกล่าวไม่ได้มอบให้
+ธนาคารไว้เป็นหลักประกัน และข้าพเจ้าได้รับสมุดเงินฝากประจำรูปแบบใหม่ไปเรียบร้อยแล้ว ให้ถือว่าสมุดเงินฝากประจำเล่ม เดิมนั้นเป็นอันยกเลิก และไม่มีพันธะผูกพันทางการเงิน และ/หรือทางกฎหมายกับธนาคารอีกต่อไป
+        - ในกรณีที่สมุดเงินฝากประจำเล่มเดิมได้มอบให้ธนาคารไว้เป็นหลักประกัน และได้มีการเปลี่ยนสมุดใหม่ ข้าพเจ้าตกลงให้ ธนาคารยังคงยึดถือไว้เป็นหลักฐานต่อไป และถึงแม้ว่าข้าพเจ้าจะได้รับสมุดเงินฝากประจำรูปแบบใหม่ไปเก็บรักษาไว้เอง ข้าพเจ้า
+ก็ตกลงให้เงินฝากในสมุดบัญชีเงินฝากรูปแบบใหม่ยังคงมอบไว้เพื่อเป็นประกันในการชำระหนี้ของข้าพเจ้าเช่นเดิมทุกประการ จนกว่าจะมีการไถ่ถอนหลักประกันต่อไป]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="72" y="7" width="45" height="20" uuid="aebf059d-c190-4e63-8910-608824e50732"/>
+				<box topPadding="5" leftPadding="4" bottomPadding="4" rightPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{branchCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="7" width="414" height="20" uuid="3fe8da20-1063-4143-a78e-e54ff040cede"/>
+				<box topPadding="5" leftPadding="4" bottomPadding="4" rightPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{branchName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="60" y="233" width="110" height="20" isRemoveLineWhenBlank="true" uuid="0774dd4c-3f91-4da7-9e1f-5c0dea0fbf6a"/>
+				<box topPadding="5" leftPadding="4" bottomPadding="4" rightPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[รายละเอียดบัญชี ณ วันที่ ]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="font" x="169" y="233" width="100" height="20" uuid="4942327b-11d0-4bb1-ba22-43e27d19f918">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="4" bottomPadding="4" rightPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="14"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{safeDate})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="60" y="193" width="60" height="20" isRemoveLineWhenBlank="true" uuid="c0588430-a421-439b-9bb9-995de3701559"/>
+				<box topPadding="5" leftPadding="4" bottomPadding="4" rightPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[ชื่อบัญชี]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement mode="Transparent" x="120" y="193" width="411" height="20" isRemoveLineWhenBlank="true" uuid="099f41fc-6e5a-4ea7-830a-273a66a2d90a">
+					<property name="net.sf.jasperreports.text.truncate.at.char" value="true"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="4" bottomPadding="4" rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="FreesiaUPC" size="14"/>
+					<paragraph lineSpacing="Single" leftIndent="0" rightIndent="0" tabStopWidth="40"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acctName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="60" y="213" width="60" height="20" isRemoveLineWhenBlank="true" uuid="e06cb094-acd6-4af5-bd9d-a09a060af737"/>
+				<box topPadding="5" leftPadding="4" bottomPadding="4" rightPadding="2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[เลขที่บัญชี]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Transparent" x="120" y="213" width="265" height="20" isRemoveLineWhenBlank="true" uuid="447112c5-a1cd-4ba0-8576-e96eb96fb86a">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="4" bottomPadding="4" rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="14"/>
+					<paragraph lineSpacing="Single" leftIndent="0" rightIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acctNumFormat}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<textField>
+				<reportElement x="60" y="0" width="54" height="20" uuid="5cbc4b4d-31d0-4a9e-b059-f8af339ee586">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subAcctNum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="113" y="0" width="100" height="20" uuid="8afe6801-ff3e-41ee-b492-4baa8bdcd175">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acctPeriod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="212" y="0" width="90" height="20" uuid="16bd8494-e7eb-49d8-b97a-9eafd9174481">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{effDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="301" y="0" width="90" height="20" uuid="041d46ab-6fd7-4243-a4b0-f5fc92af774f">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dueDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="391" y="0" width="50" height="20" uuid="2e6326d0-2c59-4e45-b52c-f45f138af676">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="441" y="0" width="50" height="20" uuid="22671785-5069-49be-812b-0b57132f556f">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="2">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="FreesiaUPC" size="14"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<break>
+				<reportElement x="0" y="19" width="30" height="1" uuid="b6943bbb-c7ed-4275-bfa3-098ac2a7562d">
+					<printWhenExpression><![CDATA[($V{PAGE_NUMBER}.intValue() == 1)? (($V{CountRec}.intValue())%15 == 0) : (($V{CountRec}.intValue())%29 == 0)]]></printWhenExpression>
+				</reportElement>
+			</break>
+		</band>
+	</detail>
+	<columnFooter>
+		<band>
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="30">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 370px;
+        }
+
+        .customDialog .ui-dialog-title {
+            font-size: 150% !important;
+            color: #ffffff;
+        }
+
+        .customDialog .ui-dialog-content {
+            padding: 0;
+            margin: 10px 10px;
+        }
+        .customDialog .ui-dialog-titlebar.ui-widget-header {
+            background: #C0C0C0;
+            color: black;
+            box-shadow: none;
+        }
+        .pe-inputNumber {
+            text-align: right;
+            width:120px;
+            float:right;
+            font-size: 24px;
+        }
+    </style>
+    <p:panel header="T104 - สถานะการขนส่ง">
+
+        <h:form id="listForm">
+            <p:messages id="edit_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+
+            <p:panel id="panel1" style="max-width: 900px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:panel id="panel2" header="#{msgs['m101.commoninfo']}"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+                    <h:panelGroup>
+                        <p:outputLabel value="เลขที่ ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{t104Controller.selected.documentNo}"   styleClass="lb_bold"/>
+                    </h:panelGroup>
+                    
+                     <h:panelGroup>
+                        <p:outputLabel value="เลือกประเภทขนส่ง ："/>
+                    </h:panelGroup>
+                     <h:outputText value="#{t104Controller.selected.transportType eq 1?'รายการการผลิต':
+                                        t104Controller.selected.transportType eq 2?'บริการขนส่ง':''}"  
+                                         styleClass="lb_bold" style="#{t104Controller.selected.transportType eq 1?'color:green;':
+                                                             t104Controller.selected.transportType eq 2?'color:#b76060;':''}"/> 
+                    <h:panelGroup>
+                        <p:outputLabel value="ชื่อเล่นผู้ควบคุมงาน(โฟร์แมน) ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{t104Controller.selected.foremanId.foremanNickname}" styleClass="lb_bold"/>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup>
+                        <p:outputLabel value="ชื่อผู้ควบคุมงาน(โฟร์แมน) ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{t104Controller.selected.foremanId.foremanNameTh}" styleClass="lb_bold"/>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup>
+                        <p:outputLabel value="หน่วยงาน/โครงการ ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{t104Controller.selected.workunitId.workunitName}" styleClass="lb_bold"/>
+                    </h:panelGroup>
+                    
+                     <h:panelGroup>
+                        <p:outputLabel value="รถขนส่งทะเบียน ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <h:panelGroup >
+                        <h:outputText value="#{t104Controller.selected.logisticId.logisticRegisterCar}" styleClass="lb_bold"/>
+                        <p:spacer/>
+                        <h:outputText value="#{t104Controller.selected.logisticId.logisticNameCar}" styleClass="lb_bold"/>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup>
+                        <p:outputLabel value="พนักงานขับรถ ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{t104Controller.selected.tpstaffId.transportstaffNameTh}" styleClass="lb_bold"/>
+                    </h:panelGroup>
+                                       
+                    <h:panelGroup rendered="#{!p:ifGranted('ROLE_ADMIN')}"> 
+                        <p:outputLabel value="พนักงานติดรถ(1) ："/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{!p:ifGranted('ROLE_ADMIN')}">
+                        <h:outputText value="#{t104Controller.selected.tpcarstaffId1.transportstaffNameTh}" styleClass="lb_bold"/>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup rendered="#{!p:ifGranted('ROLE_ADMIN')}">
+                        <p:outputLabel value="พนักงานติดรถ(2) ："/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{!p:ifGranted('ROLE_ADMIN')}">
+                        <h:outputText value="#{t104Controller.selected.tpcarstaffId2.transportstaffNameTh}" styleClass="lb_bold"/>
+                    </h:panelGroup>
+                     
+                    <h:panelGroup rendered="#{p:ifGranted('ROLE_ADMIN')}">
+                        <p:outputLabel value="พนักงานติดรถ(1) ："/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{p:ifGranted('ROLE_ADMIN')}">
+                        <p:autoComplete id="tpcarStaff1" dropdown="true" value="#{t104Controller.selected.tpcarstaffId1}" 
+                                        completeMethod="#{t104Controller.completeTransportFollowStaff}" 
+                                        var="tpcarstaff1" itemLabel="#{tpcarstaff1.transportstaffNickname}" 
+                                        itemValue="#{tpcarstaff1}" 
+                                        converter="#{transporterFollowStaffConverter}"
+                                        scrollHeight="250" >
+                            <p:ajax event="query" global="false"/>
+                        </p:autoComplete>
+                        <p:watermark  for="tpcarStaff1" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                    </h:panelGroup>
+                    
+                    <h:panelGroup rendered="#{p:ifGranted('ROLE_ADMIN')}">
+                        <p:outputLabel value="พนักงานติดรถ(2) ："/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{p:ifGranted('ROLE_ADMIN')}">
+                        <p:autoComplete id="tpcarStaff2" dropdown="true" value="#{t104Controller.selected.tpcarstaffId2}" 
+                                        completeMethod="#{t104Controller.completeTransportFollowStaff}" 
+                                        var="tpcarstaff2" itemLabel="#{tpcarstaff2.transportstaffNickname}" 
+                                        itemValue="#{tpcarstaff2}" 
+                                        converter="#{transporterFollowStaffConverter}"
+                                        scrollHeight="250" >
+                            <p:ajax event="query" global="false"/>
+                        </p:autoComplete>
+                        <p:watermark  for="tpcarStaff2" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                    </h:panelGroup>
+                    
+                     <h:panelGroup>
+                        <p:outputLabel value="วันที่ทำรายการ ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{t104Controller.selected.tpOrderDate}" styleClass="lb_bold">
+                            <f:convertDateTime pattern="dd-MM-yyyy"/>
+                        </h:outputText>
+                    </h:panelGroup>
+                    
+                     <h:panelGroup>
+                         <p:outputLabel value="ขนส่งวันที่ ："/>
+                         <font class="require">*</font>
+                     </h:panelGroup>
+                     <h:outputText value="#{t104Controller.selected.tpDate}" styleClass="lb_bold">
+                         <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                     </h:outputText>
+                    
+                    <h:panelGroup>
+                            <p:outputLabel value="หมายเหตุ ："/>
+                        </h:panelGroup>
+                        <p:inputTextarea id="remark" value="#{t104Controller.selected.remark}" cols="30" rows="3" 
+                                         maxlength="250" style="width: 400px;"  disabled="true"/>
+                </p:panelGrid>
+            </p:panel>
+            
+            <p:panel id="panel3" header="สถานะ"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+                    <h:panelGroup>
+                        <p:outputLabel value="สถานะขนส่ง ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <p:selectOneMenu id="status" value="#{t104Controller.selected.status}"  style="width: 180px;">
+                            <f:selectItem itemLabel="-" itemValue="" />
+                            <f:selectItem itemLabel="ขนส่งสำเร็จ" itemValue="2" />
+                            <f:selectItem itemLabel="ขนส่งไม่สำเร็จ" itemValue="3" />
+                        </p:selectOneMenu>
+                    </h:panelGroup>
+                    
+                     <h:panelGroup>
+                        <p:outputLabel value="ขนส่งสำเร็จวันที่ ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:calendar  binding="#{bindingController.calendar}" value="#{t104Controller.selected.tpDateComplete}" size="16" />
+
+                    <h:panelGroup>
+                        <p:outputLabel value="OT ต่อเที่ยว ："/>
+                    </h:panelGroup>
+                    <h:panelGroup id="ot">
+                        <p:selectBooleanCheckbox value="#{t104Controller.selected.tpOt}" > 
+                            <p:ajax update="ottime" listener="#{t104Controller.ot}" global="fasle"/>
+                        </p:selectBooleanCheckbox>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup>
+                        <p:outputLabel value="OT ตั้งงานต่อเนื่อง​ ："/>
+                    </h:panelGroup>
+                    <h:panelGroup id="ottime">
+                        <p:selectBooleanCheckbox value="#{t104Controller.selected.tpOTTimevalue}" style="vertical-align:middle;"> 
+                            <p:ajax update="ot" listener="#{t104Controller.ottime}" global="fasle"/>
+                        </p:selectBooleanCheckbox>
+                        <p:spacer/><p:outputLabel value=" "/>
+                        <p:selectOneMenu id="hours" value="#{t104Controller.selected.tpOtTimeHours}"  style="width: 20px;vertical-align:middle;">
+                            <f:selectItem itemLabel="-" itemValue="0" />
+                            <f:selectItem itemLabel="1" itemValue="1" />
+                            <f:selectItem itemLabel="2" itemValue="2" />
+                            <f:selectItem itemLabel="3" itemValue="3" />
+                            <f:selectItem itemLabel="4" itemValue="4" />
+                            <f:selectItem itemLabel="5" itemValue="5" />
+                            <f:selectItem itemLabel="6" itemValue="6" />
+                        </p:selectOneMenu>
+                        <p:spacer/><p:outputLabel value=" "/>
+                        <p:outputLabel value="ชั่วโมง"/>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup>
+                            <p:outputLabel value="หมายเหตุ (สถานะขนส่ง) ："/>
+                        </h:panelGroup>
+                    <p:inputTextarea id="remarkAccept" value="#{t104Controller.selected.remarkAccept}" cols="30" rows="3" 
+                                         maxlength="250" style="width: 400px;" />
+                </p:panelGrid>
+            </p:panel>
+
+            <p:panel  id="detail_list" style="border: 0px">
+                <p:panel  header="#{msgs['btn.view']}" style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <p:outputLabel value="รายการการผลิต" rendered="#{t104Controller.selected.transportType eq 1}"/>
+                    <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{t104Controller.selected.sysTransportationDetailList}" var="hdetail"  
+                                 rendered="#{t104Controller.selected.transportType eq 1}"> 
+                        <p:ajax event="rowToggle" global="false" />
+                        <p:column style="text-align: center;width:5%">
+                            <p:rowToggler/>
+                        </p:column>
+                        <p:column headerText="ลำดับ" style="text-align: center;width: 7%;">
+                            <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+
+                        <p:column headerText="ใบจองเลขที่" style="text-align: center;width: 30%;">
+                            <h:outputText value="#{hdetail.prepareTpId.documentNo}" />
+                        </p:column>
+                        <p:column headerText="หน่วยงาน/โครงการ" style="text-align: center;width: 58%;">
+                            <h:outputText value="#{hdetail.prepareTpId.workunitId.workunitName}" />
+                        </p:column>
+
+                        <p:rowExpansion>
+                            <p:dataTable  binding="#{bindingController.dataTableModel}" value="#{hdetail.prepareTpId.sysPrepareTransportDetailList}" var="detail">
+                                <p:column headerText="ลำดับ" style="text-align: center;width: 7%;">
+                                    <h:outputText value="#{(rowNumber+1)}" />
+                                </p:column>
+
+                                <p:column headerText="รายการผลิต" style="width: 52%;" >
+                                    <h:outputText value="#{detail.factoryRealId.manufactoryDetailId.manufacturingId.manufacturingDesc} (#{detail.factoryRealId.manufactoryDetailId.manufacturingId.calculateType eq 1?'จำนวน':
+                                                           detail.factoryRealId.manufactoryDetailId.manufacturingId.calculateType eq 2?'ความยาว/เมตร':'ชุด'})"  />
+                                    <h:outputText value="#{detail.factoryRealId.manufactoryDetailId.length}"  rendered="#{detail.factoryRealId.manufactoryDetailId.manufacturingId.calculateType eq 2?true:false}">
+                                        <f:convertNumber  pattern="(#,##0.00)"/>
+                                    </h:outputText> 
+                                </p:column>
+
+                                <p:column headerText="แปลง" style="width: 18%;" >
+                                    <h:outputText  value="#{detail.factoryRealId.manufactoryDetailId.plot}"  style="float: right;">
+                                        <f:convertNumber  pattern="#,##0.00"/>
+                                    </h:outputText>     
+                                </p:column>
+
+                                <p:column headerText="จำนวน" style="width: 15%;">
+                                    <h:outputText  value="#{detail.factoryRealId.volumeReal}"  style="float: right;">
+                                        <f:convertNumber  pattern="#,##0.00"/>
+                                    </h:outputText>  
+                                </p:column>
+
+                                <p:column headerText="หน่วย" style="width: 8%;">
+                                    <h:outputText  value="#{detail.factoryRealId.manufactoryDetailId.unit}"  style="float: right;">
+                                        <f:convertNumber  pattern="#,##0.00"/>
+                                    </h:outputText>     
+                                </p:column>
+                            </p:dataTable>
+                        </p:rowExpansion>
+                    </p:dataTable>
+
+                    <br/>
+                    <p:outputLabel value="รายการบริการขนส่ง" rendered="#{t104Controller.selected.transportType eq 2}"/>
+                    <p:dataTable id="dt_itemServiceDetail" binding="#{bindingController.dataTableModel}" value="#{t104Controller.selected.sysTransportationServiceDetailList}" var="detail" 
+                                 rendered="#{t104Controller.selected.transportType eq 2}">
+                        <p:column headerText="#" style="text-align: center;width: 8%;">
+                            <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+
+                        <p:column headerText="รายการบริการขนส่ง" style="width: 44%;" >
+                            <h:outputText value="#{detail.tpserviceId.tpserviceDesc}"  />
+                        </p:column>
+
+                        <p:column  headerText="จำนวน" style="text-align: center;width: 20%;">
+                            <h:outputText value="#{detail.volume}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </p:column> 
+
+                        <p:column headerText="ราคา" style="text-align: center;width: 20%;">
+                            <h:outputText value="#{detail.amount}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </p:column>
+                    </p:dataTable>
+                    
+                   <br/>
+                   <p:spacer/><p:outputLabel value="รายการพิเศษ" />
+                   <p:dataTable id="dt_itemSpecialDetail" binding="#{bindingController.dataTableModel}" value="#{t104Controller.selected.sysTransportationSpecialList}" var="detail" >
+                       <p:column headerText="#" style="text-align: center;width: 5%;">
+                           <h:outputText value="#{(rowNumber+1)}" />
+                       </p:column>
+                       
+                       <p:column headerText="เลขที่ใบส่งของ(ระบบขนส่ง)" style="width: 14%;" >
+                           <h:outputText value="#{detail.billTransportDocno}"  />
+                       </p:column>
+
+                       <p:column headerText="รายการ" style="width: 37%;" >
+                           <h:outputText value="#{detail.detail}"  />
+                       </p:column>
+
+                       <p:column headerText="แปลง" style="width: 10%;" >
+                           <h:outputText value="#{detail.plot}"  />
+                       </p:column>
+
+                       <p:column  headerText="จำนวน" style="text-align: center;width: 12%;">
+                           <h:outputText value="#{detail.volume}" style="float: right;">
+                               <f:convertNumber  pattern="#,##0.00"/>
+                           </h:outputText>  
+                       </p:column> 
+
+                       <p:column headerText="หน่วย" style="text-align: center;width: 10%;" >
+                           <h:outputText value="#{detail.unit}" />
+                       </p:column>
+
+                       <p:column headerText="ราคา" style="text-align: center;width: 12%;">
+                           <h:outputText value="#{detail.amount}" style="float: right;">
+                               <f:convertNumber  pattern="#,##0.00"/>
+                           </h:outputText>  
+                       </p:column>
+                   </p:dataTable>
+                </p:panel>
+            </p:panel>
+
+            <h:panelGroup style="margin: 5px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{t104Controller.edit()}" styleClass="edit-btn" update=":content"/>
+                
+                <p:commandButton binding="#{bindingController.btnSave}" value="รายงาน" rendered="false"
+                                 actionListener="#{t104Controller.reportPDF()}" ajax="fasle" styleClass="print-btn" update=":content"/>
+                 
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 actionListener="#{t104Controller.cancel('transporter/t104/index')}" styleClass="clear-btn" update=":content"/>
+            </h:panelGroup>
+        </h:form>
+    </p:panel>
+
+</ui:composition>

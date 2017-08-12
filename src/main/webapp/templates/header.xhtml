@@ -1,0 +1,131 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-icon-right.ui-state-default{
+            color: #ffffff;
+            background-color: #808080;
+           /* background-image: linear-gradient(to bottom, #808080, #808080); */
+            background-image: linear-gradient(to bottom, #4b69d8, #4b69d8);
+            background-repeat: repeat-x;
+            border: 0px;
+            box-shadow:0px 0px 0px;
+            border-radius: 0px;
+        }
+
+        .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-icon-right.ui-state-hover{
+            background-color: #4b69d8;
+           /* background-image: linear-gradient(to bottom, #808080, #808080);*/
+            background-image: linear-gradient(to bottom, #4b69d8, #4b69d8);
+            background-repeat: repeat-x;
+        }
+
+        .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-icon-right.ui-state-focus{
+            background-color: #4b69d8;
+           /* background-image: linear-gradient(to bottom, #808080, #808080);*/
+            background-image: linear-gradient(to bottom, #4b69d8, #4b69d8);
+            background-repeat: repeat-x;
+            border: 0px;
+            box-shadow:0px 0px 0px;
+        }
+
+        .ui-menu.ui-widget a:hover {
+            color: #ffffff;
+        }
+
+        .ui-menuitem.ui-widget.ui-corner-all.ui-state-hover{
+            background-color: #808080;
+        }
+        .ui-selectonemenu-table td, .ui-selectonemenu-table tr{
+            border-style: hidden !important;
+        }
+
+    </style>
+
+
+    <ui:include src="script.xhtml"/>
+    <ui:include src="../sections/user-info/change-passwd.xhtml"/>
+
+    <h:form id="headerForm">
+        <table style="width: 100%;padding: 5px;" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                <td>
+                    <img src="#{request.contextPath}/resources/images/heade_logo.png"/>
+                </td>
+                <td>
+                    <h:panelGrid columns="12" style="float: right;margin-right: 5px;" cellpadding="2" cellspacing="0" border="0">
+
+                         
+                        <h:panelGroup id="panel_refresh">
+                                <p:commandLink id="refresh" update="headerForm:conter" actionListener="#{recheckStockController.search()}" global="false"/>
+                                <p:commandLink actionListener="#{naviController.next('inventory/i104/index','i104Controller','I104 - วัสดุภัณฑ์ใกล้จะหมด')}" 
+                                               rendered="#{userInfoController.adminUser.roleId.roleName == 'ADMIN' 
+                                                           or userInfoController.adminUser.roleId.roleName == 'ADMIN'}" update=":content headerForm:conter">
+                                <div style="margin:00px 50px 0px 100px;">
+                                    <h:graphicImage url="./resources/images/cart_icon2.png" style="width: 25px;height: 25px;"/>
+                                    <h:outputLabel id="conter" value="#{recheckStockController.items.size()}" rendered="#{recheckStockController.items.size() > 0}"
+                                                   style="position: absolute;margin-left: -12px;margin-top: 13px;border-radius: 50%;
+                                                   color:white;background-color: #E59400;
+                                                   width:30px;height: 19px; font-size: 14px; font-weight: bold;text-align: center;"/>
+                                </div>
+                              </p:commandLink>
+                        </h:panelGroup>
+
+                        <p:menuButton value="#{userInfoController.adminUser.username}" iconPos="right" styleClass="test">
+                            <p:menuitem icon="fa fa-user" value="#{msgs['menu.profile']}" actionListener="#{naviController.next('user-info/index')}" update=":content"/>
+                            <p:separator/>
+                            <p:menuitem icon="fa fa-history" value="#{msgs['menu.log']}" actionListener="#{naviController.next('user-info/log','userLogController','ประวัติการใช้งาน')}" update=":content"/>
+                            <p:separator/>
+                            <p:menuitem value="#{msgs['menu.logout']}" icon="fa fa-sign-out" ajax="false" actionListener="#{loginController.logout()}"/>
+                        </p:menuButton>
+
+
+                        <h:outputText class="ui-icon ui-icon-grip-dotted-vertical" />
+                        <h:outputText value="#{userInfoController.ipAddr}"/>
+                        <h:outputText class="ui-icon ui-icon-grip-dotted-vertical" />
+                        <p:clock pattern="dd-MM-yyyy HH:mm:ss" mode="server"/>
+                        <h:outputText class="ui-icon ui-icon-grip-dotted-vertical" />
+    
+                        <p:selectOneMenu rendered="false" var="t" value="#{localeController.lang}" style="border: 0px;" panelStyle="border: 0px;" converter="langConverter">
+                            <p:ajax listener="#{localeController.changeLocale()}" update="@all" global="false"/>
+                            <f:selectItems var="lang" value="#{localeController.langs}" itemLabel="#{lang.country}" itemValue="#{lang}"/>
+                            <p:column>
+                                <h:graphicImage value="./resources/images/flag/#{t.flag}" style="border: 0px;"/>
+                                <h:outputText value=" #{t.country}" />
+                            </p:column>
+                        </p:selectOneMenu>
+                        
+                        <p:commandButton id="del" icon="fa fa-sign-out"  action="#{loginController.logout()}"  styleClass="print-btn">
+                            <p:confirm header="#{msgs['dialog.confirm']}" message="ต้องการออกจากระบบ หรือไม่" />
+                        </p:commandButton>
+
+                    </h:panelGrid>
+                </td>
+            </tr>
+        </table>
+        <script>
+                              var timer;
+                              var seconds = 180000; // how often should we refresh the DIV?
+                              var refresh = document.getElementById('headerForm:refresh');
+                              function startActivityRefresh() {
+                                  timer = setInterval(function() {
+                                      if (document.getElementById('headerForm:refresh') !== null) {
+                                          document.getElementById('headerForm:refresh').click();
+                                      }
+                                  }, seconds);
+                              }
+                              function cancelActivityRefresh() {
+                                  clearInterval(timer);
+                              }
+
+                              $(function() {
+                                  startActivityRefresh();
+                              });
+
+        </script>
+    </h:form>
+
+</ui:composition>

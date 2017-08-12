@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .cold1{width: 35%;}
+        .cold2{width: 55%;}
+        .cold3{width: 10%;}
+    </style>
+    <style>
+       .ui-autocomplete-input{ 
+            width: 200px;
+        }
+    </style>
+
+    <p:dialog id="dlg1" header="กรอกรายเอียด....." modal="true" 
+              widgetVar="selectDetail_dialog" width="977" 
+              binding="#{bindingController.defaultDialogModel}"  styleClass="customDialog">
+        <p:messages id="dialog" autoUpdate="false" showIcon="false"/>
+        <h:form id="listFormTransport">
+             <p:panelGrid id="detail" columns="3" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-3" styleClass="ui-panelgrid-blank">
+                 <h:panelGroup>
+                     <p:outputLabel value="ใบงานเลขที่ ："/>
+                 </h:panelGroup>
+                 <h:panelGroup>
+                     <p:autoComplete id="custName" dropdown="true" value="#{t101Controller.manufactory_selected}" 
+                                     completeMethod="#{t101Controller.completeManufactory}" 
+                                     var="manufactory" itemLabel="#{manufactory.documentno}" 
+                                     itemValue="#{manufactory}" 
+                                     converter="#{manufactoryConverter}"
+                                     scrollHeight="200" >
+                         <p:ajax event="query"  global="false" />
+                     </p:autoComplete>
+                     <p:watermark  for="custName" value="กรอกข้อมูลเพื่อ ค้นหา" />                     
+                 </h:panelGroup>
+                 <h:panelGroup>
+                 <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
+                                      actionListener="#{t101Controller.searchManufactory()}" styleClass="search-btn" update="listFormTransport:dt_itemDetail"/>
+                 </h:panelGroup>
+             </p:panelGrid>
+
+            <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{t101Controller.manufactoryReal_items_dialog}" var="detail"
+                         selection="#{t101Controller.manufactoryRealSelected}" rowKey="#{detail.factoryRealId}" >
+
+                <p:column selectionMode="multiple" style="text-align: center;width: 7%;" />
+                
+                <p:column headerText="ใบงานเลขที่" style="width: 12%;" >
+                    <h:outputText value="#{detail.manufactoryDetailId.factoryId.documentno}"  />
+                </p:column>
+
+                <p:column headerText="หน่วยงาน/โครงการ" style="width: 20%;" >
+                    <h:outputText value="#{detail.manufactoryDetailId.workunitId.workunitName}"  />
+                </p:column>
+
+                <p:column headerText="รายการผลิต" style="width: 32%;" > 
+                    <h:outputText value="#{detail.manufactoryDetailId.manufacturingId.manufacturingDesc} (#{detail.manufactoryDetailId.manufacturingId.calculateType eq 1?'จำนวน':
+                                                   detail.manufactoryDetailId.manufacturingId.calculateType eq 2?'ความยาว/เมตร':'ชุด'}) "  />
+                    <h:outputText value="#{detail.manufactoryDetailId.length}"  rendered="#{detail.manufactoryDetailId.manufacturingId.calculateType eq 2?true:false}">
+                        <f:convertNumber  pattern="(#,##0.00)"/>
+                    </h:outputText>  
+                </p:column>
+
+                <p:column headerText="แปลง" style="width: 12%;" >
+                    <h:outputText  value="#{detail.manufactoryDetailId.plot}"/>  
+                </p:column>
+
+                <p:column headerText="จำนวนที่ทำจริง" style="width: 15%;">
+                    <h:outputText  value="#{detail.volumeReal}"  style="float: right;" styleClass="lb_bold">
+                        <f:convertNumber  pattern="#,##0.00"/>
+                    </h:outputText>     
+                </p:column>
+
+                <p:column headerText="หน่วย" style="width: 10%;">
+                    <h:outputText  value="#{detail.manufactoryDetailId.unit}"  style="float: right;">
+                        <f:convertNumber  pattern="#,##0.00"/>
+                    </h:outputText>     
+                </p:column>
+            </p:dataTable>
+
+
+            <br/>
+            <h:panelGroup layout="block" style="text-align: center" >
+                <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                 actionListener="#{t101Controller.addDetail()}" update="listFormTransport">
+                </p:commandButton> 
+                <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 oncomplete="PF('selectDetail_dialog').hide();"
+                                 actionListener="#{t101Controller.clearData_syspreparetransporterDetail()}" update="listFormTransport"/>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+
+</ui:composition>
+        

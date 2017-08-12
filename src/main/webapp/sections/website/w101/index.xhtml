@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <p:panel id="content_panel" header="#{msgs['menu.website.w101']}">
+
+        <h:form>
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+            <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                <div class="ui-fluid">
+                    <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                        <p:outputLabel value="ภาษา："/>
+                        <h:panelGroup>
+                            <p:selectOneMenu>
+                                <f:selectItem itemLabel="English" itemValue="english" />
+                                <f:selectItem itemLabel="Chinese" itemValue="chinese" />
+                                <f:selectItem itemLabel="Thailand" itemValue="thailand" />
+                            </p:selectOneMenu>
+                            <p:outputLabel/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <p:outputLabel value="ชื่อเว็ปไซต์："/>
+                            <font class="require">*</font>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:inputText />
+                            <p:outputLabel value="เคล็ดลับ:จำนวนตัวอักษรต้องไม่เกิน 150 ตัว" styleClass="sub-label"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <p:outputLabel value="คำสำคัญของเว็ปไซต์："/>
+                            <font class="require">*</font>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <p:inputText />
+                            <p:outputLabel value="เคล็ดลับ:จำนวนตัวอักษรต้องไม่เกิน 150 ตัว" styleClass="sub-label"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <p:outputLabel value="คำอธิบายเกี่ยวกับเว็บไซต์:"/>
+                            <font class="require">*</font>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <p:inputTextarea />
+                            <p:outputLabel value="เคล็ดลับ:จำนวนตัวอักษรต้องไม่เกิน 150 ตัว" styleClass="sub-label"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <p:outputLabel value="รายละเอียดลิขสิทธิ์："/>
+                            <font class="require">*</font>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:inputText />
+                            <p:outputLabel value="เคล็ดลับ:จำนวนตัวอักษรต้องไม่เกิน 100 ตัว" styleClass="sub-label"/>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                </div>
+            </p:panel>
+            <h:panelGroup style="margin-left: 0px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}"/>
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" />
+            </h:panelGroup>
+        </h:form>
+
+    </p:panel>
+</ui:composition>
