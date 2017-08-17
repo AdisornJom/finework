@@ -174,6 +174,7 @@ public class R109Controller extends BaseController {
                     toDate = calEnd.getTime();
                 }
 
+            //เงินที่ ยังไม่ได้จ่ายเงินให้กับ งานที่เสร็จ
             items=manufactoryFacade.findSysManufactoryRealOutstandingListByCriteria(documentno, null,contractor_find, startDate, toDate,1);
               
             Double totalSum = 0.0;
