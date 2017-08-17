@@ -76,14 +76,32 @@
                     <h:panelGroup rendered="#{t103Controller.selected.transportType eq 1}">
                         <h:outputText value="#{t103Controller.selected.foremanId.foremanNameTh}" styleClass="lb_bold"/>
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{t103Controller.selected.transportType eq 1}">
+                     
+                     <h:panelGroup rendered="#{t103Controller.selected.transportType eq 1 &amp;&amp; !p:ifGranted('ROLE_ADMIN')}">
                         <p:outputLabel value="หน่วยงาน/โครงการ ："/>
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{t103Controller.selected.transportType eq 1}">
+                    <h:panelGroup rendered="#{t103Controller.selected.transportType eq 1 &amp;&amp; !p:ifGranted('ROLE_ADMIN')}">
                         <h:outputText value="#{t103Controller.selected.workunitId.workunitName}" styleClass="lb_bold"/>
                     </h:panelGroup>
-                     
+
+                    <h:panelGroup rendered="#{t103Controller.selected.transportType eq 1 &amp;&amp; p:ifGranted('ROLE_ADMIN')}">
+                        <p:outputLabel value="หน่วยงาน/โครงการ ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{t103Controller.selected.transportType eq 1 &amp;&amp; p:ifGranted('ROLE_ADMIN')}">
+                        <p:autoComplete id="workunit1" dropdown="true" value="#{t103Controller.selected.workunitId}" 
+                                        completeMethod="#{t103Controller.completeWorkunit}" 
+                                        var="wkunit" itemLabel="#{wkunit.workunitName}" 
+                                        itemValue="#{wkunit}" 
+                                        converter="#{workUnitConverter}"
+                                        scrollHeight="250" >
+                            <p:ajax event="query" global="false"/>
+                        </p:autoComplete>
+                        <p:watermark  for="workunit1" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                    </h:panelGroup>
                     
+
+                  
                      <h:panelGroup rendered="#{t103Controller.selected.transportType eq 2}">
                         <p:outputLabel value="ชื่อเล่นผู้ควบคุมงาน(โฟร์แมน) ："/>
                         <font class="require">*</font>

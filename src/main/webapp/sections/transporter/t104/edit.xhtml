@@ -76,12 +76,28 @@
                     <h:panelGroup>
                         <h:outputText value="#{t104Controller.selected.foremanId.foremanNameTh}" styleClass="lb_bold"/>
                     </h:panelGroup>
-                    
-                    <h:panelGroup>
+                     
+                    <h:panelGroup rendered="#{!p:ifGranted('ROLE_ADMIN')}">
                         <p:outputLabel value="หน่วยงาน/โครงการ ："/>
                     </h:panelGroup>
-                    <h:panelGroup>
+                    <h:panelGroup rendered="#{!p:ifGranted('ROLE_ADMIN')}">
                         <h:outputText value="#{t104Controller.selected.workunitId.workunitName}" styleClass="lb_bold"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{p:ifGranted('ROLE_ADMIN')}">
+                        <p:outputLabel value="หน่วยงาน/โครงการ ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{p:ifGranted('ROLE_ADMIN')}">
+                        <p:autoComplete id="workunit1" dropdown="true" value="#{t104Controller.selected.workunitId}" 
+                                        completeMethod="#{t104Controller.completeWorkunit}" 
+                                        var="wkunit" itemLabel="#{wkunit.workunitName}" 
+                                        itemValue="#{wkunit}" 
+                                        converter="#{workUnitConverter}"
+                                        scrollHeight="250" >
+                            <p:ajax event="query" global="false"/>
+                        </p:autoComplete>
+                        <p:watermark  for="workunit1" value="กรอกข้อมูลเพื่อ ค้นหา" />
                     </h:panelGroup>
                     
                      <h:panelGroup>
@@ -177,7 +193,7 @@
                         <p:outputLabel value="สถานะขนส่ง ："/>
                     </h:panelGroup>
                     <h:panelGroup>
-                        <p:selectOneMenu id="status" value="#{t104Controller.selected.status}"  style="width: 180px;">
+                        <p:selectOneMenu id="status" value="#{t104Controller.selected.status}"  style="width: 180px;"  disabled="#{t104Controller.selected.status eq 2 &amp;&amp; !p:ifGranted('ROLE_ADMIN')}">
                             <f:selectItem itemLabel="-" itemValue="" />
                             <f:selectItem itemLabel="ขนส่งสำเร็จ" itemValue="2" />
                             <f:selectItem itemLabel="ขนส่งไม่สำเร็จ" itemValue="3" />
@@ -188,13 +204,13 @@
                         <p:outputLabel value="ขนส่งสำเร็จวันที่ ："/>
                         <font class="require">*</font>
                     </h:panelGroup>
-                    <p:calendar  binding="#{bindingController.calendar}" value="#{t104Controller.selected.tpDateComplete}" size="16" />
+                    <p:calendar  binding="#{bindingController.calendar}" value="#{t104Controller.selected.tpDateComplete}" size="16" disabled="#{t104Controller.selected.status eq 2 &amp;&amp; !p:ifGranted('ROLE_ADMIN')}"/>
 
                     <h:panelGroup>
                         <p:outputLabel value="OT ต่อเที่ยว ："/>
                     </h:panelGroup>
                     <h:panelGroup id="ot">
-                        <p:selectBooleanCheckbox value="#{t104Controller.selected.tpOt}" > 
+                        <p:selectBooleanCheckbox value="#{t104Controller.selected.tpOt}" disabled="#{t104Controller.selected.status eq 2 &amp;&amp; !p:ifGranted('ROLE_ADMIN')}"> 
                             <p:ajax update="ottime" listener="#{t104Controller.ot}" global="fasle"/>
                         </p:selectBooleanCheckbox>
                     </h:panelGroup>
@@ -203,11 +219,13 @@
                         <p:outputLabel value="OT ตั้งงานต่อเนื่อง​ ："/>
                     </h:panelGroup>
                     <h:panelGroup id="ottime">
-                        <p:selectBooleanCheckbox value="#{t104Controller.selected.tpOTTimevalue}" style="vertical-align:middle;"> 
+                        <p:selectBooleanCheckbox value="#{t104Controller.selected.tpOTTimevalue}" style="vertical-align:middle;" 
+                                                 disabled="#{t104Controller.selected.status eq 2 &amp;&amp; !p:ifGranted('ROLE_ADMIN')}"> 
                             <p:ajax update="ot" listener="#{t104Controller.ottime}" global="fasle"/>
                         </p:selectBooleanCheckbox>
                         <p:spacer/><p:outputLabel value=" "/>
-                        <p:selectOneMenu id="hours" value="#{t104Controller.selected.tpOtTimeHours}"  style="width: 20px;vertical-align:middle;">
+                        <p:selectOneMenu id="hours" value="#{t104Controller.selected.tpOtTimeHours}"  style="width: 20px;vertical-align:middle;" 
+                                         disabled="#{t104Controller.selected.status eq 2 &amp;&amp; !p:ifGranted('ROLE_ADMIN')}">
                             <f:selectItem itemLabel="-" itemValue="0" />
                             <f:selectItem itemLabel="1" itemValue="1" />
                             <f:selectItem itemLabel="2" itemValue="2" />

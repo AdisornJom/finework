@@ -134,6 +134,11 @@ public class T104Controller extends BaseController {
     @Override
     public void edit() {
          try {
+             if (null == selected.getWorkunitId()) {
+                 JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "หน่วยงาน/โครงการ"));
+                 RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                 return;
+             }
              if (null == selected.getStatus()) {
                  JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "สถานะขนส่ง"));
                  RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
@@ -266,6 +271,25 @@ public class T104Controller extends BaseController {
         }
         return filteredSysTransportStaff;
     }
+    
+     //Auto complete workunit
+   public List<SysWorkunit> completeWorkunit(String query) {
+         List<SysWorkunit> filteredWorkunit= new ArrayList<>();
+       try {
+            List<SysWorkunit> allWorkunit = customerFacade.findSysWorkunitList();
+            for (SysWorkunit sysWorkunit:allWorkunit) {
+               if(sysWorkunit.getWorkunitName()!=null && sysWorkunit.getWorkunitName().length()>0){
+                if(sysWorkunit.getWorkunitName().toLowerCase().startsWith(query)) {
+                    filteredWorkunit.add(sysWorkunit);
+                }
+               }
+            }
+         } catch (Exception ex) {
+            LOG.error(ex);
+        }
+        return filteredWorkunit;
+    }
+   
     
     public void ot() {
         selected.setTpOTTimevalue(false);
