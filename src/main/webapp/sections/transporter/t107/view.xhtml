@@ -118,7 +118,7 @@
                             <f:convertNumber  pattern="#,##0.00"/>
                         </h:outputText> 
                         <p:spacer/>
-                        <h:outputText  value=" ( #{t107Controller.selected.perTrip} )" styleClass="lb_bold"  style="color: #ff0000"/>
+                        <h:outputText  value=" ( #{t107Controller.selected.perTrip} )" rendered="#{!empty t107Controller.selected.allowance}" styleClass="lb_bold"  style="color: #ff0000"/>
                     </h:panelGroup>
                     
                      <h:panelGroup>

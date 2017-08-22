@@ -18,6 +18,7 @@ import com.finework.core.util.NumberUtils;
 import com.finework.core.util.ReportUtil;
 import com.finework.ejb.facade.OrganizationFacade;
 import com.finework.ejb.facade.TransporterFacade;
+import com.finework.jsf.model.CalculateSalaryStaff;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -105,9 +106,9 @@ public class T107Controller extends BaseController {
                 transstaff.setSysTransportationList2(follow_staffs2);
 
                 //ค่า OT
-                Double statfs_ = calculaterOT(staffs, transstaff.getEarningPerday());
-                Double follow_staffs1_ = calculaterOT(follow_staffs1, transstaff.getDailyWage());
-                Double follow_staffs2_ = calculaterOT(follow_staffs2, transstaff.getDailyWage());
+                Double statfs_ = new CalculateSalaryStaff().calculaterOTandStaffExternal(staffs, transstaff.getEarningPerday(),transstaff.getTransportType());
+                Double follow_staffs1_ = new CalculateSalaryStaff().calculaterOTandStaffExternal(follow_staffs1, transstaff.getDailyWage(),transstaff.getTransportType());
+                Double follow_staffs2_ = new CalculateSalaryStaff().calculaterOTandStaffExternal(follow_staffs2, transstaff.getDailyWage(),transstaff.getTransportType());
                 transstaff.setValueWorking(statfs_ + follow_staffs1_ + follow_staffs2_);
                 
              
@@ -159,48 +160,6 @@ public class T107Controller extends BaseController {
         }
     }
 
-    public Double calculaterOT(List<SysTransportation> sysTransportations, Double amtPerday) {
-        Double moneyWork = 0.0;
-        try {
-            for (SysTransportation trans : sysTransportations) {
-                boolean ot = false;
-                if (trans.getTpOt() || trans.getTpOTTimevalue()) {
-                    if (trans.getTpOt()) {
-                        ot = true;
-                    }
-
-                    if (ot) {
-                        SysLogisticCar car = trans.getLogisticId();
-
-                        //item.transportCost eq 1?'ต่อเที่ยว':item.transportCost eq 2?'ต่อระยะ'
-                        if (Objects.equals(car.getTransportCost(), Constants.TRANSPORT_COST_TRAVEL)) {
-                            moneyWork += car.getCharterFlights();
-                            trans.setWorkMoneyOT(car.getCharterFlights());
-                        } else {
-                            SysWorkunit workUnit = trans.getWorkunitId();
-                            workUnit.getDistance();// 1. ใกล้ 2.ไกล Constants.WORKUNIT_DISTANCE_NEAR;Constants.WORKUNIT_DISTANCE_LONG;
-                            if (Objects.equals(Constants.WORKUNIT_DISTANCE_LONG, workUnit.getDistance())) {
-                                moneyWork += car.getTransportShort();
-                                trans.setWorkMoneyOT(car.getTransportShort());
-                            } else {
-                                moneyWork += car.getTransportLong();
-                                trans.setWorkMoneyOT(car.getTransportLong());
-                            }
-                        }
-                    } else {
-                        //คิดตามช่วงเวลา 
-                       Double value=((amtPerday!=null?amtPerday:0)/6)*trans.getTpOtTimeHours();
-                       moneyWork += value;
-                       trans.setWorkMoneyOT(value);
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            LOG.error(ex);
-        }
-
-        return moneyWork;
-    }
 
     @Override
     public void reportPDF() {
@@ -210,19 +169,21 @@ public class T107Controller extends BaseController {
             List<TransporterReportBean> reportList_main = new ArrayList<>();
             List<TransporterReportBean> reportList = new ArrayList<>();
             
-            TransporterReportBean bean1 = new TransporterReportBean();
-            String salary_value="";
-            if(Objects.equals(Constants.TRANSPORT_STAFF,selected.getTransportstaffType())){
-                bean1.setDetail("เงินเดือน");
-                salary_value = NumberUtils.numberFormat((null !=selected.getSalary()?selected.getSalary():0.0), "#,##0.00");
-                
-            }else{
-               bean1.setDetail("รายได้ต่อวัน ("+selected.getPerTrip()+")"); 
-               Double saraly_day =(null !=selected.getDailyWage()?selected.getDailyWage():0.0)*((selected.getPerTrip()>0) ? selected.getPerTrip():0.0);
-               salary_value= NumberUtils.numberFormat(saraly_day, "#,##0.00");
+            if(null !=selected.getSalary()){
+                TransporterReportBean bean1 = new TransporterReportBean();
+                String salary_value="";
+                if(Objects.equals(Constants.TRANSPORT_STAFF,selected.getTransportstaffType())){
+                    bean1.setDetail("เงินเดือน");
+                    salary_value = NumberUtils.numberFormat((null !=selected.getSalary()?selected.getSalary():0.0), "#,##0.00");
+
+                }else{
+                   bean1.setDetail("รายได้ต่อวัน ("+selected.getPerTrip()+")"); 
+                   Double saraly_day =(null !=selected.getDailyWage()?selected.getDailyWage():0.0)*((selected.getPerTrip()>0) ? selected.getPerTrip():0.0);
+                   salary_value= NumberUtils.numberFormat(saraly_day, "#,##0.00");
+                }
+                bean1.setAmount((StringUtils.equals("0.00", salary_value)) ? "" : salary_value);
+                reportList.add(bean1);   
             }
-            bean1.setAmount((StringUtils.equals("0.00", salary_value)) ? "" : salary_value);
-            reportList.add(bean1);    
             
              //
             if(null !=selected.getAllowance()){
@@ -258,8 +219,13 @@ public class T107Controller extends BaseController {
                 for (SysTransportation tpStaff : list) {
                     ot+=(null != tpStaff.getWorkMoneyOT()) ? tpStaff.getWorkMoneyOT() : 0.0;
                 }
-                TransporterReportBean beanOT = new TransporterReportBean();
-                beanOT.setDetail("รวม OT");
+                TransporterReportBean beanOT = new TransporterReportBean(); 
+                if(Objects.equals(Constants.TRANSPORT_TYPE_EXTERNAL, selected.getTransportType())){
+                    beanOT.setDetail("รวมรายได้");
+                    beanOT.setWorkunit("พนักงานขับรถภายนอก");
+                }else{
+                    beanOT.setDetail("รวม OT");
+                }
                 String value = NumberUtils.numberFormat(ot, "#,##0.00");
                 beanOT.setAmount((StringUtils.equals("0.00", value)) ? "" : value);
                 reportList.add(beanOT);
@@ -375,20 +341,21 @@ public class T107Controller extends BaseController {
                     List<TransporterReportBean> reportList_main = new ArrayList<>();
                     List<TransporterReportBean> reportList = new ArrayList<>();
                     
-                    
-                    TransporterReportBean bean1 = new TransporterReportBean();
-                    String salary_value="";
-                    if(Objects.equals(Constants.TRANSPORT_STAFF,sysTransportStaff.getTransportstaffType())){
-                        bean1.setDetail("เงินเดือน");
-                        salary_value = NumberUtils.numberFormat((null !=sysTransportStaff.getSalary()?sysTransportStaff.getSalary():0.0), "#,##0.00");
+                    if (null != sysTransportStaff.getSalary()) {
+                        TransporterReportBean bean1 = new TransporterReportBean();
+                        String salary_value = "";
+                        if (Objects.equals(Constants.TRANSPORT_STAFF, sysTransportStaff.getTransportstaffType())) {
+                            bean1.setDetail("เงินเดือน");
+                            salary_value = NumberUtils.numberFormat((null != sysTransportStaff.getSalary() ? sysTransportStaff.getSalary() : 0.0), "#,##0.00");
 
-                    }else{
-                       bean1.setDetail("รายได้ต่อวัน ("+sysTransportStaff.getPerTrip()+")"); 
-                       Double saraly_day =(null !=sysTransportStaff.getDailyWage()?sysTransportStaff.getDailyWage():0.0)*((sysTransportStaff.getPerTrip()>0) ? sysTransportStaff.getPerTrip():0.0);
-                       salary_value= NumberUtils.numberFormat(saraly_day, "#,##0.00");
+                        } else {
+                            bean1.setDetail("รายได้ต่อวัน (" + sysTransportStaff.getPerTrip() + ")");
+                            Double saraly_day = (null != sysTransportStaff.getDailyWage() ? sysTransportStaff.getDailyWage() : 0.0) * ((sysTransportStaff.getPerTrip() > 0) ? sysTransportStaff.getPerTrip() : 0.0);
+                            salary_value = NumberUtils.numberFormat(saraly_day, "#,##0.00");
+                        }
+                        bean1.setAmount((StringUtils.equals("0.00", salary_value)) ? "" : salary_value);
+                        reportList.add(bean1);
                     }
-                    bean1.setAmount((StringUtils.equals("0.00", salary_value)) ? "" : salary_value);
-                    reportList.add(bean1);    
 
                      //
                     if(null !=sysTransportStaff.getAllowance()){
@@ -425,7 +392,12 @@ public class T107Controller extends BaseController {
                             ot+=(null != tpStaff.getWorkMoneyOT()) ? tpStaff.getWorkMoneyOT() : 0.0;
                         }
                         TransporterReportBean beanOT = new TransporterReportBean();
-                        beanOT.setDetail("รวม OT");
+                        if (Objects.equals(Constants.TRANSPORT_TYPE_EXTERNAL, sysTransportStaff.getTransportType())) {
+                            beanOT.setDetail("รวมรายได้");
+                            beanOT.setWorkunit("พนักงานขับรถภายนอก");
+                        } else {
+                            beanOT.setDetail("รวม OT");
+                        }
                         String value = NumberUtils.numberFormat(ot, "#,##0.00");
                         beanOT.setAmount((StringUtils.equals("0.00", value)) ? "" : value);
                         reportList.add(beanOT);

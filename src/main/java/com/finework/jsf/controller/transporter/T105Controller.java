@@ -16,6 +16,7 @@ import com.finework.core.util.NumberUtils;
 import com.finework.core.util.ReportUtil;
 import com.finework.ejb.facade.OrganizationFacade;
 import com.finework.ejb.facade.TransporterFacade;
+import com.finework.jsf.model.CalculateSalaryStaff;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -100,9 +101,9 @@ public class T105Controller extends BaseController {
                 transstaff.setSysTransportationList1(follow_staffs1);
                 transstaff.setSysTransportationList2(follow_staffs2);
 
-                Double statfs_ = calculaterOT(staffs, transstaff.getEarningPerday());
-                Double follow_staffs1_ = calculaterOT(follow_staffs1, transstaff.getDailyWage());
-                Double follow_staffs2_ = calculaterOT(follow_staffs2, transstaff.getDailyWage());
+                Double statfs_ = new CalculateSalaryStaff().calculaterOTandStaffExternal(staffs, transstaff.getEarningPerday(),transstaff.getTransportType());
+                Double follow_staffs1_ = new CalculateSalaryStaff().calculaterOTandStaffExternal(follow_staffs1, transstaff.getDailyWage(),transstaff.getTransportType());
+                Double follow_staffs2_ = new CalculateSalaryStaff().calculaterOTandStaffExternal(follow_staffs2, transstaff.getDailyWage(),transstaff.getTransportType());
 
                 transstaff.setValueWorking(statfs_ + follow_staffs1_ + follow_staffs2_);
             }
@@ -111,61 +112,6 @@ public class T105Controller extends BaseController {
             LOG.error(ex);
         }
     }
-
-    public Double calculaterOT(List<SysTransportation> sysTransportations, Double amtPerday) {
-        Double moneyWork = 0.0;
-        try {
-            for (SysTransportation trans : sysTransportations) {
-                boolean ot = false;
-                if (trans.getTpOt() || trans.getTpOTTimevalue()) {
-                    if (trans.getTpOt()) {
-                        ot = true;
-                    }
-
-                    if (ot) {
-                        SysLogisticCar car = trans.getLogisticId();
-
-                        //item.transportCost eq 1?'ต่อเที่ยว':item.transportCost eq 2?'ต่อระยะ'
-                        if (Objects.equals(car.getTransportCost(), Constants.TRANSPORT_COST_TRAVEL)) {
-                            moneyWork += car.getCharterFlights();
-                            trans.setWorkMoneyOT(car.getCharterFlights());
-                        } else {
-                            SysWorkunit workUnit = trans.getWorkunitId();
-                            workUnit.getDistance();// 1. ใกล้ 2.ไกล Constants.WORKUNIT_DISTANCE_NEAR;Constants.WORKUNIT_DISTANCE_LONG;
-                            if (Objects.equals(Constants.WORKUNIT_DISTANCE_LONG, workUnit.getDistance())) {
-                                moneyWork += car.getTransportShort();
-                                trans.setWorkMoneyOT(car.getTransportShort());
-                            } else {
-                                moneyWork += car.getTransportLong();
-                                trans.setWorkMoneyOT(car.getTransportLong());
-                            }
-                        }
-                    } else {
-                        //คิดตามช่วงเวลา 
-                       Double value=((amtPerday!=null?amtPerday:0)/6)*trans.getTpOtTimeHours();
-                       moneyWork += value;
-                       trans.setWorkMoneyOT(value);
-                        
-                   /*     SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
-                        String timeWork = sdf.format(trans.getTpDateComplete());
-                        if (Integer.parseInt(timeWork) > 200000) {//>20:00 คิด 1 แรง ไม่ใช่ ครึ่งแรก
-                            moneyWork += amtPerday / 1;
-                            trans.setWorkMoneyOT(amtPerday / 1);
-                        } else {
-                            moneyWork += amtPerday / 2;
-                            trans.setWorkMoneyOT(amtPerday / 2);
-                        }
-                    */
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            LOG.error(ex);
-        }
-
-        return moneyWork;
-    }
-
     @Override
     public void reportPDF() {
         try {
