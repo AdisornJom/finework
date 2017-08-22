@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+       .ui-autocomplete-input{ 
+            width: 160px;
+        }
+       .comboColumn {
+            width: 200px;
+       }
+    </style>
+    <p:panel header="T106 - ค่าใช้จ่ายระบบขนส่ง">
+       <p:messages id="delete_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+        <p:toolbar style="margin-bottom: 3px;">
+            <f:facet name="left" >
+                <h:form>
+                    <h:panelGrid cellpadding="1" cellspacing="1">
+                       <h:panelGroup>
+                        <p:commandButton styleClass="search-btn" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" update=":content" 
+                                         actionListener="#{t106Controller.prepareCreate('transporter/t106/create')}"/>
+                       </h:panelGroup>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+             <f:facet name="right" >
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columnClasses="col1,comboColumn,col1,col2,col1,col2" border="0" columns="11" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
+                        <p:outputLabel value="ชื่อเล่นพนักงาน ："/>
+                        <h:panelGroup >
+                            <p:autoComplete id="tpStaff" dropdown="true" value="#{t106Controller.tpstaff_find}" 
+                                            completeMethod="#{t106Controller.completeTransportStaff}" 
+                                            var="tpstaff" itemLabel="#{tpstaff.transportstaffNickname}" 
+                                            itemValue="#{tpstaff}" 
+                                            converter="#{transporterStaffConverter}"
+                                            scrollHeight="250" >
+                                <p:ajax event="query" global="false"/>
+                            </p:autoComplete>
+                            <p:watermark  for="tpStaff" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="วันที่ ："/>
+                        <p:calendar id="startDate" value="#{t106Controller.startDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+
+                        <p:outputLabel value="ถึง ："/>
+                        <p:calendar id="toDate" value="#{t106Controller.toDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+
+                        <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
+                                        actionListener="${t106Controller.search()}" styleClass="search-btn" update=":content"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+        <ui:include src="list.xhtml"/>
+
+    </p:panel>
+
+</ui:composition>

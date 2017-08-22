@@ -171,7 +171,12 @@
                         <p:column headerText="OT ตั้งงานต่อเนื่อง​" style="width: 10px;" >
                             <p:selectBooleanCheckbox value="#{detail.tpOTTimevalue}"/>
                         </p:column>
-
+                        
+                        <p:column headerText="จำนวนเงิน" style="width: 10px;text-align: right" >
+                            <h:outputText  value="#{detail.workMoneyOT}" styleClass="lb_bold"  style="color: #ff0000">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </p:column>
                     </p:dataTable>
                     <p:spacer/><p:outputLabel value="พนักงานติดรถ(2)" rendered="#{!empty t105Controller.selected.sysTransportationList2}" style="color: #ff0000"/>
                     <p:dataTable id="follow2staffDetail" binding="#{bindingController.dataTableModel}" value="#{t105Controller.selected.sysTransportationList2}" var="detail"
@@ -198,6 +203,11 @@
                             <p:selectBooleanCheckbox value="#{detail.tpOTTimevalue}"/>
                         </p:column>
 
+                        <p:column headerText="จำนวนเงิน" style="width: 10px;text-align: right" >
+                            <h:outputText  value="#{detail.workMoneyOT}" styleClass="lb_bold"  style="color: #ff0000">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </p:column>
                     </p:dataTable>
                 </p:panel>
             </p:panel>

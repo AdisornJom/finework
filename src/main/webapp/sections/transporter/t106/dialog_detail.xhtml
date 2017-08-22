@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .cold1{width: 35%;}
+        .cold2{width: 55%;}
+        .cold3{width: 10%;}
+    </style>
+    
+
+    <p:dialog id="dlg1" header="กรอกรายเอียด....." modal="true" 
+              widgetVar="selectDetail_dialog" width="900" 
+              binding="#{bindingController.defaultDialogModel}"  styleClass="customDialog">
+        <p:messages id="dialog" autoUpdate="false" showIcon="false"/>
+        <h:form id="listFormExp">
+             <p:panelGrid id="detail" columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                 
+                     <h:panelGroup>
+                       <p:outputLabel value="ประเภทค่าใช้จ่าย ："/>
+                       <font class="require">*</font>
+                     </h:panelGroup>
+                    <h:panelGroup>
+                        <p:autoComplete id="deductionName" dropdown="true" value="#{t106Controller.expDeduction_selected}" 
+                                        completeMethod="#{t106Controller.completeExpensesDeduction}" 
+                                        var="deduction" itemLabel="#{deduction.deductionDesc}" 
+                                        itemValue="#{deduction}" 
+                                        converter="#{expensesManufactoryDeductionConverter}"
+                                        scrollHeight="250" forceSelection="true" 
+                                        >
+                            <p:ajax event="query"  global="false"/>
+                        </p:autoComplete>
+                        <p:watermark  for="deductionName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                    </h:panelGroup>
+             </p:panelGrid>
+
+             <h:form id="listFormExp1">
+                 <p:panelGrid id="detail1" columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                     <h:panelGroup>
+                         <p:outputLabel id="calculateType1" for="volume" value="จำนวนเงิน :" />
+                         <font class="require">*</font>
+                     </h:panelGroup>
+                     <h:panelGroup>
+                         <p:inputText id="volume" value="#{t106Controller.expDetail_selected.amount}" maxlength="20" 
+                                      style="width: 120px; text-align: right;vertical-align:middle"/>
+                     </h:panelGroup>
+                 </p:panelGrid>    
+                 <br/>
+
+                 <h:panelGroup layout="block" style="text-align: center" >
+                     <p:commandButton styleClass="search-btn" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" global="false" 
+                                      update="listFormExp dialog"
+                                      actionListener="#{t106Controller.addDetailDialog()}">
+                     </p:commandButton> 
+                 </h:panelGroup>
+                 
+                 
+                 <br/>
+                 <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{t106Controller.sysTransportationExpDetailList}" var="detail">
+                       <p:column headerText="#" style="text-align: center;width: 5%;">
+                            <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+                        
+                        <p:column headerText="ประเภทค่าใช้จ่าย" style="width: 66%;" >
+                            <h:outputText value="#{detail.deductionId.deductionDesc}"  />
+                        </p:column>
+   
+                        <p:column headerText="จำนวนเงิน" style="width: 20%;">
+                            <h:outputText  value="#{detail.amount}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="#{msgs['common.manage']}" style="width:8%;text-align: center">
+                            <p:commandButton title="#{msgs['btn.delete']}" icon="fa fa-trash" action="#{t106Controller.deleteDialogDetail()}" styleClass="delete-btn"
+                                             update="listFormExp:listFormExp1:dt_itemDetail" global="false">
+                                <f:setPropertyActionListener value="#{detail}" target="#{t106Controller.expDetail_selected}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+            
+
+                 <br/>
+                 <h:panelGroup layout="block" style="text-align: center" >
+                     <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                      actionListener="#{t106Controller.addDetail()}">
+                     </p:commandButton> 
+                     <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                      oncomplete="PF('selectDetail_dialog').hide();"
+                                      actionListener="#{t106Controller.clearData_sysTransportationExpDetail()}" />
+                 </h:panelGroup>
+             </h:form>
+        </h:form>
+
+
+    </p:dialog>
+
+</ui:composition>
+        

@@ -7,6 +7,7 @@ import com.finework.core.ejb.entity.SysPrepareTransportDetail;
 import com.finework.core.ejb.entity.SysTransportServices;
 import com.finework.core.ejb.entity.SysTransportStaff;
 import com.finework.core.ejb.entity.SysTransportation;
+import com.finework.core.ejb.entity.SysTranspostationExp;
 import com.finework.core.ejb.entity.SysWorkunit;
 import com.finework.ejb.dao.SysLogisticCarDAO;
 import com.finework.ejb.dao.SysPrepareTransportDAO;
@@ -15,6 +16,7 @@ import com.finework.ejb.dao.SysTransportServicesDAO;
 import com.finework.ejb.dao.SysTransportStaffDAO;
 import com.finework.ejb.dao.SysTransportationDAO;
 import com.finework.ejb.dao.SysTransportationDetailDAO;
+import com.finework.ejb.dao.SysTransportationExpDAO;
 import com.finework.ejb.dao.SysTransportationServiceDetailDAO;
 import com.finework.ejb.dao.SysTransportationSpecialDetailDAO;
 import java.util.Date;
@@ -47,9 +49,15 @@ public class TransporterBO {
     private SysTransportationServiceDetailDAO sysTransportationServiceDetailDAO;
     @EJB
     private SysTransportationSpecialDetailDAO sysTransportationSpecialDetailDAO;
+    @EJB
+    private SysTransportationExpDAO sysTransportationExpDAO;
 
     //=========================
-     public List<SysTransportStaff> findSysTransportStaffList(Integer tranSportStaffType) throws Exception {
+    public List<SysTransportStaff> findSysTransportStaffList() throws Exception {
+        return sysTransportStaffDAO.findSysTransportStaffList();
+    }
+
+    public List<SysTransportStaff> findSysTransportStaffList(Integer tranSportStaffType) throws Exception {
         return sysTransportStaffDAO.findSysTransportStaffList(tranSportStaffType);
     }
      
@@ -212,6 +220,35 @@ public class TransporterBO {
     }
     public List<SysTransportation> findStafffollow2SysTransportationListByCriteria(SysTransportStaff transportstaffId,Integer status,Date startDate, Date toDate) throws Exception {
        return sysTransportationDAO.findStafffollow2SysTransportationListByCriteria(transportstaffId, status,startDate,toDate);
+    }
+    
+     //SysTransportationExp=============
+    public List<SysTranspostationExp> findSysTranspostationExpList() throws Exception {
+        return sysTransportationExpDAO.findSysTranspostationExpList();
+    }
+     
+    public SysTranspostationExp findSysTranspostationExpById(Integer prepareTpId) throws Exception {
+        return sysTransportationExpDAO.findSysTranspostationExpById(prepareTpId);
+    }
+    
+    public List<SysTranspostationExp> findSysTranspostationExpListByCriteria(SysTransportStaff transportstaffId,Date startDate, Date toDate) throws Exception {
+       return sysTransportationExpDAO.findSysTranspostationExpListByCriteria(transportstaffId, startDate, toDate);
+    }
+    
+    public void createSysTranspostationExp(SysTranspostationExp sysTranspostationExp) throws Exception{
+        sysTransportationExpDAO.create(sysTranspostationExp);
+    }
+    
+    public void editSysTranspostationExp(SysTranspostationExp sysTranspostationExp) throws Exception{
+        sysTransportationExpDAO.edit(sysTranspostationExp);
+    }
+    
+    public void deleteSysTranspostationExp(SysTranspostationExp sysTranspostationExp) throws Exception{
+        sysTransportationExpDAO.remove(sysTranspostationExp);
+    }
+    
+    public void deleteTransportationExpIdOnDetail(Integer expId) throws Exception {
+        sysTransportationExpDAO.deleteTransportationExpIdOnDetail(expId);
     }
     
 }

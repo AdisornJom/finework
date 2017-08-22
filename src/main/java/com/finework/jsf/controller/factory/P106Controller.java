@@ -578,29 +578,19 @@ public class P106Controller extends BaseController {
                      Double volumn = 0.0, priceUnit = 0.0;
                      volumn = null != to.getFactoryRealId().getVolumeReal() ? to.getFactoryRealId().getVolumeReal() : 0.0;
                      priceUnit = null != to.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getUnitPrice() ? to.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getUnitPrice() : 0.0;
-                     if (to.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getCalculateType() != 2) {
-                         if (detail_list.containsKey(detail)) {
-                             ReportBean oldBean = (ReportBean) detail_list.get(detail);
-                             //oldBean.setPriceUnit(oldBean.getPriceUnit()+priceUnit);
-                             oldBean.setVolumn(oldBean.getVolumn() + volumn);
-                             oldBean.setTotal(oldBean.getTotal() + total);
-                             detail_list.put(detail, oldBean);
-                         } else {
-                             reportBean.setDetail(detail);
-                             reportBean.setUnit(null != to.getFactoryRealId().getManufactoryDetailId().getUnit() ? to.getFactoryRealId().getManufactoryDetailId().getUnit() : "");
-                             reportBean.setPriceUnit(priceUnit);
-                             reportBean.setVolumn(volumn);
-                             reportBean.setTotal(total);
-                             detail_list.put(detail, reportBean);
-                         }
-                     } else {
-                         reportBean.setDetail(detail);
-                         reportBean.setUnit(null != to.getFactoryRealId().getManufactoryDetailId().getUnit() ? to.getFactoryRealId().getManufactoryDetailId().getUnit() : "");
-                         reportBean.setPriceUnit(priceUnit);
-                         reportBean.setVolumn(volumn);
-                         reportBean.setTotal(total);
-                         detail_list.put(detail, reportBean);
-                     }
+                     if (detail_list.containsKey(detail)) {
+                        ReportBean oldBean=(ReportBean)detail_list.get(detail);
+                        oldBean.setVolumn(oldBean.getVolumn()+volumn);
+                        oldBean.setTotal(oldBean.getTotal()+total);
+                        detail_list.put(detail, oldBean);
+                    }else{
+                       reportBean.setDetail(detail);
+                       reportBean.setUnit(null != to.getFactoryRealId().getManufactoryDetailId().getUnit() ? to.getFactoryRealId().getManufactoryDetailId().getUnit() : "");
+                       reportBean.setPriceUnit(priceUnit);
+                       reportBean.setVolumn(volumn);
+                       reportBean.setTotal(total);
+                       detail_list.put(detail, reportBean);
+                    }
                  }
                  for (Map.Entry<String, ReportBean> entry : detail_list.entrySet()) {
                      String key = entry.getKey();

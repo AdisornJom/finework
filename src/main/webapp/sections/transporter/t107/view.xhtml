@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 370px;
+        }
+
+        .customDialog .ui-dialog-title {
+            font-size: 150% !important;
+            color: #ffffff;
+        }
+
+        .customDialog .ui-dialog-content {
+            padding: 0;
+            margin: 10px 10px;
+        }
+        .customDialog .ui-dialog-titlebar.ui-widget-header {
+            background: #C0C0C0;
+            color: black;
+            box-shadow: none;
+        }
+        .pe-inputNumber {
+            text-align: right;
+            width:120px;
+            float:right;
+            font-size: 24px;
+        }
+        .ui-datatable tbody  {
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
+    </style>
+    <p:panel header="T107 - สรุปเงินเดือนพนักงานขนส่ง">
+
+        <h:form id="listForm">
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+
+            <p:panel id="panel2" header="#{msgs['m101.commoninfo']}"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+                    <h:panelGroup>
+                        <p:outputLabel value="ชื่อพนักงาน ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText  value="#{t107Controller.selected.transportstaffNameTh}"  styleClass="lb_bold"/><br/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel value="ชื่อเล่นพนักงาน ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{t107Controller.selected.transportstaffNickname}" styleClass="lb_bold"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel value="ประเภท ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{t107Controller.selected.transportstaffType eq 1?'พนักงานขับรถ':
+                                               t107Controller.selected.transportstaffType eq 2?'พนักงานติดรถ':''}"  
+                                      styleClass="lb_bold" style="#{t107Controller.selected.transportstaffType eq 1?'color:green;':
+                                                                    t107Controller.selected.transportstaffType eq 2?'color:#b76060;':''}"/> 
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel value="เบอร์โทร ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{t107Controller.selected.tel}" styleClass="lb_bold"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel value="Tax ID ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{t107Controller.selected.taxId}" styleClass="lb_bold"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel value="LINE ID ："/>
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText value="#{t107Controller.selected.transportstaffLineid}" styleClass="lb_bold"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{t107Controller.selected.transportstaffType eq 1}">
+                        <p:outputLabel  value="เงินเดือน :" />
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{t107Controller.selected.transportstaffType eq 1}">
+                        <h:outputText  value="#{t107Controller.selected.salary}" styleClass="lb_bold"  style="color: #ff0000">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText>  
+                    </h:panelGroup>
+                    
+                     <h:panelGroup rendered="#{t107Controller.selected.transportstaffType eq 2}">
+                        <p:outputLabel  value="รายได้ต่อวัน :" />
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{t107Controller.selected.transportstaffType eq 2}">
+                        <h:outputText  value="#{t107Controller.selected.dailyWage}" styleClass="lb_bold"  style="color: #ff0000">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText>  
+                    </h:panelGroup>
+                    
+                     <h:panelGroup>
+                        <p:outputLabel  value="เบี้ยเลี้ยง :" />
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText  value="#{t107Controller.selected.allowance} " styleClass="lb_bold"  style="color: #ff0000">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText> 
+                        <p:spacer/>
+                        <h:outputText  value=" ( #{t107Controller.selected.perTrip} )" styleClass="lb_bold"  style="color: #ff0000"/>
+                    </h:panelGroup>
+                    
+                     <h:panelGroup>
+                        <p:outputLabel  value="ค่าเช่าบ้าน :" />
+                    </h:panelGroup>
+                    <h:panelGroup>
+                        <h:outputText  value="#{t107Controller.selected.rentHouse}" styleClass="lb_bold"  style="color: #ff0000">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText>  
+                    </h:panelGroup>
+                    
+                     <h:panelGroup rendered="#{t107Controller.selected.transportstaffType eq 1}">
+                        <p:outputLabel  value="ค่าโทรศัพท์ :" />
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{t107Controller.selected.transportstaffType eq 1}">
+                        <h:outputText  value="#{t107Controller.selected.telCharge}" styleClass="lb_bold"  style="color: #ff0000">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText>  
+                    </h:panelGroup>
+                    
+                     <h:panelGroup >
+                        <p:outputLabel  value="รายได้ระบบขนส่ง :" />
+                    </h:panelGroup>
+                    <h:panelGroup >
+                        <h:outputText  value="#{t107Controller.selected.valueWorking}" styleClass="lb_bold"  style="color: #ff0000">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText>  
+                    </h:panelGroup>
+                    
+                     <h:panelGroup >
+                        <p:outputLabel  value="ค่าใช้จ่ายทั้งหมด :" />
+                    </h:panelGroup>
+                    <h:panelGroup >
+                        <h:outputText  value="#{t107Controller.selected.totalExp}" styleClass="lb_bold"  style="color: #0000ff;">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText>  
+                    </h:panelGroup>
+                    
+                     <h:panelGroup >
+                        <p:outputLabel  value="รายได้สุทธิ :" />
+                    </h:panelGroup>
+                    <h:panelGroup >
+                        <h:outputText  value="#{t107Controller.selected.totalNet}" styleClass="lb_bold"  style="color: #ff0000">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText>  
+                    </h:panelGroup>
+                </p:panelGrid>
+            </p:panel>
+
+            <p:panel  id="detail_list" style="border: 0px" >
+                <p:panel  header="#{msgs['btn.view']}" style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <p:spacer/><p:outputLabel value="พนักงานขับรถ" rendered="#{!empty t107Controller.selected.sysTransportationList}" style="color: #ff0000"/>
+                    <p:dataTable id="staffDetail" binding="#{bindingController.dataTableModel}" value="#{t107Controller.selected.sysTransportationList}" var="detail"
+                                 rendered="#{!empty t107Controller.selected.sysTransportationList}">
+                        <p:column headerText="ลำดับ" style="text-align: center;width: 5px;">
+                            <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+
+                        <p:column headerText="เลขที่ใบขนส่ง" style="width: 15px;" >
+                            <h:outputText value="#{detail.documentNo}"  />
+                        </p:column>
+
+                        <p:column headerText="โครงการ" style="width: 30px;" >
+                            <h:outputText value="#{detail.workunitId.workunitName}"  />
+                        </p:column>
+
+                        <p:column headerText="วันที่ทำรายการ" style="width: 15px;" styleClass="lb_bold">
+                            <h:outputText value="#{detail.tpOrderDate}" >
+                                <f:convertDateTime pattern="dd-MM-yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="วันที่ขนส่งสำเร็จ" style="width: 15px;" >
+                            <h:outputText value="#{detail.tpDateComplete}" styleClass="lb_bold">
+                                <f:convertDateTime pattern="dd-MM-yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="OT/เที่ยว" style="width: 8px;;text-align: center;" >
+                            <p:selectBooleanCheckbox value="#{detail.tpOt}"/>
+                        </p:column>
+
+                        <p:column headerText="OT/ต่อเนื่อง​" style="width: 8px;text-align: center;" >
+                            <p:selectBooleanCheckbox value="#{detail.tpOTTimevalue}"/>
+                        </p:column>
+
+                        <p:column headerText="จำนวนเงิน" style="width: 10px;text-align: right" >
+                            <h:outputText  value="#{detail.workMoneyOT}" styleClass="lb_bold"  style="color: #ff0000">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </p:column>
+
+                    </p:dataTable>
+                    <p:spacer/><p:outputLabel value="พนักงานติดรถ(1)" rendered="#{!empty t107Controller.selected.sysTransportationList1}" style="color: #ff0000"/>
+                    <p:dataTable id="follow1staffDetail" binding="#{bindingController.dataTableModel}" value="#{t107Controller.selected.sysTransportationList1}" var="detail"
+                                 rendered="#{!empty t107Controller.selected.sysTransportationList1}">
+                        <p:column headerText="ลำดับ" style="text-align: center;width: 5px;">
+                            <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+
+                        <p:column headerText="เลขที่ใบขนส่ง" style="width: 20px;" >
+                            <h:outputText value="#{detail.documentNo}"  />
+                        </p:column>
+                        
+                        <p:column headerText="วันที่ทำรายการ" style="width: 15px;" styleClass="lb_bold">
+                            <h:outputText value="#{detail.tpOrderDate}" >
+                                <f:convertDateTime pattern="dd-MM-yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="วันที่ขนส่งสำเร็จ" style="width: 15px;" >
+                            <h:outputText value="#{detail.tpDateComplete}" styleClass="lb_bold">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="OT ต่อเที่ยว" style="width: 10px;" >
+                            <p:selectBooleanCheckbox value="#{detail.tpOt}"/>
+                        </p:column>
+
+                        <p:column headerText="OT ตั้งงานต่อเนื่อง​" style="width: 10px;" >
+                            <p:selectBooleanCheckbox value="#{detail.tpOTTimevalue}"/>
+                        </p:column>
+                        
+                        <p:column headerText="จำนวนเงิน" style="width: 10px;text-align: right" >
+                            <h:outputText  value="#{detail.workMoneyOT}" styleClass="lb_bold"  style="color: #ff0000">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </p:column>
+                    </p:dataTable>
+                    <p:spacer/><p:outputLabel value="พนักงานติดรถ(2)" rendered="#{!empty t107Controller.selected.sysTransportationList2}" style="color: #ff0000"/>
+                    <p:dataTable id="follow2staffDetail" binding="#{bindingController.dataTableModel}" value="#{t107Controller.selected.sysTransportationList2}" var="detail"
+                                 rendered="#{!empty t107Controller.selected.sysTransportationList2}">
+                        <p:column headerText="ลำดับ" style="text-align: center;width: 5px;">
+                            <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+
+                        <p:column headerText="เลขที่ใบขนส่ง" style="width: 20px;" >
+                            <h:outputText value="#{detail.documentNo}"  />
+                        </p:column>
+                        
+                        <p:column headerText="วันที่ทำรายการ" style="width: 15px;" styleClass="lb_bold">
+                            <h:outputText value="#{detail.tpOrderDate}" >
+                                <f:convertDateTime pattern="dd-MM-yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="วันที่ขนส่งสำเร็จ" style="width: 15px;" >
+                            <h:outputText value="#{detail.tpDateComplete}" styleClass="lb_bold">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="OT ต่อเที่ยว" style="width: 10px;" >
+                            <p:selectBooleanCheckbox value="#{detail.tpOt}"/>
+                        </p:column>
+
+                        <p:column headerText="OT ตั้งงานต่อเนื่อง​" style="width: 10px;" >
+                            <p:selectBooleanCheckbox value="#{detail.tpOTTimevalue}"/>
+                        </p:column>
+
+                        <p:column headerText="จำนวนเงิน" style="width: 10px;text-align: right" >
+                            <h:outputText  value="#{detail.workMoneyOT}" styleClass="lb_bold"  style="color: #ff0000">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </p:column>
+                    </p:dataTable>
+                    
+                     <p:spacer/><p:outputLabel value="ค่าใช้จ่าย" rendered="#{!empty t107Controller.selected.transportationExp}" style="color: #ff0000"/>
+                     <p:dataTable id="expstaffDetail" binding="#{bindingController.dataTableModel}" value="#{t107Controller.selected.transportationExp}" var="detail" rowExpandMode="single"
+                                  rendered="#{!empty t107Controller.selected.transportationExp}">
+                         <p:ajax event="rowToggle" global="false" onstart="return cfg.ext.params[0].name.indexOf('_rowExpansion') != -1"/>
+                         <p:column style="text-align: center;width:10%">
+                             <p:rowToggler/>
+                         </p:column>
+                         <p:column headerText="ลำดับ" style="text-align: center;width: 5%;">
+                             <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+
+                         <p:column  headerText="วันที่ทำรายการ " sortBy="#{item.exptpDate}" style="width: 40%;text-align: center">
+                             <h:outputText value="#{detail.exptpDate}">
+                                 <f:convertDateTime pattern="dd-MM-yyyy"/>
+                             </h:outputText>
+                         </p:column>
+
+                        <p:column headerText="จำนวนเงิน" style="width: 40%;text-align: right" >
+                            <h:outputText  value="#{detail.totalExp}" styleClass="lb_bold"  style="color: #ff0000">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </p:column>
+
+                        <p:rowExpansion >
+                            <p:dataTable  binding="#{bindingController.dataTableModel}" value="#{detail.sysTransportationExpDetailList}" var="hdetail">
+                                <p:column headerText="ลำดับ" style="text-align: center;width: 7%;">
+                                    <h:outputText value="#{(rowNumber+1)}" />
+                                </p:column>
+
+                                <p:column headerText="ปรเภทค่าใช้จ่าย" style="width: 66%;" >
+                                    <h:outputText value="#{hdetail.deductionId.deductionDesc}" style="lb_bold"/>
+                                </p:column>
+
+                                <p:column headerText="จำนวนเงิน" style="width: 20%;">
+                                    <h:outputText  value="#{hdetail.amount}"  style="float: right;">
+                                        <f:convertNumber  pattern="#,##0.00"/>
+                                    </h:outputText>     
+                                </p:column>
+                            </p:dataTable>
+                        </p:rowExpansion>
+                    </p:dataTable>
+                </p:panel>
+            </p:panel>
+
+            <h:panelGroup style="margin: 5px;">
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 actionListener="#{t107Controller.cancel('transporter/t107/index')}" styleClass="clear-btn" update=":content"/>
+            </h:panelGroup>
+        </h:form>
+    </p:panel>
+
+</ui:composition>

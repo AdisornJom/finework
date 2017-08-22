@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="T107SubReport" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a0dc101b-2a12-4673-a8cb-593a0fe767dd">
+	<property name="ireport.zoom" value="1.7715610000000017"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="seq" class="java.lang.String"/>
+	<field name="detail" class="java.lang.String"/>
+	<field name="volumn" class="java.lang.String"/>
+	<field name="unit" class="java.lang.String"/>
+	<field name="billNo" class="java.lang.String"/>
+	<field name="plot" class="java.lang.String"/>
+	<field name="amount" class="java.lang.String"/>
+	<field name="workunit" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="50" y="0" width="137" height="25" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="7dd36b72-d983-4cb3-8f7a-55fd01fa9b3e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Tahoma"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detail}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Band" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="2" y="0" width="33" height="25" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="9558b601-6dcb-455a-9ee7-8b742a7c6c7c"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{seq}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="1" y="0" width="1" height="25" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="58fde396-abdd-46b3-87e3-0e197a165e70"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="539" y="0" width="1" height="25" uuid="20d09512-ecd8-47d2-bdf8-e094d024abac"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="36" y="0" width="1" height="25" uuid="a909024c-54fb-4366-add5-0da6f30d4019"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="187" y="0" width="1" height="25" uuid="85df7c7a-8b94-44f4-b7d3-ee8043074b0f"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="454" y="0" width="1" height="25" uuid="88e421f9-d9ae-43e7-9707-ff65082bfb36"/>
+			</line>
+			<textField evaluationTime="Band" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="455" y="0" width="81" height="25" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="61012c67-c8af-4631-8d5d-bd95bed6f64d"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Band" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="194" y="0" width="260" height="25" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="d9457d7d-f917-4945-adce-a6ba58567cb9"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{workunit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

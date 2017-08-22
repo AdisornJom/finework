@@ -29,6 +29,10 @@ public class SysTransportStaffDAO extends AbstractDAO<SysTransportStaff> {
         super(SysTransportStaff.class);
     }
     
+    public List<SysTransportStaff> findSysTransportStaffList() {
+        Query q = em.createQuery("select o from SysTransportStaff o where o.status ='Y'  order by o.transportstaffId asc");
+        return q.getResultList();
+    }
     
     public List<SysTransportStaff> findSysTransportStaffList(Integer transportstaffType) {
         Query q = em.createQuery("select o from SysTransportStaff o where o.status ='Y' and o.transportstaffType=:transportstaffType order by o.transportstaffId asc");

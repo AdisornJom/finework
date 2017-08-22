@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+       .ui-autocomplete-input{ 
+            width: 130px;
+        }
+       .comboColumn {
+            width: 175px;
+       }
+    </style>
+    <p:panel header="T107 - สรุปเงินเดือนพนักงานขนส่ง">
+
+        <p:toolbar style="margin-bottom: 3px;">
+             <f:facet name="right" >
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columnClasses="col1,col2,col1,col2,col1,col2,col2" border="0" columns="7" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
+                        <p:outputLabel value="รายชื่อพนักงาน :"/>
+                        <p:inputText value="#{t107Controller.transportName}" />
+                        
+                        <p:outputLabel value="วันที่ ："/>
+                        <p:calendar  binding="#{bindingController.calendar}" value="#{t107Controller.startDate}" size="16" />
+
+                        <p:outputLabel value="ถึง ："/>
+                        <p:calendar  binding="#{bindingController.calendar}" value="#{t107Controller.toDate}" size="16" />
+
+                        <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
+                                        actionListener="${t107Controller.search()}" styleClass="search-btn" update=":content"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+        <ui:include src="list.xhtml"/>
+
+    </p:panel>
+
+</ui:composition>

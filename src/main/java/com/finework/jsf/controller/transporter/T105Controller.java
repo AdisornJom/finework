@@ -16,7 +16,6 @@ import com.finework.core.util.NumberUtils;
 import com.finework.core.util.ReportUtil;
 import com.finework.ejb.facade.OrganizationFacade;
 import com.finework.ejb.facade.TransporterFacade;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;

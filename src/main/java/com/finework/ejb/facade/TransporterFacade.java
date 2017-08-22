@@ -7,6 +7,7 @@ import com.finework.core.ejb.entity.SysPrepareTransportDetail;
 import com.finework.core.ejb.entity.SysTransportServices;
 import com.finework.core.ejb.entity.SysTransportStaff;
 import com.finework.core.ejb.entity.SysTransportation;
+import com.finework.core.ejb.entity.SysTranspostationExp;
 import com.finework.core.ejb.entity.SysWorkunit;
 import com.finework.ejb.bo.TransporterBO;
 import java.util.Date;
@@ -25,6 +26,10 @@ public class TransporterFacade {
     private TransporterBO transporterBO;
 
 //=======================================================
+    public List<SysTransportStaff> findSysTransportStaffList() throws Exception {
+        return transporterBO.findSysTransportStaffList();
+    }
+    
     public List<SysTransportStaff> findSysTransportStaffList(Integer tranSportStaffType) throws Exception {
         return transporterBO.findSysTransportStaffList(tranSportStaffType);
     }
@@ -181,4 +186,34 @@ public class TransporterFacade {
     public List<SysTransportation> findStafffollow2SysTransportationListByCriteria(SysTransportStaff transportstaffId,Integer status,Date startDate, Date toDate) throws Exception {
        return transporterBO.findStafffollow2SysTransportationListByCriteria(transportstaffId, status,startDate,toDate);
     }
+    
+    //SysTransportationExp=============
+    public List<SysTranspostationExp> findSysTranspostationExpList() throws Exception {
+        return transporterBO.findSysTranspostationExpList();
+    }
+     
+    public SysTranspostationExp findSysTranspostationExpById(Integer prepareTpId) throws Exception {
+        return transporterBO.findSysTranspostationExpById(prepareTpId);
+    }
+    
+    public List<SysTranspostationExp> findSysTranspostationExpListByCriteria(SysTransportStaff transportstaffId,Date startDate, Date toDate) throws Exception {
+       return transporterBO.findSysTranspostationExpListByCriteria(transportstaffId, startDate, toDate);
+    }
+    
+    public void createSysTranspostationExp(SysTranspostationExp sysTranspostationExp) throws Exception{
+        transporterBO.createSysTranspostationExp(sysTranspostationExp);
+    }
+    
+    public void editSysTranspostationExp(SysTranspostationExp sysTranspostationExp) throws Exception{
+        transporterBO.editSysTranspostationExp(sysTranspostationExp);
+    }
+    
+    public void deleteSysTranspostationExp(SysTranspostationExp sysTranspostationExp) throws Exception{
+        transporterBO.deleteSysTranspostationExp(sysTranspostationExp);
+    }
+    
+    public void deleteTransportationExpIdOnDetail(Integer expId) throws Exception {
+        transporterBO.deleteTransportationExpIdOnDetail(expId);
+    }
+    
 }

@@ -140,6 +140,12 @@ public class AdminUser implements Serializable {
     @Column(name = "user_p105", nullable = false, columnDefinition = "TINYINT(1) default 0")
     private Boolean user_p105;
     
+    @Column(name = "user_t106", nullable = false, columnDefinition = "TINYINT(1) default 0")
+    private Boolean user_t106;
+     
+    @Column(name = "user_t107", nullable = false, columnDefinition = "TINYINT(1) default 0")
+    private Boolean user_t107;
+    
 
     @Transient
     private String newPassword;
@@ -472,6 +478,22 @@ public class AdminUser implements Serializable {
 
     public void setUser_p105(Boolean user_p105) {
         this.user_p105 = user_p105;
+    }
+
+    public Boolean getUser_t106() {
+        return user_t106;
+    }
+
+    public void setUser_t106(Boolean user_t106) {
+        this.user_t106 = user_t106;
+    }
+
+    public Boolean getUser_t107() {
+        return user_t107;
+    }
+
+    public void setUser_t107(Boolean user_t107) {
+        this.user_t107 = user_t107;
     }
 
     

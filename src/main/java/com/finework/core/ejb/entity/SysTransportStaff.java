@@ -112,7 +112,19 @@ public class SysTransportStaff implements Serializable, Comparator<SysTransportS
     private Date modifiedDt;
     
     @Transient
+    private Double totalAmount;
+    @Transient
     private Double valueWorking;
+    @Transient
+    private Double totalNet;
+    @Transient
+    private Integer perTrip;
+    @Transient
+    private Double totalAllowance;
+    @Transient
+    private Double totalExp;
+    @Transient
+    private List<SysTranspostationExp> transportationExp;
 
     public SysTransportStaff() {
     }
@@ -360,5 +372,54 @@ public class SysTransportStaff implements Serializable, Comparator<SysTransportS
     public int compare(SysTransportStaff o1, SysTransportStaff o2) {
        return o2.getTransportstaffId().compareTo(o1.getTransportstaffId());
     }
+
+    public Double getTotalNet() {
+        return totalNet;
+    }
+
+    public void setTotalNet(Double totalNet) {
+        this.totalNet = totalNet;
+    }
+
+    public Integer getPerTrip() {
+        return perTrip;
+    }
+
+    public void setPerTrip(Integer perTrip) {
+        this.perTrip = perTrip;
+    }
+
+    public Double getTotalExp() {
+        return totalExp;
+    }
+
+    public void setTotalExp(Double totalExp) {
+        this.totalExp = totalExp;
+    }
+
+    public List<SysTranspostationExp> getTransportationExp() {
+        return transportationExp;
+    }
+
+    public void setTransportationExp(List<SysTranspostationExp> transportationExp) {
+        this.transportationExp = transportationExp;
+    }
+
+    public Double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public Double getTotalAllowance() {
+        return totalAllowance;
+    }
+
+    public void setTotalAllowance(Double totalAllowance) {
+        this.totalAllowance = totalAllowance;
+    }
+    
     
 }
