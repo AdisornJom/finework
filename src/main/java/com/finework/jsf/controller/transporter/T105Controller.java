@@ -1,10 +1,8 @@
 package com.finework.jsf.controller.transporter;
 
-import com.finework.core.ejb.entity.SysLogisticCar;
 import com.finework.core.ejb.entity.SysOrganization;
 import com.finework.core.ejb.entity.SysTransportStaff;
 import com.finework.core.ejb.entity.SysTransportation;
-import com.finework.core.ejb.entity.SysWorkunit;
 import com.finework.core.util.Constants;
 import com.finework.core.util.DateTimeUtil;
 import com.finework.jsf.common.BaseController;
