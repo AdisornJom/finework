@@ -7,6 +7,9 @@ package com.finework.ejb.dao;
 
 import com.finework.core.util.Persistence;
 import com.finework.core.ejb.entity.SysContractor;
+import com.finework.core.ejb.entity.SysForeman;
+import com.finework.core.ejb.entity.SysManufactoryReal;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -62,4 +65,23 @@ public class SysContractorDAO extends AbstractDAO<SysContractor> {
         
         return (SysContractor)q.getSingleResult();
     }
+    
+    public List<SysContractor> findSysContractorByCriteria(SysContractor contractor) throws Exception {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT m FROM SysContractor m ");
+        sb.append("where 1=1 ");
+             
+        if (null != contractor) {
+            sb.append("and m.contractorId = :contractor ");
+        }
+
+        Query q = em.createQuery(sb.toString());
+
+        if (null != contractor) {
+            q.setParameter("contractor", contractor.getContractorId());
+        }
+      
+        return q.getResultList();
+    }
+    
 }

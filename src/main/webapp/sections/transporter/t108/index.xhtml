@@ -12,7 +12,7 @@
             width: 200px;
        }
     </style>
-    <p:panel header="T107 - ค่าใช้จ่ายระบบขนส่ง">
+    <p:panel header="T106 - รายได้พนักงาน(พิเศษ)">
        <p:messages id="delete_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
         <p:toolbar style="margin-bottom: 3px;">
             <f:facet name="left" >
@@ -20,7 +20,7 @@
                     <h:panelGrid cellpadding="1" cellspacing="1">
                        <h:panelGroup>
                         <p:commandButton styleClass="search-btn" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" update=":content" 
-                                         actionListener="#{t106Controller.prepareCreate('transporter/t106/create')}"/>
+                                         actionListener="#{t108Controller.prepareCreate('transporter/t108/create')}"/>
                        </h:panelGroup>
                     </h:panelGrid>
                 </h:form>
@@ -30,8 +30,8 @@
                     <h:panelGrid columnClasses="col1,comboColumn,col1,col2,col1,col2" border="0" columns="11" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
                         <p:outputLabel value="ชื่อเล่นพนักงาน ："/>
                         <h:panelGroup >
-                            <p:autoComplete id="tpStaff" dropdown="true" value="#{t106Controller.tpstaff_find}" 
-                                            completeMethod="#{t106Controller.completeTransportStaff}" 
+                            <p:autoComplete id="tpStaff" dropdown="true" value="#{t108Controller.tpstaff_find}" 
+                                            completeMethod="#{t108Controller.completeTransportStaff}" 
                                             var="tpstaff" itemLabel="#{tpstaff.transportstaffNickname}" 
                                             itemValue="#{tpstaff}" 
                                             converter="#{transporterAllStaffConverter}"
@@ -42,15 +42,14 @@
                         </h:panelGroup>
                         
                         <p:outputLabel value="วันที่ ："/>
-                        <p:calendar id="startDate" value="#{t106Controller.startDate}" binding="#{bindingController.calendar}" 
-                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+                        <p:calendar  binding="#{bindingController.calendar}" value="#{t108Controller.startDate}" size="10" />
 
                         <p:outputLabel value="ถึง ："/>
-                        <p:calendar id="toDate" value="#{t106Controller.toDate}" binding="#{bindingController.calendar}" 
-                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+                         <p:calendar  binding="#{bindingController.calendar}" value="#{t108Controller.toDate}" size="10" />
 
                         <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
-                                        actionListener="${t106Controller.search()}" styleClass="search-btn" update=":content"/>
+                                        actionListener="${t108Controller.search()}" styleClass="search-btn" update=":content"/>
+                       
                     </h:panelGrid>
                 </h:form>
             </f:facet>

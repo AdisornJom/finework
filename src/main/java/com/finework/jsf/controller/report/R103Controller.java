@@ -86,11 +86,7 @@ public class R103Controller extends BaseController {
 
     public void search() {
         try {
-            classifyName="";
-            if(null!=selectClassify){
-                classifyName=selectClassify.getClassifyDesc();
-            }
-            items = stockFacade.findSysMaterialListNotmoving(classifyName,itemName, "Y");
+            items = stockFacade.findSysMaterialListNotmoving(null!=selectClassify?selectClassify:null,itemName, "Y");
             Collections.sort(items, new Comparator<SysMaterial>() {
                 @Override
                 public int compare(SysMaterial o1, SysMaterial o2) {

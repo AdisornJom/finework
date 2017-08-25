@@ -92,6 +92,7 @@ public class C207Controller extends BaseController {
                 return;
             }
             selected.setTransportstaffType(Constants.TRANSPORT_FOLLOW_STAFF);
+            selected.setTransportType(Constants.TRANSPORT_TYPE_INTERNAL);
             selected.setStatus("Y");
             selected.setCreatedBy(userInfo.getAdminUser().getUsername());
             selected.setCreatedDt(DateTimeUtil.getSystemDate());

@@ -245,9 +245,9 @@ public class StockBO {
         return sysMaterialDAO.countSysMaterialListByCriteria(classifyName,itemname,status);
     }
     
-     public List<SysMaterial> findSysMaterialListNotmoving(String classifyName,String itemname,String status) throws Exception {
+     public List<SysMaterial> findSysMaterialListNotmoving(SysMaterialClassify classify,String itemname,String status) throws Exception {
         List<SysMaterial> sysMaterialNotmovingList=new ArrayList();
-        List<SysMaterial> sysMaterialList=sysMaterialDAO.findSysMaterialListNotmoving(classifyName,itemname,status);
+        List<SysMaterial> sysMaterialList=sysMaterialDAO.findSysMaterialListNotmoving(classify,itemname,status);
         if(sysMaterialList!=null){
             for(SysMaterial sysMaterial:sysMaterialList){
                 //check datetime

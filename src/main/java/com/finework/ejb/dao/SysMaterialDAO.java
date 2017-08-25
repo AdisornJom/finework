@@ -7,6 +7,7 @@ package com.finework.ejb.dao;
 
 import com.finework.core.util.Persistence;
 import com.finework.core.ejb.entity.SysMaterial;
+import com.finework.core.ejb.entity.SysMaterialClassify;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -134,12 +135,12 @@ public class SysMaterialDAO extends AbstractDAO<SysMaterial> {
         return ((Number) q.getSingleResult()).intValue();
     }
      
-    public List<SysMaterial> findSysMaterialListNotmoving(String classifyName,String itemname,String status) throws Exception {
+    public List<SysMaterial> findSysMaterialListNotmoving(SysMaterialClassify classify,String itemname,String status) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT o FROM SysMaterial o ");
         sb.append("where 1=1 ");
-        if(null != classifyName && classifyName.length() > 0){
-            sb.append("and o.classifyId.classifyDesc = :classifyName ");
+        if(null != classify){
+            sb.append("and o.classifyId.classifyId = :classifyId ");
         }
         if(null != itemname && itemname.length() > 0){
             sb.append("and o.materialDesc like :itemname ");
@@ -147,13 +148,13 @@ public class SysMaterialDAO extends AbstractDAO<SysMaterial> {
         if(null != status && status.length() > 0){
             sb.append("and o.status =:status  ");
         }
-        sb.append("and o.receiptsLastDate is not null or o.expensesLastDate is not null ");
+        sb.append("and (o.receiptsLastDate is not null or o.expensesLastDate is not null) ");
+        sb.append(" order by o.receiptsLastDate,o.expensesLastDate asc");
         
-        sb.append(" order by receiptsLastDate,expensesLastDate asc");
 
         Query q = em.createQuery(sb.toString());
-        if(null != classifyName && classifyName.length() > 0){
-            q.setParameter("classifyName", classifyName);
+        if(null != classify ){
+            q.setParameter("classifyId", classify.getClassifyId());
         }
         if(null != itemname && itemname.length() > 0){
             q.setParameter("itemname", "%" + itemname + "%");
@@ -178,9 +179,9 @@ public class SysMaterialDAO extends AbstractDAO<SysMaterial> {
         if(null != status && status.length() > 0){
             sb.append("and o.status =:status  ");
         }
-        sb.append("and o.receiptsLastDate is not null or o.expensesLastDate is not null ");
+        sb.append("and (o.receiptsLastDate is not null or o.expensesLastDate is not null) ");
         
-        sb.append(" order by receiptsLastDate,expensesLastDate asc");
+        sb.append(" order by o.receiptsLastDate,o.expensesLastDate asc");
 
         Query q = em.createQuery(sb.toString());
         if(null != classifyName && classifyName.length() > 0){
@@ -211,7 +212,7 @@ public class SysMaterialDAO extends AbstractDAO<SysMaterial> {
         if(null != status && status.length() > 0){
             sb.append("and o.status =:status  ");
         }
-         sb.append("and o.receiptsLastDate is not null or o.expensesLastDate is not null ");
+         sb.append("and (o.receiptsLastDate is not null or o.expensesLastDate is not null ) ");
         
         sb.append(" order by o.receiptsLastDate, o.expensesLastDate asc");
 

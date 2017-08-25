@@ -27,6 +27,10 @@ public class ContractorFacade {
     public SysContractor findSysContractor(SysContractor sysCustomer) throws Exception {
        return contractorBO.findSysContractor(sysCustomer);
     }
+    
+    public List<SysContractor> findSysContractorListByCriteria(SysContractor sysContractor) throws Exception {
+       return contractorBO.findSysContractorListByCriteria(sysContractor);
+    }
    
     public List<SysContractor> findSysContractorListByCriteria(String companyName,String status) throws Exception {
        return contractorBO.findSysContractorListByCriteria(companyName, status);

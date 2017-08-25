@@ -33,7 +33,7 @@ public class CalculateSalaryStaff {
                             } else {
                                 SysWorkunit workUnit = trans.getWorkunitId();
                                 // 1. ใกล้ 2.ไกล Constants.WORKUNIT_DISTANCE_NEAR;Constants.WORKUNIT_DISTANCE_LONG;
-                                if (Objects.equals(Constants.WORKUNIT_DISTANCE_LONG, workUnit.getDistance())) {
+                                if (Objects.equals(Constants.WORKUNIT_DISTANCE_NEAR, workUnit.getDistance())) {
                                     moneyWork += car.getTransportShort();
                                     trans.setWorkMoneyOT(car.getTransportShort());
                                 } else {
@@ -63,6 +63,42 @@ public class CalculateSalaryStaff {
                             moneyWork += car.getTransportLong();
                             trans.setWorkMoneyOT(car.getTransportLong());
                         }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return moneyWork;
+    }
+    
+     public  Double calculaterOTandFollowStaff(List<SysTransportation> sysTransportations, Double amtPerday, Integer transportType) {
+        Double moneyWork = 0.0;
+        Double workNear=200.0;
+        Double workLong=300.0;
+        try {
+            for (SysTransportation trans : sysTransportations) {
+                boolean ot = false;
+                if (trans.getTpOt() || trans.getTpOTTimevalue()) {
+                    if (trans.getTpOt()) {
+                        ot = true;
+                    }
+                    if (ot) {
+                            SysWorkunit workUnit = trans.getWorkunitId();
+                            // 1. ใกล้ 2.ไกล Constants.WORKUNIT_DISTANCE_NEAR;Constants.WORKUNIT_DISTANCE_LONG;
+                            if (Objects.equals(Constants.WORKUNIT_DISTANCE_NEAR, workUnit.getDistance())) {
+                                moneyWork += workNear;
+                                trans.setWorkMoneyOT(workNear);
+                            } else {
+                                moneyWork += workLong;
+                                trans.setWorkMoneyOT(workLong);
+                            }
+                    } else {
+                        //คิดตามช่วงเวลา 
+                        Double value = ((amtPerday != null ? amtPerday : 0) / 6) * trans.getTpOtTimeHours();
+                        moneyWork += value;
+                        trans.setWorkMoneyOT(value);
                     }
                 }
             }

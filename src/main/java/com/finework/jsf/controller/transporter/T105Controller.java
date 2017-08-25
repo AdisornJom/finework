@@ -100,8 +100,8 @@ public class T105Controller extends BaseController {
                 transstaff.setSysTransportationList2(follow_staffs2);
 
                 Double statfs_ = new CalculateSalaryStaff().calculaterOTandStaffExternal(staffs, transstaff.getEarningPerday(),transstaff.getTransportType());
-                Double follow_staffs1_ = new CalculateSalaryStaff().calculaterOTandStaffExternal(follow_staffs1, transstaff.getDailyWage(),transstaff.getTransportType());
-                Double follow_staffs2_ = new CalculateSalaryStaff().calculaterOTandStaffExternal(follow_staffs2, transstaff.getDailyWage(),transstaff.getTransportType());
+                Double follow_staffs1_ = new CalculateSalaryStaff().calculaterOTandFollowStaff(follow_staffs1, transstaff.getDailyWage(),transstaff.getTransportType());
+                Double follow_staffs2_ = new CalculateSalaryStaff().calculaterOTandFollowStaff(follow_staffs2, transstaff.getDailyWage(),transstaff.getTransportType());
 
                 transstaff.setValueWorking(statfs_ + follow_staffs1_ + follow_staffs2_);
             }

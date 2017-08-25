@@ -28,6 +28,10 @@ public class ContractorBO {
         return sysContractorDAO.findSysContractorById(sysContractor.getContractorId());
     }
     
+    public List<SysContractor> findSysContractorListByCriteria(SysContractor sysContractor) throws Exception {
+       return sysContractorDAO.findSysContractorByCriteria(sysContractor);
+    }
+    
     public List<SysContractor> findSysContractorListByCriteria(String companyName,String status) throws Exception {
        return sysContractorDAO.findSysContractorByCriteria(companyName, status);
     }

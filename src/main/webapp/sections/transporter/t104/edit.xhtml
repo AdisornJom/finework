@@ -162,22 +162,39 @@
                         <p:watermark  for="tpcarStaff2" value="กรอกข้อมูลเพื่อ ค้นหา" />
                     </h:panelGroup>
                     
-                     <h:panelGroup>
+                     <h:panelGroup rendered="#{!p:ifGranted('ROLE_ADMIN')}">
                         <p:outputLabel value="วันที่ทำรายการ ："/>
                     </h:panelGroup>
-                    <h:panelGroup>
+                    <h:panelGroup rendered="#{!p:ifGranted('ROLE_ADMIN')}">
                         <h:outputText value="#{t104Controller.selected.tpOrderDate}" styleClass="lb_bold">
                             <f:convertDateTime pattern="dd-MM-yyyy"/>
                         </h:outputText>
                     </h:panelGroup>
+                     <h:panelGroup rendered="#{p:ifGranted('ROLE_ADMIN')}">
+                         <p:outputLabel value="วันที่ทำรายการ ："/>
+                         <font class="require">*</font>
+                     </h:panelGroup>
+                     <h:panelGroup rendered="#{p:ifGranted('ROLE_ADMIN')}">
+                         <p:calendar  binding="#{bindingController.calendar}" value="#{t104Controller.selected.tpOrderDate}" size="16" />
+                     </h:panelGroup>
                     
-                     <h:panelGroup>
+                     <h:panelGroup rendered="#{!p:ifGranted('ROLE_ADMIN')}">
                          <p:outputLabel value="ขนส่งวันที่ ："/>
                          <font class="require">*</font>
                      </h:panelGroup>
-                     <h:outputText value="#{t104Controller.selected.tpDate}" styleClass="lb_bold">
-                         <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
-                     </h:outputText>
+                     <h:panelGroup rendered="#{!p:ifGranted('ROLE_ADMIN')}">
+                         <h:outputText value="#{t104Controller.selected.tpDate}" styleClass="lb_bold">
+                             <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                         </h:outputText>
+                     </h:panelGroup>
+                      <h:panelGroup rendered="#{p:ifGranted('ROLE_ADMIN')}">
+                         <p:outputLabel value="ขนส่งวันที่ ："/>
+                         <font class="require">*</font>
+                     </h:panelGroup>
+                     <h:panelGroup rendered="#{p:ifGranted('ROLE_ADMIN')}">
+                          <p:calendar  value="#{t104Controller.selected.tpDate}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+                     </h:panelGroup>
                     
                     <h:panelGroup>
                             <p:outputLabel value="หมายเหตุ ："/>

@@ -6,6 +6,7 @@ import com.finework.core.ejb.entity.SysPrepareTransport;
 import com.finework.core.ejb.entity.SysPrepareTransportDetail;
 import com.finework.core.ejb.entity.SysTransportServices;
 import com.finework.core.ejb.entity.SysTransportStaff;
+import com.finework.core.ejb.entity.SysTransportStaffSpecial;
 import com.finework.core.ejb.entity.SysTransportation;
 import com.finework.core.ejb.entity.SysTranspostationExp;
 import com.finework.core.ejb.entity.SysWorkunit;
@@ -14,6 +15,7 @@ import com.finework.ejb.dao.SysPrepareTransportDAO;
 import com.finework.ejb.dao.SysPrepareTransportDetailDAO;
 import com.finework.ejb.dao.SysTransportServicesDAO;
 import com.finework.ejb.dao.SysTransportStaffDAO;
+import com.finework.ejb.dao.SysTransportStaffSpecialDAO;
 import com.finework.ejb.dao.SysTransportationDAO;
 import com.finework.ejb.dao.SysTransportationDetailDAO;
 import com.finework.ejb.dao.SysTransportationExpDAO;
@@ -51,6 +53,8 @@ public class TransporterBO {
     private SysTransportationSpecialDetailDAO sysTransportationSpecialDetailDAO;
     @EJB
     private SysTransportationExpDAO sysTransportationExpDAO;
+    @EJB
+    private SysTransportStaffSpecialDAO sysTransportStaffSpecialDAO;
 
     //=========================
     public List<SysTransportStaff> findSysTransportStaffList() throws Exception {
@@ -63,6 +67,10 @@ public class TransporterBO {
      
     public SysTransportStaff findSysTransportStaffById(SysTransportStaff sysTransportStaff) throws Exception {
         return sysTransportStaffDAO.findSysTransportStaffById(sysTransportStaff.getTransportstaffId(),sysTransportStaff.getTransportstaffType());
+    }
+    
+    public SysTransportStaff findSysTransportAllStaffById(SysTransportStaff sysTransportStaff) throws Exception {
+        return sysTransportStaffDAO.findSysTransportStaffById(sysTransportStaff.getTransportstaffId());
     }
     
     public List<SysTransportStaff> findSysTransportStaffListByCriteria(String tranSportStaffNameTh,Integer tranSportStaffType,String status) throws Exception {
@@ -251,4 +259,33 @@ public class TransporterBO {
         sysTransportationExpDAO.deleteTransportationExpIdOnDetail(expId);
     }
     
+    
+    //SysTransportationSpcial=============
+    public List<SysTransportStaffSpecial> findSysTransportStaffSpecialList() throws Exception {
+        return sysTransportStaffSpecialDAO.findSysTransportStaffSpecialList();
+    }
+     
+    public SysTransportStaffSpecial findSysTransportStaffSpecialById(Integer specialtpId) throws Exception {
+        return sysTransportStaffSpecialDAO.findSysTransportStaffSpecialById(specialtpId);
+    }
+    
+    public List<SysTransportStaffSpecial> findSysTransportStaffSpecialListByCriteria(SysTransportStaff transportstaffId,Date startDate, Date toDate) throws Exception {
+       return sysTransportStaffSpecialDAO.findSysTransportStaffSpecialListByCriteria(transportstaffId, startDate, toDate);
+    }
+    
+    public void createSysTransportStaffSpecial(SysTransportStaffSpecial sysTransportStaffSpecial) throws Exception{
+        sysTransportStaffSpecialDAO.create(sysTransportStaffSpecial);
+    }
+    
+    public void editSysTransportStaffSpecial(SysTransportStaffSpecial sysTransportStaffSpecial) throws Exception{
+        sysTransportStaffSpecialDAO.edit(sysTransportStaffSpecial);
+    }
+    
+    public void deleteSysTransportStaffSpecial(SysTransportStaffSpecial sysTransportStaffSpecial) throws Exception{
+        sysTransportStaffSpecialDAO.remove(sysTransportStaffSpecial);
+    }
+    
+    public void deleteSysTransportStaffSpecialIdOnDetail(Integer specialtpId) throws Exception {
+        sysTransportStaffSpecialDAO.deleteSysTransportStaffSpecialIdOnDetail(specialtpId);
+    }
 }

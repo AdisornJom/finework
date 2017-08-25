@@ -40,7 +40,7 @@
         }
 
     </style>
-    <p:panel header="T105 -  รายได้พนักงานขนส่ง">
+    <p:panel header="T105 -  รายได้พนักงานขนส่ง(OT)">
 
         <h:form id="listForm">
             <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
@@ -154,13 +154,17 @@
                             <h:outputText value="#{(rowNumber+1)}" />
                         </p:column>
 
-                        <p:column headerText="เลขที่ใบขนส่ง" style="width: 30px;" >
+                        <p:column headerText="เลขที่ใบขนส่ง" style="width: 15px;" >
                             <h:outputText value="#{detail.documentNo}"  />
                         </p:column>
+                        
+                         <p:column headerText="โครงการ" style="width: 30px;" >
+                            <h:outputText value="#{detail.workunitId.workunitName}"  />
+                        </p:column>
 
-                        <p:column headerText="วันที่ขนส่งสำเร็จ" style="width: 20px;" >
+                        <p:column headerText="วันที่ขนส่งสำเร็จ" style="width: 15px;" >
                             <h:outputText value="#{detail.tpDateComplete}" styleClass="lb_bold">
-                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                                <f:convertDateTime pattern="dd-MM-yyyy"/>
                             </h:outputText>
                         </p:column>
 
@@ -185,13 +189,17 @@
                             <h:outputText value="#{(rowNumber+1)}" />
                         </p:column>
 
-                        <p:column headerText="เลขที่ใบขนส่ง" style="width: 30px;" >
+                        <p:column headerText="เลขที่ใบขนส่ง" style="width: 15px;" >
                             <h:outputText value="#{detail.documentNo}"  />
                         </p:column>
+                        
+                         <p:column headerText="โครงการ" style="width: 30px;" >
+                            <h:outputText value="#{detail.workunitId.workunitName}"  />
+                        </p:column>
 
-                        <p:column headerText="วันที่ขนส่งสำเร็จ" style="width: 20px;" >
+                        <p:column headerText="วันที่ขนส่งสำเร็จ" style="width: 15px;" >
                             <h:outputText value="#{detail.tpDateComplete}" styleClass="lb_bold">
-                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                                <f:convertDateTime pattern="dd-MM-yyyy"/>
                             </h:outputText>
                         </p:column>
 

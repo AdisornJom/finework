@@ -75,8 +75,9 @@
                  <p:menuitem value="T103 - รายการขนส่ง"  actionListener="#{naviController.next('transporter/t103/index','t103Controller','T103 - รายการขนส่ง')}" ajax="false"/>
                  <p:menuitem value="T104 - สถานะการขนส่ง"  actionListener="#{naviController.next('transporter/t104/index','t104Controller','T104 - สถาณะการขนส่ง')}" ajax="false"/>
                  <p:menuitem value="T105 - รายได้พนักงานขนส่ง"  actionListener="#{naviController.next('transporter/t105/index','t105Controller','T105 - รายได้พนักงานขนส่ง')}" ajax="false" />
-                 <p:menuitem value="T106 - ค่าใช้จ่ายระบบขนส่ง"  rendered="#{userInfoController.adminUser.user_t106}" actionListener="#{naviController.next('transporter/t106/index','t106Controller','T106 - ค่าใช้จ่ายระบบขนส่ง')}" ajax="false" />
-                 <p:menuitem value="T107 - สรุปเงินเดือนพนักงานขนส่ง"  rendered="#{userInfoController.adminUser.user_t107}" actionListener="#{naviController.next('transporter/t107/index','t107Controller','T107 - สรุปเงินเดือนพนักงานขนส่ง')}" ajax="false" />
+                 <p:menuitem value="T106 - รายได้พนักงาน(พิเศษ)"  actionListener="#{naviController.next('transporter/t108/index','t108Controller','T106 - รายได้พนักงาน(พิเศษ)')}" ajax="false" />
+                 <p:menuitem value="T107 - ค่าใช้จ่ายระบบขนส่ง"  rendered="#{userInfoController.adminUser.user_t106}" actionListener="#{naviController.next('transporter/t106/index','t106Controller','T107 - ค่าใช้จ่ายระบบขนส่ง')}" ajax="false" />
+                 <p:menuitem value="T108 - สรุปเงินเดือนพนักงานขนส่ง"  rendered="#{userInfoController.adminUser.user_t107}" actionListener="#{naviController.next('transporter/t107/index','t107Controller','T108 - สรุปเงินเดือนพนักงานขนส่ง')}" ajax="false" />
             </p:submenu>
             
             <p:submenu label="รายงาน" icon="fa fa fa-gavel" >
@@ -89,6 +90,7 @@
                  <p:menuitem value="R107 - รายงานสรุปการจ่ายเงินทั้งหมด"  actionListener="#{naviController.next('report/r107/index','r107Controller','R107 - รายงานสรุปการจ่ายเงินทั้งหมด')}" ajax="false"/>
                  <p:menuitem value="R108 - รายงานสรุปการปฏิบัติงาน"  actionListener="#{naviController.next('report/r108/index','r108Controller','R108 - รายงานสรุปการปฏิบัติงาน')}" ajax="false"/>
                  <p:menuitem value="R109 - สรุปจำนวนเงิน(การปฏิบัติ)"  actionListener="#{naviController.next('report/r109/index','r109Controller','R109 - สรุปจำนวนเงิน(การปฏิบัติ)')}" ajax="false"/>
+                 <p:menuitem value="R109-1 - สรุปจำนวนเงิน(การปฏิบัติ) อิงผู้รับเหมา"  actionListener="#{naviController.next('report/r109_1/index','r1091Controller','R109-1 - สรุปจำนวนเงิน(การปฏิบัติ) อิงผู้รับเหมา')}" ajax="false"/>
                  <p:menuitem value="R110 - สรุปรายการผลิตตามโครงการ"  actionListener="#{naviController.next('report/r110/index','r110Controller','R110 - สรุปรายการผลิตตามโครงการ')}" ajax="false"/>
                  <p:menuitem value="R111 - สรุปรายการผลติตามผู้ควบคุมงาน(โฟร์แมน)"  actionListener="#{naviController.next('report/r111/index','r111Controller','R111 - สรุปรายการผลติตามผู้ควบคุมงาน(โฟร์แมน)')}" ajax="false"/>
             </p:submenu>

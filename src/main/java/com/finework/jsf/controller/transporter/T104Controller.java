@@ -145,6 +145,16 @@ public class T104Controller extends BaseController {
                  return;
              }
              if (null == selected.getTpDateComplete()) {
+                 JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "วันที่ทำรายการ"));
+                 RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                 return;
+             }
+             if (null == selected.getTpDate()) {
+                 JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ขนส่งวันที่"));
+                 RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                 return;
+             }
+             if (null == selected.getTpDateComplete()) {
                  JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ขนส่งสำเร็จวันที่"));
                  RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
                  return;

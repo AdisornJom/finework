@@ -38,6 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SysTransportStaff.findAll", query = "SELECT s FROM SysTransportStaff s")})
 public class SysTransportStaff implements Serializable, Comparator<SysTransportStaff> {
 
+    @OneToMany(mappedBy = "transportstaffId")
+    private List<SysTransportStaffSpecial> sysTransportStaffSpecialList;
+
      // @OneToMany(fetch = FetchType.EAGER, mappedBy = "tpstaffId", cascade = CascadeType.ALL)
     @OneToMany(mappedBy = "tpstaffId")
     private List<SysTransportation> sysTransportationList;
@@ -123,6 +126,8 @@ public class SysTransportStaff implements Serializable, Comparator<SysTransportS
     private Double totalAllowance;
     @Transient
     private Double totalExp;
+    @Transient
+    private Double totalSpecial;
     @Transient
     private List<SysTranspostationExp> transportationExp;
 
@@ -419,6 +424,24 @@ public class SysTransportStaff implements Serializable, Comparator<SysTransportS
 
     public void setTotalAllowance(Double totalAllowance) {
         this.totalAllowance = totalAllowance;
+    }
+
+    public Double getTotalSpecial() {
+        return totalSpecial;
+    }
+
+    public void setTotalSpecial(Double totalSpecial) {
+        this.totalSpecial = totalSpecial;
+    }
+    
+
+    @XmlTransient
+    public List<SysTransportStaffSpecial> getSysTransportStaffSpecialList() {
+        return sysTransportStaffSpecialList;
+    }
+
+    public void setSysTransportStaffSpecialList(List<SysTransportStaffSpecial> sysTransportStaffSpecialList) {
+        this.sysTransportStaffSpecialList = sysTransportStaffSpecialList;
     }
     
     

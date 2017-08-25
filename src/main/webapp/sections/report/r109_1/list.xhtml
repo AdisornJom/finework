@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+    </style>
+
+    <h:form id="listForm">
+
+        <h:panelGroup style="height: 200px;" layout="block" rendered="#{empty r1091Controller.items}">
+            <h:graphicImage value="./resources/images/arr_search.jpg" width="200" style="float: right;margin-top: 0px;"/>
+        </h:panelGroup>
+
+        <p:dataTable var="item" value="#{r1091Controller.items}" binding="#{bindingController.dataTableModel}" rendered="#{not empty r1091Controller.items}">
+
+            <p:column headerText="No" style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+            
+            <p:column headerText="ชื่อผู้รับเหมา" sortBy="#{item.contractorNameTh}" style="width: 190px;">
+                <h:outputText value="#{item.contractorNameTh}"/>
+            </p:column>
+            
+            <p:column headerText="ชื่อเล่นผู้รับเหมา" sortBy="#{item.contractorNickname}" style="width: 130px;">
+                <h:outputText value="#{item.contractorNickname}"/>
+            </p:column>
+            
+            <p:column  headerText="จำนวนเงินรวม(ยังไม่ได้จ่าย)"  style="width: 40px;text-align: center">
+                <h:outputText value="#{item.totalOutstanding}" style="float: right;color: red;" styleClass="lb_bold">
+                     <f:convertNumber  pattern="#,##0.00"/>
+                 </h:outputText>     
+            </p:column>
+
+            <p:column style="width: 55px;text-align: center">
+                <p:commandButton id="view" icon="fa fa-file-text-o"  action="#{r1091Controller.prepareEdit('report/r109_1/view')}" update=":content" styleClass="edit-btn">
+                    <f:setPropertyActionListener value="#{item}" target="#{r1091Controller.selected}" />
+                </p:commandButton>
+            </p:column>
+
+             <p:columnGroup type="footer">
+                <p:row>
+                    <p:column colspan="3" footerText="Total:" style="font-size: 18px;font-weight: bold;text-align:right;color:green" />
+                    <p:column footerText="#{r1091Controller.totalSummary}" style="font-weight: bold;text-align:right;color:red;"/>
+                    <p:column/>
+                </p:row>
+            </p:columnGroup>
+            
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{r1091Controller.items.size()}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

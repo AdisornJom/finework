@@ -135,8 +135,8 @@ public class StockFacade {
        return stockBO.countSysMaterialListByCriteria(classifyName,itemname,status);
     }
     
-    public List<SysMaterial> findSysMaterialListNotmoving(String classifyName,String itemname,String status) throws Exception {
-       return stockBO.findSysMaterialListNotmoving(classifyName,itemname,status);
+    public List<SysMaterial> findSysMaterialListNotmoving(SysMaterialClassify classify,String itemname,String status) throws Exception {
+       return stockBO.findSysMaterialListNotmoving(classify,itemname,status);
     }
     
     public List<SysMaterial> findSysMaterialListNotmoving(String classifyName,String itemname,String status, int[] range) throws Exception {

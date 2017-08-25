@@ -6,6 +6,7 @@ import com.finework.core.ejb.entity.SysPrepareTransport;
 import com.finework.core.ejb.entity.SysPrepareTransportDetail;
 import com.finework.core.ejb.entity.SysTransportServices;
 import com.finework.core.ejb.entity.SysTransportStaff;
+import com.finework.core.ejb.entity.SysTransportStaffSpecial;
 import com.finework.core.ejb.entity.SysTransportation;
 import com.finework.core.ejb.entity.SysTranspostationExp;
 import com.finework.core.ejb.entity.SysWorkunit;
@@ -36,6 +37,10 @@ public class TransporterFacade {
 
     public SysTransportStaff findSysTransportStaffById(SysTransportStaff sysTransportStaff) throws Exception {
         return transporterBO.findSysTransportStaffById(sysTransportStaff);
+    }
+    
+    public SysTransportStaff findSysTransportAllStaffById(SysTransportStaff sysTransportStaff) throws Exception {
+        return transporterBO.findSysTransportAllStaffById(sysTransportStaff);
     }
 
     public List<SysTransportStaff> findSysTransportStaffListByCriteria(String tranSportStaffNameTh, Integer tranSportStaffType, String status) throws Exception {
@@ -216,4 +221,32 @@ public class TransporterFacade {
         transporterBO.deleteTransportationExpIdOnDetail(expId);
     }
     
+    //SysTransportationSpcial=============
+    public List<SysTransportStaffSpecial> findSysTransportStaffSpecialList() throws Exception {
+        return transporterBO.findSysTransportStaffSpecialList();
+    }
+     
+    public SysTransportStaffSpecial findSysTransportStaffSpecialById(Integer specialtpId) throws Exception {
+        return transporterBO.findSysTransportStaffSpecialById(specialtpId);
+    }
+    
+    public List<SysTransportStaffSpecial> findSysTransportStaffSpecialListByCriteria(SysTransportStaff transportstaffId,Date startDate, Date toDate) throws Exception {
+       return transporterBO.findSysTransportStaffSpecialListByCriteria(transportstaffId, startDate, toDate);
+    }
+    
+    public void createSysTransportStaffSpecial(SysTransportStaffSpecial sysTransportStaffSpecial) throws Exception{
+        transporterBO.createSysTransportStaffSpecial(sysTransportStaffSpecial);
+    }
+    
+    public void editSysTransportStaffSpecial(SysTransportStaffSpecial sysTransportStaffSpecial) throws Exception{
+        transporterBO.editSysTransportStaffSpecial(sysTransportStaffSpecial);
+    }
+    
+    public void deleteSysTransportStaffSpecial(SysTransportStaffSpecial sysTransportStaffSpecial) throws Exception{
+        transporterBO.deleteSysTransportStaffSpecial(sysTransportStaffSpecial);
+    }
+    
+    public void deleteSysTransportStaffSpecialIdOnDetail(Integer specialtpId) throws Exception {
+        transporterBO.deleteSysTransportStaffSpecialIdOnDetail(specialtpId);
+    }
 }

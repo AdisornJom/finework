@@ -40,7 +40,7 @@
         }
 
     </style>
-    <p:panel header="T107 - สรุปเงินเดือนพนักงานขนส่ง">
+    <p:panel header="T108 - สรุปเงินเดือนพนักงานขนส่ง">
 
         <h:form id="listForm">
             <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
@@ -140,10 +140,19 @@
                     </h:panelGroup>
                     
                      <h:panelGroup >
-                        <p:outputLabel  value="รายได้ระบบขนส่ง :" />
+                        <p:outputLabel  value="รายได้ระบบขนส่ง(OT) :" />
                     </h:panelGroup>
                     <h:panelGroup >
                         <h:outputText  value="#{t107Controller.selected.valueWorking}" styleClass="lb_bold"  style="color: #ff0000">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText>  
+                    </h:panelGroup>
+                    
+                     <h:panelGroup >
+                        <p:outputLabel  value="รายได้พนักงาน(พิเศษ) :" />
+                    </h:panelGroup>
+                    <h:panelGroup >
+                        <h:outputText  value="#{t107Controller.selected.totalSpecial}" styleClass="lb_bold"  style="color: #ff0000;">
                             <f:convertNumber  pattern="#,##0.00"/>
                         </h:outputText>  
                     </h:panelGroup>
@@ -219,8 +228,12 @@
                             <h:outputText value="#{(rowNumber+1)}" />
                         </p:column>
 
-                        <p:column headerText="เลขที่ใบขนส่ง" style="width: 20px;" >
+                        <p:column headerText="เลขที่ใบขนส่ง" style="width: 15px;" >
                             <h:outputText value="#{detail.documentNo}"  />
+                        </p:column>
+                        
+                         <p:column headerText="โครงการ" style="width: 30px;" >
+                            <h:outputText value="#{detail.workunitId.workunitName}"  />
                         </p:column>
                         
                         <p:column headerText="วันที่ทำรายการ" style="width: 15px;" styleClass="lb_bold">
@@ -231,7 +244,7 @@
 
                         <p:column headerText="วันที่ขนส่งสำเร็จ" style="width: 15px;" >
                             <h:outputText value="#{detail.tpDateComplete}" styleClass="lb_bold">
-                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                                <f:convertDateTime pattern="dd-MM-yyyy"/>
                             </h:outputText>
                         </p:column>
 
@@ -256,8 +269,12 @@
                             <h:outputText value="#{(rowNumber+1)}" />
                         </p:column>
 
-                        <p:column headerText="เลขที่ใบขนส่ง" style="width: 20px;" >
+                        <p:column headerText="เลขที่ใบขนส่ง" style="width: 15px;" >
                             <h:outputText value="#{detail.documentNo}"  />
+                        </p:column>
+                        
+                         <p:column headerText="โครงการ" style="width: 15px;" >
+                            <h:outputText value="#{detail.workunitId.workunitName}"  />
                         </p:column>
                         
                         <p:column headerText="วันที่ทำรายการ" style="width: 15px;" styleClass="lb_bold">
@@ -268,7 +285,7 @@
 
                         <p:column headerText="วันที่ขนส่งสำเร็จ" style="width: 15px;" >
                             <h:outputText value="#{detail.tpDateComplete}" styleClass="lb_bold">
-                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                                <f:convertDateTime pattern="dd-MM-yyyy"/>
                             </h:outputText>
                         </p:column>
 
@@ -287,6 +304,48 @@
                         </p:column>
                     </p:dataTable>
                     
+                    <p:spacer/><p:outputLabel value="รายได้พนักงาน(พิเศษ)" rendered="#{!empty t107Controller.selected.sysTransportStaffSpecialList}" style="color: #ff0000"/>
+                    <p:dataTable id="specialstaffDetail" binding="#{bindingController.dataTableModel}" value="#{t107Controller.selected.sysTransportStaffSpecialList}" var="detailSpecial" rowExpandMode="single"
+                                  rendered="#{!empty t107Controller.selected.sysTransportStaffSpecialList}">
+                         <p:ajax event="rowToggle" global="false" onstart="return cfg.ext.params[0].name.indexOf('_rowExpansion') != -1"/>
+                         <p:column style="text-align: center;width:10%">
+                             <p:rowToggler/>
+                         </p:column>
+                         <p:column headerText="ลำดับ" style="text-align: center;width: 5%;">
+                             <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+
+                         <p:column  headerText="วันที่ทำรายการ " sortBy="#{detailSpecial.specialtpDate}" style="width: 40%;text-align: center">
+                             <h:outputText value="#{detailSpecial.specialtpDate}">
+                                 <f:convertDateTime pattern="dd-MM-yyyy"/>
+                             </h:outputText>
+                         </p:column>
+
+                        <p:column headerText="จำนวนเงิน" style="width: 40%;text-align: right" >
+                            <h:outputText  value="#{detailSpecial.totalSpcial}" styleClass="lb_bold"  style="color: #ff0000">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </p:column>
+
+                        <p:rowExpansion >
+                            <p:dataTable  binding="#{bindingController.dataTableModel}" value="#{detailSpecial.sysTransportStaffSpecialDetailList}" var="hdetailSpecial">
+                                <p:column headerText="ลำดับ" style="text-align: center;width: 7%;">
+                                    <h:outputText value="#{(rowNumber+1)}" />
+                                </p:column>
+
+                                <p:column headerText="รายการพิเศษ" style="width: 66%;" >
+                                    <h:outputText value="#{hdetailSpecial.specialDesc}" style="lb_bold"/>
+                                </p:column>
+
+                                <p:column headerText="จำนวนเงิน" style="width: 20%;">
+                                    <h:outputText  value="#{hdetailSpecial.amount}"  style="float: right;">
+                                        <f:convertNumber  pattern="#,##0.00"/>
+                                    </h:outputText>     
+                                </p:column>
+                            </p:dataTable>
+                        </p:rowExpansion>
+                    </p:dataTable>
+                    
                      <p:spacer/><p:outputLabel value="ค่าใช้จ่าย" rendered="#{!empty t107Controller.selected.transportationExp}" style="color: #ff0000"/>
                      <p:dataTable id="expstaffDetail" binding="#{bindingController.dataTableModel}" value="#{t107Controller.selected.transportationExp}" var="detail" rowExpandMode="single"
                                   rendered="#{!empty t107Controller.selected.transportationExp}">
@@ -298,7 +357,7 @@
                              <h:outputText value="#{(rowNumber+1)}" />
                         </p:column>
 
-                         <p:column  headerText="วันที่ทำรายการ " sortBy="#{item.exptpDate}" style="width: 40%;text-align: center">
+                         <p:column  headerText="วันที่ทำรายการ " sortBy="#{detail.exptpDate}" style="width: 40%;text-align: center">
                              <h:outputText value="#{detail.exptpDate}">
                                  <f:convertDateTime pattern="dd-MM-yyyy"/>
                              </h:outputText>

@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -92,10 +93,34 @@ public class SysContractor implements Serializable {
     @Column(name = "modified_dt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDt;
+    
+    
+    @Transient
+    private Double totalOutstanding;
+    @Transient
+    private List<SysManufactoryReal> sysManufactoryReals;
 
     public SysContractor() {
     }
 
+    public List<SysManufactoryReal> getSysManufactoryReals() {
+        return sysManufactoryReals;
+    }
+
+    public void setSysManufactoryReals(List<SysManufactoryReal> sysManufactoryReals) {
+        this.sysManufactoryReals = sysManufactoryReals;
+    }
+
+    
+    public Double getTotalOutstanding() {
+        return totalOutstanding;
+    }
+
+    public void setTotalOutstanding(Double totalOutstanding) {
+        this.totalOutstanding = totalOutstanding;
+    }
+
+    
     public SysContractor(Integer contractorId) {
         this.contractorId = contractorId;
     }
