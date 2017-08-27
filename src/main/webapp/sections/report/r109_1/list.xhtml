@@ -25,21 +25,33 @@
                 <h:outputText value="#{(rowNumber+1)}" />
             </p:column>
             
-            <p:column headerText="ชื่อผู้รับเหมา" sortBy="#{item.contractorNameTh}" style="width: 190px;">
+            <p:column headerText="ชื่อผู้รับเหมา" sortBy="#{item.contractorNameTh}" style="width: 100px;">
                 <h:outputText value="#{item.contractorNameTh}"/>
             </p:column>
             
-            <p:column headerText="ชื่อเล่นผู้รับเหมา" sortBy="#{item.contractorNickname}" style="width: 130px;">
+            <p:column headerText="ชื่อเล่นผู้รับเหมา" sortBy="#{item.contractorNickname}" style="width: 80px;">
                 <h:outputText value="#{item.contractorNickname}"/>
             </p:column>
             
-            <p:column  headerText="จำนวนเงินรวม(ยังไม่ได้จ่าย)"  style="width: 40px;text-align: center">
+            <p:column headerText="ที่อยู่ผู้รับเหมา" sortBy="#{item.contractorAddress}" style="width: 180px;">
+                <h:outputText value="#{item.contractorAddress}"/>
+            </p:column>
+            
+            <p:column headerText="เบอร์โทร"  style="width: 50px;">
+                <h:outputText value="#{item.tel}"/>
+            </p:column>
+            
+            <p:column headerText="Tax ID"  style="width: 80px;">
+                <h:outputText value="#{item.taxId}"/>
+            </p:column>
+            
+            <p:column  headerText="จำนวนเงินรวม(ยังไม่ได้จ่าย)"  style="width: 70px;text-align: center">
                 <h:outputText value="#{item.totalOutstanding}" style="float: right;color: red;" styleClass="lb_bold">
                      <f:convertNumber  pattern="#,##0.00"/>
                  </h:outputText>     
             </p:column>
 
-            <p:column style="width: 55px;text-align: center">
+            <p:column style="width: 40px;text-align: center">
                 <p:commandButton id="view" icon="fa fa-file-text-o"  action="#{r1091Controller.prepareEdit('report/r109_1/view')}" update=":content" styleClass="edit-btn">
                     <f:setPropertyActionListener value="#{item}" target="#{r1091Controller.selected}" />
                 </p:commandButton>
@@ -47,7 +59,7 @@
 
              <p:columnGroup type="footer">
                 <p:row>
-                    <p:column colspan="3" footerText="Total:" style="font-size: 18px;font-weight: bold;text-align:right;color:green" />
+                    <p:column colspan="6" footerText="Total:" style="font-size: 18px;font-weight: bold;text-align:right;color:green" />
                     <p:column footerText="#{r1091Controller.totalSummary}" style="font-weight: bold;text-align:right;color:red;"/>
                     <p:column/>
                 </p:row>

@@ -59,6 +59,7 @@ public class T105Controller extends BaseController {
 
     //find by criteria
     private String transportName;
+    private SysTransportStaff tpstaff_find;
     private Date startDate;
     private Date toDate;
     private Integer status;
@@ -89,7 +90,7 @@ public class T105Controller extends BaseController {
                 toDate = calEnd.getTime();
             }
 
-            items = transportStaffFacade.findSysTransportStaffListByCriteria(transportName, null, "Y");
+            items = transportStaffFacade.findSysTransportStaffListByCriteria(tpstaff_find, null, "Y");
             for (SysTransportStaff transstaff : items) {
                 List<SysTransportation> staffs = transporterFacade.findStaffSysTransportationListByCriteria(transstaff, Constants.TRANSPORTATION_COMPLETE, startDate, toDate);//staff
                 List<SysTransportation> follow_staffs1 = transporterFacade.findStafffollow1SysTransportationListByCriteria(transstaff, Constants.TRANSPORTATION_COMPLETE, startDate, toDate);//staff follow 1
@@ -352,6 +353,25 @@ public class T105Controller extends BaseController {
         }
     }
 
+      
+      //Auto transporter_staff
+    public List<SysTransportStaff> completeTransportStaff(String query) {
+         List<SysTransportStaff> filteredSysTransportStaff = new ArrayList<>();
+       try {
+            List<SysTransportStaff> allTransportStaffs = transporterFacade.findSysTransportStaffList();
+            for (SysTransportStaff sysTransportStaff:allTransportStaffs) {
+               if(sysTransportStaff.getTransportstaffNickname()!=null && sysTransportStaff.getTransportstaffNickname().length()>0){
+                if(sysTransportStaff.getTransportstaffNickname().toLowerCase().startsWith(query)) {
+                    filteredSysTransportStaff.add(sysTransportStaff);
+                }
+               }
+            }
+         } catch (Exception ex) {
+            LOG.error(ex);
+        }
+        return filteredSysTransportStaff;
+    }
+    
     @Override
     public void create() {
 
@@ -444,4 +464,13 @@ public class T105Controller extends BaseController {
         this.printSelected = printSelected;
     }
 
+    public SysTransportStaff getTpstaff_find() {
+        return tpstaff_find;
+    }
+
+    public void setTpstaff_find(SysTransportStaff tpstaff_find) {
+        this.tpstaff_find = tpstaff_find;
+    }
+
+    
 }

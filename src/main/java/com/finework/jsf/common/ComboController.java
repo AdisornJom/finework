@@ -30,6 +30,7 @@ public class ComboController extends BaseController {
     private List<AdminUserRole> adminUserRole;
     private List<SelectItem> equipments;
     private List<SelectItem> carTypes;
+    private List<SelectItem> extraIncome;
 
     @PostConstruct
     @Override
@@ -51,6 +52,13 @@ public class ComboController extends BaseController {
             if(null!=seleteItems_cartype && seleteItems_cartype.size()>0){
                 for(SysSeleteitem detail:seleteItems_cartype)
                     carTypes.add(new SelectItem(detail.getTypeKey(),detail.getTypeName()));
+            }
+            
+            List<SysSeleteitem> seleteItems_extraIncome = comboFacade.findSysSeleteitemByCriteria("extraIncome");
+            extraIncome = new ArrayList<>();
+            if(null!=seleteItems_extraIncome && seleteItems_extraIncome.size()>0){
+                for(SysSeleteitem detail:seleteItems_extraIncome)
+                    extraIncome.add(new SelectItem(detail.getTypeKey(),detail.getTypeName()));
             }
         } catch (Exception ex) {
             LOG.error(ex);
@@ -87,6 +95,14 @@ public class ComboController extends BaseController {
 
     public void setCarTypes(List<SelectItem> carTypes) {
         this.carTypes = carTypes;
+    }
+
+    public List<SelectItem> getExtraIncome() {
+        return extraIncome;
+    }
+
+    public void setExtraIncome(List<SelectItem> extraIncome) {
+        this.extraIncome = extraIncome;
     }
    
 

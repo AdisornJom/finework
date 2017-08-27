@@ -63,6 +63,7 @@ public class T107Controller extends BaseController {
 
     //find by criteria
     private String transportName;
+    private SysTransportStaff tpstaff_find;
     private Date startDate;
     private Date toDate;
     private Integer status;
@@ -93,7 +94,7 @@ public class T107Controller extends BaseController {
                 toDate = calEnd.getTime();
             }
 
-            items = transportStaffFacade.findSysTransportStaffListByCriteria(transportName, null, "Y");
+            items = transportStaffFacade.findSysTransportStaffListByCriteria(tpstaff_find, null, "Y");
             for (SysTransportStaff transstaff : items) {
                 List<Date> dates = new ArrayList<>();
                 
@@ -566,6 +567,24 @@ public class T107Controller extends BaseController {
             LOG.error(ex);
         }
     }
+      
+       //Auto transporter_staff
+    public List<SysTransportStaff> completeTransportStaff(String query) {
+         List<SysTransportStaff> filteredSysTransportStaff = new ArrayList<>();
+       try {
+            List<SysTransportStaff> allTransportStaffs = transporterFacade.findSysTransportStaffList();
+            for (SysTransportStaff sysTransportStaff:allTransportStaffs) {
+               if(sysTransportStaff.getTransportstaffNickname()!=null && sysTransportStaff.getTransportstaffNickname().length()>0){
+                if(sysTransportStaff.getTransportstaffNickname().toLowerCase().startsWith(query)) {
+                    filteredSysTransportStaff.add(sysTransportStaff);
+                }
+               }
+            }
+         } catch (Exception ex) {
+            LOG.error(ex);
+        }
+        return filteredSysTransportStaff;
+    }
 
     @Override
     public void create() {
@@ -658,5 +677,15 @@ public class T107Controller extends BaseController {
     public void setPrintSelected(List<SysTransportStaff> printSelected) {
         this.printSelected = printSelected;
     }
+
+    public SysTransportStaff getTpstaff_find() {
+        return tpstaff_find;
+    }
+
+    public void setTpstaff_find(SysTransportStaff tpstaff_find) {
+        this.tpstaff_find = tpstaff_find;
+    }
+    
+    
 
 }

@@ -24,9 +24,11 @@
                        <font class="require">*</font>
                      </h:panelGroup>
                       <h:panelGroup>
-                          <p:inputText id="desc" value="#{t108Controller.specialDetail_selected.specialDesc}" maxlength="200" 
-                                      style="width: 400px;vertical-align:middle"/>
-                     </h:panelGroup>
+                          <p:selectOneMenu id="unit" value="#{t108Controller.specialDetail_selected.specialDesc}"  style="width: 250px;">
+                              <f:selectItem  itemLabel="-"  itemValue="" />
+                              <f:selectItems value="#{comboController.extraIncome}" />
+                          </p:selectOneMenu>
+                      </h:panelGroup>
                      
                      <h:panelGroup>
                          <p:outputLabel id="calculateType1" for="volume" value="จำนวนเงิน :" />

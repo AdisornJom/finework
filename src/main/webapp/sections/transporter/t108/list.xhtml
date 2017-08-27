@@ -66,12 +66,10 @@
                     <f:setPropertyActionListener value="#{item}" target="#{t108Controller.selected}" />
                 </p:commandButton>
                 
-                <p:tooltip for="edit" value="#{msgs['btn.edit']}" trackMouse="true"/>
                 <p:commandButton id="edit" icon="fa fa-edit"  action="#{t108Controller.prepareEdit('transporter/t108/edit')}" update=":content" styleClass="edit-btn">
                     <f:setPropertyActionListener value="#{item}" target="#{t108Controller.selected}" />
                 </p:commandButton>
 
-                <p:tooltip for="del" value="#{msgs['btn.delete']}" trackMouse="true" rendered="#{p:ifGranted('ROLE_ADMIN')}"/>
                 <p:commandButton id="del" icon="fa fa-trash"  action="#{t108Controller.delete()}" update=":content" styleClass="delete-btn" rendered="#{p:ifGranted('ROLE_ADMIN')}">
                     <p:confirm header="#{msgs['dialog.confirm']}" message="#{msgs['dialog.message']}" />
                     <f:setPropertyActionListener value="#{item}" target="#{t108Controller.selected}" />

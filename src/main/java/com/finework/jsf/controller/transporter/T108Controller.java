@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -108,6 +109,7 @@ public class T108Controller extends BaseController {
     public void cancel(String path) {
         clearData();
         clearDatatTotal();
+        init();
         next(path);
     }
     public void backIndex(String path) {
@@ -297,18 +299,50 @@ public class T108Controller extends BaseController {
         specialDetail_dialog.setSpecialDesc(specialDetail_selected.getSpecialDesc());
         specialDetail_dialog.setAmount(specialDetail_selected.getAmount());
 
-        sysTransportationSpecialDetailList.add(specialDetail_dialog);
+       // sysTransportationSpecialDetailList.add(specialDetail_dialog);
         
+        if (sysTransportationSpecialDetailList.isEmpty()) {
+            sysTransportationSpecialDetailList.add(specialDetail_dialog);
+        } else {
+            HashMap ckContains = new HashMap();
+            for (SysTransportStaffSpecialDetail sysTransportStaffSpecialDetail : sysTransportationSpecialDetailList) {
+                if (!ckContains.containsValue(sysTransportStaffSpecialDetail.getSpecialDesc())) {
+                    ckContains.put(sysTransportStaffSpecialDetail.getSpecialtpdetailId(), sysTransportStaffSpecialDetail.getSpecialDesc());
+                }
+            }
+            if (!ckContains.containsValue(specialDetail_selected.getSpecialDesc())) {
+                sysTransportationSpecialDetailList.add(specialDetail_dialog);
+            }
+        }
         specialDetail_selected = new SysTransportStaffSpecialDetail();
     }
      public void addDetail(){
          try {
+             HashMap ckContains = new HashMap();
              if (selected.getSysTransportStaffSpecialDetailList() == null) {
                  selected.setSysTransportStaffSpecialDetailList(new ArrayList<SysTransportStaffSpecialDetail>());
+             }else{
+                 for (SysTransportStaffSpecialDetail sysTransportStaffSpecialDetail : selected.getSysTransportStaffSpecialDetailList()) {
+                     if (!ckContains.containsValue(sysTransportStaffSpecialDetail.getSpecialDesc())) {
+                         ckContains.put(sysTransportStaffSpecialDetail.getSpecialtpdetailId(), sysTransportStaffSpecialDetail.getSpecialDesc());
+                     }
+                 }
              }
 
+             //check duplicate data
+             boolean duplicate=false;
              for (SysTransportStaffSpecialDetail tpExpDetail : sysTransportationSpecialDetailList) {
-                 selected.getSysTransportStaffSpecialDetailList().add(tpExpDetail);
+                 if (ckContains.containsValue(tpExpDetail.getSpecialDesc())) {
+                     duplicate=true;
+                 }else{
+                     ckContains.put(tpExpDetail.getSpecialtpdetailId(), tpExpDetail.getSpecialDesc());
+                 }
+             }
+             //insert
+             if (!duplicate) {
+                 for (SysTransportStaffSpecialDetail tpExpDetail : sysTransportationSpecialDetailList) {
+                     selected.getSysTransportStaffSpecialDetailList().add(tpExpDetail);
+                 }
              }
 
              checkTotalPrice();
@@ -329,6 +363,8 @@ public class T108Controller extends BaseController {
              //delete  
              selected.getSysTransportStaffSpecialDetailList().remove(specialDetail_selected);
              checkTotalPrice();
+             
+             specialDetail_selected = new SysTransportStaffSpecialDetail();
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
             LOG.error(ex);

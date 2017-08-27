@@ -42,6 +42,10 @@ public class TransporterFacade {
     public SysTransportStaff findSysTransportAllStaffById(SysTransportStaff sysTransportStaff) throws Exception {
         return transporterBO.findSysTransportAllStaffById(sysTransportStaff);
     }
+    
+    public List<SysTransportStaff> findSysTransportStaffListByCriteria(SysTransportStaff transportstaffId, Integer tranSportStaffType, String status) throws Exception {
+        return transporterBO.findSysTransportStaffListByCriteria(transportstaffId, tranSportStaffType, status);
+    }
 
     public List<SysTransportStaff> findSysTransportStaffListByCriteria(String tranSportStaffNameTh, Integer tranSportStaffType, String status) throws Exception {
         return transporterBO.findSysTransportStaffListByCriteria(tranSportStaffNameTh, tranSportStaffType, status);

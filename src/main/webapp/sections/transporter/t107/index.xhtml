@@ -18,8 +18,18 @@
              <f:facet name="right" >
                 <h:form id="rToolbarForm">
                     <h:panelGrid columnClasses="col1,col2,col1,col2,col1,col2,col2" border="0" columns="7" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
-                        <p:outputLabel value="รายชื่อพนักงาน :"/>
-                        <p:inputText value="#{t107Controller.transportName}" />
+                        <p:outputLabel value="ชื่อเล่นพนักงาน ："/>
+                        <h:panelGroup >
+                            <p:autoComplete id="tpStaff" dropdown="true" value="#{t107Controller.tpstaff_find}" 
+                                            completeMethod="#{t107Controller.completeTransportStaff}" 
+                                            var="tpstaff" itemLabel="#{tpstaff.transportstaffNickname}" 
+                                            itemValue="#{tpstaff}" 
+                                            converter="#{transporterAllStaffConverter}"
+                                            scrollHeight="250" >
+                                <p:ajax event="query" global="false"/>
+                            </p:autoComplete>
+                            <p:watermark  for="tpStaff" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                        </h:panelGroup>
                         
                         <p:outputLabel value="วันที่ ："/>
                         <p:calendar  binding="#{bindingController.calendar}" value="#{t107Controller.startDate}" size="16" />

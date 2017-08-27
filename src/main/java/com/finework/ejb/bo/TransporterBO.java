@@ -73,6 +73,10 @@ public class TransporterBO {
         return sysTransportStaffDAO.findSysTransportStaffById(sysTransportStaff.getTransportstaffId());
     }
     
+    public List<SysTransportStaff> findSysTransportStaffListByCriteria(SysTransportStaff transportstaffId,Integer tranSportStaffType,String status) throws Exception {
+       return sysTransportStaffDAO.findSysTransportStaffByCriteria(transportstaffId, tranSportStaffType,status);
+    }
+    
     public List<SysTransportStaff> findSysTransportStaffListByCriteria(String tranSportStaffNameTh,Integer tranSportStaffType,String status) throws Exception {
        return sysTransportStaffDAO.findSysTransportStaffByCriteria(tranSportStaffNameTh, tranSportStaffType,status);
     }

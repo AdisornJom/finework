@@ -111,6 +111,7 @@ public class T106Controller extends BaseController {
     public void cancel(String path) {
         clearData();
         clearDatatTotal();
+        init();
         next(path);
     }
     public void backIndex(String path) {
@@ -335,6 +336,8 @@ public class T106Controller extends BaseController {
              //delete  
              selected.getSysTransportationExpDetailList().remove(expDetail_selected);
              checkTotalPrice();
+             
+             expDetail_selected = new SysTransportationExpDetail();
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
             LOG.error(ex);

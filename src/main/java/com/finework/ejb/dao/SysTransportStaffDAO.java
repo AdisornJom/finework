@@ -40,6 +40,34 @@ public class SysTransportStaffDAO extends AbstractDAO<SysTransportStaff> {
         return q.getResultList();
     }
      
+    public List<SysTransportStaff> findSysTransportStaffByCriteria(SysTransportStaff transportstaffId,Integer tranSportStaffType,String status) throws Exception {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT o FROM SysTransportStaff o ");
+        sb.append("where 1=1 ");
+        
+        if (null != transportstaffId) {
+            sb.append("and o.transportstaffId = :transportstaffId ");
+        }
+        if(null != tranSportStaffType){
+            sb.append("and o.transportstaffType =:transportstaffType  ");
+        }
+        if(null != status && status.length() > 0){
+            sb.append("and o.status =:status  ");
+        }
+
+        Query q = em.createQuery(sb.toString());
+        if (null != transportstaffId) {
+            q.setParameter("transportstaffId", transportstaffId.getTransportstaffId());
+        }
+        if(null != tranSportStaffType){
+            q.setParameter("transportstaffType", tranSportStaffType );
+        }
+        if(null != status && status.length() > 0){
+            q.setParameter("status", status );
+        }
+        return q.getResultList();
+    }
+    
      public List<SysTransportStaff> findSysTransportStaffByCriteria(String transportstaffNameTh,Integer tranSportStaffType,String status) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT o FROM SysTransportStaff o ");
