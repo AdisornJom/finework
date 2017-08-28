@@ -6,9 +6,7 @@
 
 package com.finework.jsf.converter;
 
-import com.finework.core.ejb.entity.SysForeman;
 import com.finework.core.ejb.entity.SysLogisticCar;
-import com.finework.core.ejb.entity.SysTransportStaff;
 import com.finework.ejb.facade.TransporterFacade;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
