@@ -108,6 +108,7 @@
                                         converter="#{logisticCarConverter}"
                                         scrollHeight="250" >
                             <p:ajax event="query" global="false"/>
+                            <p:ajax event="itemSelect"  update="listForm:logisticType" global="false" />
                         </p:autoComplete>
                         <p:watermark  for="logistic" value="กรอกข้อมูลเพื่อ ค้นหา" />
                     </h:panelGroup>
@@ -129,7 +130,6 @@
                                         converter="#{transporterStaffConverter}"
                                         scrollHeight="250" >
                             <p:ajax event="query" global="false"/>
-                            <p:ajax event="itemSelect"   global="false" />
                         </p:autoComplete>
                         <p:watermark  for="tpStaff" value="กรอกข้อมูลเพื่อ ค้นหา" />
                     </h:panelGroup>
