@@ -93,7 +93,18 @@
                             </h:panelGroup>
                             <h:panelGroup>
                                 <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carHeight}"  emptyValue="0.00"  thousandSeparator=","  />
-                            </h:panelGroup>     
+                            </h:panelGroup>   
+                            
+                            <h:panelGroup>
+                                <p:outputLabel  value="ขนาดรถขนส่ง :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneRadio id="logisticGroupType" value="#{s207Controller.selected.logisticGroupType}">
+                                    <f:selectItem itemLabel="ขนาดเล็ก" itemValue="1" />
+                                    <f:selectItem itemLabel="ขนาดใหญ่" itemValue="2" />
+                                </p:selectOneRadio>
+                            </h:panelGroup>
                             
                              <h:panelGroup>
                                 <p:outputLabel  value="ประเภทรถขนส่ง :" />

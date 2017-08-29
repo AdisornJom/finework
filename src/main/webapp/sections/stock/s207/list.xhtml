@@ -70,12 +70,10 @@
             </p:column>
 
             <p:column style="width: 25px;text-align: center">
-                <p:tooltip for="edit" value="#{msgs['btn.edit']}" trackMouse="true"/>
                 <p:commandButton id="edit" title="#{msgs['btn.edit']}" icon="fa fa-edit" action="#{s207Controller.next('stock/s207/edit')}" update=":content">
                     <f:setPropertyActionListener value="#{item}" target="#{s207Controller.selected}" />
                 </p:commandButton>
 
-                <p:tooltip for="del" value="#{msgs['btn.delete']}" trackMouse="true"/>
                 <p:commandButton id="del" title="#{msgs['btn.delete']}"  icon="fa fa-trash"  action="#{s207Controller.delete()}" update=":content">
                     <p:confirm header="#{msgs['dialog.confirm']}" message="#{msgs['dialog.message']}" />
                     <f:setPropertyActionListener value="#{item}" target="#{s207Controller.selected}" />

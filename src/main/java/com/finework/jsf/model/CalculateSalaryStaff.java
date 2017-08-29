@@ -32,13 +32,19 @@ public class CalculateSalaryStaff {
                                 trans.setWorkMoneyOT(car.getCharterFlights());
                             } else {
                                 SysWorkunit workUnit = trans.getWorkunitId();
-                                // 1. ใกล้ 2.ไกล Constants.WORKUNIT_DISTANCE_NEAR;Constants.WORKUNIT_DISTANCE_LONG;
-                                if (Objects.equals(Constants.WORKUNIT_DISTANCE_NEAR, workUnit.getDistance())) {
-                                    moneyWork += car.getTransportShort();
-                                    trans.setWorkMoneyOT(car.getTransportShort());
-                                } else {
-                                    moneyWork += car.getTransportLong();
-                                    trans.setWorkMoneyOT(car.getTransportLong());
+                                //ถ้าเป็นรถใหญ่ ก็ให้คิดระยะไกลเลยทันที
+                                if(Objects.equals(Constants.LOGISTIC_GROUP_TYPE_LARGE, car.getLogisticGroupType())){
+                                     moneyWork += car.getTransportLong();
+                                     trans.setWorkMoneyOT(car.getTransportLong());
+                                }else{
+                                    // 1. ใกล้ 2.ไกล Constants.WORKUNIT_DISTANCE_NEAR;Constants.WORKUNIT_DISTANCE_LONG;
+                                    if (Objects.equals(Constants.WORKUNIT_DISTANCE_NEAR, workUnit.getDistance())) {
+                                        moneyWork += car.getTransportShort();
+                                        trans.setWorkMoneyOT(car.getTransportShort());
+                                    } else {
+                                        moneyWork += car.getTransportLong();
+                                        trans.setWorkMoneyOT(car.getTransportLong());
+                                    }
                                 }
                             }
                         } else {

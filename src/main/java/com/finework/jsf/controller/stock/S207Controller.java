@@ -84,6 +84,12 @@ public class S207Controller extends BaseController {
                 return;
             }
             
+            if(selected.getLogisticGroupType()==null){
+                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ขนาดรถขนส่ง"));
+                RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                return;
+            }
+            
             if(selected.getTransportType()==null){
                 JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ประเภทรถขนส่ง"));
                 RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
@@ -154,6 +160,12 @@ public class S207Controller extends BaseController {
             }
             if (StringUtils.isBlank(selected.getLogisticBand())) {
                 JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ยี่ห้อ"));
+                RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                return;
+            }
+            
+            if(selected.getLogisticGroupType()==null){
+                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ขนาดรถขนส่ง"));
                 RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
                 return;
             }

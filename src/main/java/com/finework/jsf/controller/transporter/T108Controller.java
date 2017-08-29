@@ -7,6 +7,7 @@ import com.finework.core.ejb.entity.SysTransportStaffSpecial;
 import com.finework.core.util.DateTimeUtil;
 import com.finework.core.util.JsfUtil;
 import com.finework.core.util.MessageBundleLoader;
+import com.finework.core.util.StringUtil;
 import com.finework.core.util.ThaiBaht;
 import com.finework.ejb.facade.ContractorFacade;
 import com.finework.ejb.facade.ManufactoryFacade;
@@ -81,6 +82,8 @@ public class T108Controller extends BaseController {
     
     //variable
     private Double total=0.0;
+    //footer summary
+    private String totalSummary;
    
     @PostConstruct
     @Override
@@ -252,13 +255,16 @@ public class T108Controller extends BaseController {
                 }
                 
               items=transporterFacade.findSysTransportStaffSpecialListByCriteria(tpstaff_find, startDate, toDate);
+              Double totalSum = 0.0;
               for(SysTransportStaffSpecial special:items){
                  Double total_=0.0;
                  for(SysTransportStaffSpecialDetail specialDetail:special.getSysTransportStaffSpecialDetailList()){
                      total_+=(null !=specialDetail.getAmount()?specialDetail.getAmount():0.0);
                  }
                  special.setTotalSpcial(total_);
+                 totalSum=totalSum+special.getTotalSpcial();
               }
+               totalSummary=StringUtil.numberFormat(totalSum, "#,##0.00");
         } catch (Exception ex) {
             LOG.error(ex);
         }
@@ -567,6 +573,14 @@ public class T108Controller extends BaseController {
 
     public void setTpstaff_find(SysTransportStaff tpstaff_find) {
         this.tpstaff_find = tpstaff_find;
+    }
+
+    public String getTotalSummary() {
+        return totalSummary;
+    }
+
+    public void setTotalSummary(String totalSummary) {
+        this.totalSummary = totalSummary;
     }
 
 }

@@ -75,6 +75,14 @@
                     <f:setPropertyActionListener value="#{item}" target="#{t108Controller.selected}" />
                 </p:commandButton>
             </p:column>
+             
+             <p:columnGroup type="footer">
+                 <p:row>
+                     <p:column colspan="5" footerText="Total:" style="font-size: 18px;font-weight: bold;text-align:right;color:green" />
+                     <p:column footerText="#{t108Controller.totalSummary}" style="font-weight: bold;text-align:right;color:red;"/>
+                     <p:column/>
+                 </p:row>
+             </p:columnGroup>
 
             <f:facet name="footer">
                 <h:outputText value="#{msgs['messages.code.2022']} "/>

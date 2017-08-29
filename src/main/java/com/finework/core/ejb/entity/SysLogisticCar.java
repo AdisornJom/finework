@@ -85,6 +85,10 @@ public class SysLogisticCar implements Serializable {
     @Size(min = 1, max = 1)
     @Column(name = "status")
     private String status;
+    
+    @Column(name = "logistic_group_type")
+    private Integer logisticGroupType;
+     
     @Column(name = "created_dt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDt;
@@ -303,5 +307,15 @@ public class SysLogisticCar implements Serializable {
     public void setSysTransportationList(List<SysTransportation> sysTransportationList) {
         this.sysTransportationList = sysTransportationList;
     }
+
+    public Integer getLogisticGroupType() {
+        return logisticGroupType;
+    }
+
+    public void setLogisticGroupType(Integer logisticGroupType) {
+        this.logisticGroupType = logisticGroupType;
+    }
+
+   
     
 }

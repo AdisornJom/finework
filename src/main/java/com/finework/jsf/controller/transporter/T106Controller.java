@@ -7,6 +7,7 @@ import com.finework.core.ejb.entity.SysTranspostationExp;
 import com.finework.core.util.DateTimeUtil;
 import com.finework.core.util.JsfUtil;
 import com.finework.core.util.MessageBundleLoader;
+import com.finework.core.util.StringUtil;
 import com.finework.core.util.ThaiBaht;
 import com.finework.ejb.facade.ContractorFacade;
 import com.finework.ejb.facade.ManufactoryFacade;
@@ -83,6 +84,8 @@ public class T106Controller extends BaseController {
     
     //variable
     private Double total=0.0;
+     //footer summary
+    private String totalSummary;
    
     @PostConstruct
     @Override
@@ -255,13 +258,16 @@ public class T106Controller extends BaseController {
                 }
                 
               items=transporterFacade.findSysTranspostationExpListByCriteria(tpstaff_find, startDate, toDate);
+              Double totalSum = 0.0;
               for(SysTranspostationExp exp:items){
                  Double total_=0.0;
                  for(SysTransportationExpDetail expDetail:exp.getSysTransportationExpDetailList()){
                      total_+=(null !=expDetail.getAmount()?expDetail.getAmount():0.0);
                  }
                  exp.setTotalExp(total_);
+                 totalSum=totalSum+exp.getTotalExp();
               }
+               totalSummary=StringUtil.numberFormat(totalSum, "#,##0.00");
         } catch (Exception ex) {
             LOG.error(ex);
         }
@@ -560,4 +566,14 @@ public class T106Controller extends BaseController {
     public void setExpDeduction_selected(SysExpensesManufactoryDeduction expDeduction_selected) {
         this.expDeduction_selected = expDeduction_selected;
     }
+
+    public String getTotalSummary() {
+        return totalSummary;
+    }
+
+    public void setTotalSummary(String totalSummary) {
+        this.totalSummary = totalSummary;
+    }
+    
+    
 }

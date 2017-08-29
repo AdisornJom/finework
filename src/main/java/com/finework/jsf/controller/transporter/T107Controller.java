@@ -16,6 +16,7 @@ import com.finework.core.util.JsfUtil;
 import com.finework.core.util.MessageBundleLoader;
 import com.finework.core.util.NumberUtils;
 import com.finework.core.util.ReportUtil;
+import com.finework.core.util.StringUtil;
 import com.finework.ejb.facade.OrganizationFacade;
 import com.finework.ejb.facade.TransporterFacade;
 import com.finework.jsf.model.CalculateSalaryStaff;
@@ -70,6 +71,8 @@ public class T107Controller extends BaseController {
 
     //
     private List<SysTransportStaff> printSelected;
+    //footer summary
+    private String totalSummary;
 
     @PostConstruct
     @Override
@@ -95,6 +98,7 @@ public class T107Controller extends BaseController {
             }
 
             items = transportStaffFacade.findSysTransportStaffListByCriteria(tpstaff_find, null, "Y");
+            Double totalSum = 0.0;
             for (SysTransportStaff transstaff : items) {
                 List<Date> dates = new ArrayList<>();
                 
@@ -168,8 +172,9 @@ public class T107Controller extends BaseController {
                 transstaff.setTotalExp(expenses);
                 
                 transstaff.setTotalNet(income-expenses);
+                totalSum=totalSum+transstaff.getTotalNet();
             }
-
+            totalSummary=StringUtil.numberFormat(totalSum, "#,##0.00");
         } catch (Exception ex) {
             LOG.error(ex);
         }
@@ -684,6 +689,14 @@ public class T107Controller extends BaseController {
 
     public void setTpstaff_find(SysTransportStaff tpstaff_find) {
         this.tpstaff_find = tpstaff_find;
+    }
+
+    public String getTotalSummary() {
+        return totalSummary;
+    }
+
+    public void setTotalSummary(String totalSummary) {
+        this.totalSummary = totalSummary;
     }
     
     

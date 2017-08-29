@@ -12,6 +12,7 @@ import com.finework.core.util.JsfUtil;
 import com.finework.core.util.MessageBundleLoader;
 import com.finework.core.util.NumberUtils;
 import com.finework.core.util.ReportUtil;
+import com.finework.core.util.StringUtil;
 import com.finework.ejb.facade.OrganizationFacade;
 import com.finework.ejb.facade.TransporterFacade;
 import com.finework.jsf.model.CalculateSalaryStaff;
@@ -66,6 +67,9 @@ public class T105Controller extends BaseController {
 
     //
     private List<SysTransportStaff> printSelected;
+    
+    //footer summary
+    private String totalSummary;
 
     @PostConstruct
     @Override
@@ -91,6 +95,7 @@ public class T105Controller extends BaseController {
             }
 
             items = transportStaffFacade.findSysTransportStaffListByCriteria(tpstaff_find, null, "Y");
+            Double totalSum = 0.0;
             for (SysTransportStaff transstaff : items) {
                 List<SysTransportation> staffs = transporterFacade.findStaffSysTransportationListByCriteria(transstaff, Constants.TRANSPORTATION_COMPLETE, startDate, toDate);//staff
                 List<SysTransportation> follow_staffs1 = transporterFacade.findStafffollow1SysTransportationListByCriteria(transstaff, Constants.TRANSPORTATION_COMPLETE, startDate, toDate);//staff follow 1
@@ -105,8 +110,11 @@ public class T105Controller extends BaseController {
                 Double follow_staffs2_ = new CalculateSalaryStaff().calculaterOTandFollowStaff(follow_staffs2, transstaff.getDailyWage(),transstaff.getTransportType());
 
                 transstaff.setValueWorking(statfs_ + follow_staffs1_ + follow_staffs2_);
+                totalSum=totalSum+transstaff.getValueWorking();
             }
 
+             totalSummary=StringUtil.numberFormat(totalSum, "#,##0.00");
+             
         } catch (Exception ex) {
             LOG.error(ex);
         }
@@ -470,6 +478,14 @@ public class T105Controller extends BaseController {
 
     public void setTpstaff_find(SysTransportStaff tpstaff_find) {
         this.tpstaff_find = tpstaff_find;
+    }
+
+    public String getTotalSummary() {
+        return totalSummary;
+    }
+
+    public void setTotalSummary(String totalSummary) {
+        this.totalSummary = totalSummary;
     }
 
     
