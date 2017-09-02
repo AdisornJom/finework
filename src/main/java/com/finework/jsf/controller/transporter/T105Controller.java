@@ -86,11 +86,17 @@ public class T105Controller extends BaseController {
         try {
             if (null == startDate) {
                 GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance(Locale.US);
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
                 cal.set(Calendar.DAY_OF_MONTH, 1);
                 startDate = cal.getTime();
             }
             if (null == toDate) {
                 GregorianCalendar calEnd = (GregorianCalendar) GregorianCalendar.getInstance(Locale.US);
+                calEnd.set(Calendar.HOUR_OF_DAY, 23);
+                calEnd.set(Calendar.MINUTE, 59);
+                calEnd.set(Calendar.SECOND, 59);
                 toDate = calEnd.getTime();
             }
 

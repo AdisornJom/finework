@@ -49,7 +49,10 @@ public class CalculateSalaryStaff {
                             }
                         } else {
                             //คิดตามช่วงเวลา 
-                            Double value = ((amtPerday != null ? amtPerday : 0) / 6) * trans.getTpOtTimeHours();
+                            Double value = 0.0;
+                            if(null !=amtPerday){
+                                value=(amtPerday/6)*(null!=trans.getTpOtTimeHours()?trans.getTpOtTimeHours():0.0);
+                            }
                             moneyWork += value;
                             trans.setWorkMoneyOT(value);
                         }
@@ -102,7 +105,11 @@ public class CalculateSalaryStaff {
                             }
                     } else {
                         //คิดตามช่วงเวลา 
-                        Double value = ((amtPerday != null ? amtPerday : 0) / 6) * trans.getTpOtTimeHours();
+                        //Double value = ((amtPerday != null ? amtPerday : 0) / 6) * trans.getTpOtTimeHours();
+                        Double value = 0.0;
+                        if (null != amtPerday) {
+                            value = (amtPerday / 6) * (null != trans.getTpOtTimeHours() ? trans.getTpOtTimeHours() : 0.0);
+                        }
                         moneyWork += value;
                         trans.setWorkMoneyOT(value);
                     }

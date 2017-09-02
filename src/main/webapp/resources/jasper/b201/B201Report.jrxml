@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="B201Report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="eb53d534-0f9f-4a9b-a4a2-98e2a6d8d8ae">
 	<property name="ireport.zoom" value="1.6105100000000103"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="487"/>
+	<property name="ireport.y" value="448"/>
 	<parameter name="cust_name" class="java.lang.String"/>
 	<parameter name="cust_address" class="java.lang.String"/>
 	<parameter name="send_date" class="java.lang.String"/>
@@ -285,7 +285,7 @@
 				<reportElement x="473" y="1" width="1" height="19" uuid="97569e6e-7d91-4866-b6f9-45d707aeacd2"/>
 			</line>
 			<line>
-				<reportElement x="545" y="0" width="1" height="19" uuid="cb743061-501a-4efa-9d3d-e3437766cf9b"/>
+				<reportElement x="545" y="0" width="1" height="20" uuid="cb743061-501a-4efa-9d3d-e3437766cf9b"/>
 			</line>
 			<line>
 				<reportElement x="7" y="19" width="538" height="1" uuid="035360bd-d557-453c-b52f-a7eab0550f9f"/>
@@ -293,9 +293,9 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="199" splitType="Stretch">
+		<band height="272" splitType="Stretch">
 			<subreport>
-				<reportElement x="9" y="19" width="537" height="180" uuid="ab32e35d-f01f-4fcd-902b-3f32d4772b09"/>
+				<reportElement x="9" y="18" width="537" height="254" uuid="ab32e35d-f01f-4fcd-902b-3f32d4772b09"/>
 				<subreportParameter name="cust_name"/>
 				<subreportParameter name="cust_address"/>
 				<subreportParameter name="send_date"/>
@@ -313,22 +313,22 @@
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR}+"\\B201SubReport.jasper"]]></subreportExpression>
 			</subreport>
 			<line>
-				<reportElement x="7" y="0" width="1" height="199" uuid="9d777a3a-e484-4670-89f4-8a6cbc63b244"/>
+				<reportElement x="7" y="0" width="1" height="272" uuid="9d777a3a-e484-4670-89f4-8a6cbc63b244"/>
 			</line>
 			<line>
-				<reportElement x="42" y="0" width="1" height="199" uuid="edc1b544-6431-4e83-b184-b666e729c423"/>
+				<reportElement x="42" y="0" width="1" height="272" uuid="edc1b544-6431-4e83-b184-b666e729c423"/>
 			</line>
 			<line>
-				<reportElement x="329" y="0" width="1" height="199" uuid="59c97a54-60bf-4dea-9c28-8c4ce7bcd7a4"/>
+				<reportElement x="329" y="0" width="1" height="272" uuid="59c97a54-60bf-4dea-9c28-8c4ce7bcd7a4"/>
 			</line>
 			<line>
-				<reportElement x="401" y="0" width="1" height="199" uuid="ec4725b7-bb3c-4c3f-bc9e-4378c128d07e"/>
+				<reportElement x="401" y="0" width="1" height="272" uuid="ec4725b7-bb3c-4c3f-bc9e-4378c128d07e"/>
 			</line>
 			<line>
-				<reportElement x="473" y="0" width="1" height="199" uuid="3e236800-2161-47da-8424-fcbf451ff949"/>
+				<reportElement x="473" y="0" width="1" height="272" uuid="3e236800-2161-47da-8424-fcbf451ff949"/>
 			</line>
 			<line>
-				<reportElement x="545" y="0" width="1" height="199" uuid="b6f1fabd-0ccf-4b7a-9bf9-6291f1fee504"/>
+				<reportElement x="545" y="0" width="1" height="272" uuid="b6f1fabd-0ccf-4b7a-9bf9-6291f1fee504"/>
 			</line>
 		</band>
 	</detail>
@@ -443,7 +443,7 @@
 				<reportElement x="7" y="101" width="538" height="1" uuid="629d7022-fc1a-4268-8efb-5543a72cdac0"/>
 			</line>
 			<line>
-				<reportElement x="545" y="1" width="1" height="100" uuid="c8e2260e-c903-4ff1-a37c-0ebfc4770481"/>
+				<reportElement x="545" y="0" width="1" height="102" uuid="c8e2260e-c903-4ff1-a37c-0ebfc4770481"/>
 			</line>
 			<staticText>
 				<reportElement mode="Opaque" x="330" y="1" width="139" height="19" backcolor="#FFFFFF" uuid="808ecef8-0a03-4f4d-8fbe-8d7865d25f39"/>

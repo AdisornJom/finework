@@ -16,6 +16,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 
 @Stateless
@@ -133,10 +134,10 @@ public class SysTransportationDAO extends AbstractDAO<SysTransportation> {
         }
 
         if (null != startDate) {
-            q.setParameter("startDate", startDate);
+            q.setParameter("startDate", startDate, TemporalType.DATE);
         }
         if (null != toDate) {
-            q.setParameter("toDate", toDate);
+            q.setParameter("toDate", toDate,TemporalType.DATE);
         }
         
         return q.getResultList();
@@ -173,10 +174,10 @@ public class SysTransportationDAO extends AbstractDAO<SysTransportation> {
         }
 
         if (null != startDate) {
-            q.setParameter("startDate", startDate);
+            q.setParameter("startDate", startDate, TemporalType.DATE);
         }
         if (null != toDate) {
-            q.setParameter("toDate", toDate);
+            q.setParameter("toDate", toDate,TemporalType.DATE);
         }
         
         return q.getResultList();
@@ -212,11 +213,11 @@ public class SysTransportationDAO extends AbstractDAO<SysTransportation> {
             q.setParameter("status", status);
         }
 
-        if (null != startDate) {
-            q.setParameter("startDate", startDate);
+         if (null != startDate) {
+            q.setParameter("startDate", startDate, TemporalType.DATE);
         }
         if (null != toDate) {
-            q.setParameter("toDate", toDate);
+            q.setParameter("toDate", toDate,TemporalType.DATE);
         }
         
         return q.getResultList();
