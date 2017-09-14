@@ -206,6 +206,7 @@ public class T107Controller extends BaseController {
             }
             
              //
+           /*
             if(null !=selected.getAllowance()){
                 TransporterReportBean bean2 = new TransporterReportBean();
                 bean2.setDetail("เบี้ยเลี้ยงต่อวัน"); 
@@ -213,7 +214,8 @@ public class T107Controller extends BaseController {
                 bean2.setAmount((StringUtils.equals("0.00", value)) ? "" : value);
                 reportList.add(bean2);
             }
-            
+            */
+
             if(null !=selected.getRentHouse()){
                 TransporterReportBean bean2 = new TransporterReportBean();
                 bean2.setDetail("ค่าเช่าบ้าน");
@@ -399,6 +401,7 @@ public class T107Controller extends BaseController {
                     }
 
                      //
+                    /*
                     if(null !=sysTransportStaff.getAllowance()){
                         TransporterReportBean bean2 = new TransporterReportBean();
                         bean2.setDetail("เบี้ยเลี้ยงต่อวัน"); 
@@ -406,7 +409,8 @@ public class T107Controller extends BaseController {
                         bean2.setAmount((StringUtils.equals("0.00", value)) ? "" : value);
                         reportList.add(bean2);
                     }
-
+                    */
+                    
                     if(null !=sysTransportStaff.getRentHouse()){
                         TransporterReportBean bean2 = new TransporterReportBean();
                         bean2.setDetail("ค่าเช่าบ้าน");

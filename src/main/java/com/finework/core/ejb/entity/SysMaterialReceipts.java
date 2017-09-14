@@ -67,12 +67,18 @@ public class SysMaterialReceipts implements Serializable {
     @Size(max = 45)
     @Column(name = "modified_by")
     private String modifiedBy;
+    
     @JoinColumn(name = "material_id", referencedColumnName = "material_id")
     @ManyToOne
     private SysMaterial materialId;
+    
     @JoinColumn(name = "supplier_id", referencedColumnName = "supplier_id")
     @ManyToOne
     private SysSuppliers supplierId;
+    
+    @JoinColumn(name = "contractor_id", referencedColumnName = "contractor_id")
+    @ManyToOne
+    private SysContractor contractorId;
 
     public SysMaterialReceipts() {
     }
@@ -177,6 +183,15 @@ public class SysMaterialReceipts implements Serializable {
         this.supplierId = supplierId;
     }
 
+    public SysContractor getContractorId() {
+        return contractorId;
+    }
+
+    public void setContractorId(SysContractor contractorId) {
+        this.contractorId = contractorId;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;
