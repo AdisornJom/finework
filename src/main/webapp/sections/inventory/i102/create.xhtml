@@ -51,7 +51,6 @@
                             
                             <h:panelGroup>
                                 <p:outputLabel value="ผู้จัดส่งวัตถุดิบ(Supplier) ："/>
-                                <font class="require">*</font>
                             </h:panelGroup>
                             <h:panelGroup>
                                 <p:autoComplete id="supplierName" dropdown="true" value="#{i102Controller.supplier_selected}" 
@@ -59,10 +58,29 @@
                                                          var="supplier" itemLabel="#{supplier.supplierNameTh}" 
                                                          itemValue="#{supplier}" 
                                                          converter="#{suppliersConverter}"
-                                                         scrollHeight="250"   >
+                                                         scrollHeight="250"   
+                                                         disabled="#{i102Controller.contractor_selected != null}">
                                     <p:ajax event="query"  global="false" />
+                                    <p:ajax event="itemSelect" update="listForm:contractorName" global="false"/> 
                                 </p:autoComplete>
                                 <p:watermark  for="supplierName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel value="ชื่อเล่นผู้รับเหมา ："/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:autoComplete id="contractorName" dropdown="true" value="#{i102Controller.contractor_selected}" 
+                                                completeMethod="#{i102Controller.completeContractor}" 
+                                                var="contractor" itemLabel="#{contractor.contractorNickname}" 
+                                                itemValue="#{contractor}" 
+                                                converter="#{contractorConverter}"
+                                                scrollHeight="250" forceSelection="true" 
+                                                disabled="#{i102Controller.supplier_selected != null}">
+                                    <p:ajax event="query"  global="false"/>
+                                    <p:ajax event="itemSelect" update="listForm:supplierName" global="false"/> 
+                                </p:autoComplete>
+                                <p:watermark  for="contractorName" value="กรอกข้อมูลเพื่อ ค้นหา" />
                             </h:panelGroup>
                             
                             <h:panelGroup>

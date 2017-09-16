@@ -142,7 +142,7 @@ public class T107Controller extends BaseController {
                 transstaff.setTotalAmount(salary);
 
                 //Special staff
-                List<SysTransportStaffSpecial> transportationSpecial= transporterFacade.findSysTransportStaffSpecialListByCriteria(transstaff, startDate, toDate);
+                List<SysTransportStaffSpecial> transportationSpecial= transporterFacade.findSysTransportStaffSpecialListByCriteria(transstaff, Constants.TRANSPORT_STAFF_SPECIAL, startDate, toDate);
                 Double special_ = 0.0;
                 for (SysTransportStaffSpecial special : transportationSpecial) {
                     Double total_=0.0;
@@ -155,7 +155,21 @@ public class T107Controller extends BaseController {
                 transstaff.setSysTransportStaffSpecialList(transportationSpecial);
                 transstaff.setTotalSpecial(special_);
                 
-                Double income=salary+transstaff.getValueWorking()+allowance+special_;
+                //Special staff no vat
+                List<SysTransportStaffSpecial> transportationSpecialNovat= transporterFacade.findSysTransportStaffSpecialListByCriteria(transstaff, Constants.TRANSPORT_STAFF_SPECIAL_NO_VAT, startDate, toDate);
+                Double specialNovat_ = 0.0;
+                for (SysTransportStaffSpecial special : transportationSpecialNovat) {
+                    Double total_=0.0;
+                    for (SysTransportStaffSpecialDetail specialDetail : special.getSysTransportStaffSpecialDetailList()) {
+                        specialNovat_ += (null != specialDetail.getAmount() ? specialDetail.getAmount() : 0.0);
+                        total_+=(null !=specialDetail.getAmount()?specialDetail.getAmount():0.0);
+                    }
+                    special.setTotalSpcial(total_);
+                }
+                transstaff.setSysTransportStaffSpecialNovatList(transportationSpecialNovat);
+                transstaff.setTotalSpecialnoVat(specialNovat_);
+                
+                Double income=salary+transstaff.getValueWorking()+allowance+special_+specialNovat_;
                 
                 //Exp staff
                 List<SysTranspostationExp> transportationExp = transporterFacade.findSysTranspostationExpListByCriteria(transstaff, startDate, toDate);
@@ -294,15 +308,37 @@ public class T107Controller extends BaseController {
                 reportList.add(bean2);
             }
             
+
             int intRunningNo2 = 0;
-            List<SysTransportStaffSpecial> listSpecial = selected.getSysTransportStaffSpecialList();
-            if (!listSpecial.isEmpty()) {
+            List<SysTransportStaffSpecial> listSpecial1 = selected.getSysTransportStaffSpecialList();
+            if (!listSpecial1.isEmpty()) {
                 TransporterReportBean bean = new TransporterReportBean();
-                bean.setDetail("** รายได้พนักงาน(พิเศษ) **");
+                bean.setDetail("** รายได้(พิเศษ) **");
                 reportList.add(bean);
-                for (SysTransportStaffSpecial special : listSpecial) {
+                for (SysTransportStaffSpecial special : listSpecial1) {
                      TransporterReportBean bean3 = new TransporterReportBean();
                      bean3.setSeq(String.valueOf(intRunningNo2 += 1));
+                     bean3.setDetail(DateTimeUtil.cvtDateForShow(special.getSpecialtpDate(), "dd/MM/yyyy", new Locale("th", "TH")));//วันที่ทำรายการ
+                     reportList.add(bean3);
+                    for (SysTransportStaffSpecialDetail specialDetail : special.getSysTransportStaffSpecialDetailList()) {
+                        TransporterReportBean beandetail = new TransporterReportBean();
+                        beandetail.setWorkunit(specialDetail.getSpecialDesc());
+                        String value = NumberUtils.numberFormat((null != specialDetail.getAmount()) ? specialDetail.getAmount() : 0.0, "#,##0.00");
+                        beandetail.setAmount((StringUtils.equals("0.00", value)) ? "" : value);
+                        reportList.add(beandetail);
+                    }
+                }
+            }
+            
+            int intRunningNo3 = 0;
+            List<SysTransportStaffSpecial> listSpecialNoVat = selected.getSysTransportStaffSpecialNovatList();
+            if (!listSpecialNoVat.isEmpty()) {
+                TransporterReportBean bean = new TransporterReportBean();
+                bean.setDetail("** รายได้(พิเศษไม่หัก 3%) **");
+                reportList.add(bean);
+                for (SysTransportStaffSpecial special : listSpecialNoVat) {
+                     TransporterReportBean bean3 = new TransporterReportBean();
+                     bean3.setSeq(String.valueOf(intRunningNo3 += 1));
                      bean3.setDetail(DateTimeUtil.cvtDateForShow(special.getSpecialtpDate(), "dd/MM/yyyy", new Locale("th", "TH")));//วันที่ทำรายการ
                      reportList.add(bean3);
                     for (SysTransportStaffSpecialDetail specialDetail : special.getSysTransportStaffSpecialDetailList()) {
@@ -363,7 +399,8 @@ public class T107Controller extends BaseController {
             map.put("total_exp",NumberUtils.numberFormat(selected.getTotalExp(), "#,##0.00"));
             map.put("total",NumberUtils.numberFormat(selected.getTotalNet(), "#,##0.00"));
             map.put("total_tax",NumberUtils.numberFormat(selected.getTotalNet()* 0.03, "#,##0.00"));
-            map.put("totalnet",NumberUtils.numberFormat(selected.getTotalNet()-(selected.getTotalNet()* 0.03), "#,##0.00"));
+            map.put("total_notax",NumberUtils.numberFormat(selected.getTotalSpecialnoVat(), "#,##0.00"));
+            map.put("totalnet",NumberUtils.numberFormat((selected.getTotalNet()-(selected.getTotalNet()* 0.03))+selected.getTotalSpecialnoVat(), "#,##0.00"));
             
 
             map.put("reportCode", "T107");
@@ -489,47 +526,74 @@ public class T107Controller extends BaseController {
                         reportList.add(bean2);
                     }
                     
-                   int intRunningNo2 = 0;
-                    List<SysTransportStaffSpecial> listSpecial = selected.getSysTransportStaffSpecialList();
-                    if (!listSpecial.isEmpty()) {
-                        TransporterReportBean bean = new TransporterReportBean();
-                        bean.setDetail("** รายได้พนักงาน(พิเศษ) **");
-                        reportList.add(bean);
-                        for (SysTransportStaffSpecial special : listSpecial) {
-                            TransporterReportBean bean3 = new TransporterReportBean();
-                            bean3.setSeq(String.valueOf(intRunningNo2 += 1));
-                            bean3.setDetail(DateTimeUtil.cvtDateForShow(special.getSpecialtpDate(), "dd/MM/yyyy", new Locale("th", "TH")));//วันที่ทำรายการ
-                            reportList.add(bean3);
-                            for (SysTransportStaffSpecialDetail specialDetail : special.getSysTransportStaffSpecialDetailList()) {
-                                TransporterReportBean beandetail = new TransporterReportBean();
-                                beandetail.setWorkunit(specialDetail.getSpecialDesc());
-                                String value = NumberUtils.numberFormat((null != specialDetail.getAmount()) ? specialDetail.getAmount() : 0.0, "#,##0.00");
-                                beandetail.setAmount((StringUtils.equals("0.00", value)) ? "" : value);
-                                reportList.add(beandetail);
-                            }
-                        }
-                    }
+                   if (null != sysTransportStaff.getSysTransportStaffSpecialList()) {
+                     int intRunningNo2 = 0;
+                     List<SysTransportStaffSpecial> listSpecial1 = sysTransportStaff.getSysTransportStaffSpecialList();
+                     if (!listSpecial1.isEmpty()) {
+                         TransporterReportBean bean = new TransporterReportBean();
+                         bean.setDetail("** รายได้(พิเศษ) **");
+                         reportList.add(bean);
+                         for (SysTransportStaffSpecial special : listSpecial1) {
+                             TransporterReportBean bean3 = new TransporterReportBean();
+                             bean3.setSeq(String.valueOf(intRunningNo2 += 1));
+                             bean3.setDetail(DateTimeUtil.cvtDateForShow(special.getSpecialtpDate(), "dd/MM/yyyy", new Locale("th", "TH")));//วันที่ทำรายการ
+                             reportList.add(bean3);
+                             for (SysTransportStaffSpecialDetail specialDetail : special.getSysTransportStaffSpecialDetailList()) {
+                                 TransporterReportBean beandetail = new TransporterReportBean();
+                                 beandetail.setWorkunit(specialDetail.getSpecialDesc());
+                                 String value = NumberUtils.numberFormat((null != specialDetail.getAmount()) ? specialDetail.getAmount() : 0.0, "#,##0.00");
+                                 beandetail.setAmount((StringUtils.equals("0.00", value)) ? "" : value);
+                                 reportList.add(beandetail);
+                             }
+                         }
+                     }
+                 }
 
-                    int intRunningNo1 = 0;
-                    List<SysTranspostationExp> listExp = sysTransportStaff.getTransportationExp();
-                    if (!listExp.isEmpty()) {
-                        TransporterReportBean bean = new TransporterReportBean();
-                        bean.setDetail("** ค่าใช้จ่าย **");
-                        reportList.add(bean);
-                        for (SysTranspostationExp exp : listExp) {
+                 if (null != sysTransportStaff.getSysTransportStaffSpecialNovatList()) {
+                     int intRunningNo3 = 0;
+                     List<SysTransportStaffSpecial> listSpecialNoVat = sysTransportStaff.getSysTransportStaffSpecialNovatList();
+                     if (!listSpecialNoVat.isEmpty()) {
+                         TransporterReportBean bean = new TransporterReportBean();
+                         bean.setDetail("** รายได้(พิเศษไม่หัก 3%) **");
+                         reportList.add(bean);
+                         for (SysTransportStaffSpecial special : listSpecialNoVat) {
+                             TransporterReportBean bean3 = new TransporterReportBean();
+                             bean3.setSeq(String.valueOf(intRunningNo3 += 1));
+                             bean3.setDetail(DateTimeUtil.cvtDateForShow(special.getSpecialtpDate(), "dd/MM/yyyy", new Locale("th", "TH")));//วันที่ทำรายการ
+                             reportList.add(bean3);
+                             for (SysTransportStaffSpecialDetail specialDetail : special.getSysTransportStaffSpecialDetailList()) {
+                                 TransporterReportBean beandetail = new TransporterReportBean();
+                                 beandetail.setWorkunit(specialDetail.getSpecialDesc());
+                                 String value = NumberUtils.numberFormat((null != specialDetail.getAmount()) ? specialDetail.getAmount() : 0.0, "#,##0.00");
+                                 beandetail.setAmount((StringUtils.equals("0.00", value)) ? "" : value);
+                                 reportList.add(beandetail);
+                             }
+                         }
+                     }
+                 }
+
+                 if (null != sysTransportStaff.getTransportationExp()) {
+                     int intRunningNo1 = 0;
+                     List<SysTranspostationExp> listExp = sysTransportStaff.getTransportationExp();
+                     if (!listExp.isEmpty()) {
+                         TransporterReportBean bean = new TransporterReportBean();
+                         bean.setDetail("** ค่าใช้จ่าย **");
+                         reportList.add(bean);
+                         for (SysTranspostationExp exp : listExp) {
                              TransporterReportBean bean3 = new TransporterReportBean();
                              bean3.setSeq(String.valueOf(intRunningNo1 += 1));
                              bean3.setDetail(DateTimeUtil.cvtDateForShow(exp.getExptpDate(), "dd/MM/yyyy", new Locale("th", "TH")));//วันที่ทำรายการ
                              reportList.add(bean3);
-                            for (SysTransportationExpDetail expDetail : exp.getSysTransportationExpDetailList()) {
-                                TransporterReportBean beandetail = new TransporterReportBean();
-                                beandetail.setWorkunit(expDetail.getDeductionId().getDeductionDesc());
-                                String value = NumberUtils.numberFormat((null != expDetail.getAmount()) ? expDetail.getAmount() : 0.0, "#,##0.00");
-                                beandetail.setAmount((StringUtils.equals("0.00", value)) ? "" : value);
-                                reportList.add(beandetail);
-                            }
-                        }
-                    }
+                             for (SysTransportationExpDetail expDetail : exp.getSysTransportationExpDetailList()) {
+                                 TransporterReportBean beandetail = new TransporterReportBean();
+                                 beandetail.setWorkunit(expDetail.getDeductionId().getDeductionDesc());
+                                 String value = NumberUtils.numberFormat((null != expDetail.getAmount()) ? expDetail.getAmount() : 0.0, "#,##0.00");
+                                 beandetail.setAmount((StringUtils.equals("0.00", value)) ? "" : value);
+                                 reportList.add(beandetail);
+                             }
+                         }
+                     }
+                 }
 
                     reportList_main.add(new TransporterReportBean("", "", "","", "", "", "", ""));
                     reportList_.add(reportList_main);
@@ -557,8 +621,9 @@ public class T107Controller extends BaseController {
                     map.put("total_amount",NumberUtils.numberFormat(sysTransportStaff.getTotalAmount()+sysTransportStaff.getValueWorking()+sysTransportStaff.getTotalAllowance()+sysTransportStaff.getTotalSpecial(), "#,##0.00"));
                     map.put("total_exp",NumberUtils.numberFormat(sysTransportStaff.getTotalExp(), "#,##0.00"));
                     map.put("total",NumberUtils.numberFormat(sysTransportStaff.getTotalNet(), "#,##0.00"));
-                    map.put("total_tax",NumberUtils.numberFormat(sysTransportStaff.getTotalNet()* 0.03, "#,##0.00"));
-                    map.put("totalnet",NumberUtils.numberFormat(sysTransportStaff.getTotalNet()-(sysTransportStaff.getTotalNet()* 0.03), "#,##0.00"));
+                    map.put("total_tax", NumberUtils.numberFormat(sysTransportStaff.getTotalNet() * 0.03, "#,##0.00"));
+                    map.put("total_notax", NumberUtils.numberFormat(sysTransportStaff.getTotalSpecialnoVat(), "#,##0.00"));
+                    map.put("totalnet", NumberUtils.numberFormat((sysTransportStaff.getTotalNet() - (sysTransportStaff.getTotalNet() * 0.03)) + sysTransportStaff.getTotalSpecialnoVat(), "#,##0.00"));
 
                     map.put("reportCode", "T107");
                     JasperPrint print = report.exportSubReport_Template_mearge("template.jpg", "t107", new String[]{"T107Report", "T107SubReport"}, "T107", map, reportList_);

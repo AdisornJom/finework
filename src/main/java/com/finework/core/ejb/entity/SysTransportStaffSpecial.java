@@ -68,6 +68,9 @@ public class SysTransportStaffSpecial implements Serializable {
     @ManyToOne
     private SysTransportStaff transportstaffId;
     
+    @Column(name = "special_type")
+    private Integer specialType;
+    
     
     //@OneToMany(mappedBy = "specialtpId")
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "specialtpId", cascade = CascadeType.ALL,orphanRemoval=true)
@@ -156,6 +159,15 @@ public class SysTransportStaffSpecial implements Serializable {
     public void setTransportstaffId(SysTransportStaff transportstaffId) {
         this.transportstaffId = transportstaffId;
     }
+
+    public Integer getSpecialType() {
+        return specialType;
+    }
+
+    public void setSpecialType(Integer specialType) {
+        this.specialType = specialType;
+    }
+    
 
     @XmlTransient
     public List<SysTransportStaffSpecialDetail> getSysTransportStaffSpecialDetailList() {

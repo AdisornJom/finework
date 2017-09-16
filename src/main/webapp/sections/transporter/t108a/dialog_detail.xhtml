@@ -24,9 +24,9 @@
                        <font class="require">*</font>
                      </h:panelGroup>
                       <h:panelGroup>
-                          <p:selectOneMenu id="unit" value="#{t108Controller.specialDetail_selected.specialDesc}"  style="width: 250px;">
+                          <p:selectOneMenu id="unit" value="#{t108aController.specialDetail_selected.specialDesc}"  style="width: 250px;">
                               <f:selectItem  itemLabel="-"  itemValue="" />
-                              <f:selectItems value="#{comboController.extraIncome}" />
+                              <f:selectItems value="#{comboController.extraIncomenovat}" />
                           </p:selectOneMenu>
                       </h:panelGroup>
                      
@@ -35,7 +35,7 @@
                          <font class="require">*</font>
                      </h:panelGroup>
                      <h:panelGroup>
-                         <p:inputText id="volume" value="#{t108Controller.specialDetail_selected.amount}" maxlength="20" 
+                         <p:inputText id="volume" value="#{t108aController.specialDetail_selected.amount}" maxlength="20" 
                                       style="width: 120px; text-align: right;vertical-align:middle"/>
                      </h:panelGroup>
                  </p:panelGrid>    
@@ -44,13 +44,13 @@
                  <h:panelGroup layout="block" style="text-align: center" >
                      <p:commandButton styleClass="search-btn" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" global="false" 
                                       update="listFormSpecial dialog"
-                                      actionListener="#{t108Controller.addDetailDialog()}">
+                                      actionListener="#{t108aController.addDetailDialog()}">
                      </p:commandButton> 
                  </h:panelGroup>
                  
                  
                  <br/>
-                 <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{t108Controller.sysTransportationSpecialDetailList}" var="detail">
+                 <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{t108aController.sysTransportationSpecialDetailList}" var="detail">
                        <p:column headerText="#" style="text-align: center;width: 5%;">
                             <h:outputText value="#{(rowNumber+1)}" />
                         </p:column>
@@ -66,9 +66,9 @@
                         </p:column>
 
                         <p:column headerText="#{msgs['common.manage']}" style="width:8%;text-align: center">
-                            <p:commandButton title="#{msgs['btn.delete']}" icon="fa fa-trash" action="#{t108Controller.deleteDialogDetail()}" styleClass="delete-btn"
+                            <p:commandButton title="#{msgs['btn.delete']}" icon="fa fa-trash" action="#{t108aController.deleteDialogDetail()}" styleClass="delete-btn"
                                              update="listFormSpecial:dt_itemDetail" global="false">
-                                <f:setPropertyActionListener value="#{detail}" target="#{t108Controller.specialDetail_selected}" />
+                                <f:setPropertyActionListener value="#{detail}" target="#{t108aController.specialDetail_selected}" />
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
@@ -77,11 +77,11 @@
                  <br/>
                  <h:panelGroup layout="block" style="text-align: center" >
                      <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
-                                      actionListener="#{t108Controller.addDetail()}">
+                                      actionListener="#{t108aController.addDetail()}">
                      </p:commandButton> 
                      <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
                                       oncomplete="PF('selectDetail_dialog').hide();"
-                                      actionListener="#{t108Controller.clearData_sysTransportationSpecialDetail()}" />
+                                      actionListener="#{t108aController.clearData_sysTransportationSpecialDetail()}" />
                  </h:panelGroup>
         </h:form>
 

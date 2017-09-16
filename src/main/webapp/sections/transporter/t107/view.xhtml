@@ -148,11 +148,20 @@
                         </h:outputText>  
                     </h:panelGroup>
                     
-                     <h:panelGroup >
+                    <h:panelGroup >
                         <p:outputLabel  value="รายได้พนักงาน(พิเศษ) :" />
                     </h:panelGroup>
                     <h:panelGroup >
                         <h:outputText  value="#{t107Controller.selected.totalSpecial}" styleClass="lb_bold"  style="color: #ff0000;">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText>  
+                    </h:panelGroup>
+                    
+                    <h:panelGroup >
+                        <p:outputLabel  value="รายได้พนักงาน(พิเศษไม่หัก 3%) :" />
+                    </h:panelGroup>
+                    <h:panelGroup >
+                        <h:outputText  value="#{t107Controller.selected.totalSpecialnoVat}" styleClass="lb_bold"  style="color: #ff0000;">
                             <f:convertNumber  pattern="#,##0.00"/>
                         </h:outputText>  
                     </h:panelGroup>
@@ -334,6 +343,48 @@
                                 </p:column>
 
                                 <p:column headerText="รายการพิเศษ" style="width: 66%;" >
+                                    <h:outputText value="#{hdetailSpecial.specialDesc}" style="lb_bold"/>
+                                </p:column>
+
+                                <p:column headerText="จำนวนเงิน" style="width: 20%;">
+                                    <h:outputText  value="#{hdetailSpecial.amount}"  style="float: right;">
+                                        <f:convertNumber  pattern="#,##0.00"/>
+                                    </h:outputText>     
+                                </p:column>
+                            </p:dataTable>
+                        </p:rowExpansion>
+                    </p:dataTable>
+                    
+                    <p:spacer/><p:outputLabel value="รายได้พนักงาน(พิเศษไม่หัก 3%)" rendered="#{!empty t107Controller.selected.sysTransportStaffSpecialNovatList}" style="color: #ff0000"/>
+                    <p:dataTable id="specialstaffNovatDetail" binding="#{bindingController.dataTableModel}" value="#{t107Controller.selected.sysTransportStaffSpecialNovatList}" var="detailSpecial" rowExpandMode="single"
+                                  rendered="#{!empty t107Controller.selected.sysTransportStaffSpecialNovatList}">
+                         <p:ajax event="rowToggle" global="false" onstart="return cfg.ext.params[0].name.indexOf('_rowExpansion') != -1"/>
+                         <p:column style="text-align: center;width:10%">
+                             <p:rowToggler/>
+                         </p:column>
+                         <p:column headerText="ลำดับ" style="text-align: center;width: 5%;">
+                             <h:outputText value="#{(rowNumber+1)}" />
+                        </p:column>
+
+                         <p:column  headerText="วันที่ทำรายการ " sortBy="#{detailSpecial.specialtpDate}" style="width: 40%;text-align: center">
+                             <h:outputText value="#{detailSpecial.specialtpDate}">
+                                 <f:convertDateTime pattern="dd-MM-yyyy"/>
+                             </h:outputText>
+                         </p:column>
+
+                        <p:column headerText="จำนวนเงิน" style="width: 40%;text-align: right" >
+                            <h:outputText  value="#{detailSpecial.totalSpcial}" styleClass="lb_bold"  style="color: #ff0000">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </p:column>
+
+                        <p:rowExpansion >
+                            <p:dataTable  binding="#{bindingController.dataTableModel}" value="#{detailSpecial.sysTransportStaffSpecialDetailList}" var="hdetailSpecial">
+                                <p:column headerText="ลำดับ" style="text-align: center;width: 7%;">
+                                    <h:outputText value="#{(rowNumber+1)}" />
+                                </p:column>
+
+                                <p:column headerText="รายการพิเศษไม่หัก 3%" style="width: 66%;" >
                                     <h:outputText value="#{hdetailSpecial.specialDesc}" style="lb_bold"/>
                                 </p:column>
 

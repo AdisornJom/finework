@@ -39,12 +39,12 @@ import org.primefaces.context.RequestContext;
  * @author Adisorn Jomjanyong
  */
 
-@ManagedBean(name = T108Controller.CONTROLLER_NAME)
+@ManagedBean(name = T108aController.CONTROLLER_NAME)
 @SessionScoped
-public class T108Controller extends BaseController {
+public class T108aController extends BaseController {
 
-    private static final Logger LOG = Logger.getLogger(T108Controller.class);
-    public static final String CONTROLLER_NAME = "t108Controller";
+    private static final Logger LOG = Logger.getLogger(T108aController.class);
+    public static final String CONTROLLER_NAME = "t108aController";
     
     @Inject
     private ManufactoryFacade manufactoryFacade;
@@ -151,7 +151,7 @@ public class T108Controller extends BaseController {
             }
 
             //insert exp transporter
-            selected.setSpecialType(Constants.TRANSPORT_STAFF_SPECIAL);
+            selected.setSpecialType(Constants.TRANSPORT_STAFF_SPECIAL_NO_VAT);
             selected.setCreatedBy(userInfo.getAdminUser().getUsername());
             selected.setCreatedDt(DateTimeUtil.getSystemDate());
             selected.setModifiedBy(userInfo.getAdminUser().getUsername());
@@ -218,7 +218,7 @@ public class T108Controller extends BaseController {
             clearDatatTotal();
             search();
             JsfUtil.addFacesInformationMessage(MessageBundleLoader.getMessage("messages.code.4001"));
-            next("transporter/t108/index");
+            next("transporter/t108a/index");
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
             LOG.error(ex);
@@ -256,7 +256,7 @@ public class T108Controller extends BaseController {
                     toDate = calEnd.getTime();
                 }
                 
-              items=transporterFacade.findSysTransportStaffSpecialListByCriteria(tpstaff_find, Constants.TRANSPORT_STAFF_SPECIAL,startDate, toDate);
+              items=transporterFacade.findSysTransportStaffSpecialListByCriteria(tpstaff_find, Constants.TRANSPORT_STAFF_SPECIAL_NO_VAT,startDate, toDate);
               Double totalSum = 0.0;
               for(SysTransportStaffSpecial special:items){
                  Double total_=0.0;

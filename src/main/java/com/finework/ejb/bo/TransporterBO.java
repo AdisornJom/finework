@@ -273,8 +273,8 @@ public class TransporterBO {
         return sysTransportStaffSpecialDAO.findSysTransportStaffSpecialById(specialtpId);
     }
     
-    public List<SysTransportStaffSpecial> findSysTransportStaffSpecialListByCriteria(SysTransportStaff transportstaffId,Date startDate, Date toDate) throws Exception {
-       return sysTransportStaffSpecialDAO.findSysTransportStaffSpecialListByCriteria(transportstaffId, startDate, toDate);
+    public List<SysTransportStaffSpecial> findSysTransportStaffSpecialListByCriteria(SysTransportStaff transportstaffId,Integer specialType,Date startDate, Date toDate) throws Exception {
+       return sysTransportStaffSpecialDAO.findSysTransportStaffSpecialListByCriteria(transportstaffId, specialType,startDate, toDate);
     }
     
     public void createSysTransportStaffSpecial(SysTransportStaffSpecial sysTransportStaffSpecial) throws Exception{

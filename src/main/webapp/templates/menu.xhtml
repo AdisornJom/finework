@@ -76,6 +76,7 @@
                  <p:menuitem value="T104 - สถานะการขนส่ง"  actionListener="#{naviController.next('transporter/t104/index','t104Controller','T104 - สถาณะการขนส่ง')}" ajax="false"/>
                  <p:menuitem value="T105 - รายได้พนักงานขนส่ง(OT)"  actionListener="#{naviController.next('transporter/t105/index','t105Controller','T105 - รายได้พนักงานขนส่ง(OT)')}" ajax="false" />
                  <p:menuitem value="T106 - รายได้พนักงาน(พิเศษ)"  actionListener="#{naviController.next('transporter/t108/index','t108Controller','T106 - รายได้พนักงาน(พิเศษ)')}" ajax="false" />
+                 <p:menuitem value="T106A - รายได้พนักงาน(พิเศษไม่หัก 3%)"  actionListener="#{naviController.next('transporter/t108a/index','t108aController','T106A - รายได้พนักงาน(พิเศษไม่หัก 3%)')}" ajax="false" />
                  <p:menuitem value="T107 - ค่าใช้จ่ายระบบขนส่ง"  rendered="#{userInfoController.adminUser.user_t106}" actionListener="#{naviController.next('transporter/t106/index','t106Controller','T107 - ค่าใช้จ่ายระบบขนส่ง')}" ajax="false" />
                  <p:menuitem value="T108 - สรุปเงินเดือนพนักงานขนส่ง"  rendered="#{userInfoController.adminUser.user_t107}" actionListener="#{naviController.next('transporter/t107/index','t107Controller','T108 - สรุปเงินเดือนพนักงานขนส่ง')}" ajax="false" />
             </p:submenu>

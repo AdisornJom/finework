@@ -129,7 +129,11 @@ public class SysTransportStaff implements Serializable, Comparator<SysTransportS
     @Transient
     private Double totalSpecial;
     @Transient
+    private Double totalSpecialnoVat;
+    @Transient
     private List<SysTranspostationExp> transportationExp;
+    @Transient
+    private List<SysTransportStaffSpecial> sysTransportStaffSpecialNovatList;
 
     public SysTransportStaff() {
     }
@@ -443,6 +447,24 @@ public class SysTransportStaff implements Serializable, Comparator<SysTransportS
     public void setSysTransportStaffSpecialList(List<SysTransportStaffSpecial> sysTransportStaffSpecialList) {
         this.sysTransportStaffSpecialList = sysTransportStaffSpecialList;
     }
+
+    public List<SysTransportStaffSpecial> getSysTransportStaffSpecialNovatList() {
+        return sysTransportStaffSpecialNovatList;
+    }
+
+    public void setSysTransportStaffSpecialNovatList(List<SysTransportStaffSpecial> sysTransportStaffSpecialNovatList) {
+        this.sysTransportStaffSpecialNovatList = sysTransportStaffSpecialNovatList;
+    }
+
+    public Double getTotalSpecialnoVat() {
+        return totalSpecialnoVat;
+    }
+
+    public void setTotalSpecialnoVat(Double totalSpecialnoVat) {
+        this.totalSpecialnoVat = totalSpecialnoVat;
+    }
+    
+    
     
     
 }

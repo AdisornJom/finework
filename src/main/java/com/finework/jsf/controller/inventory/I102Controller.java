@@ -1,5 +1,6 @@
 package com.finework.jsf.controller.inventory;
 
+import com.finework.core.ejb.entity.SysContractor;
 import com.finework.jsf.common.BaseController;
 import com.finework.jsf.common.NaviController;
 import com.finework.jsf.common.UserInfoController;
@@ -9,6 +10,7 @@ import com.finework.core.util.MessageBundleLoader;
 import com.finework.core.ejb.entity.SysMaterial;
 import com.finework.core.ejb.entity.SysMaterialReceipts;
 import com.finework.core.ejb.entity.SysSuppliers;
+import com.finework.ejb.facade.ContractorFacade;
 import com.finework.ejb.facade.StockFacade;
 import com.finework.ejb.facade.SuppliersFacade;
 import java.util.ArrayList;
@@ -44,6 +46,8 @@ public class I102Controller extends BaseController {
     private StockFacade stockFacade;
     @Inject
     private SuppliersFacade suppliersFacade;
+    @Inject
+    private ContractorFacade contractorFacade;
     
     private List<SysMaterialReceipts> items;
     private SysMaterialReceipts selected;
@@ -58,6 +62,7 @@ public class I102Controller extends BaseController {
     //auto complete
     private SysMaterial material_selected;
     private SysSuppliers supplier_selected;
+    private SysContractor contractor_selected;
 
 
     @PostConstruct
@@ -116,11 +121,12 @@ public class I102Controller extends BaseController {
                 return;
             }
              
-            if (null==supplier_selected) {
-                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ผู้จัดส่งวัตถุดิบ(Supplier)"));
+            if(null==supplier_selected && null==contractor_selected){
+                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ผู้จัดส่งวัตถุดิบ(Supplier) หรือ ชื่อเล่นผู้รับเหมา"));
                 RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
                 return;
-            } 
+            }
+            
             
             if (!StringUtils.isNotBlank(selected.getStatus())) {
                 JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ประเภท"));
@@ -142,6 +148,7 @@ public class I102Controller extends BaseController {
             
             selected.setMaterialId(material_selected);
             selected.setSupplierId(supplier_selected);
+            selected.setContractorId(contractor_selected);
             selected.setCreatedBy(userInfo.getAdminUser().getUsername());
             selected.setCreatedDt(DateTimeUtil.getSystemDate());
             selected.setModifiedBy(userInfo.getAdminUser().getUsername());
@@ -254,6 +261,7 @@ public class I102Controller extends BaseController {
         selected=new SysMaterialReceipts();
         material_selected=new SysMaterial();
         supplier_selected=new SysSuppliers();
+        contractor_selected=new SysContractor();
     }
 
     
@@ -283,6 +291,10 @@ public class I102Controller extends BaseController {
    public List<SysSuppliers> completeSupplier(String query) {
          List<SysSuppliers> filteredSuppliers = new ArrayList<>();
        try {
+            SysSuppliers sysSupplier_=new SysSuppliers();
+            sysSupplier_.setSupplierId(null);
+            sysSupplier_.setSupplierNameTh("-");
+            filteredSuppliers.add(sysSupplier_);
             List<SysSuppliers> allSuppliers = suppliersFacade.findSysSuppliersList();
             for (SysSuppliers sysSupplier:allSuppliers) {
                if(sysSupplier.getSupplierNameTh()!=null && sysSupplier.getSupplierNameTh().length()>0){
@@ -295,6 +307,27 @@ public class I102Controller extends BaseController {
             LOG.error(ex);
         }
         return filteredSuppliers;
+    }
+   //Auto complete Contractor
+   public List<SysContractor> completeContractor(String query) {
+         List<SysContractor> filteredSysContractor = new ArrayList<>();
+       try {
+            SysContractor sysContractor_=new SysContractor();
+            sysContractor_.setContractorId(null);
+            sysContractor_.setContractorNickname("-");
+            filteredSysContractor.add(sysContractor_);
+            List<SysContractor> allContractors = contractorFacade.findSysContractorList();
+            for (SysContractor sysContractor:allContractors) {
+               if(sysContractor.getContractorNickname()!=null && sysContractor.getContractorNickname().length()>0){
+                if(sysContractor.getContractorNickname().toLowerCase().startsWith(query)) {
+                    filteredSysContractor.add(sysContractor);
+                }
+               }
+            }
+         } catch (Exception ex) {
+            LOG.error(ex);
+        }
+        return filteredSysContractor;
     }
     
     
@@ -386,6 +419,14 @@ public class I102Controller extends BaseController {
 
     public void setSupplier_selected(SysSuppliers supplier_selected) {
         this.supplier_selected = supplier_selected;
+    }
+
+    public SysContractor getContractor_selected() {
+        return contractor_selected;
+    }
+
+    public void setContractor_selected(SysContractor contractor_selected) {
+        this.contractor_selected = contractor_selected;
     }
 
    

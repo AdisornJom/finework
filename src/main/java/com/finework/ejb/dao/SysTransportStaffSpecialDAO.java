@@ -49,13 +49,17 @@ public class SysTransportStaffSpecialDAO extends AbstractDAO<SysTransportStaffSp
         return (SysTransportStaffSpecial)q.getSingleResult();
     }
      
-    public List<SysTransportStaffSpecial> findSysTransportStaffSpecialListByCriteria(SysTransportStaff transportstaffId,Date startDate, Date toDate) throws Exception {
+    public List<SysTransportStaffSpecial> findSysTransportStaffSpecialListByCriteria(SysTransportStaff transportstaffId,Integer specialType,Date startDate, Date toDate) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT m FROM SysTransportStaffSpecial m ");
         sb.append("where 1=1 ");
         
         if (null != transportstaffId) {
             sb.append("and m.transportstaffId.transportstaffId = :transportstaffId ");
+        }
+        
+        if (null != specialType) {
+            sb.append("and m.specialType = :specialType ");
         }
   
         if (null != startDate) {
@@ -67,8 +71,12 @@ public class SysTransportStaffSpecialDAO extends AbstractDAO<SysTransportStaffSp
         sb.append("ORDER BY m.specialtpId DESC ");
 
         Query q = em.createQuery(sb.toString());
-         if (null != transportstaffId) {
+        if (null != transportstaffId) {
             q.setParameter("transportstaffId", transportstaffId.getTransportstaffId());
+        }
+
+        if (null != specialType) {
+           q.setParameter("specialType",specialType);
         }
 
         if (null != startDate) {
