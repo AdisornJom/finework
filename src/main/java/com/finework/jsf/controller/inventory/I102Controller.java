@@ -125,6 +125,12 @@ public class I102Controller extends BaseController {
                 JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ผู้จัดส่งวัตถุดิบ(Supplier) หรือ ชื่อเล่นผู้รับเหมา"));
                 RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
                 return;
+            }else{
+                if (null != supplier_selected && null != contractor_selected) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ควรเลือก ผู้จัดส่งวัตถุดิบ(Supplier) หรือ ชื่อเล่นผู้รับเหมา อย่างใดอย่างหนึ่ง"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                    return;
+                }
             }
             
             

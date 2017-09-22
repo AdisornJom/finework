@@ -109,7 +109,8 @@ public class T107Controller extends BaseController {
                 transstaff.setSysTransportationList(staffs);
                 transstaff.setSysTransportationList1(follow_staffs1);
                 transstaff.setSysTransportationList2(follow_staffs2);
-
+                
+                
                 //ค่า OT
                 Double statfs_ = new CalculateSalaryStaff().calculaterOTandStaffExternal(staffs, transstaff.getEarningPerday(),transstaff.getTransportType());
                 Double follow_staffs1_ = new CalculateSalaryStaff().calculaterOTandFollowStaff(follow_staffs1, transstaff.getDailyWage(),transstaff.getTransportType());
@@ -153,7 +154,7 @@ public class T107Controller extends BaseController {
                     special.setTotalSpcial(total_);
                 }
                 transstaff.setSysTransportStaffSpecialList(transportationSpecial);
-                transstaff.setTotalSpecial(special_);
+                transstaff.setTotalSpecial(special_);//รายได้พิเศษ
                 
                 //Special staff no vat
                 List<SysTransportStaffSpecial> transportationSpecialNovat= transporterFacade.findSysTransportStaffSpecialListByCriteria(transstaff, Constants.TRANSPORT_STAFF_SPECIAL_NO_VAT, startDate, toDate);
@@ -169,7 +170,11 @@ public class T107Controller extends BaseController {
                 transstaff.setSysTransportStaffSpecialNovatList(transportationSpecialNovat);
                 transstaff.setTotalSpecialnoVat(specialNovat_);
                 
-                Double income=salary+transstaff.getValueWorking()+allowance+special_+specialNovat_;
+                Double incomeNotVat=(transstaff.getTotalAmount()+transstaff.getValueWorking()+transstaff.getTotalAllowance()+transstaff.getTotalSpecial());
+                Double totalVat=incomeNotVat*0.03;
+                transstaff.setTotalIncome(incomeNotVat);
+                transstaff.setTotalIncomeVat(totalVat);//หัก 3%
+                transstaff.setTotalIncomeNet(incomeNotVat-totalVat);//รายได้รวมหลังหัก 3%
                 
                 //Exp staff
                 List<SysTranspostationExp> transportationExp = transporterFacade.findSysTranspostationExpListByCriteria(transstaff, startDate, toDate);
@@ -185,8 +190,11 @@ public class T107Controller extends BaseController {
                 transstaff.setTransportationExp(transportationExp);
                 transstaff.setTotalExp(expenses);
                 
-                transstaff.setTotalNet(income-expenses);
-                totalSum=totalSum+transstaff.getTotalNet();
+                transstaff.setTotallastNet((transstaff.getTotalIncomeNet()+specialNovat_)-expenses);
+                totalSum=totalSum+transstaff.getTotallastNet();
+                
+                
+                
             }
             totalSummary=StringUtil.numberFormat(totalSum, "#,##0.00");
         } catch (Exception ex) {
@@ -395,13 +403,13 @@ public class T107Controller extends BaseController {
             map.put("tax_id", selected.getTaxId());
             map.put("staff_type", Objects.equals(Constants.TRANSPORT_STAFF,selected.getTransportstaffType())?"พนักงานขับรถ":"พนักงานติดรถ");
             
-            map.put("total_amount",NumberUtils.numberFormat(selected.getTotalAmount()+selected.getValueWorking()+selected.getTotalAllowance()+selected.getTotalSpecial(), "#,##0.00"));
+            map.put("total_amount",NumberUtils.numberFormat(selected.getTotalIncome(), "#,##0.00"));
+            map.put("total_tax",NumberUtils.numberFormat(selected.getTotalIncomeVat(), "#,##0.00"));
+            map.put("total",NumberUtils.numberFormat(selected.getTotalIncomeNet(), "#,##0.00"));
             map.put("total_exp",NumberUtils.numberFormat(selected.getTotalExp(), "#,##0.00"));
-            map.put("total",NumberUtils.numberFormat(selected.getTotalNet(), "#,##0.00"));
-            map.put("total_tax",NumberUtils.numberFormat(selected.getTotalNet()* 0.03, "#,##0.00"));
             map.put("total_notax",NumberUtils.numberFormat(selected.getTotalSpecialnoVat(), "#,##0.00"));
-            map.put("totalnet",NumberUtils.numberFormat((selected.getTotalNet()-(selected.getTotalNet()* 0.03))+selected.getTotalSpecialnoVat(), "#,##0.00"));
-            
+            map.put("totalnet",NumberUtils.numberFormat(selected.getTotallastNet(), "#,##0.00"));
+
 
             map.put("reportCode", "T107");
             report.exportSubReport("t107", new String[]{"T107Report", "T107SubReport"}, "T107", map, reportList_);
@@ -618,13 +626,13 @@ public class T107Controller extends BaseController {
                     map.put("tax_id", sysTransportStaff.getTaxId());
                     map.put("staff_type", Objects.equals(Constants.TRANSPORT_STAFF,sysTransportStaff.getTransportstaffType())?"พนักงานขับรถ":"พนักงานติดรถ");
 
-                    map.put("total_amount",NumberUtils.numberFormat(sysTransportStaff.getTotalAmount()+sysTransportStaff.getValueWorking()+sysTransportStaff.getTotalAllowance()+sysTransportStaff.getTotalSpecial(), "#,##0.00"));
-                    map.put("total_exp",NumberUtils.numberFormat(sysTransportStaff.getTotalExp(), "#,##0.00"));
-                    map.put("total",NumberUtils.numberFormat(sysTransportStaff.getTotalNet(), "#,##0.00"));
-                    map.put("total_tax", NumberUtils.numberFormat(sysTransportStaff.getTotalNet() * 0.03, "#,##0.00"));
+                    map.put("total_amount", NumberUtils.numberFormat(sysTransportStaff.getTotalIncome(), "#,##0.00"));
+                    map.put("total_tax", NumberUtils.numberFormat(sysTransportStaff.getTotalIncomeVat(), "#,##0.00"));
+                    map.put("total", NumberUtils.numberFormat(sysTransportStaff.getTotalIncomeNet(), "#,##0.00"));
+                    map.put("total_exp", NumberUtils.numberFormat(sysTransportStaff.getTotalExp(), "#,##0.00"));
                     map.put("total_notax", NumberUtils.numberFormat(sysTransportStaff.getTotalSpecialnoVat(), "#,##0.00"));
-                    map.put("totalnet", NumberUtils.numberFormat((sysTransportStaff.getTotalNet() - (sysTransportStaff.getTotalNet() * 0.03)) + sysTransportStaff.getTotalSpecialnoVat(), "#,##0.00"));
-
+                    map.put("totalnet", NumberUtils.numberFormat(sysTransportStaff.getTotallastNet(), "#,##0.00"));
+            
                     map.put("reportCode", "T107");
                     JasperPrint print = report.exportSubReport_Template_mearge("template.jpg", "t107", new String[]{"T107Report", "T107SubReport"}, "T107", map, reportList_);
                     jasperPrintList.add(print);

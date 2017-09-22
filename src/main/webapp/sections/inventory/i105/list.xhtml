@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+    </style>
+
+    <h:form id="listForm">
+        <h:panelGroup style="height: 200px;" layout="block" rendered="#{empty i105Controller.items}">
+            <h:graphicImage value="./resources/images/arr_search.jpg" width="200" style="float: right;margin-top: 0px;"/>
+        </h:panelGroup>
+
+        <p:dataTable id="table1" var="item" value="#{i105Controller.items}" binding="#{bindingController.dataTableModel}" 
+                     rendered="#{not empty i105Controller.items}">
+            
+            <p:columnGroup type="header">
+                <p:row>
+                    <p:column rowspan="2" headerText="No" />
+                    <p:column rowspan="2" headerText="#{msgs['p101.detail.username']}" sortBy="#{item.userId}"/>
+                    <p:column rowspan="2" headerText="#{msgs['s106.apiName']}" sortBy="#{item.prod_name}" />
+                    <p:column rowspan="2" headerText="#{msgs['turnover']}"  sortBy="#{item.trunover}"/>
+                    <p:column rowspan="2" headerText="#{msgs['r104.total.transaction']}" sortBy="#{item.totalTransaction}"/>
+                    <p:column colspan="3" headerText="#{msgs['r104.customerWinloss']}" />
+                    <p:column rowspan="2" headerText="#{msgs['r104.licenseeWinloss']}" sortBy="#{item.licenseeWinloss}"/>
+                </p:row>
+                <p:row>
+                    <p:column headerText="#{msgs['winloss']}" />
+                    <p:column headerText="#{msgs['commissions']}" />
+                    <p:column headerText="#{msgs['r103.total']}" />
+                </p:row>
+            </p:columnGroup>
+
+            <p:column  style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+
+            <p:column headerText="ชื่อวัสดุภัณฑ์(Thai)" sortBy="#{item.materialDesc}" style="width: 220px;">
+                <h:outputText value="#{item.materialDesc}"/>
+            </p:column>
+            
+            <p:column headerText="ประเภทวัสดุภัณฑ์" sortBy="#{item.classifyId.classifyDesc}" style="width: 140px;">
+                <h:outputText value="#{item.classifyId.classifyDesc}"/>
+            </p:column>
+            
+            <p:column  headerText="วัสดุภัณฑ์คงเหลือ"  style="width: 80px;text-align: center">
+                 <h:outputText value="#{item.quantity}" 
+                               style="float: right;font-size: 18px;color:red;"  
+                               styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0"/>
+                </h:outputText>     
+            </p:column>
+
+            <p:column headerText="#{msgs['createdt']}" sortBy="#{item.createdDt}" style="width: 80px;text-align: center">
+                <h:outputText value="#{item.createdDt}">
+                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column style="width: 50px;text-align: center" rendered="false">
+                <p:tooltip for="edit" value="#{msgs['btn.edit']}" trackMouse="true"/>
+                <p:commandButton id="edit" title="#{msgs['btn.edit']}" icon="fa fa-edit" action="#{i105Controller.prepareEdit('inventory/i101/edit')}" update=":content">
+                    <f:setPropertyActionListener value="#{item}" target="#{i105Controller.selected}" />
+                </p:commandButton>
+
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{i105Controller.items.size()}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

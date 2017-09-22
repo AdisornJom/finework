@@ -58,8 +58,7 @@
                                                          var="supplier" itemLabel="#{supplier.supplierNameTh}" 
                                                          itemValue="#{supplier}" 
                                                          converter="#{suppliersConverter}"
-                                                         scrollHeight="250"   
-                                                         disabled="#{i102Controller.contractor_selected != null}">
+                                                         scrollHeight="250"   >
                                     <p:ajax event="query"  global="false" />
                                     <p:ajax event="itemSelect" update="listForm:contractorName" global="false"/> 
                                 </p:autoComplete>
@@ -75,8 +74,7 @@
                                                 var="contractor" itemLabel="#{contractor.contractorNickname}" 
                                                 itemValue="#{contractor}" 
                                                 converter="#{contractorConverter}"
-                                                scrollHeight="250" forceSelection="true" 
-                                                disabled="#{i102Controller.supplier_selected != null}">
+                                                scrollHeight="250" forceSelection="true" >
                                     <p:ajax event="query"  global="false"/>
                                     <p:ajax event="itemSelect" update="listForm:supplierName" global="false"/> 
                                 </p:autoComplete>

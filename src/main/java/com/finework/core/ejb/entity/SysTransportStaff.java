@@ -115,23 +115,29 @@ public class SysTransportStaff implements Serializable, Comparator<SysTransportS
     private Date modifiedDt;
     
     @Transient
-    private Double totalAmount;
+    private Double totalAmount;//เงินเดือน
     @Transient
-    private Double valueWorking;
+    private Double valueWorking;//รายได้ต่อวัน
     @Transient
-    private Double totalNet;
+    private Double totalIncome;//รายได้
     @Transient
-    private Integer perTrip;
+    private Double totalIncomeVat;//หัก 3%
     @Transient
-    private Double totalAllowance;
+    private Double totalIncomeNet;//รายได้รวมหลังหลัง 3%
     @Transient
-    private Double totalExp;
+    private Integer perTrip;//เบี้ยต่อวัน
     @Transient
-    private Double totalSpecial;
+    private Double totalAllowance;//ค่าประกัน
     @Transient
-    private Double totalSpecialnoVat;
+    private Double totalExp;//รวมค่าใช้จ่าย
     @Transient
-    private List<SysTranspostationExp> transportationExp;
+    private Double totalSpecial;//รายได้พิเศษ ต้องหัก 3%
+    @Transient
+    private Double totalSpecialnoVat;//รายายได้พิเศษ ไม่ต้องหัก 3%
+    @Transient
+    private Double totallastNet;
+    @Transient
+    private List<SysTranspostationExp> transportationExp;//
     @Transient
     private List<SysTransportStaffSpecial> sysTransportStaffSpecialNovatList;
 
@@ -144,6 +150,14 @@ public class SysTransportStaff implements Serializable, Comparator<SysTransportS
 
     public void setValueWorking(Double valueWorking) {
         this.valueWorking = valueWorking;
+    }
+
+    public Double getTotallastNet() {
+        return totallastNet;
+    }
+
+    public void setTotallastNet(Double totallastNet) {
+        this.totallastNet = totallastNet;
     }
     
 
@@ -382,14 +396,31 @@ public class SysTransportStaff implements Serializable, Comparator<SysTransportS
        return o2.getTransportstaffId().compareTo(o1.getTransportstaffId());
     }
 
-    public Double getTotalNet() {
-        return totalNet;
+    public Double getTotalIncome() {
+        return totalIncome;
     }
 
-    public void setTotalNet(Double totalNet) {
-        this.totalNet = totalNet;
+    public void setTotalIncome(Double totalIncome) {
+        this.totalIncome = totalIncome;
     }
 
+    public Double getTotalIncomeVat() {
+        return totalIncomeVat;
+    }
+
+    public void setTotalIncomeVat(Double totalIncomeVat) {
+        this.totalIncomeVat = totalIncomeVat;
+    }
+
+    public Double getTotalIncomeNet() {
+        return totalIncomeNet;
+    }
+
+    public void setTotalIncomeNet(Double totalIncomeNet) {
+        this.totalIncomeNet = totalIncomeNet;
+    }
+
+   
     public Integer getPerTrip() {
         return perTrip;
     }

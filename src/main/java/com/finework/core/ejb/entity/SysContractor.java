@@ -49,8 +49,11 @@ public class SysContractor implements Serializable {
     @OneToMany(mappedBy = "contractorId")
     private List<SysManufactory> sysManufactoryList;
     
-    @OneToMany(mappedBy = "contractorId")
+    @OneToMany(mappedBy = "contractorId")//ยืม เบิก ปรับปรุง stock
     private List<SysMaterialExpenses> sysMaterialExpensesList;
+    
+    @OneToMany(mappedBy = "contractorId")//รับ คืน ปรับปรุง stock
+    private List<SysMaterialReceipts> sysMaterialReceiptsList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -225,6 +228,16 @@ public class SysContractor implements Serializable {
     public void setModifiedDt(Date modifiedDt) {
         this.modifiedDt = modifiedDt;
     }
+
+    public List<SysMaterialReceipts> getSysMaterialReceiptsList() {
+        return sysMaterialReceiptsList;
+    }
+
+    public void setSysMaterialReceiptsList(List<SysMaterialReceipts> sysMaterialReceiptsList) {
+        this.sysMaterialReceiptsList = sysMaterialReceiptsList;
+    }
+    
+    
 
     @Override
     public int hashCode() {

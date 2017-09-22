@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+        .col1{
+            text-align: right;
+        }
+        .col2{
+          
+        }
+       .comboColumn {
+            width: 250px;
+       }
+    </style>
+    
+    <p:panel id="content_panel" header="I105 - สถานะการยืมคืนวัสดุภัณฑ์">
+        
+        <p:toolbar style="margin-bottom: 3px;">
+             <f:facet name="right" >
+                <h:form id="rToolbarForm">
+                    <h:panelGrid columnClasses="col1,comboColumn,col1,col2,col1,col2,col1,col2" border="0" columns="10" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
+                        <p:outputLabel value="ประเภทวัสดุภัณฑ์ :"/>
+                        <h:panelGroup >
+                            <p:autoComplete id="clasSify" dropdown="true" value="#{i105Controller.selectClassify}" 
+                                            completeMethod="#{i105Controller.completeClassify}" 
+                                            var="classify" itemLabel="#{classify.classifyDesc}" 
+                                            itemValue="#{classify}" 
+                                            converter="#{materialClasifyConverter}"
+                                            scrollHeight="250"  >
+                                <p:ajax event="query"  global="false"/>
+                            </p:autoComplete>
+                            <p:watermark  for="clasSify" value="-" />
+                        </h:panelGroup>
+                        
+                        <p:outputLabel value="ชื่อวัสดุภัณฑ์ :"/>
+                        <p:inputText value="#{i105Controller.itemName}" style="width: 350px;"/>
+
+                      <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
+                                       actionListener="${i105Controller.search()}" styleClass="search-btn" update=":content"/>
+                    </h:panelGrid>
+                </h:form>
+            </f:facet>
+        </p:toolbar>
+     
+        
+        <ui:include src="list.xhtml"/>
+
+    </p:panel>
+
+</ui:composition>
