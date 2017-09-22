@@ -316,7 +316,7 @@ public class StockBO {
         if(sysMaterialList!=null){
             sysMaterialListExpire=new ArrayList();
             for(SysMaterial sysMaterial:sysMaterialList){
-                if(null!=sysMaterial.getAlertStock() && sysMaterial.getAlertStock()>=0){
+                if(null!=sysMaterial.getAlertStock() && sysMaterial.getAlertStockFlag()){
                     Double quantityIn=0.0,quantityOut=0.0;
                     for(SysMaterialReceipts sysMaterialReceipts:sysMaterial.getSysMaterialReceiptsList()){
                         quantityIn=quantityIn+sysMaterialReceipts.getQuantity();

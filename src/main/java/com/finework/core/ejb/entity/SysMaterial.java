@@ -80,6 +80,9 @@ public class SysMaterial implements Serializable {
     private String unit;
     @Column(name = "unit_price")
     private Double unitPrice;
+
+    @Column(name = "alert_stock_flag", nullable = false, columnDefinition = "TINYINT(1) default 0")
+    private Boolean alertStockFlag;
     
     @Column(name = "alert_stock")
     private Double alertStock;
@@ -350,6 +353,14 @@ public class SysMaterial implements Serializable {
 
     public void setRangeMonth(Integer rangeMonth) {
         this.rangeMonth = rangeMonth;
+    }
+
+    public Boolean getAlertStockFlag() {
+        return alertStockFlag;
+    }
+
+    public void setAlertStockFlag(Boolean alertStockFlag) {
+        this.alertStockFlag = alertStockFlag;
     }
     
 
