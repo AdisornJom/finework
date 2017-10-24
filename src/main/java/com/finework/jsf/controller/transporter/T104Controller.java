@@ -108,7 +108,13 @@ public class T104Controller extends BaseController {
 
     public void prepareEdit(String page) {
        // this.contractor_selected=selected.getContractorId();
-        
+        Double weight_transporter = 0.0;
+        for (SysTransportationDetail sysTransportationDetail : selected.getSysTransportationDetailList()) {
+            for (SysPrepareTransportDetail sysPrepareTransportDetail : sysTransportationDetail.getPrepareTpId().getSysPrepareTransportDetailList()) {
+                weight_transporter += (null != sysPrepareTransportDetail.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getWeight() ? sysPrepareTransportDetail.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getWeight() : 0.0);
+            }
+        }
+        selected.setTotalWeight(weight_transporter);
         next(page);
     }
     public void cancel(String path) {
@@ -309,6 +315,16 @@ public class T104Controller extends BaseController {
     public void ottime() {
         selected.setTpOt(false);
     }
+    
+    public void otFollow() {
+        selected.setTpOTFollowTimevalue(false);
+        selected.setTpOtFollowTimeHours(0);
+    }
+
+    public void ottimeFollow() {
+        selected.setTpOtFollow(false);
+    }
+    
   /*  
     @Override
     public void reportPDF() {

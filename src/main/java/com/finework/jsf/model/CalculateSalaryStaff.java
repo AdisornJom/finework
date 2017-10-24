@@ -88,12 +88,12 @@ public class CalculateSalaryStaff {
         Double workLong=300.0;
         try {
             for (SysTransportation trans : sysTransportations) {
-                boolean ot = false;
-                if (trans.getTpOt() || trans.getTpOTTimevalue()) {
-                    if (trans.getTpOt()) {
-                        ot = true;
+                boolean otFollow = false;
+                if (trans.getTpOtFollow()|| trans.getTpOTFollowTimevalue()) {
+                    if (trans.getTpOtFollow()) {
+                        otFollow = true;
                     }
-                    if (ot) {
+                    if (otFollow) {
                             SysWorkunit workUnit = trans.getWorkunitId();
                             // 1. ใกล้ 2.ไกล Constants.WORKUNIT_DISTANCE_NEAR;Constants.WORKUNIT_DISTANCE_LONG;
                             if (Objects.equals(Constants.WORKUNIT_DISTANCE_NEAR, workUnit.getDistance())) {
@@ -108,7 +108,7 @@ public class CalculateSalaryStaff {
                         //Double value = ((amtPerday != null ? amtPerday : 0) / 6) * trans.getTpOtTimeHours();
                         Double value = 0.0;
                         if (null != amtPerday) {
-                            value = (amtPerday / 6) * (null != trans.getTpOtTimeHours() ? trans.getTpOtTimeHours() : 0.0);
+                            value = (amtPerday / 6) * (null != trans.getTpOtFollowTimeHours() ? trans.getTpOtFollowTimeHours() : 0.0);
                         }
                         moneyWork += value;
                         trans.setWorkMoneyOT(value);

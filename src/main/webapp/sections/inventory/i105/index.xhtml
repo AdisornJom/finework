@@ -21,22 +21,33 @@
         <p:toolbar style="margin-bottom: 3px;">
              <f:facet name="right" >
                 <h:form id="rToolbarForm">
-                    <h:panelGrid columnClasses="col1,comboColumn,col1,col2,col1,col2,col1,col2" border="0" columns="10" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
-                        <p:outputLabel value="ประเภทวัสดุภัณฑ์ :"/>
+                    <h:panelGrid columnClasses="col1,comboColumn,col1,comboColumn,col1" border="0" columns="5" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
+                        <p:outputLabel value="ชื่อวัสดุภัณฑ์ :"/>
                         <h:panelGroup >
-                            <p:autoComplete id="clasSify" dropdown="true" value="#{i105Controller.selectClassify}" 
-                                            completeMethod="#{i105Controller.completeClassify}" 
-                                            var="classify" itemLabel="#{classify.classifyDesc}" 
-                                            itemValue="#{classify}" 
-                                            converter="#{materialClasifyConverter}"
-                                            scrollHeight="250"  >
-                                <p:ajax event="query"  global="false"/>
+                            <p:autoComplete id="materialName" dropdown="true" value="#{i105Controller.material_selected}" 
+                                            completeMethod="#{i105Controller.completeMaterial}" 
+                                            var="material" itemLabel="#{material.materialDesc}" 
+                                            itemValue="#{material}" 
+                                            converter="#{materialConverter}"
+                                            scrollHeight="250"   >
+                                <p:ajax event="query"  global="false" />
                             </p:autoComplete>
-                            <p:watermark  for="clasSify" value="-" />
+                            <p:watermark  for="materialName" value="กรอกข้อมูลเพื่อ ค้นหา" />
                         </h:panelGroup>
                         
-                        <p:outputLabel value="ชื่อวัสดุภัณฑ์ :"/>
-                        <p:inputText value="#{i105Controller.itemName}" style="width: 350px;"/>
+                       <p:outputLabel value="ชื่อเล่นผู้รับเหมา ："/>
+                        <h:panelGroup>
+                            <p:autoComplete id="contractorName" dropdown="true" value="#{i105Controller.contractor_selected}" 
+                                            completeMethod="#{i105Controller.completeContractor}" 
+                                            var="contractor" itemLabel="#{contractor.contractorNickname}" 
+                                            itemValue="#{contractor}" 
+                                            converter="#{contractorConverter}"
+                                            scrollHeight="250" forceSelection="true" 
+                                            >
+                                <p:ajax event="query"  global="false"/>
+                            </p:autoComplete>
+                            <p:watermark  for="contractorName" value="กรอกข้อมูลเพื่อ ค้นหา" />
+                        </h:panelGroup>
 
                       <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
                                        actionListener="${i105Controller.search()}" styleClass="search-btn" update=":content"/>

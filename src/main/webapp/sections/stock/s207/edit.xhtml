@@ -106,6 +106,30 @@
                                 </p:selectOneRadio>
                             </h:panelGroup>
                             
+                            <h:panelGroup>
+                                <p:outputLabel value="น้ำหนักรถ :" />
+                                 <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carWeight}"  emptyValue="0.00"  thousandSeparator=","  />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
+                                <p:outputLabel  value="น้ำหนักบรรทุก :" />
+                                 <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carLoading}"  emptyValue="0.00"  thousandSeparator=","  />
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel  value="น้ำหนักบรรทุกจริง :" />
+                                 <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carActualWeight}"  emptyValue="0.00"  thousandSeparator=","  />
+                            </h:panelGroup>
+                            
                              <h:panelGroup>
                                 <p:outputLabel  value="ประเภทรถขนส่ง :" />
                                 <font class="require">*</font>

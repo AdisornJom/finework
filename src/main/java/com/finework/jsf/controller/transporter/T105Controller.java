@@ -169,8 +169,8 @@ public class T105Controller extends BaseController {
                     beandetail.setWorkunit(tpStaff.getWorkunitId().getWorkunitName());
                     beandetail.setBillNo(DateTimeUtil.cvtDateForShow(tpStaff.getTpOrderDate(), "dd/MM/yyyy", new Locale("th", "TH")));//วันที่ทำรายการ
                     beandetail.setPlot(DateTimeUtil.cvtDateForShow(tpStaff.getTpDateComplete(), "dd/MM/yyyy", new Locale("th", "TH")));
-                    beandetail.setVolumn((tpStaff.getTpOt()) ? "/" : "");//OT ต่อเที่ยว
-                    beandetail.setUnit((tpStaff.getTpOTTimevalue()) ? "/" : "");//OT_ต่อเนื่อง
+                    beandetail.setVolumn((tpStaff.getTpOtFollow()) ? "/" : "");//OT ต่อเที่ยว
+                    beandetail.setUnit((tpStaff.getTpOTFollowTimevalue()) ? "/" : "");//OT_ต่อเนื่อง
                     String value=NumberUtils.numberFormat((null != tpStaff.getWorkMoneyOT()) ? tpStaff.getWorkMoneyOT() : 0.0, "#,##0.00");
                     beandetail.setAmount((StringUtils.equals("0.00",value)) ? "": value);
                     reportList.add(beandetail);
@@ -192,8 +192,8 @@ public class T105Controller extends BaseController {
                     beandetail.setWorkunit(tpStaff.getWorkunitId().getWorkunitName());
                     beandetail.setBillNo(DateTimeUtil.cvtDateForShow(tpStaff.getTpOrderDate(), "dd/MM/yyyy", new Locale("th", "TH")));//วันที่ทำรายการ
                     beandetail.setPlot(DateTimeUtil.cvtDateForShow(tpStaff.getTpDateComplete(), "dd/MM/yyyy", new Locale("th", "TH")));
-                    beandetail.setVolumn((tpStaff.getTpOt()) ? "/" : "");//OT ต่อเที่ยว
-                    beandetail.setUnit((tpStaff.getTpOTTimevalue()) ? "/" : "");//OT_ต่อเนื่อง
+                    beandetail.setVolumn((tpStaff.getTpOtFollow()) ? "/" : "");//OT ต่อเที่ยว
+                    beandetail.setUnit((tpStaff.getTpOTFollowTimevalue()) ? "/" : "");//OT_ต่อเนื่อง
                     String value=NumberUtils.numberFormat((null != tpStaff.getWorkMoneyOT()) ? tpStaff.getWorkMoneyOT() : 0.0, "#,##0.00");
                     beandetail.setAmount((StringUtils.equals("0.00",value)) ? "": value);
                     reportList.add(beandetail);
@@ -286,8 +286,8 @@ public class T105Controller extends BaseController {
                             beandetail.setWorkunit(tpStaff.getWorkunitId().getWorkunitName());
                             beandetail.setBillNo(DateTimeUtil.cvtDateForShow(tpStaff.getTpOrderDate(), "dd/MM/yyyy", new Locale("th", "TH")));//วันที่ทำรายการ
                             beandetail.setPlot(DateTimeUtil.cvtDateForShow(tpStaff.getTpDateComplete(), "dd/MM/yyyy", new Locale("th", "TH")));
-                            beandetail.setVolumn((tpStaff.getTpOt()) ? "/" : "");//OT ต่อเที่ยว
-                            beandetail.setUnit((tpStaff.getTpOTTimevalue()) ? "/" : "");//OT_ต่อเนื่อง
+                            beandetail.setVolumn((tpStaff.getTpOtFollow()) ? "/" : "");//OT ต่อเที่ยว
+                            beandetail.setUnit((tpStaff.getTpOTFollowTimevalue()) ? "/" : "");//OT_ต่อเนื่อง
                             String value=NumberUtils.numberFormat((null != tpStaff.getWorkMoneyOT()) ? tpStaff.getWorkMoneyOT() : 0.0, "#,##0.00");
                             beandetail.setAmount((StringUtils.equals("0.00",value)) ? "": value);
                             reportList.add(beandetail);
@@ -309,8 +309,8 @@ public class T105Controller extends BaseController {
                             beandetail.setWorkunit(tpStaff.getWorkunitId().getWorkunitName());
                             beandetail.setBillNo(DateTimeUtil.cvtDateForShow(tpStaff.getTpOrderDate(), "dd/MM/yyyy", new Locale("th", "TH")));//วันที่ทำรายการ
                             beandetail.setPlot(DateTimeUtil.cvtDateForShow(tpStaff.getTpDateComplete(), "dd/MM/yyyy", new Locale("th", "TH")));
-                            beandetail.setVolumn((tpStaff.getTpOt()) ? "/" : "");//OT ต่อเที่ยว
-                            beandetail.setUnit((tpStaff.getTpOTTimevalue()) ? "/" : "");//OT_ต่อเนื่อง
+                            beandetail.setVolumn((tpStaff.getTpOtFollow()) ? "/" : "");//OT ต่อเที่ยว
+                            beandetail.setUnit((tpStaff.getTpOTFollowTimevalue()) ? "/" : "");//OT_ต่อเนื่อง
                             String value=NumberUtils.numberFormat((null != tpStaff.getWorkMoneyOT()) ? tpStaff.getWorkMoneyOT() : 0.0, "#,##0.00");
                             beandetail.setAmount((StringUtils.equals("0.00",value)) ? "": value);
                             reportList.add(beandetail);

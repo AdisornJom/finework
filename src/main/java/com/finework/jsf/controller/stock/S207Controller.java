@@ -90,6 +90,31 @@ public class S207Controller extends BaseController {
                 return;
             }
             
+            //check weight
+            if(selected.getCarWeight()==null || selected.getCarWeight()<=0){
+                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "น้ำหนักรถ"));
+                RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                return;
+            }
+            if(selected.getCarLoading()==null || selected.getCarLoading()<=0){
+                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "น้ำหนักบรรทุก"));
+                RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                return;
+            }
+            if(selected.getCarActualWeight()==null || selected.getCarActualWeight()<=0){
+                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "น้ำหนักบรรทุกจริง"));
+                RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                return;
+            }
+            
+            if(null != selected.getCarLoading() && null !=selected.getCarActualWeight()){
+                if(selected.getCarActualWeight() > selected.getCarLoading()){
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "น้ำหนักบรรทุกจริง ต้องน้อยกว่า น้ำหนักบรรทุก"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                    return;
+                }
+            }
+            
             if(selected.getTransportType()==null){
                 JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ประเภทรถขนส่ง"));
                 RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
@@ -168,6 +193,31 @@ public class S207Controller extends BaseController {
                 JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ขนาดรถขนส่ง"));
                 RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
                 return;
+            }
+            
+            //check weight
+            if(selected.getCarWeight()==null || selected.getCarWeight()<=0){
+                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "น้ำหนักรถ"));
+                RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                return;
+            }
+            if(selected.getCarLoading()==null || selected.getCarLoading()<=0){
+                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "น้ำหนักบรรทุก"));
+                RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                return;
+            }
+            if(selected.getCarActualWeight()==null || selected.getCarActualWeight()<=0){
+                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "น้ำหนักบรรทุกจริง"));
+                RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                return;
+            }
+            
+            if(null != selected.getCarLoading() && null !=selected.getCarActualWeight()){
+                if(selected.getCarActualWeight() > selected.getCarLoading()){
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "น้ำหนักบรรทุกจริง ต้องน้อยกว่า น้ำหนักบรรทุก"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                    return;
+                }
             }
             
             if(selected.getTransportType()==null){

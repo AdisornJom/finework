@@ -158,6 +158,12 @@
                      <h:outputText id="logisticType" value="#{t103Controller.selected.logisticId.logisticCarType} : #{t103Controller.selected.logisticId.logisticBand}"   styleClass="lb_bold" style="color:#500af3"/> 
 
                     <h:panelGroup>
+                        <p:outputLabel value="น้ำหนักบรรทุกจริง ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <h:outputText id="logisticWeight" value="#{t103Controller.selected.logisticId.carActualWeight} Kg."   styleClass="lb_bold" style="color:red"/> 
+                    
+                    <h:panelGroup>
                         <p:outputLabel value="พนักงานขับรถ ："/>
                         <font class="require">*</font>
                     </h:panelGroup>
@@ -233,6 +239,11 @@
                                      oncomplete="PF('selectDetail_dialog').show()" actionListener="#{t103Controller.searchPrepareTransport()}"
                                      update="listFormPrepareTransport"  rendered="#{t103Controller.selected.transportType eq 1}"/>
                     <p:spacer/><p:outputLabel value="รายการการผลิต" rendered="#{t103Controller.selected.transportType eq 1}"/>
+                    <p:spacer/><p:outputLabel id="lableWeight" value="  น้ำหนักขนส่งรวม : " rendered="#{t103Controller.selected.transportType eq 1}"/>
+                    <p:spacer/>
+                    <h:outputText id="textWeight" value="#{t103Controller.selected.totalWeight} Kg."  style="color:red;font-weight: bold;" rendered="#{t103Controller.selected.transportType eq 1}">
+                        <f:convertNumber  pattern="#,##0.00"/>
+                    </h:outputText>  
                     <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{t103Controller.selected.sysTransportationDetailList}" var="hdetail"  
                                  rendered="#{t103Controller.selected.transportType eq 1}"> 
                         <p:ajax event="rowToggle" global="false" />
@@ -252,7 +263,7 @@
 
                         <p:column headerText="#{msgs['common.manage']}" style="width:8%;text-align: center">
                             <p:commandButton title="#{msgs['btn.delete']}" icon="fa fa-trash" action="#{t103Controller.deleteDetail()}" styleClass="delete-btn"
-                                             update="listForm:dt_itemDetail" global="false">
+                                             update="listForm:dt_itemDetail  listForm:lableWeight listForm:textWeight" global="false">
                                 <f:setPropertyActionListener value="#{hdetail}" target="#{t103Controller.transportationDetail_selected}" />
                             </p:commandButton>
                         </p:column>

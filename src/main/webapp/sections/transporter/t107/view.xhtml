@@ -39,6 +39,9 @@
             word-wrap: break-word;
         }
 
+        .ui-grid-col-6 {
+            width: 200px;
+        }
     </style>
     <p:panel header="T108 - สรุปเงินเดือนพนักงานขนส่ง">
 
@@ -96,7 +99,7 @@
                         <p:outputLabel  value="เงินเดือน :" />
                     </h:panelGroup>
                     <h:panelGroup rendered="#{t107Controller.selected.transportstaffType eq 1}">
-                        <h:outputText  value="#{t107Controller.selected.salary}" styleClass="lb_bold"  style="color: #ff0000">
+                        <h:outputText  value="#{t107Controller.selected.salary}" styleClass="lb_bold"  style="color: #ff0000;float: right;">
                             <f:convertNumber  pattern="#,##0.00"/>
                         </h:outputText>  
                     </h:panelGroup>
@@ -105,27 +108,16 @@
                         <p:outputLabel  value="รายได้ต่อวัน :" />
                     </h:panelGroup>
                     <h:panelGroup rendered="#{t107Controller.selected.transportstaffType eq 2}">
-                        <h:outputText  value="#{t107Controller.selected.dailyWage}" styleClass="lb_bold"  style="color: #ff0000">
+                        <h:outputText  value="#{t107Controller.selected.dailyWage}" styleClass="lb_bold"  style="color: #ff0000;float: right;">
                             <f:convertNumber  pattern="#,##0.00"/>
                         </h:outputText>  
-                    </h:panelGroup>
-                    
-                     <h:panelGroup>
-                        <p:outputLabel  value="เบี้ยเลี้ยง :" />
-                    </h:panelGroup>
-                    <h:panelGroup>
-                        <h:outputText  value="#{t107Controller.selected.allowance} " styleClass="lb_bold"  style="color: #ff0000">
-                            <f:convertNumber  pattern="#,##0.00"/>
-                        </h:outputText> 
-                        <p:spacer/>
-                        <h:outputText  value=" ( #{t107Controller.selected.perTrip} )" rendered="#{!empty t107Controller.selected.allowance}" styleClass="lb_bold"  style="color: #ff0000"/>
                     </h:panelGroup>
                     
                      <h:panelGroup>
                         <p:outputLabel  value="ค่าเช่าบ้าน :" />
                     </h:panelGroup>
                     <h:panelGroup>
-                        <h:outputText  value="#{t107Controller.selected.rentHouse}" styleClass="lb_bold"  style="color: #ff0000">
+                        <h:outputText  value="#{t107Controller.selected.rentHouse}" styleClass="lb_bold"  style="color: #ff0000;float: right;">
                             <f:convertNumber  pattern="#,##0.00"/>
                         </h:outputText>  
                     </h:panelGroup>
@@ -134,16 +126,31 @@
                         <p:outputLabel  value="ค่าโทรศัพท์ :" />
                     </h:panelGroup>
                     <h:panelGroup rendered="#{t107Controller.selected.transportstaffType eq 1}">
-                        <h:outputText  value="#{t107Controller.selected.telCharge}" styleClass="lb_bold"  style="color: #ff0000">
+                        <h:outputText  value="#{t107Controller.selected.telCharge}" styleClass="lb_bold"  style="color: #ff0000;float: right;">
                             <f:convertNumber  pattern="#,##0.00"/>
                         </h:outputText>  
+                    </h:panelGroup>
+                    
+                     <h:panelGroup>
+                        <p:outputLabel  value="เบี้ยเลี้ยง :" />
+                    </h:panelGroup>
+                    <h:panelGroup style="float: right;">
+                        <h:outputText  value="#{t107Controller.selected.allowance} " styleClass="lb_bold"  style="color: #ff0000;">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText> 
+                        <p:spacer/>
+                        <h:outputText  value="(#{t107Controller.selected.perTrip})" rendered="#{!empty t107Controller.selected.allowance}" styleClass="lb_bold"  style="color: #ff0000;"/>
+                        <p:spacer/>
+                        <h:outputText  value=": #{t107Controller.selected.totalAllowance} " styleClass="lb_bold"  style="color: #ff0000;">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText> 
                     </h:panelGroup>
                     
                      <h:panelGroup >
                         <p:outputLabel  value="รายได้ระบบขนส่ง(OT) :" />
                     </h:panelGroup>
                     <h:panelGroup >
-                        <h:outputText  value="#{t107Controller.selected.valueWorking}" styleClass="lb_bold"  style="color: #ff0000">
+                        <h:outputText  value="#{t107Controller.selected.valueWorking}" styleClass="lb_bold"  style="color: #ff0000;float: right;">
                             <f:convertNumber  pattern="#,##0.00"/>
                         </h:outputText>  
                     </h:panelGroup>
@@ -152,7 +159,43 @@
                         <p:outputLabel  value="รายได้พนักงาน(พิเศษ) :" />
                     </h:panelGroup>
                     <h:panelGroup >
-                        <h:outputText  value="#{t107Controller.selected.totalSpecial}" styleClass="lb_bold"  style="color: #ff0000;">
+                        <h:outputText  value="#{t107Controller.selected.totalSpecial}" styleClass="lb_bold"  style="color: #ff0000;float: right;">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText>  
+                    </h:panelGroup>
+                    
+                    <h:panelGroup >
+                        <p:outputLabel  value="รายได้ :" />
+                    </h:panelGroup>
+                    <h:panelGroup >
+                        <h:outputText  value="#{t107Controller.selected.totalIncome}" styleClass="lb_bold"  style="color: #ff0000;float: right;">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText>  
+                    </h:panelGroup>
+                    
+                     <h:panelGroup >
+                        <p:outputLabel  value="หัก 3% :" />
+                    </h:panelGroup>
+                    <h:panelGroup >
+                        <h:outputText  value="#{t107Controller.selected.totalIncomeVat}" styleClass="lb_bold"  style="color: #ff0000;float: right;">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText>  
+                    </h:panelGroup>
+                    
+                     <h:panelGroup >
+                        <p:outputLabel  value="รายได้รวมหลังหัก 3% :" />
+                    </h:panelGroup>
+                    <h:panelGroup >
+                        <h:outputText  value="#{t107Controller.selected.totalIncomeNet}" styleClass="lb_bold"  style="color: #ff0000;float: right;">
+                            <f:convertNumber  pattern="#,##0.00"/>
+                        </h:outputText>  
+                    </h:panelGroup>
+                    
+                     <h:panelGroup >
+                        <p:outputLabel  value="รวมค่าใช้จ่าย :" />
+                    </h:panelGroup>
+                    <h:panelGroup >
+                        <h:outputText  value="#{t107Controller.selected.totalExp}" styleClass="lb_bold"  style="color: #0000ff;float: right;">
                             <f:convertNumber  pattern="#,##0.00"/>
                         </h:outputText>  
                     </h:panelGroup>
@@ -161,25 +204,16 @@
                         <p:outputLabel  value="รายได้พนักงาน(พิเศษไม่หัก 3%) :" />
                     </h:panelGroup>
                     <h:panelGroup >
-                        <h:outputText  value="#{t107Controller.selected.totalSpecialnoVat}" styleClass="lb_bold"  style="color: #ff0000;">
+                        <h:outputText  value="#{t107Controller.selected.totalSpecialnoVat}" styleClass="lb_bold"  style="color: #ff0000;float: right;">
                             <f:convertNumber  pattern="#,##0.00"/>
                         </h:outputText>  
                     </h:panelGroup>
-                    
-                     <h:panelGroup >
-                        <p:outputLabel  value="ค่าใช้จ่ายทั้งหมด :" />
-                    </h:panelGroup>
-                    <h:panelGroup >
-                        <h:outputText  value="#{t107Controller.selected.totalExp}" styleClass="lb_bold"  style="color: #0000ff;">
-                            <f:convertNumber  pattern="#,##0.00"/>
-                        </h:outputText>  
-                    </h:panelGroup>
-                    
+
                      <h:panelGroup >
                         <p:outputLabel  value="รายได้สุทธิ :" />
                     </h:panelGroup>
-                    <h:panelGroup >
-                        <h:outputText  value="#{t107Controller.selected.totalIncomeNet}" styleClass="lb_bold"  style="color: #ff0000">
+                    <h:panelGroup styleClass="">
+                        <h:outputText  value="#{t107Controller.selected.totallastNet}" styleClass="lb_bold text_right"  style="color: #ff0000;float: right;" >
                             <f:convertNumber  pattern="#,##0.00"/>
                         </h:outputText>  
                     </h:panelGroup>
@@ -258,11 +292,11 @@
                         </p:column>
 
                         <p:column headerText="OT ต่อเที่ยว" style="width: 10px;" >
-                            <p:selectBooleanCheckbox value="#{detail.tpOt}"/>
+                            <p:selectBooleanCheckbox value="#{detail.tpOtFollow}"/>
                         </p:column>
 
                         <p:column headerText="OT ตั้งงานต่อเนื่อง​" style="width: 10px;" >
-                            <p:selectBooleanCheckbox value="#{detail.tpOTTimevalue}"/>
+                            <p:selectBooleanCheckbox value="#{detail.tpOTFollowTimevalue}"/>
                         </p:column>
                         
                         <p:column headerText="จำนวนเงิน" style="width: 10px;text-align: right" >
@@ -299,11 +333,11 @@
                         </p:column>
 
                         <p:column headerText="OT ต่อเที่ยว" style="width: 10px;" >
-                            <p:selectBooleanCheckbox value="#{detail.tpOt}"/>
+                            <p:selectBooleanCheckbox value="#{detail.tpOtFollow}"/>
                         </p:column>
 
                         <p:column headerText="OT ตั้งงานต่อเนื่อง​" style="width: 10px;" >
-                            <p:selectBooleanCheckbox value="#{detail.tpOTTimevalue}"/>
+                            <p:selectBooleanCheckbox value="#{detail.tpOTFollowTimevalue}"/>
                         </p:column>
 
                         <p:column headerText="จำนวนเงิน" style="width: 10px;text-align: right" >

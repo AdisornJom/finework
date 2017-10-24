@@ -80,9 +80,15 @@ public class SysTransportation implements Serializable , Comparator<SysTransport
     private Boolean tpOt;
     @Column(name = "tp_ot_timevalue", nullable = false, columnDefinition = "TINYINT(1) default 0")
     private Boolean tpOTTimevalue;
-
     @Column(name = "tp_ot_time_hours")
     private Integer tpOtTimeHours;
+    
+    @Column(name = "tp_ot_follow", nullable = false, columnDefinition = "TINYINT(1) default 0")
+    private Boolean tpOtFollow;
+    @Column(name = "tp_ot_follow_timevalue", nullable = false, columnDefinition = "TINYINT(1) default 0")
+    private Boolean tpOTFollowTimevalue;
+    @Column(name = "tp_ot_follow_time_hours")
+    private Integer tpOtFollowTimeHours;
     
     @Size(max = 500)
     @Column(name = "remark")
@@ -144,6 +150,8 @@ public class SysTransportation implements Serializable , Comparator<SysTransport
     
     @Transient
     private Double workMoneyOT;
+    @Transient
+    private Double totalWeight;
 
     public SysTransportation() {
     }
@@ -353,7 +361,38 @@ public class SysTransportation implements Serializable , Comparator<SysTransport
     public void setTpOTTimevalue(Boolean tpOTTimevalue) {
         this.tpOTTimevalue = tpOTTimevalue;
     }
-    
+
+    public Double getTotalWeight() {
+        return totalWeight;
+    }
+
+    public void setTotalWeight(Double totalWeight) {
+        this.totalWeight = totalWeight;
+    }
+
+    public Boolean getTpOtFollow() {
+        return tpOtFollow;
+    }
+
+    public void setTpOtFollow(Boolean tpOtFollow) {
+        this.tpOtFollow = tpOtFollow;
+    }
+
+    public Boolean getTpOTFollowTimevalue() {
+        return tpOTFollowTimevalue;
+    }
+
+    public void setTpOTFollowTimevalue(Boolean tpOTFollowTimevalue) {
+        this.tpOTFollowTimevalue = tpOTFollowTimevalue;
+    }
+
+    public Integer getTpOtFollowTimeHours() {
+        return tpOtFollowTimeHours;
+    }
+
+    public void setTpOtFollowTimeHours(Integer tpOtFollowTimeHours) {
+        this.tpOtFollowTimeHours = tpOtFollowTimeHours;
+    }
     
     
     @XmlTransient

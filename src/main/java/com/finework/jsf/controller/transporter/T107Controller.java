@@ -308,10 +308,10 @@ public class T107Controller extends BaseController {
             }
             
             //
-            if(null !=selected.getAllowance()){
+            if(null !=selected.getTotalAllowance()){
                 TransporterReportBean bean2 = new TransporterReportBean();
                 bean2.setDetail("เบี้ยเลี้ยงต่อวัน ("+selected.getPerTrip()+")"); 
-                String value = NumberUtils.numberFormat((null != selected.getAllowance()) ? selected.getAllowance()*selected.getPerTrip() : 0.0, "#,##0.00");
+                String value = NumberUtils.numberFormat(selected.getTotalAllowance(), "#,##0.00");
                 bean2.setAmount((StringUtils.equals("0.00", value)) ? "" : value);
                 reportList.add(bean2);
             }
@@ -526,13 +526,14 @@ public class T107Controller extends BaseController {
                     }
 
                     //
-                    if(null !=sysTransportStaff.getAllowance()){
+                    if (null != sysTransportStaff.getTotalAllowance()) {
                         TransporterReportBean bean2 = new TransporterReportBean();
-                        bean2.setDetail("เบี้ยเลี้ยงต่อวัน ("+sysTransportStaff.getPerTrip()+")"); 
-                        String value = NumberUtils.numberFormat((null != sysTransportStaff.getAllowance()) ? sysTransportStaff.getAllowance()*sysTransportStaff.getPerTrip() : 0.0, "#,##0.00");
+                        bean2.setDetail("เบี้ยเลี้ยงต่อวัน (" + sysTransportStaff.getPerTrip() + ")");
+                        String value = NumberUtils.numberFormat(sysTransportStaff.getTotalAllowance(), "#,##0.00");
                         bean2.setAmount((StringUtils.equals("0.00", value)) ? "" : value);
                         reportList.add(bean2);
                     }
+                    
                     
                    if (null != sysTransportStaff.getSysTransportStaffSpecialList()) {
                      int intRunningNo2 = 0;

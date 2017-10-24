@@ -1,14 +1,16 @@
 package com.finework.ejb.facade;
 
+import com.finework.core.ejb.entity.SysContractor;
 import com.finework.core.ejb.entity.SysDetail;
-import com.finework.core.ejb.entity.SysExpensesManufactoryDeduction;
 import com.finework.core.ejb.entity.SysHousePlan;
 import com.finework.core.ejb.entity.SysManufacturing;
 import com.finework.core.ejb.entity.SysMaterial;
 import com.finework.core.ejb.entity.SysMaterialClassify;
 import com.finework.core.ejb.entity.SysMaterialExpenses;
 import com.finework.core.ejb.entity.SysMaterialReceipts;
+import com.finework.core.ejb.to.ReportStockI105TO;
 import com.finework.ejb.bo.StockBO;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -232,6 +234,12 @@ public class StockFacade {
        stockBO.deleteSysMaterialClassify(sysMaterialClassify);
     }
     
+    public List<ReportStockI105TO> findReportSummaryI105(SysMaterial material, SysContractor contractor, int[] range) throws Exception {
+       return stockBO.findReportSummaryI105(material,contractor,range);
+    }
     
+     public BigInteger count_reportSummaryI105(SysMaterial material, SysContractor contractor) throws Exception {
+        return stockBO.count_reportSummaryI105(material,contractor);
+    }
      
 }

@@ -80,7 +80,7 @@
             <br/>
             <h:panelGroup layout="block" style="text-align: center" >
                 <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
-                                 actionListener="#{t103Controller.addDetail()}">
+                                 actionListener="#{t103Controller.addDetail()}" update="listForm:detail_list">
                 </p:commandButton> 
                 <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
                                  oncomplete="PF('selectDetail_dialog').hide();"

@@ -107,6 +107,7 @@ public class T103Controller extends BaseController {
     //variable
     private boolean option_production;
     private boolean option_service;
+    private Double weight_transporter;
     
     //dialog
     List<SysPrepareTransport> prepareTransport_items_dialog;
@@ -145,7 +146,13 @@ public class T103Controller extends BaseController {
 
     public void prepareEdit(String page) {
        // this.contractor_selected=selected.getContractorId();
-        
+        Double weight_transporter = 0.0;
+        for (SysTransportationDetail sysTransportationDetail : selected.getSysTransportationDetailList()) {
+            for (SysPrepareTransportDetail sysPrepareTransportDetail : sysTransportationDetail.getPrepareTpId().getSysPrepareTransportDetailList()) {
+                weight_transporter += (null != sysPrepareTransportDetail.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getWeight() ? sysPrepareTransportDetail.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getWeight() : 0.0);
+            }
+        }
+        selected.setTotalWeight(weight_transporter);
         next(page);
     }
     public void cancel(String path) {
@@ -205,6 +212,12 @@ public class T103Controller extends BaseController {
                   RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
                   return;
               }else{
+                  if ((null !=selected.getLogisticId().getCarActualWeight()?selected.getLogisticId().getCarActualWeight() :0.0) <= selected.getTotalWeight()) {
+                      JsfUtil.addFacesErrorMessage("น้ำหนักขนส่ง มากกว่า รถขนส่ง ไม่สามารถขนส่งได้");
+                      RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                      return;
+                  }
+                  
                   //insertDetail
                   List<SysTransportationDetail> detal_add = new ArrayList();
                   for (SysTransportationDetail sysTransportationDetail_ : selected.getSysTransportationDetailList()) {
@@ -314,6 +327,12 @@ public class T103Controller extends BaseController {
                      RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
                      return;
                  } else {
+                     if ((null != selected.getLogisticId().getCarActualWeight() ? selected.getLogisticId().getCarActualWeight() : 0.0) <= selected.getTotalWeight()) {
+                         JsfUtil.addFacesErrorMessage("น้ำหนักขนส่ง มากกว่า รถขนส่ง ไม่สามารถขนส่งได้");
+                         RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                         return;
+                     }
+
                      //update status prepare_transport 3=Transport Send เตรียขนส่ง
                      for (SysTransportationDetail detail : sysTransportation.getSysTransportationDetailList()) {
                            transporterFacade.updateStatusSysPrepareTransportByprepareTpId(Constants.PREPARE_TRANSPORTER_PREPARE, detail.getPrepareTpId().getPrepareTpId());
@@ -504,6 +523,27 @@ public class T103Controller extends BaseController {
                      sysTransport_list.add(sysPrepareTransport.getPrepareTpId());
                  }
              }
+             if(null==selected.getLogisticId()){
+                 JsfUtil.addFacesErrorMessage("กรุณาเลือกรถขนส่ง ค่ะ");
+                // RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                 return;
+             }
+             
+             //check weight  Transporter
+             Double weight_transporter=0.0;
+             for(SysTransportationDetail sysTransportationDetail:selected.getSysTransportationDetailList()){
+                 for(SysPrepareTransportDetail sysPrepareTransportDetail:sysTransportationDetail.getPrepareTpId().getSysPrepareTransportDetailList()){
+                     weight_transporter+=(null != sysPrepareTransportDetail.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getWeight()?sysPrepareTransportDetail.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getWeight():0.0);
+                 }
+             }
+             selected.setTotalWeight(weight_transporter);
+             
+             if((null != selected.getLogisticId().getCarActualWeight() ? selected.getLogisticId().getCarActualWeight() : 0.0) <= selected.getTotalWeight()) {
+                 JsfUtil.addFacesErrorMessage("น้ำหนักขนส่ง มากกว่า รถขนส่ง ไม่สามารถขนส่งได้");
+                // RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                 return;
+             }
+             
              clearData_sysTransportationDetail();
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
@@ -515,7 +555,14 @@ public class T103Controller extends BaseController {
      
     public void deleteDetail(){
         try {
-             selected.getSysTransportationDetailList().remove(transportationDetail_selected);
+            selected.getSysTransportationDetailList().remove(transportationDetail_selected);
+            Double weight_transporter = 0.0;
+            for (SysTransportationDetail sysTransportationDetail : selected.getSysTransportationDetailList()) {
+                for (SysPrepareTransportDetail sysPrepareTransportDetail : sysTransportationDetail.getPrepareTpId().getSysPrepareTransportDetailList()) {
+                   weight_transporter+=(null != sysPrepareTransportDetail.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getWeight()?sysPrepareTransportDetail.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getWeight():0.0);
+                }
+            }
+            selected.setTotalWeight(weight_transporter);
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
             LOG.error(ex);
@@ -891,6 +938,7 @@ public class T103Controller extends BaseController {
             
             int intRunningNo=0;
             Double totalVolume=0.0;
+            Double weight_transporter = 0.0;
             if (ObjectUtils.equals(Constants.TRANSPORTATION_PRODUCTION, rpt_sysTransportation.getTransportType())) {
                 List<SysTransportationDetail> list = rpt_sysTransportation.getSysTransportationDetailList();
                 for (SysTransportationDetail tpDetail : list) {
@@ -911,6 +959,7 @@ public class T103Controller extends BaseController {
                                     break;
                             }
                         }
+                        weight_transporter += (null != to.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getWeight() ? to.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getWeight() : 0.0);
 
                         bean.setDetail(to.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getManufacturingDesc() + " " + typeStr);
                         Double volumn = 0.0;//, priceUnit = 0.0;
@@ -997,6 +1046,9 @@ public class T103Controller extends BaseController {
             map.put("logistic_car_id",(null != rpt_sysTransportation.getLogisticId()) ? rpt_sysTransportation.getLogisticId().getLogisticRegisterCar() : ""); 
             map.put("remark",StringUtils.isNotBlank(rpt_sysTransportation.getRemark())?rpt_sysTransportation.getRemark():"...........................................................................................................................................");
             
+            Double car_weight = null !=rpt_sysTransportation.getLogisticId().getCarWeight()?rpt_sysTransportation.getLogisticId().getCarWeight() :0.0;
+            map.put("weight_transporter","(น้ำหนักรถ: "+NumberUtils.numberFormat(car_weight, "#,##0.00")
+                    +"  น้ำหนักบรรทุกขนส่ง: "+NumberUtils.numberFormat(weight_transporter, "#,##0.00")+" น้ำหนักรวม: "+NumberUtils.numberFormat(car_weight+weight_transporter, "#,##0.00")+")");
             map.put("total_volume",NumberUtils.numberFormat((null != totalVolume) ? totalVolume : 0.0, "#,##0.00"));
             map.put("total_seq", "รวม "+ intRunningNo+" รายการ");
             
@@ -1026,6 +1078,7 @@ public class T103Controller extends BaseController {
 
                  int intRunningNo = 0;
                  Double totalVolume = 0.0;
+                 Double weight_transporter = 0.0;
                  if (ObjectUtils.equals(Constants.TRANSPORTATION_PRODUCTION, rpt_sysTransportation.getTransportType())) {
                      List<SysTransportationDetail> list = rpt_sysTransportation.getSysTransportationDetailList();
                      for (SysTransportationDetail tpDetail : list) {
@@ -1047,6 +1100,8 @@ public class T103Controller extends BaseController {
                                  }
                              }
 
+                             weight_transporter += (null != to.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getWeight() ? to.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getWeight() : 0.0);
+                              
                              bean.setDetail(to.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getManufacturingDesc() + " " + typeStr);
                              Double volumn = 0.0;//, priceUnit = 0.0;
                              volumn = null != to.getFactoryRealId().getVolumeReal() ? to.getFactoryRealId().getVolumeReal() : 0.0;
@@ -1132,6 +1187,9 @@ public class T103Controller extends BaseController {
                  map.put("logistic_car_id", (null != rpt_sysTransportation.getLogisticId()) ? rpt_sysTransportation.getLogisticId().getLogisticRegisterCar() : "");
                  map.put("remark", StringUtils.isNotBlank(rpt_sysTransportation.getRemark()) ? rpt_sysTransportation.getRemark() : "...........................................................................................................................................");
 
+                 Double car_weight = null !=rpt_sysTransportation.getLogisticId().getCarWeight()?rpt_sysTransportation.getLogisticId().getCarWeight() :0.0;
+                 map.put("weight_transporter","(น้ำหนักรถ: "+NumberUtils.numberFormat(car_weight, "#,##0.00")
+                    +"  น้ำหนักบรรทุกขนส่ง: "+NumberUtils.numberFormat(weight_transporter, "#,##0.00")+" น้ำหนักรวม: "+NumberUtils.numberFormat(car_weight+weight_transporter, "#,##0.00")+")");
                  map.put("total_volume", NumberUtils.numberFormat((null != totalVolume) ? totalVolume : 0.0, "#,##0.00"));
                  map.put("total_seq", "รวม " + intRunningNo + " รายการ");
 
@@ -1370,6 +1428,14 @@ public class T103Controller extends BaseController {
 
     public void setTpSpecial_items_dialog(List<SysTransportationSpecial> tpSpecial_items_dialog) {
         this.tpSpecial_items_dialog = tpSpecial_items_dialog;
+    }
+
+    public Double getWeight_transporter() {
+        return weight_transporter;
+    }
+
+    public void setWeight_transporter(Double weight_transporter) {
+        this.weight_transporter = weight_transporter;
     }
     
     

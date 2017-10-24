@@ -1,5 +1,6 @@
 package com.finework.ejb.bo;
 
+import com.finework.core.ejb.entity.SysContractor;
 import com.finework.core.ejb.entity.SysDetail;
 import com.finework.core.ejb.entity.SysHousePlan;
 import com.finework.core.ejb.entity.SysManufacturing;
@@ -8,6 +9,7 @@ import com.finework.core.ejb.entity.SysMaterialClassify;
 import com.finework.core.ejb.entity.SysMaterialExpenses;
 import com.finework.core.ejb.entity.SysMaterialExpensesDetail;
 import com.finework.core.ejb.entity.SysMaterialReceipts;
+import com.finework.core.ejb.to.ReportStockI105TO;
 import com.finework.core.util.DateTimeUtil;
 import com.finework.ejb.dao.SysDetailDAO;
 import com.finework.ejb.dao.SysHousePlanDAO;
@@ -17,6 +19,7 @@ import com.finework.ejb.dao.SysMaterialClassifyDAO;
 import com.finework.ejb.dao.SysMaterialDAO;
 import com.finework.ejb.dao.SysMaterialExpensesDAO;
 import com.finework.ejb.dao.SysMaterialReceiptsDAO;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -430,5 +433,13 @@ public class StockBO {
         sysMaterialClassifyDAO.edit(sysMaterialClassify);
     }
     
+    
+    public List<ReportStockI105TO> findReportSummaryI105(SysMaterial material, SysContractor contractor, int[] range) throws Exception {
+       return sysMaterialDAO.findReportSummaryI105(material,contractor,range);
+    }
+    
+     public BigInteger count_reportSummaryI105(SysMaterial material, SysContractor contractor) throws Exception {
+        return sysMaterialDAO.count_reportSummaryI105(material,contractor);
+    }
     
 }

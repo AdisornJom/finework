@@ -73,6 +73,14 @@ public class SysLogisticCar implements Serializable {
     private Double transportShort;
     @Column(name = "transport_long")
     private Double transportLong;
+    
+    @Column(name = "car_weight")
+    private Double carWeight;
+    @Column(name = "car_loading")
+    private Double carLoading;
+    @Column(name = "car_actual_weight")
+    private Double carActualWeight;
+            
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "car_width")
     private Double carWidth;
@@ -314,6 +322,30 @@ public class SysLogisticCar implements Serializable {
 
     public void setLogisticGroupType(Integer logisticGroupType) {
         this.logisticGroupType = logisticGroupType;
+    }
+
+    public Double getCarWeight() {
+        return carWeight;
+    }
+
+    public void setCarWeight(Double carWeight) {
+        this.carWeight = carWeight;
+    }
+
+    public Double getCarLoading() {
+        return carLoading;
+    }
+
+    public void setCarLoading(Double carLoading) {
+        this.carLoading = carLoading;
+    }
+
+    public Double getCarActualWeight() {
+        return carActualWeight;
+    }
+
+    public void setCarActualWeight(Double carActualWeight) {
+        this.carActualWeight = carActualWeight;
     }
 
    

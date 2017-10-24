@@ -14,27 +14,28 @@
     </style>
 
     <h:form id="listForm">
-        <h:panelGroup style="height: 200px;" layout="block" rendered="#{empty i105Controller.items}">
-            <h:graphicImage value="./resources/images/arr_search.jpg" width="200" style="float: right;margin-top: 0px;"/>
-        </h:panelGroup>
-
-        <p:dataTable id="table1" var="item" value="#{i105Controller.items}" binding="#{bindingController.dataTableModel}" 
-                     rendered="#{not empty i105Controller.items}">
+            <p:dataTable id="prepairStock" var="item" value="#{i105Controller.lazyStockI105Model}" binding="#{bindingController.lazyDataTableModel}" 
+                     rendered="#{not empty i105Controller.lazyStockI105Model}">
             
             <p:columnGroup type="header">
                 <p:row>
-                    <p:column rowspan="2" headerText="No" />
-                    <p:column rowspan="2" headerText="#{msgs['p101.detail.username']}" sortBy="#{item.userId}"/>
-                    <p:column rowspan="2" headerText="#{msgs['s106.apiName']}" sortBy="#{item.prod_name}" />
-                    <p:column rowspan="2" headerText="#{msgs['turnover']}"  sortBy="#{item.trunover}"/>
-                    <p:column rowspan="2" headerText="#{msgs['r104.total.transaction']}" sortBy="#{item.totalTransaction}"/>
-                    <p:column colspan="3" headerText="#{msgs['r104.customerWinloss']}" />
-                    <p:column rowspan="2" headerText="#{msgs['r104.licenseeWinloss']}" sortBy="#{item.licenseeWinloss}"/>
+                    <p:column rowspan="2" headerText="No" style="width: 5%;"/>
+                    <p:column rowspan="2" headerText="ชื่อวัสดุภัณฑ์" sortBy="#{item.materialDesc}" style="width: 19%;"/>
+                    <p:column rowspan="2" headerText="ชื่อผู้รับเหมา" sortBy="#{item.contractorNameTh}" style="width:12%"/>
+                    <p:column rowspan="2" headerText="ชื่อเล่น"  sortBy="#{item.contractorNameTh}" style="width: 8%"/>
+                    <p:column colspan="3" headerText="วัสดุภัณฑ์นำเข้า"   style="width: 17%"/>
+                    <p:column rowspan="2" headerText="รวม"  sortBy="#{item.income}" style="width: 7%"/>
+                    <p:column colspan="3" headerText="วัสดุภัณฑ์นำออก" style="width: 17%"/>
+                    <p:column rowspan="2" headerText="รวม"  sortBy="#{item.outcome}" style="width: 7%"/>
+                    <p:column rowspan="2" headerText="คงเหลือ" sortBy="#{item.total}" style="width: 8%"/>
                 </p:row>
                 <p:row>
-                    <p:column headerText="#{msgs['winloss']}" />
-                    <p:column headerText="#{msgs['commissions']}" />
-                    <p:column headerText="#{msgs['r103.total']}" />
+                    <p:column headerText="รับสินค้า" />
+                    <p:column headerText="คืนสินค้า" />
+                    <p:column headerText="ปรับปรุง Stock" />
+                    <p:column headerText="เบิกสินค้า" />
+                    <p:column headerText="ยืมสินค้า" />
+                    <p:column headerText="ปรับปรุง Stock" />
                 </p:row>
             </p:columnGroup>
 
@@ -42,26 +43,88 @@
                 <h:outputText value="#{(rowNumber+1)}" />
             </p:column>
 
-            <p:column headerText="ชื่อวัสดุภัณฑ์(Thai)" sortBy="#{item.materialDesc}" style="width: 220px;">
+            <p:column >
                 <h:outputText value="#{item.materialDesc}"/>
             </p:column>
             
-            <p:column headerText="ประเภทวัสดุภัณฑ์" sortBy="#{item.classifyId.classifyDesc}" style="width: 140px;">
-                <h:outputText value="#{item.classifyId.classifyDesc}"/>
+            <p:column >
+                <h:outputText value="#{item.contractorNameTh}"/>
+            </p:column>
+                
+            <p:column >
+                <h:outputText value="#{item.contractorNickname}"/>
             </p:column>
             
-            <p:column  headerText="วัสดุภัณฑ์คงเหลือ"  style="width: 80px;text-align: center">
-                 <h:outputText value="#{item.quantity}" 
-                               style="float: right;font-size: 18px;color:red;"  
+            <p:column   style="text-align: right">
+                <h:outputText value="#{item.recive}" 
+                               style="float: right;"  
+                               styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0"/>
+                </h:outputText>     
+            </p:column>
+           
+            <p:column   style="text-align: right">
+                <h:outputText value="#{item.returnstock}" 
+                               style="float: right;"  
                                styleClass="lb_bold">
                     <f:convertNumber  pattern="#,##0"/>
                 </h:outputText>     
             </p:column>
 
-            <p:column headerText="#{msgs['createdt']}" sortBy="#{item.createdDt}" style="width: 80px;text-align: center">
-                <h:outputText value="#{item.createdDt}">
-                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
-                </h:outputText>
+            <p:column   style="text-align: right">
+                <h:outputText value="#{item.repairIn}" 
+                              style="float: right;"  
+                              styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0"/>
+                </h:outputText>     
+            </p:column>
+                
+            <p:column   style="text-align: right">
+                <h:outputText value="#{item.income}" 
+                              style="float: right;font-size: 18px;color:green;"  
+                              styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0"/>
+                </h:outputText>     
+            </p:column>
+                
+            <p:column   style="text-align: right">
+                <h:outputText value="#{item.take}" 
+                               style="float: right;"  
+                               styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0"/>
+                </h:outputText>     
+            </p:column>
+           
+            <p:column   style="text-align: right">
+                <h:outputText value="#{item.borrow}" 
+                               style="float: right;"  
+                               styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0"/>
+                </h:outputText>     
+            </p:column>
+
+            <p:column   style="text-align: right">
+                <h:outputText value="#{item.repairOut}" 
+                              style="float: right;"  
+                              styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0"/>
+                </h:outputText>     
+            </p:column>
+                
+            <p:column   style="text-align: right">
+                <h:outputText value="#{item.outcome}" 
+                              style="float: right;font-size: 18px;color:red;"  
+                              styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0"/>
+                </h:outputText>     
+            </p:column>
+           
+             <p:column   style="text-align: right">
+                 <h:outputText value="#{item.total}" 
+                              style="float: right;font-size: 18px;color: #{item.total >= 0 ? 'green' : 'red'};"  
+                              styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0"/>
+                </h:outputText>     
             </p:column>
 
             <p:column style="width: 50px;text-align: center" rendered="false">
@@ -74,7 +137,7 @@
 
             <f:facet name="footer">
                 <h:outputText value="#{msgs['messages.code.2022']} "/>
-                <h:outputText value="#{i105Controller.items.size()}">
+                <h:outputText value="#{i105Controller.lazyStockI105Model.rowCount}">
                     <f:convertNumber pattern="#,##0"/>
                 </h:outputText>
                 <h:outputText value=" #{msgs['messages.code.2023']}"/>
