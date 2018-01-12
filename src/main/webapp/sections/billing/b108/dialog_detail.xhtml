@@ -34,6 +34,12 @@
                     </p:autoComplete>
                     <p:watermark  for="detail_items" value="กรอกข้อมูลเพื่อ ค้นหา" />
                 </h:panelGroup>
+               
+                <h:panelGroup>
+                    <p:outputLabel for="billconvert" value="แปลง :" />
+                </h:panelGroup>
+                <p:inputText id="billconvert" value="#{b108Controller.dvDetail_selected.billConvert}" maxlength="45" 
+                             style="width: 100px; text-align: right;"/>
 
                 <h:panelGroup>
                     <p:outputLabel for="volume" value="ปริมาณ :" />

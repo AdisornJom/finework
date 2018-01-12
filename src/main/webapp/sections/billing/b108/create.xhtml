@@ -131,8 +131,12 @@
                             <h:outputText value="#{detail.billNo}"  />
                         </p:column>
                         
-                        <p:column headerText="รายการ" style="width: 224px;">
+                        <p:column headerText="รายการ" style="width: 214px;">
                             <h:outputText value="#{detail.detail}" />
+                        </p:column>
+                        
+                         <p:column headerText="แปลง" style="width: 28px;">
+                            <h:outputText value="#{detail.billConvert}" />
                         </p:column>
                         
                         <p:column headerText="ปริมาณ" style="width: 25px;">

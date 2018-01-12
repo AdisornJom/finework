@@ -14,7 +14,7 @@
     </style>
 
     <h:form id="listForm">
-        <p:toolbar style="margin-top: 3px;margin-bottom: 3px;" rendered="false" >
+        <p:toolbar style="margin-top: 3px;margin-bottom: 3px;"  >
             <f:facet name="left" >
                   <h:panelGroup layout="block" style="text-align: right" rendered="#{not empty p101Controller.items}">
                      <p:commandButton icon="fa fa-print"  styleClass="print-btn" binding="#{bindingController.btnSave}" value="พิมพ์ทั้งหมด ที่เลือก" ajax="false" onclick="setTimeout('location.reload();', 2000);" update=":content"
@@ -27,7 +27,7 @@
                       selection="#{p101Controller.printSelected}" rowKey="#{item.factoryId}" 
                     binding="#{bindingController.dataTableModel}">
                   
-             <p:column selectionMode="multiple" style="text-align: center;width: 30px;"  rendered="false"/>
+             <p:column selectionMode="multiple" style="text-align: center;width: 30px;"  />
 
             <p:column headerText="ลำดับ" style="text-align: center;width: 25px;">
                 <h:outputText value="#{(rowNumber+1)}" />

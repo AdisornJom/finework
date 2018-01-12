@@ -6,6 +6,7 @@
 package com.finework.core.ejb.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -38,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SysManufactory.findAll", query = "SELECT s FROM SysManufactory s")})
-public class SysManufactory implements Serializable {
+public class SysManufactory implements Serializable, Comparator<SysManufactory>  {
 
     @OneToMany(mappedBy = "factoryId")
     private List<SysExpensesManufactory> sysExpensesManufactoryList;
@@ -339,6 +340,11 @@ public class SysManufactory implements Serializable {
 
     public void setSysExpensesManufactoryList(List<SysExpensesManufactory> sysExpensesManufactoryList) {
         this.sysExpensesManufactoryList = sysExpensesManufactoryList;
+    }
+    
+    @Override
+    public int compare(SysManufactory o1, SysManufactory o2) {
+        return o2.getFactoryId().compareTo(o1.getFactoryId());
     }
     
 }

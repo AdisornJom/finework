@@ -28,12 +28,12 @@
                 <h:outputText value="#{item.manufacturingDesc}"/>
             </p:column>
             
-            <p:column headerText="ชื่อรายการผลิต(English)" sortBy="#{item.manufacturingDescEn}" style="width: 150px;">
+            <p:column headerText="ชื่อรายการผลิต(English)" sortBy="#{item.manufacturingDescEn}" style="width: 100px;">
                 <h:outputText value="#{item.manufacturingDescEn}"/>
             </p:column>
             
-            <p:column  headerText="ราคาต่อหน่วย " sortBy="#{item.unitPrice}" style="width: 80px;text-align: center">
-                <h:outputText value="#{item.unitPrice}" style="float: right;" styleClass="lb_bold">
+            <p:column  headerText="ราคาต่อหน่วย " sortBy="#{item.unitPrice}" style="width: 60px;">
+                <h:outputText value="#{item.unitPrice}" style="float: right;color: blue" styleClass="lb_bold">
                     <f:convertNumber  pattern="#,##0.00"/>
                 </h:outputText>     
             </p:column>
@@ -41,6 +41,12 @@
              <p:column headerText="คำนวณตาม" style="width: 70px;">
                  <h:outputText value="#{item.calculateType eq 1 ?'จำนวน':
                                         item.calculateType eq 2 ?'ความยาว(เมตร)':'ชุด'}"/>
+            </p:column>
+            
+            <p:column headerText="น้ำหนัก" style="width: 60px;">
+                <h:outputText value="#{item.weight}" style="float: right;color: blue" styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0.00"/>
+                </h:outputText>     
             </p:column>
 
             <p:column headerText="#{msgs['createdt']}" sortBy="#{item.createdDt}" style="width: 80px;text-align: center">

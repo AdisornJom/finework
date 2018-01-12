@@ -26,6 +26,7 @@ import com.finework.jsf.common.SequenceController;
 import com.finework.jsf.common.UserInfoController;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -36,6 +37,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
@@ -718,68 +720,83 @@ public class P101Controller extends BaseController {
             LOG.error(ex);
         }
     }
-   /*
+   
     public void printPdfMuti(){
          try {
              List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-             Collections.sort(printSelected, new SysPaymentManufactory());
-             for (SysPaymentManufactory sysPaymentManufactory : printSelected) {
+             Collections.sort(printSelected, new SysManufactory());
+             for (SysManufactory sysManufactory : printSelected) {
                     ReportUtil report = new ReportUtil();
                     List reportList_ = new ArrayList<>();
                     List<FactoryReportBean> reportList_main = new ArrayList<>();
                     List<FactoryReportBean> reportList = new ArrayList<>();
-                    SysPaymentManufactory rpt_sysManufactory = paymentManufactoryFacade.findByPK(sysPaymentManufactory.getPaymentFactoryId());
+                    SysManufactory rpt_sysManufactory=manufactoryFacade.findByPK(sysManufactory.getFactoryId());
 
-                    int intRunningNo = 1;
-                    List<SysPaymentManufactoryDetail> list = rpt_sysManufactory.getSysPaymentManufactoryDetailList();
-                    for (SysPaymentManufactoryDetail to : list) {
+                    int intRunningNo=1;
+                    Double total_target=0.0;
+                    List<SysManufactoryDetail> list = rpt_sysManufactory.getSysManufactoryDetailList();
+                    for (SysManufactoryDetail to : list) {
                         FactoryReportBean bean = new FactoryReportBean();
                         bean.setSeq(String.valueOf(intRunningNo++));
-                        bean.setDetail(to.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getManufacturingDesc());
-                        Double volumn = 0.0, priceUnit = 0.0;
-                        volumn = null != to.getFactoryRealId().getVolumeReal() ? to.getFactoryRealId().getVolumeReal() : 0.0;
-                        priceUnit = null != to.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getUnitPrice() ? to.getFactoryRealId().getManufactoryDetailId().getManufacturingId().getUnitPrice() : 0.0;
+                        String calculateType="";
+                        if (null != to.getManufacturingId().getCalculateType()) {
+                            switch (to.getManufacturingId().getCalculateType()) {
+                                case 1:
+                                    calculateType = Constants.CALCULATE_QUANTITY;
+                                    break;
+                                case 2:
+                                    calculateType = Constants.CALCULATE_LENGTH;
+                                    break;
+                                default:
+                                    calculateType = Constants.CALCULATE_SET;
+                                    break;
+                            }
+                        }
 
-                        bean.setVolumn(NumberUtils.numberFormat(volumn, "#,##0.00"));
-                        bean.setUnit(null != to.getFactoryRealId().getManufactoryDetailId().getUnit() ? to.getFactoryRealId().getManufactoryDetailId().getUnit() : "");
-                        bean.setPriceUnit(NumberUtils.numberFormat(priceUnit, "#,##0.00"));
-                        bean.setPriceTotal(NumberUtils.numberFormat(volumn * priceUnit, "#,##0.00"));
+                        String detail=to.getManufacturingId().getManufacturingDesc()+" <strong><u>*("+calculateType+")</u></strong>";
+                        if(2== to.getManufacturingId().getCalculateType()){
+                            detail=detail+"<strong><u>("+NumberUtils.numberFormat(to.getLength(), "#,##0.00")+")</u></strong>";
+                           //detail="<style isBold='true' isUnderline='true'> (" +to.getManufacturingId().getManufacturingDesc()+NumberUtils.numberFormat(to.getLength(), "#,##0.00") + ")</style>";
+                        }
+
+                        bean.setDetail(detail);
+                        bean.setPlot(null!=to.getPlot()?to.getPlot():"");
+                        bean.setWorkunit(null!=to.getWorkunitId()?to.getWorkunitId().getWorkunitName():"");
+                        Double volumn_target=0.0;
+                        volumn_target=null!=to.getVolumeTarget()?to.getVolumeTarget():0.0;
+                        total_target=total_target+volumn_target;
+                        bean.setVolumnTarget(NumberUtils.numberFormat(volumn_target, "#,##0.00"));
 
                         reportList.add(bean);
                     }
-                    reportList_main.add(new FactoryReportBean("", "", "", "", "", "", "", "", "", ""));
+                    reportList_main.add(new FactoryReportBean("", "", "", "",""));
                     reportList_.add(reportList_main);
                     reportList_.add(reportList);
                     HashMap map = new HashMap();
-                    SysOrganization org = organizationFacade.findSysOrganizationByStatus("Y");
-                    map.put("org_name_th", org.getOrgNameTh());
-                    map.put("org_name_eng", org.getOrgNameEng());
-                    map.put("org_address_th", org.getOrgAddressTh());
-                    map.put("org_address_en", org.getOrgAddressEn());
-                    map.put("org_tel", org.getOrgTel());
-                    map.put("org_branch", org.getOrgBranch());
-                    map.put("org_taxid", org.getOrgTax());
-                    map.put("org_bank", org.getOrgBank());
-                    map.put("org_bank_name", org.getOrgBankName());
-                    map.put("org_recall", org.getOrgRecall());
+                    SysOrganization org= organizationFacade.findSysOrganizationByStatus("Y");
+                    map.put("org_name_th",org.getOrgNameTh());
+                    map.put("org_name_eng",org.getOrgNameEng());
+                    map.put("org_address_th",org.getOrgAddressTh());
+                    map.put("org_address_en",org.getOrgAddressEn());
+                    map.put("org_tel",org.getOrgTel());
+                    map.put("org_branch",org.getOrgBranch());
+                    map.put("org_taxid",org.getOrgTax());
+                    map.put("org_bank",org.getOrgBank());
+                    map.put("org_bank_name",org.getOrgBankName());
+                    map.put("org_recall",org.getOrgRecall());
 
-                    map.put("documentno", rpt_sysManufactory.getDocumentNo());
-                    map.put("contractor_name", rpt_sysManufactory.getContractorId().getContractorNameTh());
-                    map.put("contractor_address", rpt_sysManufactory.getContractorId().getContractorAddress());
-                    map.put("send_date", DateTimeUtil.cvtDateForShow(rpt_sysManufactory.getFactoryDate(), "dd/MM/yyyy", new Locale("th", "TH")));
-                    map.put("taxid", null != rpt_sysManufactory.getContractorId().getTaxId() ? rpt_sysManufactory.getContractorId().getTaxId() : "-");
-                    map.put("remark", StringUtils.isNotBlank(rpt_sysManufactory.getRemark()) ? rpt_sysManufactory.getRemark() : "...........................................................................................................................................");
+                    map.put("documentno",rpt_sysManufactory.getDocumentno());
+                    map.put("producer",userInfo.getAdminUser().getFirstName()+" "+userInfo.getAdminUser().getLastName());
+                    map.put("contractor_name",rpt_sysManufactory.getContractorId().getContractorNameTh());
+                    map.put("contractor_address",rpt_sysManufactory.getContractorId().getContractorAddress());
+                    map.put("send_date",DateTimeUtil.cvtDateForShow(rpt_sysManufactory.getFactoryDate(), "dd/MM/yyyy", new Locale("th", "TH")));
+                    map.put("taxid",null!=rpt_sysManufactory.getContractorId().getTaxId()?rpt_sysManufactory.getContractorId().getTaxId():"-");
+                    map.put("remark",StringUtils.isNotBlank(rpt_sysManufactory.getRemark())?rpt_sysManufactory.getRemark():"...........................................................................................................................................");
 
-                    map.put("total", NumberUtils.numberFormat(rpt_sysManufactory.getFacTotal(), "#,##0.00"));
-                    map.put("total_vat", NumberUtils.numberFormat(rpt_sysManufactory.getFacVat(), "#,##0.00"));
-                    map.put("total_volume", NumberUtils.numberFormat(rpt_sysManufactory.getFacVolume(), "#,##0.00"));
-                    map.put("total_divide_equipment", NumberUtils.numberFormat(rpt_sysManufactory.getFacDivideEquipment(), "#,##0.00"));
-                    map.put("total_ream", NumberUtils.numberFormat(rpt_sysManufactory.getFacReam(), "#,##0.00"));
-                    map.put("total_net", NumberUtils.numberFormat(rpt_sysManufactory.getFacNet(), "#,##0.00"));
-                    map.put("price_char", (rpt_sysManufactory.getFacNet() == 0.0 ? "" : new ThaiBaht().getText(rpt_sysManufactory.getFacNet())));
+                    map.put("total_target",NumberUtils.numberFormat(total_target,"#,##0.00"));
 
-                    map.put("reportCode", "P104");
-                    JasperPrint print= report.exportSubReport_Template_mearge("template.jpg","p105", new String[]{"P104Report","P104SubReport"}, "P104", map, reportList_);
+                    map.put("reportCode", "P101");
+                    JasperPrint print= report.exportSubReport_Template_mearge("template.jpg","p101", new String[]{"P101Report","P101SubReport"}, "ManuFactory1", map, reportList_);
                     jasperPrintList.add(print);
                     
                     //add print form
@@ -792,7 +809,7 @@ public class P101Controller extends BaseController {
 
              }
              if(!printSelected.isEmpty()){
-                String pdfCode="P104";
+                String pdfCode="P101";
                 String pdfName = pdfCode.concat("-").concat(DateTimeUtil.dateToString(DateTimeUtil.currentDate(), "yyyyMMddHHmmss"));
                 ReportUtil report = new ReportUtil();
                 report.exportMearge(pdfName,jasperPrintList);
@@ -803,9 +820,6 @@ public class P101Controller extends BaseController {
             LOG.error(ex);
         }
     }
-   
-   */
-   
    
     
       public String convertPriceToString(Double totalprice){

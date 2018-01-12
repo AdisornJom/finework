@@ -40,7 +40,7 @@
 				<textFieldExpression><![CDATA[$F{priceTotal}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="123" y="0" width="215" height="20" isRemoveLineWhenBlank="true" uuid="cc1ee65c-4aad-4ba7-8198-66c0b4fb4800"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="123" y="0" width="163" height="20" isRemoveLineWhenBlank="true" uuid="cc1ee65c-4aad-4ba7-8198-66c0b4fb4800"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -122,6 +122,20 @@
 					<font fontName="Tahoma"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{volumn}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" evaluationTime="Band">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="286" y="0" width="52" height="20" isPrintWhenDetailOverflows="true" uuid="b47ccd2a-00a9-4163-aa87-25888c4e7e07"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{convertno}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
