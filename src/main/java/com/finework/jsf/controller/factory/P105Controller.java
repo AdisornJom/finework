@@ -305,13 +305,22 @@ public class P105Controller extends BaseController {
                 sysPaymentDetail_.setPaymentFactoryId(selected);
                 detal_add.add(sysPaymentDetail_);
                 
+//               manufactoryFacade.updateStatusSysManufactoryRealByfactoryRealId(2,sysPaymentDetail_.getFactoryRealId().getFactoryRealId());
+//               SysManufactoryReal sysManufactoryReal=sysPaymentDetail_.getFactoryRealId(); 
+//               sysManufactoryReal.setStatus(2);
+//               manufactoryFacade.editSysManufactoryReal(sysManufactoryReal);
+            }
+            selected.setSysPaymentManufactoryDetailList(detal_add);
+            
+             //update
+            for(SysPaymentManufactoryDetail sysPaymentDetail_:selected.getSysPaymentManufactoryDetailList()){
                 manufactoryFacade.updateStatusSysManufactoryRealByfactoryRealId(2,sysPaymentDetail_.getFactoryRealId().getFactoryRealId());
 //               SysManufactoryReal sysManufactoryReal=sysPaymentDetail_.getFactoryRealId(); 
 //               sysManufactoryReal.setStatus(2);
 //               manufactoryFacade.editSysManufactoryReal(sysManufactoryReal);
             }
             
-            selected.setSysPaymentManufactoryDetailList(detal_add);
+            
             
     //========================================================================================================================        
             
