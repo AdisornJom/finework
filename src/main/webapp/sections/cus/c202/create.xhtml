@@ -8,9 +8,9 @@
 
     <p:panel header="#{msgs['menu.master.create.C202']}">
         <h:form id="listForm">
-            
+
             <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
-            
+
             <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
                 <h:panelGroup>
                     <font class="require">*</font>
@@ -36,7 +36,7 @@
                             <h:panelGroup>
                                 <p:inputText id="item_name_en" value="#{c202Controller.selected.customerNameEn}" style="width: 430px;"/>
                             </h:panelGroup>
-                            
+
                             <h:panelGroup>
                                 <p:outputLabel for="address" value="#{msgs['c202.customer.addr']} :" />
                                 <font class="require">*</font>
@@ -44,24 +44,33 @@
                             <h:panelGroup>
                                 <p:inputTextarea id="address" value="#{c202Controller.selected.customerAddress}" cols="50" rows="4" maxlength="250" style="width: 430px;"/>
                             </h:panelGroup>
-                            
-                             <h:panelGroup>
+
+                            <h:panelGroup>
                                 <p:outputLabel for="branch" value="สาขา :" />
                                 <font class="require">*</font>
                             </h:panelGroup>
                             <h:panelGroup>
                                 <p:inputText id="branch" value="#{c202Controller.selected.branch}" style="width: 430px;"/>
                             </h:panelGroup>
-                            
-                             <h:panelGroup>
+
+                            <h:panelGroup>
                                 <p:outputLabel for="taxid" value="Tax ID :" />
                                 <font class="require">*</font>
                             </h:panelGroup>
                             <h:panelGroup>
                                 <p:inputMask id="taxid" value="#{c202Controller.selected.taxId}" mask="9-9999-99999-99-9" style="width: 430px;"/>
                             </h:panelGroup>
-                            
-                           
+
+                            <h:panelGroup>
+                                <p:outputLabel for="types" value="ประเภท :" />
+                                <font class="require" style="color: red">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:selectOneRadio  id="types" value="#{c202Controller.selected.customerType}">
+                                    <f:selectItem itemLabel="นิติบุคคล" itemValue="1" />
+                                    <f:selectItem itemLabel="บุคคลธรรมดา" itemValue="2" />
+                                </p:selectOneRadio>
+                            </h:panelGroup>
                         </p:panelGrid>
                     </div>
 

@@ -37,6 +37,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class SysCustomer implements Serializable {
 
     @OneToMany(mappedBy = "customerId")
+    private List<SysWht> sysWhtList;
+
+    @OneToMany(mappedBy = "customerId")
     private List<SysBilling> sysBillingList;
 
     @OneToMany(mappedBy = "customerId")
@@ -63,6 +66,8 @@ public class SysCustomer implements Serializable {
     @Size(max = 20)
     @Column(name = "tax_id")
     private String taxId;
+    @Column(name = "customer_type")
+    private Integer customerType;
     @Basic(optional = false)
     //@NotNull
     @Size(min = 1, max = 1)
@@ -222,6 +227,23 @@ public class SysCustomer implements Serializable {
 
     public void setTaxId(String taxId) {
         this.taxId = taxId;
+    }
+
+    @XmlTransient
+    public List<SysWht> getSysWhtList() {
+        return sysWhtList;
+    }
+
+    public void setSysWhtList(List<SysWht> sysWhtList) {
+        this.sysWhtList = sysWhtList;
+    }
+
+    public Integer getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(Integer customerType) {
+        this.customerType = customerType;
     }
 
 

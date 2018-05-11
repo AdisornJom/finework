@@ -32,6 +32,8 @@ public class ComboController extends BaseController {
     private List<SelectItem> carTypes;
     private List<SelectItem> extraIncome;
     private List<SelectItem> extraIncomenovat;
+    private List<SelectItem> whtTypes;
+    private List<SelectItem> paymentOuts;
 
     @PostConstruct
     @Override
@@ -67,6 +69,20 @@ public class ComboController extends BaseController {
             if(null!=seleteItems_extraIncomenovat && seleteItems_extraIncomenovat.size()>0){
                 for(SysSeleteitem detail:seleteItems_extraIncomenovat)
                     extraIncomenovat.add(new SelectItem(detail.getTypeKey(),detail.getTypeName()));
+            }
+            
+            List<SysSeleteitem> seleteItems_wht= comboFacade.findSysSeleteitemByCriteria("whtTypes");
+            whtTypes = new ArrayList<>();
+            if(null!=seleteItems_wht && seleteItems_wht.size()>0){
+                for(SysSeleteitem detail:seleteItems_wht)
+                    whtTypes.add(new SelectItem(detail.getTypeKey(),detail.getTypeName()));
+            }
+            
+            List<SysSeleteitem> seleteItems_whtPay= comboFacade.findSysSeleteitemByCriteria("whtPaymentouts");
+            paymentOuts = new ArrayList<>();
+            if(null!=seleteItems_whtPay && seleteItems_whtPay.size()>0){
+                for(SysSeleteitem detail:seleteItems_whtPay)
+                    paymentOuts.add(new SelectItem(detail.getTypeKey(),detail.getTypeName()));
             }
         } catch (Exception ex) {
             LOG.error(ex);
@@ -121,5 +137,22 @@ public class ComboController extends BaseController {
         this.extraIncomenovat = extraIncomenovat;
     }
 
+    public List<SelectItem> getWhtTypes() {
+        return whtTypes;
+    }
+
+    public void setWhtTypes(List<SelectItem> whtTypes) {
+        this.whtTypes = whtTypes;
+    }
+
+    public List<SelectItem> getPaymentOuts() {
+        return paymentOuts;
+    }
+
+    public void setPaymentOuts(List<SelectItem> paymentOuts) {
+        this.paymentOuts = paymentOuts;
+    }
+
+  
    
 }

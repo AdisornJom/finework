@@ -77,6 +77,11 @@ public class C202Controller extends BaseController {
                 RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
                 return;
             }
+            if (null == selected.getCustomerType()) {
+                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ประเภท"));
+                RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                return;
+            }
             selected.setStatus("Y");
             selected.setCreatedBy(userInfo.getAdminUser().getUsername());
             selected.setCreatedDt(DateTimeUtil.getSystemDate());
@@ -110,7 +115,12 @@ public class C202Controller extends BaseController {
                 JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.2001"));
                 RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
                 return;
-            };
+            }
+            if (null == selected.getCustomerType()) {
+                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ประเภท"));
+                RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                return;
+            }
             selected.setModifiedBy(userInfo.getAdminUser().getUsername());
             selected.setModifiedDt(DateTimeUtil.getSystemDate());
             customFacade.editSysCustomer(selected);

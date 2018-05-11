@@ -4,37 +4,25 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core">
-   <style>
-       .ui-autocomplete-input{ 
-            width: 210px;
-        }
-       .comboColumn {
-            width: 250px;
-       }
-    </style>
-    <p:panel header="B204 - ใบลดหนี้">
+
+    <p:panel header="W101 - หักภาษี ณ ที่จ่าย">
 
         <p:toolbar style="margin-bottom: 3px;">
             <f:facet name="left" >
                 <h:form>
                     <h:panelGrid cellpadding="1" cellspacing="1">
-                       <h:panelGroup>
                         <p:commandButton styleClass="search-btn" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" update=":content" 
-                                         actionListener="#{b204Controller.prepareCreate('billing/b204/create')}"/>
-                       </h:panelGroup>
+                                         actionListener="#{w101Controller.prepareCreate('wht/w101/create')}"/>
                     </h:panelGrid>
                 </h:form>
             </f:facet>
              <f:facet name="right" >
                 <h:form id="rToolbarForm">
-                    <h:panelGrid columnClasses="col1,col2,col1,comboColumn,col1,col2" border="0" columns="10" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
-                        <p:outputLabel value="เลขที่ ："/>
-                        <p:inputText value="#{b204Controller.documentno}"/>
-                        
+                    <h:panelGrid columnClasses="col1,col2,col1,col2,col1,col2" border="0" columns="10" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
                         <p:outputLabel value="ชื่อลูกค้า ："/>
                         <h:panelGroup>
-                            <p:autoComplete id="custNamefind" dropdown="true" value="#{b204Controller.cust_find}" 
-                                                     completeMethod="#{b204Controller.completeCustomer}" 
+                            <p:autoComplete id="custNamefind" dropdown="true" value="#{w101Controller.cust_find}" 
+                                                     completeMethod="#{w101Controller.completeCustomer}" 
                                                      var="cust_find" itemLabel="#{cust_find.customerNameTh}" 
                                                      itemValue="#{cust_find}" 
                                                      converter="#{customerConverter}"
@@ -46,15 +34,13 @@
                         </h:panelGroup>
                         
                         <p:outputLabel value="วันที่ทำรายการ ："/>
-                        <p:calendar id="startDate" value="#{b204Controller.startDate}" binding="#{bindingController.calendar}" 
-                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+                        <p:calendar binding="#{bindingController.calendar}" value="#{w101Controller.startDate}" size="10"/>
 
                         <p:outputLabel value="ถึง ："/>
-                        <p:calendar id="toDate" value="#{b204Controller.toDate}" binding="#{bindingController.calendar}" 
-                                pattern="dd-MM-yyyy HH:mm"  size="16" requiredMessage="#{msgs['messages.code.1022']}" timeControlType="select"/>
+                        <p:calendar binding="#{bindingController.calendar}" value="#{w101Controller.toDate}" size="10"/>
 
                         <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
-                                        actionListener="${b204Controller.search()}" styleClass="search-btn" update=":content"/>
+                                        actionListener="${w101Controller.search()}" styleClass="search-btn" update=":content"/>
                     </h:panelGrid>
                 </h:form>
             </f:facet>

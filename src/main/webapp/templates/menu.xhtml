@@ -96,6 +96,10 @@
                  <p:menuitem value="R110 - สรุปรายการผลิตตามโครงการ"  actionListener="#{naviController.next('report/r110/index','r110Controller','R110 - สรุปรายการผลิตตามโครงการ')}" ajax="false"/>
                  <p:menuitem value="R111 - สรุปรายการผลติตามผู้ควบคุมงาน(โฟร์แมน)"  actionListener="#{naviController.next('report/r111/index','r111Controller','R111 - สรุปรายการผลติตามผู้ควบคุมงาน(โฟร์แมน)')}" ajax="false"/>
             </p:submenu>
+            
+            <p:submenu label="ภาษี" icon="fa fa-balance-scale" >
+                 <p:menuitem value="W101 - หักภาษี ณ ที่จ่าย"  actionListener="#{naviController.next('wht/w101/index','W101Controller','W101 - หักภาษี ณ ที่จ่าย')}" ajax="false"/>
+            </p:submenu>
 
             <p:submenu label="#{msgs['menu.admin']}" icon="fa fa-users" rendered="#{p:ifGranted('ROLE_ADMIN')}">
                 <p:menuitem value="#{msgs['menu.admin.a201']}" actionListener="#{naviController.next('admin/a201/index','a201Controller','A201 - รายการเจ้าหน้าที่')}" update=":content"/>
