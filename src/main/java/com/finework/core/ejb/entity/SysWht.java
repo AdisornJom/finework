@@ -6,6 +6,7 @@
 package com.finework.core.ejb.entity;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -37,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SysWht.findAll", query = "SELECT s FROM SysWht s")})
-public class SysWht implements Serializable {
+public class SysWht implements Serializable, Comparator<SysWht> {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -259,6 +260,11 @@ public class SysWht implements Serializable {
     @Override
     public String toString() {
         return "com.finework.core.ejb.entity.SysWht[ whtId=" + whtId + " ]";
+    }
+
+    @Override
+    public int compare(SysWht o1, SysWht o2) {
+         return o2.getWhtId().compareTo(o1.getWhtId());
     }
     
 }

@@ -21,6 +21,7 @@ import com.finework.jsf.common.UserInfoController;
 import com.finework.jsf.controller.billing.BillingReportBean;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
@@ -350,8 +352,94 @@ public class W101Controller extends BaseController {
         }
     }
 
+    
     public void printPdfMuti(){
+        try{
+            List<JasperPrint> jasperPrintList = new ArrayList<>();
+            Collections.sort(printSelected, new SysWht());
+            FacesContext context = FacesContext.getCurrentInstance();
+            ServletContext servletContext = (ServletContext) context.getExternalContext().getContext();
+            for (SysWht sysWht : printSelected) {
+                ReportUtil report = new ReportUtil();
+                HashMap map = new HashMap();
+                SysOrganization org = organizationFacade.findSysOrganizationByStatus("Y");
+                SysWht rpt_sysWht = whtFacade.findByPK(sysWht.getWhtId());
 
+                map.put("BASE_WEB", servletContext.getRealPath(""));
+
+                map.put("wht_month_date", null != rpt_sysWht.getBookNumber() ? rpt_sysWht.getBookNumber() : "");
+                map.put("document_no", null != rpt_sysWht.getDocumentno() ? rpt_sysWht.getDocumentno() : "");
+
+                map.put("org_name", org.getOrgNameTh());
+                map.put("orginfo_taxid", org.getOrgTax().replaceAll("\\-", ""));
+                map.put("org_addr", org.getOrgAddressTh());
+
+                map.put("partner_name", rpt_sysWht.getCustomerId().getCustomerNameTh());
+                map.put("partner_taxid", rpt_sysWht.getCustomerId().getTaxId().replaceAll("\\-", ""));
+                map.put("partner_addr", rpt_sysWht.getCustomerId().getCustomerAddress());
+                map.put("partner_type", rpt_sysWht.getPndType());
+
+                for (SysWhtDetail sysDetail : rpt_sysWht.getSysWhtDetailList()) {
+                    if (Objects.equals(sysDetail.getMoneyType(), 1)) {
+                        map.put("V5_1_1", DateTimeUtil.cvtDateForShow(sysDetail.getDateType(), "dd/MM/yy", new Locale("th", "TH")));
+                        map.put("V5_1_2", NumberUtils.numberFormat(sysDetail.getAmount(), "#,##0.00"));
+                        map.put("V5_1_3", NumberUtils.numberFormat(sysDetail.getAmountVat(), "#,##0.00"));
+                    } else if (Objects.equals(sysDetail.getMoneyType(), 2)) {
+                        map.put("V5_2_1", DateTimeUtil.cvtDateForShow(sysDetail.getDateType(), "dd/MM/yy", new Locale("th", "TH")));
+                        map.put("V5_2_2", NumberUtils.numberFormat(sysDetail.getAmount(), "#,##0.00"));
+                        map.put("V5_2_3", NumberUtils.numberFormat(sysDetail.getAmountVat(), "#,##0.00"));
+                    } else if (Objects.equals(sysDetail.getMoneyType(), 3)) {
+                        map.put("V5_3_1", DateTimeUtil.cvtDateForShow(sysDetail.getDateType(), "dd/MM/yy", new Locale("th", "TH")));
+                        map.put("V5_3_2", NumberUtils.numberFormat(sysDetail.getAmount(), "#,##0.00"));
+                        map.put("V5_3_3", NumberUtils.numberFormat(sysDetail.getAmountVat(), "#,##0.00"));
+                    } else if (Objects.equals(sysDetail.getMoneyType(), 4)) {
+                        map.put("V5_4_1", DateTimeUtil.cvtDateForShow(sysDetail.getDateType(), "dd/MM/yy", new Locale("th", "TH")));
+                        map.put("V5_4_2", NumberUtils.numberFormat(sysDetail.getAmount(), "#,##0.00"));
+                        map.put("V5_4_3", NumberUtils.numberFormat(sysDetail.getAmount(), "#,##0.00"));
+                    } else if (Objects.equals(sysDetail.getMoneyType(), 5)) {
+                        map.put("V5_5_1", DateTimeUtil.cvtDateForShow(sysDetail.getDateType(), "dd/MM/yy", new Locale("th", "TH")));
+                        map.put("V5_5_2", NumberUtils.numberFormat(sysDetail.getAmount(), "#,##0.00"));
+                        map.put("V5_5_3", NumberUtils.numberFormat(sysDetail.getAmountVat(), "#,##0.00"));
+                    } else if (Objects.equals(sysDetail.getMoneyType(), 6)) {
+                        map.put("V5_6_1", DateTimeUtil.cvtDateForShow(sysDetail.getDateType(), "dd/MM/yy", new Locale("th", "TH")));
+                        map.put("V5_6_2", NumberUtils.numberFormat(sysDetail.getAmount(), "#,##0.00"));
+                        map.put("V5_6_3", NumberUtils.numberFormat(sysDetail.getAmountVat(), "#,##0.00"));
+                    } else if (Objects.equals(sysDetail.getMoneyType(), 7)) {
+                        map.put("V5_7_1", DateTimeUtil.cvtDateForShow(sysDetail.getDateType(), "dd/MM/yy", new Locale("th", "TH")));
+                        map.put("other", null != sysDetail.getMeneyDesc() ? sysDetail.getMeneyDesc() : "");
+                        map.put("V5_7_2", NumberUtils.numberFormat(sysDetail.getAmount(), "#,##0.00"));
+                        map.put("V5_7_3", NumberUtils.numberFormat(sysDetail.getAmountVat(), "#,##0.00"));
+                    }
+                }
+                map.put("total1", NumberUtils.numberFormat(rpt_sysWht.getWhtTotal(), "#,##0.00"));
+                map.put("total2", NumberUtils.numberFormat(rpt_sysWht.getWhtVat(), "#,##0.00"));
+                map.put("txttotal", convertPriceToString(rpt_sysWht.getWhtVatTotal()));
+                map.put("payment_out_status", String.valueOf(rpt_sysWht.getPaymentOutStatus()));
+                map.put("payment_other", null != rpt_sysWht.getPaymentOutDesc() ? rpt_sysWht.getPaymentOutDesc() : "");
+                map.put("date_dd", DateTimeUtil.cvtDateForShow(rpt_sysWht.getWhtDate(), "dd", new Locale("th", "TH")));
+                map.put("date_mm", DateTimeUtil.cvtDateForShow(rpt_sysWht.getWhtDate(), "MM", new Locale("th", "TH")));
+                map.put("date_yyyy", DateTimeUtil.cvtDateForShow(rpt_sysWht.getWhtDate(), "yyyy", new Locale("th", "TH")));
+
+                List reportList_ = new ArrayList<>();
+                List<BillingReportBean> reportList_main = new ArrayList<>();
+                reportList_main.add(new BillingReportBean("", "", "", "", "", "", "", "", "", "", "", ""));
+                reportList_.add(reportList_main);
+                
+                map.put("reportCode", "W101");
+                JasperPrint print= report.exportWHT_mearge("w101", "50TV", "WHT", map, reportList_);
+                jasperPrintList.add(print);
+            }
+            if (!printSelected.isEmpty()) {
+                String pdfCode = "WHT";
+                String pdfName = pdfCode.concat("-").concat(DateTimeUtil.dateToString(DateTimeUtil.currentDate(), "yyyyMMddHHmmss"));
+                ReportUtil report = new ReportUtil();
+                report.exportMearge(pdfName, jasperPrintList);
+            }
+            init();
+        } catch (Exception ex) {
+            JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
+            LOG.error(ex);
+        }
     }
     
     public void search() {
