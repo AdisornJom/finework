@@ -93,7 +93,7 @@ public class B202Controller extends BaseController {
     private SysWorkunit workunit_selected;
     private SysDetail detail_selected;
    
-    private int draftNo;
+    private Double draftNo;
    
     @PostConstruct
     @Override
@@ -282,7 +282,7 @@ public class B202Controller extends BaseController {
 
              billingFacade.createSysBilling(selected);
             }
-             this.draftNo=0;
+             this.draftNo=0.0;
              clearData();
              clearDatatTotal();
              search();
@@ -921,12 +921,13 @@ public class B202Controller extends BaseController {
         this.printSelected = printSelected;
     }
 
-    public int getDraftNo() {
+    public Double getDraftNo() {
         return draftNo;
     }
 
-    public void setDraftNo(int draftNo) {
+    public void setDraftNo(Double draftNo) {
         this.draftNo = draftNo;
     }
-    
+
+       
 }

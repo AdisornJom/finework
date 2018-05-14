@@ -90,7 +90,7 @@ public class B201Controller extends BaseController {
     private Double realTotalPrice;
     private String total_th;
     
-    private int draftNo;
+    private Double draftNo;
     
     
     //auto complete
@@ -287,7 +287,7 @@ public class B201Controller extends BaseController {
 
              billingFacade.createSysBilling(selected);
             }
-             this.draftNo=0;
+             this.draftNo=0.0;
              clearData();
              clearDatatTotal();
              search();
@@ -929,15 +929,13 @@ public class B201Controller extends BaseController {
         this.printSelected = printSelected;
     }
 
-    public int getDraftNo() {
+    public Double getDraftNo() {
         return draftNo;
     }
 
-    public void setDraftNo(int draftNo) {
+    public void setDraftNo(Double draftNo) {
         this.draftNo = draftNo;
     }
-
-   
 
    
 }
