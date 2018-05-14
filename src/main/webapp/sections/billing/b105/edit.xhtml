@@ -196,9 +196,13 @@
                           <p:outputLabel value="ส่วนลด ：" style="float:right;"/>
                       </h:panelGroup>
                       <h:panelGroup>
-                          <pe:inputNumber decimalPlaces="2" value="#{b105Controller.total_discount}" minValue="-999999999"  emptyValue="0.00" styleClass="lb_bold" style="width: 20px;">
+                          <pe:inputNumber decimalPlaces="2" value="#{b105Controller.total_discount}" minValue="-999999999"  emptyValue="0.00" 
+                                          styleClass="lb_bold" style="width: 20px;" rendered="false">
                               <p:ajax event="blur" listener="#{b105Controller.checkTotalPrice()}" update=":content" global="false" />
                           </pe:inputNumber>
+                          <p:inputNumber value="#{b105Controller.total_discount}" minValue="-999999999" inputStyle="text-align: right;width:152px;" >
+                              <p:ajax event="blur" listener="#{b105Controller.checkTotalPrice()}" update=":content" global="false" />
+                          </p:inputNumber>
                       </h:panelGroup>
                       <h:panelGroup/> 
                       
@@ -232,6 +236,9 @@
                           <pe:inputNumber decimalPlaces="2" value="#{b105Controller.realTotalPrice}" minValue="-999999999" emptyValue="0.00"  styleClass="lb_bold" style="width: 20px;" >
                                <p:ajax event="blur" listener="#{b105Controller.checkRealTotalPrice()}" update=":content" global="false" />
                           </pe:inputNumber>
+                           <p:inputNumber value="#{b105Controller.realTotalPrice}" minValue="-999999999" inputStyle="text-align: right;width:152px;" >
+                              <p:ajax event="blur" listener="#{b105Controller.checkRealTotalPrice()}" update=":content" global="false" />
+                          </p:inputNumber>
                       </h:panelGroup>
                      <h:panelGroup/> 
                         

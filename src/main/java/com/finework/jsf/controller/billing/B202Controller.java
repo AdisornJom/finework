@@ -122,7 +122,7 @@ public class B202Controller extends BaseController {
     public void prepareCreate(String page) {
         selected = new SysBilling();
         blDetail_selected=new SysBillingDetail();
-//        runningNoCustomer();
+        clearDatatTotal();
         next(page);
     }
     
@@ -146,7 +146,6 @@ public class B202Controller extends BaseController {
     
     public void cancel(String path) {
         clearData();
-        this.total_discount=0.00;
         clearDatatTotal();
         search();
         next(path);

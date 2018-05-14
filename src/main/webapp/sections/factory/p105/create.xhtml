@@ -235,9 +235,13 @@
                           <p:outputLabel value="หักเบิก ：" style="float:right;"/>
                       </h:panelGroup>
                       <h:panelGroup rendered="false">
-                            <pe:inputNumber decimalPlaces="2" value="#{p105Controller.total_ream}"  emptyValue="0.00" styleClass="lb_bold" style="width: 20px;">
+                          <pe:inputNumber decimalPlaces="2" value="#{p105Controller.total_ream}"  emptyValue="0.00" styleClass="lb_bold" style="width: 20px;" rendered="false">
                               <p:ajax event="blur" listener="#{p105Controller.checkRealTotalPrice()}" update="listForm:footer_itemDetail listForm:footer_itemDetail_last" global="false" />
                           </pe:inputNumber>
+                          
+                          <p:inputNumber value="#{p105Controller.total_ream}" minValue="0" inputStyle="text-align: right;width:152px;" >
+                              <p:ajax event="blur" listener="#{p105Controller.checkRealTotalPrice()}" update="listForm:footer_itemDetail listForm:footer_itemDetail_last" global="false" />
+                          </p:inputNumber>
                       </h:panelGroup>
                      <h:panelGroup/> 
                      

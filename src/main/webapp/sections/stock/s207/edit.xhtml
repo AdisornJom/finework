@@ -78,21 +78,24 @@
                                 <p:outputLabel value="กระบะกว้าง :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carWidth}"  emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carWidth}"  emptyValue="0.00"  thousandSeparator=","  rendered="false"/>
+                                <p:inputNumber value="#{s207Controller.selected.carWidth}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                             <h:panelGroup>
                                 <p:outputLabel  value="กระบะยาว :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carLength}"  emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carLength}"  emptyValue="0.00"  thousandSeparator=","  rendered="false"/>
+                                <p:inputNumber value="#{s207Controller.selected.carLength}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
 
                             <h:panelGroup>
                                 <p:outputLabel  value="กระบะสูง :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carHeight}"  emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carHeight}"  emptyValue="0.00"  thousandSeparator=","  rendered="false"/>
+                                <p:inputNumber value="#{s207Controller.selected.carHeight}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>   
                             
                             <h:panelGroup>
@@ -111,7 +114,8 @@
                                  <font class="require">*</font>
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carWeight}"  emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carWeight}"  emptyValue="0.00"  thousandSeparator=","  rendered="false"/>
+                                <p:inputNumber value="#{s207Controller.selected.carWeight}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                             <h:panelGroup>
@@ -119,7 +123,8 @@
                                  <font class="require">*</font>
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carLoading}"  emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carLoading}"  emptyValue="0.00"  thousandSeparator=","  rendered="false"/>
+                                <p:inputNumber value="#{s207Controller.selected.carLoading}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
 
                             <h:panelGroup>
@@ -127,7 +132,8 @@
                                  <font class="require">*</font>
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carActualWeight}"  emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  decimalPlaces="2" value="#{s207Controller.selected.carActualWeight}"  emptyValue="0.00"  thousandSeparator=","  rendered="false"/>
+                                <p:inputNumber value="#{s207Controller.selected.carActualWeight}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                              <h:panelGroup>
@@ -156,21 +162,24 @@
                                 <p:outputLabel  value="เหมาต่อเที่ยว :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber id="charterFlights" decimalPlaces="2" value="#{s207Controller.selected.charterFlights}"  minValue="0" emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber id="charterFlights" decimalPlaces="2" value="#{s207Controller.selected.charterFlights}"  minValue="0" emptyValue="0.00"  thousandSeparator="," rendered="false"/>
+                                <p:inputNumber value="#{s207Controller.selected.charterFlights}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                             <h:panelGroup>
                                 <p:outputLabel  value="ขนส่งระยะใกล้ :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  id="transportShort" decimalPlaces="2" value="#{s207Controller.selected.transportShort}"  minValue="0" emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  id="transportShort" decimalPlaces="2" value="#{s207Controller.selected.transportShort}"  minValue="0" emptyValue="0.00"  thousandSeparator=","  rendered="false"/>
+                                <p:inputNumber value="#{s207Controller.selected.transportShort}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                             <h:panelGroup>
                                 <p:outputLabel  value="ขนส่งระยะไกล :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  id="transportLong" decimalPlaces="2" value="#{s207Controller.selected.transportLong}"  minValue="0" emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  id="transportLong" decimalPlaces="2" value="#{s207Controller.selected.transportLong}"  minValue="0" emptyValue="0.00"  thousandSeparator="," rendered="false"/>
+                                <p:inputNumber value="#{s207Controller.selected.transportLong}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                         </p:panelGrid>
                     </div>

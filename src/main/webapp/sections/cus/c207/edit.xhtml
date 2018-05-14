@@ -6,14 +6,14 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:pe="http://primefaces.org/ui/extensions"
                 xmlns:h="http://java.sun.com/jsf/html">
-    
+
     <style>
         .pe-inputNumber {
-           /* text-align: right;*/
+            /* text-align: right;*/
             width: 200px !important;
             font-size: 24px;
         }
-        
+
     </style>
 
     <p:panel header="C207 - แก้ไขข้อมูลพนักงานติดรถ">
@@ -47,15 +47,15 @@
                             <h:panelGroup>
                                 <p:inputText id="item_name_en" value="#{c207Controller.selected.transportstaffNameEn}" style="width: 430px;"/>
                             </h:panelGroup>
-                            
+
                             <h:panelGroup>
                                 <p:outputLabel for="item_nickname_en" value="ชื่อเล่นพนักงานติดรถ :" />
-                                 <font class="require">*</font>
+                                <font class="require">*</font>
                             </h:panelGroup>
                             <h:panelGroup>
                                 <p:inputText id="item_nickname_en" value="#{c207Controller.selected.transportstaffNickname}" style="width: 430px;"/>
                             </h:panelGroup>
-                            
+
                             <h:panelGroup>
                                 <p:outputLabel for="address" value="ที่อยู่พนักงานติดรถ :" />
                                 <font class="require">*</font>
@@ -63,49 +63,52 @@
                             <h:panelGroup>
                                 <p:inputTextarea id="address" value="#{c207Controller.selected.transportstaffAddress}" cols="50" rows="4" maxlength="250" style="width: 430px;"/>
                             </h:panelGroup>
-                            
-                             <h:panelGroup>
+
+                            <h:panelGroup>
                                 <p:outputLabel for="tel" value="เบอร์โทร :" />
                                 <font class="require">*</font>
                             </h:panelGroup>
                             <h:panelGroup>
                                 <p:inputText id="tel" value="#{c207Controller.selected.tel}" style="width: 430px;"/>
                             </h:panelGroup>
-                            
-                             <h:panelGroup>
+
+                            <h:panelGroup>
                                 <p:outputLabel for="taxid" value="Tax ID :" />
                             </h:panelGroup>
                             <h:panelGroup>
                                 <p:inputMask id="taxid" value="#{c207Controller.selected.taxId}" mask="9-9999-99999-99-9" style="width: 430px;"/>
                             </h:panelGroup>
-                            
-                             <h:panelGroup>
+
+                            <h:panelGroup>
                                 <p:outputLabel for="line" value="LINE ID :" />
-                                 <font class="require">*</font>
+                                <font class="require">*</font>
                             </h:panelGroup>
                             <h:panelGroup>
                                 <p:inputText id="line" value="#{c207Controller.selected.transportstaffLineid}" style="width: 430px;"/>
                             </h:panelGroup>
-                            
+
                             <h:panelGroup>
                                 <p:outputLabel  value="รายวัน :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{c207Controller.selected.dailyWage}"  emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  decimalPlaces="2" value="#{c207Controller.selected.dailyWage}"  emptyValue="0.00"  thousandSeparator="," rendered="false" />
+                                <p:inputNumber value="#{c207Controller.selected.dailyWage}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
 
                             <h:panelGroup>
                                 <p:outputLabel  value="เบี้ยเลี้ยง :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{c207Controller.selected.allowance}"  emptyValue="0.00"  thousandSeparator=","   />
+                                <pe:inputNumber  decimalPlaces="2" value="#{c207Controller.selected.allowance}"  emptyValue="0.00"  thousandSeparator=","  rendered="false"  />
+                                <p:inputNumber value="#{c207Controller.selected.allowance}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
 
                             <h:panelGroup>
                                 <p:outputLabel  value="ค่าเช่าบ้าน :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{c207Controller.selected.rentHouse}"  emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  decimalPlaces="2" value="#{c207Controller.selected.rentHouse}"  emptyValue="0.00"  thousandSeparator=","  rendered="false" />
+                                <p:inputNumber value="#{c207Controller.selected.rentHouse}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>      
                         </p:panelGrid>
                     </div>
@@ -150,7 +153,7 @@
             <h:panelGrid columns="2" cellpadding="0" cellspacing="1" style="margin-left: 15px;margin-bottom: 10px;">
                 <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
                                  actionListener="#{c207Controller.edit()}" styleClass="edit-btn" update=":content"/>
-                
+
                 <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" styleClass="clear-btn" update=":content" 
                                  actionListener="#{c207Controller.cancel('cus/c207/index')}"/>
             </h:panelGrid>

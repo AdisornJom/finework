@@ -82,21 +82,24 @@
                                 <p:outputLabel  value="ราคา ณ วันที่รับเข้าสินค้า :" />
                             </h:panelGroup>
                             <h:panelGroup rendered="false">
-                                <pe:inputNumber decimalPlaces="2" value="#{i101Controller.selected.price}"  emptyValue="0.00" styleClass="lb_bold"/>
+                                <pe:inputNumber decimalPlaces="2" value="#{i101Controller.selected.price}"  emptyValue="0.00" styleClass="lb_bold" rendered="false"/>
+                                <p:inputNumber value="#{i101Controller.selected.price}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                             <h:panelGroup >
                                 <p:outputLabel  value="น้ำหนัก(กิโลกรัม) :" />
                             </h:panelGroup>
                             <h:panelGroup >
-                                <pe:inputNumber decimalPlaces="2" value="#{i101Controller.selected.weightKg}"  emptyValue="0.00"  thousandSeparator=","  styleClass="lb_bold" />
+                                <pe:inputNumber decimalPlaces="2" value="#{i101Controller.selected.weightKg}"  emptyValue="0.00"  thousandSeparator=","  styleClass="lb_bold" rendered="false"/>
+                                <p:inputNumber value="#{i101Controller.selected.weightKg}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                             <h:panelGroup >
                                 <p:outputLabel  value="จำนวน :" />
                             </h:panelGroup>
                             <h:panelGroup >
-                                <pe:inputNumber decimalPlaces="2" value="#{i101Controller.selected.amount}"  emptyValue="0.00"  thousandSeparator=","  styleClass="lb_bold" />
+                                <pe:inputNumber decimalPlaces="2" value="#{i101Controller.selected.amount}"  emptyValue="0.00"  thousandSeparator=","  styleClass="lb_bold" rendered="false"/>
+                                <p:inputNumber value="#{i101Controller.selected.amount}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                                 <p:spacer width="8"  />
                                  <p:selectOneMenu id="unit" value="#{i101Controller.selected.unit}"  style="width: 100px;vertical-align:middle;">
                                     <f:selectItem  itemLabel="-"  itemValue="" />
@@ -108,7 +111,8 @@
                                 <p:outputLabel  value="ราคา/หน่วย :" />
                             </h:panelGroup>
                             <h:panelGroup >
-                                <pe:inputNumber decimalPlaces="2" value="#{i101Controller.selected.unitPrice}"  emptyValue="0.00"  thousandSeparator=","  styleClass="lb_bold" />
+                                <pe:inputNumber decimalPlaces="2" value="#{i101Controller.selected.unitPrice}"  emptyValue="0.00"  thousandSeparator=","  styleClass="lb_bold" rendered="false"/>
+                                <p:inputNumber value="#{i101Controller.selected.unitPrice}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                              <h:panelGroup >
@@ -122,7 +126,8 @@
                                 <p:outputLabel  value="วัสดุภัณฑ์คงเหลือ :" />
                             </h:panelGroup>
                             <h:panelGroup rendered="false">
-                                 <pe:inputNumber decimalPlaces="0" value="#{i101Controller.selected.quantity}"  emptyValue="0"  thousandSeparator=","  styleClass="lb_bold" />
+                                 <pe:inputNumber decimalPlaces="0" value="#{i101Controller.selected.quantity}"  emptyValue="0"  thousandSeparator=","  styleClass="lb_bold" rendered="false"/>
+                                <p:inputNumber value="#{i101Controller.selected.quantity}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                             <h:panelGroup >
@@ -136,7 +141,8 @@
                                 <p:outputLabel  value="แจ้งเตือนวัสดุภัณฑ์ใกล้หมด :" />
                             </h:panelGroup>
                             <h:panelGroup >
-                                <pe:inputNumber decimalPlaces="0" value="#{i101Controller.selected.alertStock}"  emptyValue="0"  thousandSeparator=","  styleClass="lb_bold" />
+                                <pe:inputNumber decimalPlaces="0" value="#{i101Controller.selected.alertStock}"  emptyValue="0"  thousandSeparator=","  styleClass="lb_bold" rendered="false"/>
+                                <p:inputNumber value="#{i101Controller.selected.alertStock}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                             <h:panelGroup>

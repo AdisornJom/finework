@@ -58,7 +58,8 @@
                         <p:outputLabel value="เลขที่ ต้องการจอง จำนวน ："/>
                         <font class="require">*</font>
                     </h:panelGroup>
-                     <pe:inputNumber  decimalPlaces="0" value="#{b202Controller.draftNo}"  emptyValue="0" styleClass="lb_bold" style="width: 20px;"/>
+                    <pe:inputNumber  decimalPlaces="0" value="#{b202Controller.draftNo}"  emptyValue="0" styleClass="lb_bold" style="width: 20px;" rendered="false"/>
+                    <p:inputNumber value="#{b202Controller.realTotalPrice}" minValue="0" inputStyle="text-align: right;width:152px;" />
 
                 </p:panelGrid>
             </p:panel>

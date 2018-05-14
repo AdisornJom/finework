@@ -127,7 +127,7 @@ public class B201Controller extends BaseController {
     public void prepareCreate(String page) {
         selected = new SysBilling();
         blDetail_selected=new SysBillingDetail();
-//        runningNoCustomer();
+        this.total_discount=0.0;
         next(page);
     }
     public void prepareCreateDraft(String page) {
@@ -140,7 +140,7 @@ public class B201Controller extends BaseController {
     }
     
     public void prepareEdit(String page) {
-        this.total_discount=null != selected.getBillDiscount()?selected.getBillDiscount():0;
+        this.total_discount=null != selected.getBillDiscount()?selected.getBillDiscount():0.0;
         this.total = selected.getBillTotal();
         this.total_vat =selected.getBillVat();
         this.total_net = selected.getBillTotalPrice();

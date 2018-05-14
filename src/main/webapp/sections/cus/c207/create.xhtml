@@ -90,21 +90,24 @@
                                 <p:outputLabel  value="รายวัน :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{c207Controller.selected.dailyWage}"  emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  decimalPlaces="2" value="#{c207Controller.selected.dailyWage}"  emptyValue="0.00"  thousandSeparator="," rendered="false"/>
+                                <p:inputNumber value="#{c207Controller.selected.dailyWage}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
 
                             <h:panelGroup>
                                 <p:outputLabel  value="เบี้ยเลี้ยง :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{c207Controller.selected.allowance}"  emptyValue="0.00"  thousandSeparator=","   />
+                                <pe:inputNumber  decimalPlaces="2" value="#{c207Controller.selected.allowance}"  emptyValue="0.00"  thousandSeparator=","   rendered="false" />
+                                <p:inputNumber value="#{c207Controller.selected.allowance}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
 
                             <h:panelGroup>
                                 <p:outputLabel  value="ค่าเช่าบ้าน :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{c207Controller.selected.rentHouse}"  emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  decimalPlaces="2" value="#{c207Controller.selected.rentHouse}"  emptyValue="0.00"  thousandSeparator="," rendered="false" />
+                                <p:inputNumber value="#{c207Controller.selected.rentHouse}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>                           
                         </p:panelGrid>
                     </div>

@@ -97,7 +97,8 @@
                                 <font class="require">*</font>
                             </h:panelGroup>
                             <h:panelGroup >
-                                 <pe:inputNumber decimalPlaces="0" value="#{i102Controller.selected.quantity}"  emptyValue="0"  thousandSeparator=","  styleClass="lb_bold" />
+                                 <pe:inputNumber decimalPlaces="0" value="#{i102Controller.selected.quantity}"  emptyValue="0"  thousandSeparator=","  styleClass="lb_bold" rendered="false"/>
+                                <p:inputNumber value="#{i102Controller.selected.quantity}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                             <h:panelGroup>

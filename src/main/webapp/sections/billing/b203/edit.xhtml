@@ -130,9 +130,13 @@
                           <p:outputLabel value="ส่วนลด ：" style="float:right;"/>
                       </h:panelGroup>
                       <h:panelGroup rendered="false">
-                          <pe:inputNumber decimalPlaces="2" value="#{b203Controller.total_discount}"  emptyValue="0.00" styleClass="lb_bold" style="width: 20px;">
+                          <pe:inputNumber decimalPlaces="2" value="#{b203Controller.total_discount}"  emptyValue="0.00" styleClass="lb_bold" 
+                                          style="width: 20px;" rendered="false">
                               <p:ajax event="blur" listener="#{b203Controller.checkTotalPrice()}" update=":content" global="false" />
                           </pe:inputNumber>
+                           <p:inputNumber value="#{b203Controller.total_discount}" minValue="0" inputStyle="text-align: right;width:152px;" >
+                              <p:ajax event="blur" listener="#{b203Controller.checkTotalPrice()}" update=":content" global="false" />
+                          </p:inputNumber>
                       </h:panelGroup>
                       <h:panelGroup/> 
                       
@@ -163,9 +167,13 @@
                           <p:outputLabel value="จำนวนเงินออกบิล ：" style="float:right;"/>
                       </h:panelGroup>
                       <h:panelGroup rendered="false">
-                          <pe:inputNumber decimalPlaces="2" value="#{b203Controller.realTotalPrice}"  emptyValue="0.00"  styleClass="lb_bold" style="width: 20px;" >
+                          <pe:inputNumber decimalPlaces="2" value="#{b203Controller.realTotalPrice}"  emptyValue="0.00"  styleClass="lb_bold" 
+                                          style="width: 20px;" rendered="false">
                                <p:ajax event="blur" listener="#{b203Controller.checkRealTotalPrice()}" update=":content" global="false" />
                           </pe:inputNumber>
+                          <p:inputNumber value="#{b203Controller.realTotalPrice}" minValue="0" inputStyle="text-align: right;width:152px;" >
+                              <p:ajax event="blur" listener="#{b203Controller.checkRealTotalPrice()}" update=":content" global="false" />
+                          </p:inputNumber>
                       </h:panelGroup>
                      <h:panelGroup/> 
                     

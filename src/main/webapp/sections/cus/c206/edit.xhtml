@@ -108,35 +108,40 @@
                                 <p:outputLabel  value="เงินเดือน :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{c206Controller.selected.salary}"  emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  decimalPlaces="2" value="#{c206Controller.selected.salary}"  emptyValue="0.00"  thousandSeparator=","  rendered="false" />
+                                <p:inputNumber value="#{c206Controller.selected.salary}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                             <h:panelGroup>
                                 <p:outputLabel  value="รายได้ต่อวัน :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{c206Controller.selected.earningPerday}"  emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  decimalPlaces="2" value="#{c206Controller.selected.earningPerday}"  emptyValue="0.00"  thousandSeparator="," rendered="false" />
+                                <p:inputNumber value="#{c206Controller.selected.earningPerday}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                             <h:panelGroup>
                                 <p:outputLabel  value="เบี้ยเลี้ยง :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{c206Controller.selected.allowance}"  emptyValue="0.00"  thousandSeparator=","   />
+                                <pe:inputNumber  decimalPlaces="2" value="#{c206Controller.selected.allowance}"  emptyValue="0.00"  thousandSeparator=","  rendered="false" />
+                                <p:inputNumber value="#{c206Controller.selected.allowance}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                             <h:panelGroup>
                                 <p:outputLabel  value="ค่าเช่าบ้าน :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{c206Controller.selected.rentHouse}"  emptyValue="0.00"  thousandSeparator=","  />
+                                <pe:inputNumber  decimalPlaces="2" value="#{c206Controller.selected.rentHouse}"  emptyValue="0.00"  thousandSeparator="," rendered="false" />
+                                <p:inputNumber value="#{c206Controller.selected.rentHouse}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                             
                             <h:panelGroup>
                                 <p:outputLabel  value="ค่าโทรศัพท์ :" />
                             </h:panelGroup>
                             <h:panelGroup>
-                                <pe:inputNumber  decimalPlaces="2" value="#{c206Controller.selected.telCharge}"  emptyValue="0.00"  thousandSeparator="," />
+                                <pe:inputNumber  decimalPlaces="2" value="#{c206Controller.selected.telCharge}"  emptyValue="0.00"  thousandSeparator="," rendered="false"/>
+                                <p:inputNumber value="#{c206Controller.selected.telCharge}"  minValue="0"   thousandSeparator=","  emptyValue="0.00" />
                             </h:panelGroup>
                         </p:panelGrid>
                     </div>

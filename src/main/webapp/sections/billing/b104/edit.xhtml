@@ -28,13 +28,13 @@
             color: black;
             box-shadow: none;
         }
-         .pe-inputNumber {
+        .pe-inputNumber {
             text-align: right;
             width:120px;
             float:right;
             font-size: 24px;
         }
-         .pe-inputNumber {
+        .pe-inputNumber {
             text-align: right;
             width:120px;
             float:right;
@@ -61,24 +61,24 @@
                     <h:panelGroup>
                         <h:outputText value="#{b104Controller.selected.documentno}"   styleClass="lb_bold"/>
                     </h:panelGroup>
-                    
+
                     <h:panelGroup>
                         <p:outputLabel value="ชื่อลูกค้า ："/>
                     </h:panelGroup>
                     <h:panelGroup>
-                          <h:outputText value="#{b104Controller.selected.customerId.customerNameTh}"   styleClass="lb_bold"/>
+                        <h:outputText value="#{b104Controller.selected.customerId.customerNameTh}"   styleClass="lb_bold"/>
                     </h:panelGroup>
 
                     <h:panelGroup>
                         <p:outputLabel value="ที่อยู่ลูกค้า ："/>
                     </h:panelGroup>
-                          <h:outputText value="#{b104Controller.selected.customerId.customerAddress}" styleClass="lb_bold"/>
+                    <h:outputText value="#{b104Controller.selected.customerId.customerAddress}" styleClass="lb_bold"/>
                     <h:panelGroup>
                         <p:outputLabel value="วันที่ทำรายการ ："/>
                     </h:panelGroup>
-                          <h:outputText value="#{b104Controller.selected.sendDate}" styleClass="lb_bold">
-                                <f:convertDateTime pattern="dd-MM-yyyy"/>
-                          </h:outputText>
+                    <h:outputText value="#{b104Controller.selected.sendDate}" styleClass="lb_bold">
+                        <f:convertDateTime pattern="dd-MM-yyyy"/>
+                    </h:outputText>
 
                     <h:panelGroup>
                         <p:outputLabel value="หน่วยงาน ："/>
@@ -86,13 +86,13 @@
                     </h:panelGroup>
                     <h:panelGroup>
                         <p:autoComplete id="workunit" dropdown="true" value="#{b104Controller.selected.workunitId}" 
-                                       completeMethod="#{b104Controller.completeWorkunit}" 
-                                                 var="wkunit" itemLabel="#{wkunit.workunitName}" 
-                                                 itemValue="#{wkunit}" 
-                                                 converter="#{workUnitConverter}"
-                                                 scrollHeight="250"  >
-                          <p:ajax event="query" global="false"/>
-                       </p:autoComplete>
+                                        completeMethod="#{b104Controller.completeWorkunit}" 
+                                        var="wkunit" itemLabel="#{wkunit.workunitName}" 
+                                        itemValue="#{wkunit}" 
+                                        converter="#{workUnitConverter}"
+                                        scrollHeight="250"  >
+                            <p:ajax event="query" global="false"/>
+                        </p:autoComplete>
                         <p:watermark  for="workunit" value="กรอกข้อมูลเพื่อ ค้นหา" />
                     </h:panelGroup>
                 </p:panelGrid>
@@ -100,19 +100,19 @@
 
             <p:panel  id="detail_list" style="border: 0px">
                 <p:panel  header="#{msgs['btn.view']}" style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
-                   <p:commandButton styleClass="search-btn" style="margin: 5px" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" 
-                                    actionListener="#{b104Controller.prepareEdit()}"
-                                    oncomplete="PF('selectDetail_dialog').show()" update="listFormDetail:detail"/>
+                    <p:commandButton styleClass="search-btn" style="margin: 5px" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" 
+                                     actionListener="#{b104Controller.prepareEdit()}"
+                                     oncomplete="PF('selectDetail_dialog').show()" update="listFormDetail:detail"/>
 
-                   <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{b104Controller.selected.sysBillingDetailList}" var="detail">
+                    <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{b104Controller.selected.sysBillingDetailList}" var="detail">
                         <p:column headerText="ลำดับ" style="text-align: center;width: 22px;">
                             <h:outputText value="#{(rowNumber+1)}" />
                         </p:column>
-                        
-                       <p:column headerText="เลขที่" style="width: 65px;">
+
+                        <p:column headerText="เลขที่" style="width: 65px;">
                             <h:outputText value="#{detail.billNo}"  />
                         </p:column>
-                        
+
                         <p:column headerText="รายการ" style="width: 189px;">
                             <h:outputText value="#{detail.detail}" />
                         </p:column>
@@ -120,17 +120,17 @@
                         <p:column headerText="แปลง" style="width: 35px;">
                             <h:outputText value="#{detail.billConvert}" />
                         </p:column>
-                        
+
                         <p:column headerText="ปริมาณ" style="width: 25px;">
                             <h:outputText  value="#{detail.volume}"  style="float: right;">
                                 <f:convertNumber  pattern="#,##0.00"/>
                             </h:outputText>     
                         </p:column>
-                        
+
                         <p:column headerText="หน่วย" style="width: 40px;">
                             <h:outputText value="#{detail.unit}"  />
                         </p:column>
-                        
+
                         <p:column headerText="ราคา/หน่วย" style="width: 50px;">
                             <h:outputText value="#{detail.price}" style="float: right;">
                                 <f:convertNumber  pattern="#,##0.00"/>
@@ -151,88 +151,94 @@
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
-                   
-                      <p:panelGrid id="footer_itemDetail" columns="3" layout="grid"  columnClasses="ui-grid-col-11,ui-grid-col-3,ui-grid-col-1" styleClass="ui-panelgrid-blank"> 
-                      <h:panelGroup >
-                          <p:outputLabel value="จำนวนเงินรวม ：" style="float:right;"/>
-                      </h:panelGroup>
-                      <h:panelGroup>
-                          <h:outputText value="#{b104Controller.total}" 
-                                        style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
-                             <f:convertNumber  pattern="#,##0.00"/>
-                          </h:outputText>  
-                      </h:panelGroup>
-                      <h:panelGroup/>
-                      
-                       <h:panelGroup >
-                          <p:outputLabel value="ส่วนลด ：" style="float:right;"/>
-                      </h:panelGroup>
-                      <h:panelGroup>
-                          <pe:inputNumber decimalPlaces="2" value="#{b104Controller.total_discount}"  emptyValue="0.00" styleClass="lb_bold" style="width: 20px;">
-                              <p:ajax event="blur" listener="#{b104Controller.checkTotalPrice()}" update=":content" global="false" />
-                          </pe:inputNumber>
-                      </h:panelGroup>
-                      <h:panelGroup/> 
-                      
-                      <h:panelGroup >
-                          <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>
-                      </h:panelGroup>
-                      <h:panelGroup>
+
+                    <p:panelGrid id="footer_itemDetail" columns="3" layout="grid"  columnClasses="ui-grid-col-11,ui-grid-col-3,ui-grid-col-1" styleClass="ui-panelgrid-blank"> 
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{b104Controller.total}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>
+
+                        <h:panelGroup >
+                            <p:outputLabel value="ส่วนลด ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <pe:inputNumber decimalPlaces="2" value="#{b104Controller.total_discount}"  emptyValue="0.00" styleClass="lb_bold" style="width: 20px;" rendered="false">
+                                <p:ajax event="blur" listener="#{b104Controller.checkTotalPrice()}" update=":content" global="false" />
+                            </pe:inputNumber>
+                            <p:inputNumber value="#{b104Controller.total_discount}" minValue="0" inputStyle="text-align: right;width:152px;" >
+                                <p:ajax event="blur" listener="#{b104Controller.checkTotalPrice()}" update=":content" global="false" />
+                            </p:inputNumber>
+                        </h:panelGroup>
+                        <h:panelGroup/> 
+
+                        <h:panelGroup >
+                            <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
                             <h:outputText value="#{b104Controller.total_vat}" 
-                                        style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
-                             <f:convertNumber  pattern="#,##0.00"/>
-                          </h:outputText>  
-                      </h:panelGroup>
-                      <h:panelGroup/>  
-                      
-                      <h:panelGroup >
-                          <p:outputLabel value="จำนวนเงินรวมทั้งสิ้น ：" style="float:right;"/>
-                      </h:panelGroup>
-                      <h:panelGroup>
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>  
+
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวมทั้งสิ้น ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
                             <h:outputText value="#{b104Controller.total_net}" 
-                                        style="float:right;background-color:#ccff99"  styleClass="lb_bold">
-                             <f:convertNumber  pattern="#,##0.00"/>
-                          </h:outputText>  
-                      </h:panelGroup>
-                     <h:panelGroup/> 
-                     
-                      <h:panelGroup >
-                          <font class="require" style="float:right;">*</font>
-                          <p:outputLabel value="จำนวนเงินออกบิล ：" style="float:right;"/>
-                     </h:panelGroup>
-                     <h:panelGroup>
-                         <pe:inputNumber decimalPlaces="2" value="#{b104Controller.realTotalPrice}" 
-                                          emptyValue="0.00"  styleClass="lb_bold" style="width: 20px;" >
-                               <p:ajax event="blur" listener="#{b104Controller.checkRealTotalPrice()}" update=":content" global="false" />
-                          </pe:inputNumber>
-                      </h:panelGroup>
-                     <h:panelGroup/> 
-                     
-                        
-                      <h:panelGroup>
-                          <h:outputText value="#{b104Controller.convertPriceToString(b104Controller.total_net)}" style="float:left;position: relative;left: 50%;color: #108040;font-size: 15px"  styleClass="lb_bold"/>
-                      </h:panelGroup>
-                      <h:panelGroup/>
-                      <h:panelGroup/>  
-                      
+                                          style="float:right;background-color:#ccff99"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/> 
+
+                        <h:panelGroup >
+                            <font class="require" style="float:right;">*</font>
+                            <p:outputLabel value="จำนวนเงินออกบิล ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <pe:inputNumber decimalPlaces="2" value="#{b104Controller.realTotalPrice}" 
+                                            emptyValue="0.00"  styleClass="lb_bold" style="width: 20px;" rendered="false" >
+                                <p:ajax event="blur" listener="#{b104Controller.checkRealTotalPrice()}" update=":content" global="false" />
+                            </pe:inputNumber>
+                             <p:inputNumber value="#{b104Controller.realTotalPrice}" minValue="0" inputStyle="text-align: right;width:152px;" >
+                              <p:ajax event="blur" listener="#{b104Controller.checkRealTotalPrice()}" update=":content" global="false" />
+                          </p:inputNumber>
+                        </h:panelGroup>
+                        <h:panelGroup/> 
+
+
+                        <h:panelGroup>
+                            <h:outputText value="#{b104Controller.convertPriceToString(b104Controller.total_net)}" style="float:left;position: relative;left: 50%;color: #108040;font-size: 15px"  styleClass="lb_bold"/>
+                        </h:panelGroup>
+                        <h:panelGroup/>
+                        <h:panelGroup/>  
+
                     </p:panelGrid>
-                   
+
                 </p:panel>
             </p:panel>
 
             <h:panelGroup style="margin: 5px;">
                 <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
                                  actionListener="#{b104Controller.edit()}" styleClass="edit-btn" update=":content"/>
-                
+
                 <p:commandButton binding="#{bindingController.btnSave}" value="รายงาน" rendered="false"
                                  actionListener="#{b104Controller.reportPDF()}" ajax="fasle" styleClass="print-btn" update=":content"/>
-                 
+
                 <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
                                  actionListener="#{b104Controller.cancel('billing/b104/index')}" styleClass="clear-btn" update=":content"/>
             </h:panelGroup>
         </h:form>
     </p:panel>
 
-   <ui:include src="dialog_detail.xhtml" />
+    <ui:include src="dialog_detail.xhtml" />
 
 </ui:composition>
