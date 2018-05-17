@@ -332,7 +332,7 @@ public class W101Controller extends BaseController {
             }
             map.put("total1",NumberUtils.numberFormat(rpt_sysWht.getWhtTotal(),"#,##0.00"));
             map.put("total2",NumberUtils.numberFormat(rpt_sysWht.getWhtVat(),"#,##0.00"));
-            map.put("txttotal",convertPriceToString(rpt_sysWht.getWhtVatTotal()));
+            map.put("txttotal",convertPriceToString(rpt_sysWht.getWhtVat()));
             map.put("payment_out_status",String.valueOf(rpt_sysWht.getPaymentOutStatus()));
             map.put("payment_other",null!=rpt_sysWht.getPaymentOutDesc()?rpt_sysWht.getPaymentOutDesc():"");
             map.put("date_dd",DateTimeUtil.cvtDateForShow(rpt_sysWht.getWhtDate(), "dd", new Locale("th", "TH")));
@@ -413,7 +413,7 @@ public class W101Controller extends BaseController {
                 }
                 map.put("total1", NumberUtils.numberFormat(rpt_sysWht.getWhtTotal(), "#,##0.00"));
                 map.put("total2", NumberUtils.numberFormat(rpt_sysWht.getWhtVat(), "#,##0.00"));
-                map.put("txttotal", convertPriceToString(rpt_sysWht.getWhtVatTotal()));
+                map.put("txttotal", convertPriceToString(rpt_sysWht.getWhtVat()));
                 map.put("payment_out_status", String.valueOf(rpt_sysWht.getPaymentOutStatus()));
                 map.put("payment_other", null != rpt_sysWht.getPaymentOutDesc() ? rpt_sysWht.getPaymentOutDesc() : "");
                 map.put("date_dd", DateTimeUtil.cvtDateForShow(rpt_sysWht.getWhtDate(), "dd", new Locale("th", "TH")));
