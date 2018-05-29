@@ -42,7 +42,7 @@ public class SysWhtDetail implements Serializable {
     private Integer id;
     @Column(name = "money_type")
     private Integer moneyType;
-    @Size(max = 100)
+    @Size(max = 255)
     @Column(name = "meney_desc")
     private String meneyDesc;
     @Column(name = "date_type")

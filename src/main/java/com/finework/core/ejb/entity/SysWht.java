@@ -86,6 +86,9 @@ public class SysWht implements Serializable, Comparator<SysWht> {
     @Column(name = "modified_by")
     private String modifiedBy;
     
+    @Column(name = "vat_type")
+    private Integer vatType;
+    
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "whtId", cascade = CascadeType.ALL,orphanRemoval=true)
     private List<SysWhtDetail> sysWhtDetailList;
     
@@ -236,6 +239,16 @@ public class SysWht implements Serializable, Comparator<SysWht> {
     public void setCustomerId(SysCustomer customerId) {
         this.customerId = customerId;
     }
+
+    public Integer getVatType() {
+        return vatType;
+    }
+
+    public void setVatType(Integer vatType) {
+        this.vatType = vatType;
+    }
+    
+    
 
     @Override
     public int hashCode() {

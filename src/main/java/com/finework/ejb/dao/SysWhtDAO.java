@@ -31,7 +31,7 @@ public class SysWhtDAO extends AbstractDAO<SysWht> {
         super(SysWht.class);
     }
     
-    public List<SysWht> findSysWhtListByCriteria(String documentno,SysCustomer sysCustomer, Date startDate, Date toDate) throws Exception {
+    public List<SysWht> findSysWhtListByCriteria(String documentno,SysCustomer sysCustomer, Date startDate, Date toDate,Integer vatType) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT m FROM SysWht m ");
         sb.append("where 1=1 ");
@@ -49,6 +49,10 @@ public class SysWhtDAO extends AbstractDAO<SysWht> {
         if (null != toDate) {
             sb.append("and m.whtDate <= :toDate ");
         }
+        if (null != vatType) {
+            sb.append("and m.vatType like :vatType ");
+        }
+        
         sb.append("ORDER BY m.whtDate DESC ");
 
         Query q = em.createQuery(sb.toString());
@@ -63,6 +67,9 @@ public class SysWhtDAO extends AbstractDAO<SysWht> {
         }
         if (null != toDate) {
             q.setParameter("toDate", toDate);
+        }
+        if (null != vatType) {
+             q.setParameter("vatType", vatType);
         }
         return q.getResultList();
     }

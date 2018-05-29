@@ -42,12 +42,12 @@ import org.primefaces.context.RequestContext;
  * @author Adisorn Jomjanyong
  */
 
-@Named(W101Controller.CONTROLLER_NAME)
+@Named(W102Controller.CONTROLLER_NAME)
 @SessionScoped
-public class W101Controller extends BaseController {
+public class W102Controller extends BaseController {
 
-    private static final Logger LOG = Logger.getLogger(W101Controller.class);
-    public static final String CONTROLLER_NAME = "w101Controller";
+    private static final Logger LOG = Logger.getLogger(W102Controller.class);
+    public static final String CONTROLLER_NAME = "w102Controller";
     
     @Inject
     private WhtFacade whtFacade;
@@ -116,11 +116,13 @@ public class W101Controller extends BaseController {
     public void prepareCreate(String page) {
         selected = new SysWht();
         whtDetail_selected=new SysWhtDetail();
+        whtDetail_selected.setMoneyType(7);
 //        runningNoCustomer();
         next(page);
     }
     public void prepareEdit() {
         whtDetail_selected=new SysWhtDetail();
+        whtDetail_selected.setMoneyType(7);
     }
     public void cancel(String path) {
         clearData();
@@ -201,7 +203,7 @@ public class W101Controller extends BaseController {
             selected.setWhtVat(totalVatDetail);
             selected.setWhtVatTotal(total);
             
-            selected.setVatType(Constants.VAT3_PERSEN);
+            selected.setVatType(Constants.VAT1_PERSEN);
             
             runningNoCustomer();
                          
@@ -256,7 +258,7 @@ public class W101Controller extends BaseController {
             clearData();
             search();
             JsfUtil.addFacesInformationMessage(MessageBundleLoader.getMessage("messages.code.4001"));
-            next("wht/w101/index");
+            next("wht/w102/index");
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
             LOG.error(ex);
@@ -346,8 +348,8 @@ public class W101Controller extends BaseController {
             reportList_main.add(new BillingReportBean("", "", "", "", "", "", "", "","","","",""));
             reportList_.add(reportList_main);
             
-            map.put("reportCode", "W101");
-            report.exportWHT("W101","50TV", "WHT", map,reportList_);
+            map.put("reportCode", "W102");
+            report.exportWHT("W102","50TV", "WHT", map,reportList_);
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
             LOG.error(ex);
@@ -427,8 +429,8 @@ public class W101Controller extends BaseController {
                 reportList_main.add(new BillingReportBean("", "", "", "", "", "", "", "", "", "", "", ""));
                 reportList_.add(reportList_main);
                 
-                map.put("reportCode", "W101");
-                JasperPrint print= report.exportWHT_mearge("w101", "50TV", "WHT", map, reportList_);
+                map.put("reportCode", "W102");
+                JasperPrint print= report.exportWHT_mearge("w102", "50TV", "WHT", map, reportList_);
                 jasperPrintList.add(print);
             }
             if (!printSelected.isEmpty()) {
@@ -465,7 +467,7 @@ public class W101Controller extends BaseController {
                     toDate = c2.getTime();
                 }
 
-              items=whtFacade.findSysWhtListByCriteriat(documentNo,cust_find,startDate,toDate,Constants.VAT3_PERSEN);
+              items=whtFacade.findSysWhtListByCriteriat(documentNo,cust_find,startDate,toDate,Constants.VAT1_PERSEN);
           /*  lazyWhtModel = new LazyBillingDataModel(whtFacade,Constants.BILLING_NOVAT,null,StringUtils.trimToEmpty(customer),startDate,toDate);
             DataTable dataTable = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("listForm:billingTable");
             dataTable.setFirst(0);*/
@@ -503,7 +505,7 @@ public class W101Controller extends BaseController {
             if (selected.getSysWhtDetailList() == null) 
                  selected.setSysWhtDetailList(new ArrayList<>());
             
-             whtDetail_selected.setAmountVat(whtDetail_selected.getAmount()*0.03);
+             whtDetail_selected.setAmountVat(whtDetail_selected.getAmount()*0.01);
              whtDetail_selected.setTotalAmountVat(whtDetail_selected.getAmount()-whtDetail_selected.getAmountVat());
              //is match
              List<Integer> list=new ArrayList();
@@ -538,11 +540,11 @@ public class W101Controller extends BaseController {
                 totalDetail_ = totalDetail_ + sysdetail.getAmount();
             }
             this.totalDetial=totalDetail_;
-            this.totalVatDetail=(totalDetail_==0.0)?0.0:(totalDetail_*0.03);
+            this.totalVatDetail=(totalDetail_==0.0)?0.0:(totalDetail_*0.01);
             this.total=this.totalDetial-this.totalVatDetail;
         }else{
             this.totalDetial=0.0;
-            this.totalVatDetail=(totalDetail_==0.0)?0.0:(totalDetail_*0.03);
+            this.totalVatDetail=(totalDetail_==0.0)?0.0:(totalDetail_*0.01);
             this.total=0.0;
         }
         
@@ -559,6 +561,7 @@ public class W101Controller extends BaseController {
  
     public void clearData_sysWhtDetail(){
         whtDetail_selected =new SysWhtDetail();
+        whtDetail_selected.setMoneyType(7);
     }
    //===== end  Dialog=========   
     

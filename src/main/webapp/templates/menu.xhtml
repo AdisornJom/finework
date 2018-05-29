@@ -98,7 +98,8 @@
             </p:submenu>
             
             <p:submenu label="ภาษี" icon="fa fa-balance-scale" >
-                 <p:menuitem value="W101 - หักภาษี ณ ที่จ่าย"  actionListener="#{naviController.next('wht/w101/index','W101Controller','W101 - หักภาษี ณ ที่จ่าย')}" ajax="false"/>
+                 <p:menuitem value="W101 - หักภาษี ณ ที่จ่าย(3%)"  actionListener="#{naviController.next('wht/w101/index','W101Controller','W101 - หักภาษี ณ ที่จ่าย(3%)')}" ajax="false"/>
+                 <p:menuitem value="W102 - หักภาษี ณ ที่จ่าย(1%)"  actionListener="#{naviController.next('wht/w102/index','W101Controller','W102 - หักภาษี ณ ที่จ่าย(1%)')}" ajax="false"/>
             </p:submenu>
 
             <p:submenu label="#{msgs['menu.admin']}" icon="fa fa-users" rendered="#{p:ifGranted('ROLE_ADMIN')}">

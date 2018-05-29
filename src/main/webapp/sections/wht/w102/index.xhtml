@@ -5,14 +5,14 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core">
 
-    <p:panel header="W101 - หักภาษี ณ ที่จ่าย(3%)">
+    <p:panel header="W102 - หักภาษี ณ ที่จ่าย(1%)">
 
         <p:toolbar style="margin-bottom: 3px;">
             <f:facet name="left" >
                 <h:form>
                     <h:panelGrid cellpadding="1" cellspacing="1">
                         <p:commandButton styleClass="search-btn" binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" update=":content" 
-                                         actionListener="#{w101Controller.prepareCreate('wht/w101/create')}"/>
+                                         actionListener="#{w102Controller.prepareCreate('wht/w102/create')}"/>
                     </h:panelGrid>
                 </h:form>
             </f:facet>
@@ -21,8 +21,8 @@
                     <h:panelGrid columnClasses="col1,col2,col1,col2,col1,col2" border="0" columns="10" cellpadding="2" cellspacing="1" style="margin-left: 10px;">
                         <p:outputLabel value="ชื่อลูกค้า ："/>
                         <h:panelGroup>
-                            <p:autoComplete id="custNamefind" dropdown="true" value="#{w101Controller.cust_find}" 
-                                                     completeMethod="#{w101Controller.completeCustomer}" 
+                            <p:autoComplete id="custNamefind" dropdown="true" value="#{w102Controller.cust_find}" 
+                                                     completeMethod="#{w102Controller.completeCustomer}" 
                                                      var="cust_find" itemLabel="#{cust_find.customerNameTh}" 
                                                      itemValue="#{cust_find}" 
                                                      converter="#{customerConverter}"
@@ -34,13 +34,13 @@
                         </h:panelGroup>
                         
                         <p:outputLabel value="วันที่ทำรายการ ："/>
-                        <p:calendar binding="#{bindingController.calendar}" value="#{w101Controller.startDate}" size="10"/>
+                        <p:calendar binding="#{bindingController.calendar}" value="#{w102Controller.startDate}" size="10"/>
 
                         <p:outputLabel value="ถึง ："/>
-                        <p:calendar binding="#{bindingController.calendar}" value="#{w101Controller.toDate}" size="10"/>
+                        <p:calendar binding="#{bindingController.calendar}" value="#{w102Controller.toDate}" size="10"/>
 
                         <p:commandButton binding="#{bindingController.btnSearch}" value="#{msgs['btn.search']}" 
-                                        actionListener="${w101Controller.search()}" styleClass="search-btn" update=":content"/>
+                                        actionListener="${w102Controller.search()}" styleClass="search-btn" update=":content"/>
                     </h:panelGrid>
                 </h:form>
             </f:facet>

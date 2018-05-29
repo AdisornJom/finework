@@ -22,8 +22,8 @@ public class WhtBO {
     private SysWhtDetailDAO sysWhtDetailDAO;
 
 
-     public List<SysWht> findSysWhtListByCriteriat(String documentno,SysCustomer sysCustomer, Date startDate, Date toDate) throws Exception {
-        List<SysWht> sysWhts = sysWhtDAO.findSysWhtListByCriteria(documentno,sysCustomer, startDate, toDate);
+     public List<SysWht> findSysWhtListByCriteriat(String documentno,SysCustomer sysCustomer, Date startDate, Date toDate,Integer vatType) throws Exception {
+        List<SysWht> sysWhts = sysWhtDAO.findSysWhtListByCriteria(documentno,sysCustomer, startDate, toDate,vatType);
         for (SysWht u : sysWhts) {
             u.getSysWhtDetailList().toString();
         }

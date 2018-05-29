@@ -19,8 +19,8 @@ public class WhtFacade {
     private WhtBO whtBO;
 
   
-    public List<SysWht> findSysWhtListByCriteriat(String documentno,SysCustomer sysCustomer, Date startDate, Date toDate) throws Exception {
-       return whtBO.findSysWhtListByCriteriat(documentno,sysCustomer, startDate, toDate);
+    public List<SysWht> findSysWhtListByCriteriat(String documentno,SysCustomer sysCustomer, Date startDate, Date toDate,Integer vatType) throws Exception {
+       return whtBO.findSysWhtListByCriteriat(documentno,sysCustomer, startDate, toDate,vatType);
     }    
     
     public SysWht  findByPK(Integer id){
