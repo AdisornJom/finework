@@ -117,6 +117,22 @@ public class P106Controller extends BaseController {
     @PostConstruct
     @Override
     public void init() {
+        if (null == startDate) {
+            GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance(Locale.US);
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            startDate = cal.getTime();
+        }
+        if (null == toDate) {
+            GregorianCalendar calEnd = (GregorianCalendar) GregorianCalendar.getInstance(Locale.US);
+            calEnd.set(Calendar.HOUR_OF_DAY, 23);
+            calEnd.set(Calendar.MINUTE, 59);
+            calEnd.set(Calendar.SECOND, 59);
+            toDate = calEnd.getTime();
+        }
+
         search();
     }
     
@@ -166,23 +182,7 @@ public class P106Controller extends BaseController {
  
     public void search() {
         try {
-              
-               if (null == startDate) {
-                    GregorianCalendar cal =(GregorianCalendar) GregorianCalendar.getInstance(Locale.US);
-                    cal.set(Calendar.HOUR_OF_DAY, 0);
-                    cal.set(Calendar.MINUTE, 0);
-                    cal.set(Calendar.SECOND, 0);
-                    cal.set(Calendar.DAY_OF_MONTH, 1);
-                    startDate = cal.getTime();
-                }
-                if (null == toDate) {
-                    GregorianCalendar calEnd =(GregorianCalendar) GregorianCalendar.getInstance(Locale.US);
-                    calEnd.set(Calendar.HOUR_OF_DAY, 23);
-                    calEnd.set(Calendar.MINUTE, 59);
-                    calEnd.set(Calendar.SECOND, 59);
-                    toDate = calEnd.getTime();
-                }
-                
+               
               items=paymentManufactoryFacade.findSysPaymentManufactoryListByCriteria(documentno, contractor_find, startDate, toDate);
               
 //             lazyBillingModel = new LazyBillingDataModel(billingFacade,Constants.CREDIT_NOTE,documentno,StringUtils.trimToEmpty(companyName),startDate,toDate);
@@ -467,8 +467,11 @@ public class P106Controller extends BaseController {
             map.put("total_expenses",NumberUtils.numberFormat(rpt_sysPaymentFac.getFacDivideEquipment(),"#,##0.00"));
             //map.put("total_divide_equipment",NumberUtils.numberFormat(rpt_sysPaymentFac.getFacDivideEquipment(),"#,##0.00"));
             //map.put("total_ream",NumberUtils.numberFormat(rpt_sysPaymentFac.getFacReam(),"#,##0.00"));
+            /*
             map.put("total_net",NumberUtils.numberFormat(rpt_sysPaymentFac.getFacNet(),"#,##0.00"));
-            map.put("price_char",(rpt_sysPaymentFac.getFacNet()==0.0?"":new ThaiBaht().getText(rpt_sysPaymentFac.getFacNet())));
+            map.put("price_char",(rpt_sysPaymentFac.getFacNet()==0.0?"":new ThaiBaht().getText(rpt_sysPaymentFac.getFacNet())));*/
+            map.put("total_net",NumberUtils.numberFormat(rpt_sysPaymentFac.getFacVolume(),"#,##0.00"));
+            map.put("price_char",(rpt_sysPaymentFac.getFacVolume()==0.0?"":new ThaiBaht().getText(rpt_sysPaymentFac.getFacVolume())));
             
             map.put("reportCode", "P106");
             JasperPrint print= report.exportSubReport_Template_mearge("template.jpg","p106", new String[]{"P106Report","P106SubReport"}, "Process", map, reportList_);
@@ -499,6 +502,8 @@ public class P106Controller extends BaseController {
                 reportListExpenses_.add(reportListExpenses);
                 HashMap mapExpenses = new HashMap();
                 mapExpenses.put("contractor_name",rpt_sysPaymentFac.getContractorId().getContractorNameTh());
+                mapExpenses.put("documentno",rpt_sysPaymentFac.getDocumentNo());
+                mapExpenses.put("send_date",DateTimeUtil.cvtDateForShow(rpt_sysPaymentFac.getFactoryDate(), "dd/MM/yyyy", new Locale("th", "TH")));
                 mapExpenses.put("total_expenses",NumberUtils.numberFormat(total_category,"#,##0.00"));
                 mapExpenses.put("price_char",(total_category==0.0?"":new ThaiBaht().getText(total_category)));
 
@@ -637,9 +642,12 @@ public class P106Controller extends BaseController {
                 map.put("total_expenses",NumberUtils.numberFormat(rpt_sysPaymentFac.getFacDivideEquipment(),"#,##0.00"));
                 //map.put("total_divide_equipment",NumberUtils.numberFormat(rpt_sysPaymentFac.getFacDivideEquipment(),"#,##0.00"));
                 //map.put("total_ream",NumberUtils.numberFormat(rpt_sysPaymentFac.getFacReam(),"#,##0.00"));
-                map.put("total_net",NumberUtils.numberFormat(rpt_sysPaymentFac.getFacNet(),"#,##0.00"));
-                map.put("price_char",(rpt_sysPaymentFac.getFacNet()==0.0?"":new ThaiBaht().getText(rpt_sysPaymentFac.getFacNet())));
+//                map.put("total_net",NumberUtils.numberFormat(rpt_sysPaymentFac.getFacNet(),"#,##0.00"));
+//                map.put("price_char",(rpt_sysPaymentFac.getFacNet()==0.0?"":new ThaiBaht().getText(rpt_sysPaymentFac.getFacNet())));
 
+                map.put("total_net",NumberUtils.numberFormat(rpt_sysPaymentFac.getFacVolume(),"#,##0.00"));
+                map.put("price_char",(rpt_sysPaymentFac.getFacVolume()==0.0?"":new ThaiBaht().getText(rpt_sysPaymentFac.getFacVolume())));
+                
                 map.put("reportCode", "P106");
                 JasperPrint print= report.exportSubReport_Template_mearge("template.jpg","p106", new String[]{"P106Report","P106SubReport"}, "Process", map, reportList_);
                 jasperPrintList.add(print);
@@ -669,6 +677,8 @@ public class P106Controller extends BaseController {
                     reportListExpenses_.add(reportListExpenses);
                     HashMap mapExpenses = new HashMap();
                     mapExpenses.put("contractor_name",rpt_sysPaymentFac.getContractorId().getContractorNameTh());
+                    mapExpenses.put("documentno",rpt_sysPaymentFac.getDocumentNo());
+                    mapExpenses.put("send_date",DateTimeUtil.cvtDateForShow(rpt_sysPaymentFac.getFactoryDate(), "dd/MM/yyyy", new Locale("th", "TH")));
                     mapExpenses.put("total_expenses",NumberUtils.numberFormat(total_category,"#,##0.00"));
                     mapExpenses.put("price_char",(total_category==0.0?"":new ThaiBaht().getText(total_category)));
 
@@ -692,7 +702,7 @@ public class P106Controller extends BaseController {
                 ReportUtil report = new ReportUtil();
                 report.exportMearge(pdfName,jasperPrintList);
              }
-              init();
+             search();
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
             LOG.error(ex);
