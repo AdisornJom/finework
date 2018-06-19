@@ -51,17 +51,25 @@
                 </h:outputText>
             </p:column>
             
-             <p:column  headerText="จำนวนเงินรวมทั้งสิ้น " sortBy="#{item.facNet}" style="width: 80px;text-align: center">
-                <h:outputText value="#{item.facNet}" style="float: right;" styleClass="lb_bold">
-                    <f:convertNumber  pattern="#,##0.00"/>
-                </h:outputText>     
-            </p:column>
-            
+             
+             <p:column  headerText="จำนวนเงินรวมทั้งสิ้น " sortBy="#{item.facVolume}" style="width: 80px;text-align: center">
+                 <h:outputText value="#{item.facVolume}" style="float: right;" styleClass="lb_bold">
+                     <f:convertNumber  pattern="#,##0.00"/>
+                 </h:outputText>     
+             </p:column>
+             <ui:remove>
+                 <p:column  headerText="จำนวนเงินรวมทั้งสิ้น " sortBy="#{item.facNet}" style="width: 80px;text-align: center">
+                     <h:outputText value="#{item.facNet}" style="float: right;" styleClass="lb_bold">
+                         <f:convertNumber  pattern="#,##0.00"/>
+                     </h:outputText>     
+                 </p:column>
+             </ui:remove>
+
             
             <p:column style="width: 55px;text-align: center">
                 <p:tooltip for="report" value="ออกรายงาน" trackMouse="true" />
                 <p:commandButton id="report" icon="fa fa-print"  action="#{p106Controller.reportPDF()}" 
-                                 update=":content" styleClass="print-btn" ajax="fasle" onclick="setTimeout('location.reload();', 1000);">
+                                 update=":content" styleClass="print-btn" ajax="fasle" >
                     <f:setPropertyActionListener value="#{item}" target="#{p106Controller.selected}" />
                 </p:commandButton>
                 
