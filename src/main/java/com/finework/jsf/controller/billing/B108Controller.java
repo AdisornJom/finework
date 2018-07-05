@@ -513,13 +513,15 @@ public void printPdfMuti(){
              dvDetail_selected.setDetail(detail_selected.getDetailDesc());
              dvDetail_selected.setTotalPrice(price * dvDetail_selected.getVolume().doubleValue());
              //is match
-             List<String> list=new ArrayList();
+           /*  List<String> list=new ArrayList();
              for(SysBillingDetail sysBillingDetail:selected.getSysBillingDetailList()){
                  list.add(sysBillingDetail.getDetail());
              }
              if (!list.contains(detail_selected.getDetailDesc())) {
                  selected.getSysBillingDetailList().add(dvDetail_selected);
-             }
+             }*/
+               selected.getSysBillingDetailList().add(dvDetail_selected);
+           
              checkTotalPrice();  
              clearData_sysDetail();
         } catch (Exception ex) {
