@@ -20,7 +20,8 @@ public class OrganizationBO {
        return sysOrganizationDAO.findSysOrganizationByStatus(status);
     }
     
-  
-    
+    public void editSysOrganization(SysOrganization sysOrganization) throws Exception{
+        sysOrganizationDAO.edit(sysOrganization);
+    }
     
 }

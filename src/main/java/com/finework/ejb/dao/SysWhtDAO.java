@@ -50,7 +50,7 @@ public class SysWhtDAO extends AbstractDAO<SysWht> {
             sb.append("and m.whtDate <= :toDate ");
         }
         if (null != vatType) {
-            sb.append("and m.vatType like :vatType ");
+            sb.append("and m.vatType = :vatType ");
         }
         
         sb.append("ORDER BY m.whtDate DESC ");
