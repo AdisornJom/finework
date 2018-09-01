@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            background-image: url("./resources/images/ui-icons_333333_256x240.png");
+        }
+    </style>
+
+   <h:form id="listForm">
+        <p:toolbar style="margin-top: 3px;margin-bottom: 3px;" >
+            <f:facet name="left" >
+                  <h:panelGroup layout="block" style="text-align: right" rendered="#{not empty q101Controller.items}">
+                     <p:commandButton icon="fa fa-print"  styleClass="print-btn" binding="#{bindingController.btnSave}" value="พิมพ์ทั้งหมด ที่เลือก" ajax="false" onclick="setTimeout('location.reload();', 2000);" update=":content"
+                                      actionListener="#{q101Controller.printPdfMuti()}" >
+                     </p:commandButton> 
+                 </h:panelGroup>
+            </f:facet>
+        </p:toolbar>
+        <p:dataTable id="billingTable1" var="item" value="#{q101Controller.items}"
+                     selection="#{q101Controller.printSelected}" rowKey="#{item.quotationId}" 
+                     binding="#{bindingController.dataTableModel}">
+            
+            <p:column selectionMode="multiple" style="text-align: center;width: 30px;" />
+
+            <p:column headerText="ลำดับ" style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+
+            <p:column headerText="เลขที่" sortBy="#{item.documentno}" style="width: 90px;">
+                <h:outputText value="#{item.documentno}"/>
+            </p:column>
+            
+            <p:column headerText="เรื่อง"  style="width: 160px;">
+                <h:outputText value="#{item.subject}"/>
+            </p:column>
+            
+            <p:column headerText="เรียน"  style="width: 160px;">
+                <h:outputText value="#{item.invite}"/>
+            </p:column>
+            
+            <p:column headerText="หัวข้อ"  style="width: 160px;">
+                <h:outputText value="#{item.remark}"/>
+            </p:column>
+            
+            <p:column  headerText="วันที่เริ่มทำรายการ " sortBy="#{item.sendDate}" style="width: 90px;text-align: center">
+                <h:outputText value="#{item.quotationDate}">
+                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                </h:outputText>
+            </p:column>
+            
+            <p:column  headerText="รวมจำนวนเงินทั้งสิ้น " sortBy="#{item.totalAmount}" style="width:90px;text-align: center">
+                <h:outputText value="#{item.totalAmount}" style="float: right;" styleClass="lb_bold">
+                    <f:convertNumber  pattern="#,##0.00"/>
+                </h:outputText>     
+            </p:column>
+            
+            <p:column style="width: 85px;text-align: center">
+                <p:tooltip for="report" value="ออกรายงาน" trackMouse="true"/>
+                <p:commandButton id="report" icon="fa fa-print"  action="#{q101Controller.reportPDF()}"
+                                 update=":content" styleClass="print-btn" ajax="fasle">
+                    <f:setPropertyActionListener value="#{item}" target="#{q101Controller.selected}" />
+                </p:commandButton>
+                
+                <p:tooltip for="edit" value="#{msgs['btn.edit']}" trackMouse="true"/>
+                <p:commandButton id="edit" icon="fa fa-edit"  action="#{q101Controller.prepareEdit('quotation/q101/edit')}" update=":content" styleClass="edit-btn">
+                    <f:setPropertyActionListener value="#{item}" target="#{q101Controller.selected}" />
+                </p:commandButton>
+
+                <p:tooltip for="del" value="#{msgs['btn.delete']}" trackMouse="true"/>
+                <p:commandButton id="del" icon="fa fa-trash"  action="#{q101Controller.delete()}" update=":content" styleClass="delete-btn">
+                    <p:confirm header="#{msgs['dialog.confirm']}" message="#{msgs['dialog.message']}" />
+                    <f:setPropertyActionListener value="#{item}" target="#{q101Controller.selected}" />
+                </p:commandButton>
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{q101Controller.items.size()}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

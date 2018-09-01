@@ -171,7 +171,8 @@ public class T107Controller extends BaseController {
                 transstaff.setTotalSpecialnoVat(specialNovat_);
                 
                 Double incomeNotVat=(transstaff.getTotalAmount()+transstaff.getValueWorking()+transstaff.getTotalAllowance()+transstaff.getTotalSpecial());
-                Double totalVat=incomeNotVat*0.03;
+                //Double totalVat=incomeNotVat*0.03;
+                Double totalVat=incomeNotVat*0.00;
                 transstaff.setTotalIncome(incomeNotVat);
                 transstaff.setTotalIncomeVat(totalVat);//หัก 3%
                 transstaff.setTotalIncomeNet(incomeNotVat-totalVat);//รายได้รวมหลังหัก 3%

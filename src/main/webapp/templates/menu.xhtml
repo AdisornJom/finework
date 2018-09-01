@@ -82,7 +82,7 @@
                  <p:menuitem value="T108 - สรุปเงินเดือนพนักงานขนส่ง"  rendered="#{userInfoController.adminUser.user_t107}" actionListener="#{naviController.next('transporter/t107/index','t107Controller','T108 - สรุปเงินเดือนพนักงานขนส่ง')}" ajax="false" />
             </p:submenu>
             
-            <p:submenu label="รายงาน" icon="fa fa fa-gavel" >
+            <p:submenu label="รายงาน" icon="fa fa fa-file-text-o" >
                  <p:menuitem value="R101 - รายงานการออกบิล"  actionListener="#{naviController.next('report/r101/index','r101Controller','R101 - รายงานการออกบิล')}" ajax="false"/>
                  <p:menuitem value="R102 - รายงานสรุปรายการวัสดุภัณฑ์" rendered="#{userInfoController.adminUser.user_r102}" actionListener="#{naviController.next('report/r102/index','r102Controller','R102 - รายงานสรุปรายการวัสดุภัณฑ์')}" ajax="false"/>
                  <p:menuitem value="R103 - รายงานวัสดุภัณฑ์ที่ไม่เคลื่อนไหว"  actionListener="#{naviController.next('report/r103/index','r103Controller','R103 - รายงานวัสดุภัณฑ์ที่ไม่เคลื่อนไหว')}" ajax="false"/>
@@ -95,6 +95,10 @@
                  <p:menuitem value="R109-1 - สรุปจำนวนเงิน(การปฏิบัติ) อิงผู้รับเหมา"  actionListener="#{naviController.next('report/r109_1/index','r1091Controller','R109-1 - สรุปจำนวนเงิน(การปฏิบัติ) อิงผู้รับเหมา')}" ajax="false"/>
                  <p:menuitem value="R110 - สรุปรายการผลิตตามโครงการ"  actionListener="#{naviController.next('report/r110/index','r110Controller','R110 - สรุปรายการผลิตตามโครงการ')}" ajax="false"/>
                  <p:menuitem value="R111 - สรุปรายการผลติตามผู้ควบคุมงาน(โฟร์แมน)"  actionListener="#{naviController.next('report/r111/index','r111Controller','R111 - สรุปรายการผลติตามผู้ควบคุมงาน(โฟร์แมน)')}" ajax="false"/>
+            </p:submenu>
+            
+            <p:submenu label="ใบเสนอราคา" icon="fa fa fa-gavel" >
+                 <p:menuitem value="Q101 - ใบเสนอราคา"  actionListener="#{naviController.next('quotation/q101/index','Q101Controller','Q101 - ใบเสนอราคา')}" ajax="false"/>
             </p:submenu>
             
             <p:submenu label="ภาษี" icon="fa fa-balance-scale" >

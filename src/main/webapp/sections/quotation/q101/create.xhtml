@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 370px;
+        }
+
+        .customDialog .ui-dialog-title {
+            font-size: 150% !important;
+            color: #ffffff;
+        }
+
+        .customDialog .ui-dialog-content {
+            padding: 0;
+            margin: 10px 10px;
+        }
+        .customDialog .ui-dialog-titlebar.ui-widget-header {
+            background: #C0C0C0;
+            color: black;
+            box-shadow: none;
+        }
+        .autoComplete .ui-autocomplete-loading { background: white url('resources/images/iconSafari.gif') right center no-repeat; }
+
+        .ui-autocomplete-loading { background: white url('resources/images/iconSafari.gif') right center no-repeat; }
+        .pe-inputNumber {
+            text-align: right;
+            width:120px;
+            float:right;
+            font-size: 24px;
+        }
+
+    </style>
+    <p:panel header="Q101 - ใบเสนอราคา">
+
+        <h:form id="listForm">
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+
+            <p:panel id="panel1" style="max-width: 900px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:panel id="panel2" header="#{msgs['m101.commoninfo']}"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+                    <h:panelGroup>
+                        <p:outputLabel value="เรื่อง ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:inputText id="subject" value="#{q101Controller.selected.subject}" style="width: 400px;" />
+
+                    <h:panelGroup>
+                        <p:outputLabel value="เรียน ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:inputText id="invite" value="#{q101Controller.selected.invite}" style="width: 400px;" />
+
+                    <h:panelGroup>
+                        <p:outputLabel value="อีเมล์ ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:inputText id="email" value="#{q101Controller.selected.email}" style="width: 150px;" />
+
+                    <h:panelGroup>
+                        <p:outputLabel value="วันที่ทำรายการ ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:calendar  binding="#{bindingController.calendar}" value="#{q101Controller.selected.quotationDate}" size="10" />
+
+                    <h:panelGroup>
+                        <p:outputLabel value="หัวข้อ ："/>
+                    </h:panelGroup>
+                    <p:inputTextarea id="remark" value="#{q101Controller.selected.remark}" cols="30" rows="3" 
+                                     maxlength="250" style="width: 400px;" />
+
+                </p:panelGrid>
+            </p:panel>
+
+            <p:panel  id="detail_list1" style="border: 0px">
+                <p:panel  header="รายละเอียด" style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank" >
+                        <h:panelGroup>
+                            <p:outputLabel value="หมวดเรื่อง ：" styleClass="bold"/>
+                            <font class="require">*</font>
+                        </h:panelGroup>
+                        <p:inputTextarea id="heading" value="#{q101Controller.selected.heading}" cols="30" rows="2" 
+                                         maxlength="250" style="width: 400px;" />
+                    </p:panelGrid>
+
+                    <p:spacer/><p:outputLabel value="รายละเอียด Group 1 ："/>
+                    <p:commandButton id="addDetail" styleClass="search-btn" style="margin: 5px" 
+                                     binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" 
+                                     oncomplete="PF('selectDetail_dialog').show()" update="listFormDetail:detail">
+                    </p:commandButton>
+
+                    <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{q101Controller.selected.sysMainQuotation1List}" var="detail">
+                        <p:column headerText="ลำดับ" style="width: 30px;">
+                            <h:outputText value="#{detail.seq}" />
+                        </p:column>
+                        
+                        <p:column headerText="รายการ" style="width: 179px;">
+                            <h:outputText value="#{detail.detail}" />
+                        </p:column>
+
+                        <p:column headerText="ปริมาณ" style="width: 25px;">
+                            <h:outputText  value="#{detail.volume}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="หน่วย" style="width: 40px;">
+                            <h:outputText value="#{detail.unit}"  />
+                        </p:column>
+
+                        <p:column headerText="ราคา/หน่วย(ของ)" style="width: 50px;">
+                            <h:outputText value="#{detail.valueUnit}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="ราคา/หน่วย(ติดตั้ง)" style="width: 50px;">
+                            <h:outputText value="#{detail.installUnit}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="จำนวนเงิน"  style="width: 50px;">
+                            <h:outputText value="#{detail.amount}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="#{msgs['common.manage']}" style="width: 26px;text-align: center">
+                            <p:commandButton title="#{msgs['btn.delete']}" icon="fa fa-trash" action="#{q101Controller.deleteDetail1()}" styleClass="delete-btn"
+                                             update="listForm:dt_itemDetail listForm:footer_itemDetail listForm:footer_itemDetail4" global="false">
+                                <f:setPropertyActionListener value="#{detail}" target="#{q101Controller.dumpMyDetail_selected1}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:panelGrid id="footer_itemDetail" columns="3" layout="grid"  columnClasses="ui-grid-col-11,ui-grid-col-3,ui-grid-col-1" styleClass="ui-panelgrid-blank"> 
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q101Controller.total1}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>
+
+                        <h:panelGroup >
+                            <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q101Controller.total1_vat}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>  
+
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวมทั้งสิ้น ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q101Controller.total1_net}" 
+                                          style="float:right;background-color:#ccff99"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/> 
+
+                        <h:panelGroup>
+                            <h:outputText value="== #{q101Controller.convertPriceToString(q101Controller.total1_net)} ==" style="float:left;position: relative;left: 50%;color: #ec0000;font-size: 15px"  styleClass="lb_bold"/>
+                        </h:panelGroup>
+                        <h:panelGroup/>
+                        <h:panelGroup/>  
+                    </p:panelGrid>
+                    
+                    <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank" >
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพ :"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg1">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation/#{q101Controller.newFile1}" width="670"/>
+                            <h:outputLabel value="ภาพขนาด 1048x385 pixel เท่านั้น ไฟล์ jpeg, png" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="อัพโหลดรูปภาพ :"/>
+                        <p:fileUpload fileUploadListener="#{q101Controller.handleFileUpload1}"
+                                      auto="true"
+                                      mode="advanced"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 460px;" update="newimg1"/>
+                    </p:panelGrid>
+                    
+                    <br/>
+                    <p:separator style="width:907px;height:2px;background:black;" />
+                    <br/>
+                    <p:spacer/><p:outputLabel value="รายละเอียด Group 2 ："/>
+                    <p:commandButton id="addDetail2" styleClass="search-btn" style="margin: 5px" 
+                                     binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" 
+                                     oncomplete="PF('selectDetail_dialog2').show()" update="listFormDetail2:detail2">
+                    </p:commandButton>
+                    <p:dataTable id="dt_itemDetail2" binding="#{bindingController.dataTableModel}" value="#{q101Controller.selected.sysMainQuotation2List}" var="detail">
+                        <p:column headerText="ลำดับ" style="width: 30px;">
+                            <h:outputText value="#{detail.seq}" />
+                        </p:column>
+                        
+                        <p:column headerText="รายการ" style="width: 179px;">
+                            <h:outputText value="#{detail.detail}" />
+                        </p:column>
+
+                        <p:column headerText="ปริมาณ" style="width: 25px;">
+                            <h:outputText  value="#{detail.volume}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="หน่วย" style="width: 40px;">
+                            <h:outputText value="#{detail.unit}"  />
+                        </p:column>
+
+                        <p:column headerText="ราคา/หน่วย(ของ)" style="width: 50px;">
+                            <h:outputText value="#{detail.valueUnit}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="ราคา/หน่วย(ติดตั้ง)" style="width: 50px;">
+                            <h:outputText value="#{detail.installUnit}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="จำนวนเงิน"  style="width: 50px;">
+                            <h:outputText value="#{detail.amount}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="#{msgs['common.manage']}" style="width: 26px;text-align: center">
+                            <p:commandButton title="#{msgs['btn.delete']}" icon="fa fa-trash" action="#{q101Controller.deleteDetail2()}" styleClass="delete-btn"
+                                             update="listForm:dt_itemDetail2 listForm:footer_itemDetail2 listForm:footer_itemDetail4" global="false">
+                                <f:setPropertyActionListener value="#{detail}" target="#{q101Controller.dumpMyDetail_selected2}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:panelGrid id="footer_itemDetail2" columns="3" layout="grid"  columnClasses="ui-grid-col-11,ui-grid-col-3,ui-grid-col-1" styleClass="ui-panelgrid-blank"> 
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q101Controller.total2}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>
+
+                        <h:panelGroup >
+                            <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q101Controller.total2_vat}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>  
+
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวมทั้งสิ้น ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q101Controller.total2_net}" 
+                                          style="float:right;background-color:#ccff99"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/> 
+
+                        <h:panelGroup>
+                            <h:outputText value="== #{q101Controller.convertPriceToString(q101Controller.total2_net)} ==" style="float:left;position: relative;left: 50%;color: #ec0000;font-size: 15px"  styleClass="lb_bold"/>
+                        </h:panelGroup>
+                        <h:panelGroup/>
+                        <h:panelGroup/>  
+
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank" >
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพ :"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg2">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation/#{q101Controller.newFile2}" width="670"/>
+                            <h:outputLabel value="ภาพขนาด 1048x385 pixel เท่านั้น ไฟล์ jpeg, png" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="อัพโหลดรูปภาพ :"/>
+                        <p:fileUpload fileUploadListener="#{q101Controller.handleFileUpload2}"
+                                      auto="true"
+                                      mode="advanced"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 460px;" update="newimg2"/>
+                    </p:panelGrid>
+                    
+                    <br/>
+                    <p:separator style="width:907px;height:2px;background:black;" />
+                    <br/>
+                    <p:spacer/><p:outputLabel value="รายละเอียด Group 3 ："/>
+                    <p:commandButton id="addDetail3" styleClass="search-btn" style="margin: 5px" 
+                                     binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" 
+                                     oncomplete="PF('selectDetail_dialog3').show()" update="listFormDetail3:detail3">
+                    </p:commandButton>
+                    <p:dataTable id="dt_itemDetail3" binding="#{bindingController.dataTableModel}" value="#{q101Controller.selected.sysMainQuotation3List}" var="detail">
+                        <p:column headerText="ลำดับ" style="width: 30px;">
+                            <h:outputText value="#{detail.seq}" />
+                        </p:column>
+                        
+                        <p:column headerText="รายการ" style="width: 179px;">
+                            <h:outputText value="#{detail.detail}" />
+                        </p:column>
+
+                        <p:column headerText="ปริมาณ" style="width: 25px;">
+                            <h:outputText  value="#{detail.volume}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="หน่วย" style="width: 40px;">
+                            <h:outputText value="#{detail.unit}"  />
+                        </p:column>
+
+                        <p:column headerText="ราคา/หน่วย(ของ)" style="width: 50px;">
+                            <h:outputText value="#{detail.valueUnit}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="ราคา/หน่วย(ติดตั้ง)" style="width: 50px;">
+                            <h:outputText value="#{detail.installUnit}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="จำนวนเงิน"  style="width: 50px;">
+                            <h:outputText value="#{detail.amount}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="#{msgs['common.manage']}" style="width: 26px;text-align: center">
+                            <p:commandButton title="#{msgs['btn.delete']}" icon="fa fa-trash" action="#{q101Controller.deleteDetail3()}" styleClass="delete-btn"
+                                             update="listForm:dt_itemDetail3 listForm:footer_itemDetail3 listForm:footer_itemDetail4" global="false">
+                                <f:setPropertyActionListener value="#{detail}" target="#{q101Controller.dumpMyDetail_selected3}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:panelGrid id="footer_itemDetail3" columns="3" layout="grid"  columnClasses="ui-grid-col-11,ui-grid-col-3,ui-grid-col-1" styleClass="ui-panelgrid-blank"> 
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q101Controller.total3}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>
+
+                        <h:panelGroup >
+                            <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q101Controller.total3_vat}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>  
+
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวมทั้งสิ้น ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q101Controller.total3_net}" 
+                                          style="float:right;background-color:#ccff99"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/> 
+
+                        <h:panelGroup>
+                            <h:outputText value="== #{q101Controller.convertPriceToString(q101Controller.total3_net)} ==" style="float:left;position: relative;left: 50%;color: #ec0000;font-size: 15px"  styleClass="lb_bold"/>
+                        </h:panelGroup>
+                        <h:panelGroup/>
+                        <h:panelGroup/>  
+
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank" >
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพ :"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg3">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation/#{q101Controller.newFile3}" width="670"/>
+                            <h:outputLabel value="ภาพขนาด 1048x385 pixel เท่านั้น ไฟล์ jpeg, png" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="อัพโหลดรูปภาพ :"/>
+                        <p:fileUpload fileUploadListener="#{q101Controller.handleFileUpload3}"
+                                      auto="true"
+                                      mode="advanced"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 460px;" update="newimg3"/>
+                    </p:panelGrid>
+                    
+
+                    <br/>
+                    <p:separator style="width:907px;height:2px;background:black;" />
+                    <br/>
+                    <p:spacer/><p:outputLabel value=" รวบรวมรายการทั้งหมด ：" style="color: red;"/>
+                     <p:panelGrid id="footer_itemDetail4" columns="3" layout="grid"  columnClasses="ui-grid-col-11,ui-grid-col-3,ui-grid-col-1" styleClass="ui-panelgrid-blank"> 
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q101Controller.total}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>
+
+                        <h:panelGroup >
+                            <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q101Controller.total_vat}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>  
+
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวมทั้งสิ้น ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q101Controller.total_net}" 
+                                          style="float:right;background-color:#ccff99"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/> 
+
+                        <h:panelGroup>
+                            <h:outputText value="== #{q101Controller.convertPriceToString(q101Controller.total_net)} ==" style="float:left;position: relative;left: 50%;color: #ec0000;font-size: 15px"  styleClass="lb_bold"/>
+                        </h:panelGroup>
+                        <h:panelGroup/>
+                        <h:panelGroup/>  
+
+                    </p:panelGrid>
+                </p:panel>
+            </p:panel>
+
+            <h:panelGroup style="margin: 5px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{q101Controller.create()}" styleClass="edit-btn" update=":content"/>
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 actionListener="#{q101Controller.cancel('quotation/q101/index')}" styleClass="clear-btn" update=":content"/>
+            </h:panelGroup>
+        </h:form>
+    </p:panel>
+
+    <ui:include src="dialog_detail.xhtml" />
+    <ui:include src="dialog_detail_2.xhtml" />
+    <ui:include src="dialog_detail_3.xhtml" />
+
+</ui:composition>
