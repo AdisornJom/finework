@@ -265,6 +265,7 @@ public class Q101Controller extends BaseController {
                 }
             }
            
+            selected.setTypeForm(2);
             selected.setCreatedBy(userInfo.getAdminUser().getUsername());
             selected.setCreatedDt(DateTimeUtil.getSystemDate());
             selected.setModifiedBy(userInfo.getAdminUser().getUsername());
@@ -289,7 +290,7 @@ public class Q101Controller extends BaseController {
                 for (SysMainQuotation2 sysQuotation : selected.getSysMainQuotation2List()) {
                     sysQuotation.setQuotation2Id(null);//auto generate id on db
                     sysQuotation.setQuotationId(selected);
-                    total1 = total1 + sysQuotation.getAmount();
+                    total2 = total2 + sysQuotation.getAmount();
                     detal_add2.add(sysQuotation);
                 }
                 total_tax2 = total2 * 0.07;
@@ -303,7 +304,7 @@ public class Q101Controller extends BaseController {
                 for (SysMainQuotation3 sysQuotation : selected.getSysMainQuotation3List()) {
                     sysQuotation.setQuotation3Id(null);//auto generate id on db
                     sysQuotation.setQuotationId(selected);
-                    total1 = total1 + sysQuotation.getAmount();
+                    total3 = total3 + sysQuotation.getAmount();
                     detal_add3.add(sysQuotation);
                 }
                 total_tax3 = total3 * 0.07;
@@ -423,7 +424,7 @@ public class Q101Controller extends BaseController {
                 for (SysMainQuotation2 sysQuotation : selected.getSysMainQuotation2List()) {
                     sysQuotation.setQuotation2Id(null);//auto generate id on db
                     sysQuotation.setQuotationId(selected);
-                    total1 = total1 + sysQuotation.getAmount();
+                    total2 = total2 + sysQuotation.getAmount();
                     detal_add2.add(sysQuotation);
                 }
                 total_tax2 = total2 * 0.07;
@@ -437,7 +438,7 @@ public class Q101Controller extends BaseController {
                 for (SysMainQuotation3 sysQuotation : selected.getSysMainQuotation3List()) {
                     sysQuotation.setQuotation3Id(null);//auto generate id on db
                     sysQuotation.setQuotationId(selected);
-                    total1 = total1 + sysQuotation.getAmount();
+                    total3 = total3 + sysQuotation.getAmount();
                     detal_add3.add(sysQuotation);
                 }
                 total_tax3 = total3 * 0.07;
@@ -612,7 +613,7 @@ public class Q101Controller extends BaseController {
                     calEnd.set(Calendar.SECOND, 59);
                     toDate = calEnd.getTime();
                 }
-             items=quotationFacade.findSysMainQuotationListByCriteria(documentno,subject,startDate,toDate);
+             items=quotationFacade.findSysMainQuotationListByCriteria(documentno,subject,startDate,toDate,2);
 //             lazyBillingModel = new LazyBillingDataModel(billingFacade,Constants.BILLING_B110,documentno,StringUtils.trimToEmpty(companyName),startDate,toDate);
 //             DataTable dataTable = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("listForm:billingTable");
 //             dataTable.setFirst(0);

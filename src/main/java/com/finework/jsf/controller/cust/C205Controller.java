@@ -6,9 +6,12 @@ import com.finework.jsf.common.NaviController;
 import com.finework.jsf.common.UserInfoController;
 import com.finework.core.util.DateTimeUtil;
 import com.finework.core.util.JsfUtil;
+import com.finework.core.util.MD5Generator;
 import com.finework.core.util.MessageBundleLoader;
+import com.finework.core.util.StringUtil;
 import com.finework.ejb.facade.ForemanFacade;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -36,8 +39,6 @@ public class C205Controller extends BaseController {
     private ForemanFacade foremanFacade;
     private List<SysForeman> items;
     private SysForeman selected;
-    
-
 
     //find by criteria
     private String foremanName;
@@ -65,13 +66,55 @@ public class C205Controller extends BaseController {
     @Override
     public void create() {
         try {
-            if (StringUtils.isBlank(selected.getForemanNameTh())||
-                StringUtils.isBlank(selected.getForemanAddress())) {
+            if (StringUtils.isNotBlank(selected.getNewPassword()) || StringUtils.isNotBlank(selected.getConfirmPassword())) {
+                if (StringUtils.isBlank(selected.getUsername())) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ชื่อผู้ใช้"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                    return;
+                } else if (!StringUtil.validateUserName(selected.getUsername())) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.1008"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                    return;
+                } else if (foremanFacade.isExistUser(selected.getUsername())) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.1002", selected.getUsername()));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                    return;
+                }
+
+                /*
+            validate password*/
+                if (StringUtils.isBlank(selected.getNewPassword())) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "รหัสผ่าน"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                    return;
+                }
+                if (StringUtils.isBlank(selected.getConfirmPassword())) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ยืนยันรหัสผ่าน"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                    return;
+                }
+                if (!StringUtil.validatePasswd1(selected.getNewPassword())) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.1005", "6"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                    return;
+                }
+                if (!StringUtils.equals(selected.getNewPassword(), selected.getConfirmPassword())) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.1018"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                    return;
+                }
+
+                selected.setPassword(MD5Generator.md5(MD5Generator.md5(selected.getNewPassword())));
+            }
+
+            if (StringUtils.isBlank(selected.getForemanNameTh())
+                    || StringUtils.isBlank(selected.getForemanAddress())) {
 
                 JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.2001"));
                 RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
                 return;
             }
+
             selected.setStatus("Y");
             selected.setCreatedBy(userInfo.getAdminUser().getUsername());
             selected.setCreatedDt(DateTimeUtil.getSystemDate());
@@ -99,9 +142,59 @@ public class C205Controller extends BaseController {
     @Override
     public void edit() {
         try {
-             if (StringUtils.isBlank(selected.getForemanNameTh())||
-                StringUtils.isBlank(selected.getForemanAddress())) {
+            if (StringUtils.isNotBlank(selected.getUsername())) {
+                if (!StringUtil.validateUserName(selected.getUsername())) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.1008"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                    return;
+                } else {
+                    SysForeman sysForeman = foremanFacade.findSysForeman(selected.getForemanId());
+                    if (!Objects.equals(selected.getUsername(), sysForeman.getUsername())) {
+                        if (foremanFacade.isExistUser(selected.getUsername())) {
+                            JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.1002", selected.getUsername()));
+                            RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                            return;
+                        }
+                    }
+                }
+            }
+            if (StringUtils.isNotBlank(selected.getNewPassword()) || StringUtils.isNotBlank(selected.getConfirmPassword())) {
+                if (StringUtils.isBlank(selected.getUsername())) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ชื่อผู้ใช้"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                    return;
+                } else if (!StringUtil.validateUserName(selected.getUsername())) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.1008"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                    return;
+                }
+                /*validate password*/
+                if (StringUtils.isBlank(selected.getNewPassword())) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "รหัสผ่าน"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                    return;
+                }
+                if (StringUtils.isBlank(selected.getConfirmPassword())) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "ยืนยันรหัสผ่าน"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                    return;
+                }
+                if (!StringUtil.validatePasswd1(selected.getNewPassword())) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.1005", "6"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                    return;
+                }
+                if (!StringUtils.equals(selected.getNewPassword(), selected.getConfirmPassword())) {
+                    JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.1018"));
+                    RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                    return;
+                }
 
+                selected.setPassword(MD5Generator.md5(MD5Generator.md5(selected.getNewPassword())));
+            }
+
+            if (StringUtils.isBlank(selected.getForemanNameTh())
+                    || StringUtils.isBlank(selected.getForemanAddress())) {
 
                 JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.2001"));
                 RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
@@ -124,6 +217,7 @@ public class C205Controller extends BaseController {
         search();
         next(path);
     }
+
     @Override
     public void delete() {
         try {
@@ -139,14 +233,11 @@ public class C205Controller extends BaseController {
             LOG.error(ex);
         }
     }
-    
+
     private void clearData() {
-        selected=new SysForeman();
+        selected = new SysForeman();
     }
 
-   
-    
-    
     public UserInfoController getUserInfo() {
         return userInfo;
     }
@@ -179,9 +270,6 @@ public class C205Controller extends BaseController {
         this.foremanName = foremanName;
     }
 
-    
-
-   
     public Integer getStatus() {
         return status;
     }
@@ -190,5 +278,4 @@ public class C205Controller extends BaseController {
         this.status = status;
     }
 
-   
 }

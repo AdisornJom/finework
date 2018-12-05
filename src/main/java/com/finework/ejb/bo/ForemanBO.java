@@ -17,7 +17,11 @@ public class ForemanBO {
     private SysForemanDAO sysForemanDAO;
 
     //=========================
-     public List<SysForeman> findSysForemanList() throws Exception {
+    public SysForeman findSysForeman(Integer id) throws Exception{
+        return sysForemanDAO.find(id);
+    }
+    
+    public List<SysForeman> findSysForemanList() throws Exception {
         return sysForemanDAO.findSysForemanList();
     }
      
@@ -40,5 +44,10 @@ public class ForemanBO {
     
     public void deleteSysForeman (SysForeman sysContractor) throws Exception{
         sysForemanDAO.edit(sysContractor);
+    }
+    
+    public boolean isExistUser(String username) throws Exception {
+        SysForeman foreman = sysForemanDAO.isExistUser(username);
+        return foreman != null;
     }
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <p:dialog id="dlg1" header="กรอกรายเอียด....." modal="true" 
+              widgetVar="selectDetail_dialog" width="600" 
+              binding="#{bindingController.defaultDialogModel}" closeOnEscape="true" styleClass="customDialog">
+
+        <h:form id="listFormDetail">
+            <p:panelGrid id="detail" columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-9" styleClass="ui-panelgrid-blank">
+
+                <h:panelGroup>
+                    <p:outputLabel value="ประเภทเงินได้ :" />
+                    <font class="require">*</font>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:selectOneMenu id="paytype" value="#{w103Controller.blDetail_selected.moneyType}"  style="width: 150px;">
+                        <f:selectItems value="#{comboController.whtTypeRents}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                
+
+                <h:panelGroup>
+                    <p:outputLabel value="วันเดือนปี ："/>
+                    <font class="require">*</font>
+                </h:panelGroup>
+                <p:calendar  binding="#{bindingController.calendar}" value="#{w103Controller.blDetail_selected.dateType}" size="10" />
+
+                <h:panelGroup>
+                    <p:outputLabel for="volume" value="จำนวนเงิน :" />
+                    <font class="require">*</font>
+                </h:panelGroup>
+                <p:inputText id="volume" value="#{w103Controller.blDetail_selected.amount}" maxlength="20" 
+                             style="width: 100px; text-align: right;"/>
+
+            </p:panelGrid>
+
+            <br/>
+            <h:panelGroup layout="block" style="text-align: center" >
+                <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                 actionListener="#{w103Controller.addDetail()}">
+                </p:commandButton> 
+                <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 oncomplete="PF('selectDetail_dialog').hide();"
+                                 actionListener="#{w103Controller.clearData_sysWhtDetail()}" />
+            </h:panelGroup>
+        </h:form>
+
+
+    </p:dialog>
+
+</ui:composition>

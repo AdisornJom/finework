@@ -7,9 +7,6 @@ package com.finework.ejb.dao;
 
 import com.finework.core.util.Persistence;
 import com.finework.core.ejb.entity.SysMainQuotation;
-import com.finework.core.ejb.entity.SysCustomer;
-import com.finework.core.ejb.entity.SysWorkunit;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -34,11 +31,15 @@ public class SysQuotationDAO extends AbstractDAO<SysMainQuotation> {
     }
 
     
-    public List<SysMainQuotation> findSysMainQuotationListByCriteria(String documentno,String subject,Date startDate, Date toDate) throws Exception {
+    public List<SysMainQuotation> findSysMainQuotationListByCriteria(String documentno,String subject,Date startDate, Date toDate,Integer typeform) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT m FROM SysMainQuotation m ");
         sb.append("where 1=1 ");
 
+        if (null != typeform) {
+            sb.append("and m.typeForm = :typeform ");
+        }
+        
         if (null != documentno && documentno.length() > 0) {
             sb.append("and m.documentno like :documentno ");
         }
@@ -55,6 +56,9 @@ public class SysQuotationDAO extends AbstractDAO<SysMainQuotation> {
         sb.append("ORDER BY m.quotationId DESC ");
 
         Query q = em.createQuery(sb.toString());
+        if (null != typeform) {
+            q.setParameter("typeform", typeform);
+        }
         if (null != documentno && documentno.length() > 0) {
             q.setParameter("documentno", "%" + documentno + "%");
         }

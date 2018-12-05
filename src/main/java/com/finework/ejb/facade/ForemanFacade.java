@@ -21,6 +21,10 @@ public class ForemanFacade {
 
   
 //=======================================================
+    public SysForeman findSysForeman(Integer id) throws Exception{
+        return foremanBO.findSysForeman(id);
+    }
+    
     public List<SysForeman> findSysForemanList() throws Exception {
        return foremanBO.findSysForemanList();
     }
@@ -48,4 +52,7 @@ public class ForemanFacade {
        foremanBO.deleteSysForeman(sysContractor);
     }
     
+    public boolean isExistUser(String username) throws Exception {
+        return foremanBO.isExistUser(username);
+    }
 }

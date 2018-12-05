@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <p:dialog id="dlg3" header="กรอกรายเอียด Group 3....." modal="true" 
+              widgetVar="selectDetail_dialog3" width="600" 
+              binding="#{bindingController.defaultDialogModel}" closeOnEscape="true" styleClass="customDialog">
+       
+        <h:form id="listFormDetail3">
+            <p:panelGrid id="detail3" columns="2" layout="grid"  columnClasses="ui-grid-col-4,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                <h:panelGroup>
+                    <p:outputLabel value="ลำดับ ："/>
+                </h:panelGroup>
+                <p:inputText  value="#{q102Controller.dumpMyDetail_selected3.seq}" maxlength="10" style="width: 100px;"/>
+                
+                <h:panelGroup>
+                    <p:outputLabel value="รายการ ："/>
+                </h:panelGroup>
+                <p:inputTextarea value="#{q102Controller.dumpMyDetail_selected3.detail}" cols="30" rows="3" 
+                                     maxlength="250" style="width: 360px;" />
+
+                <h:panelGroup>
+                    <p:outputLabel  value="ปริมาณ :" />
+                    <font class="require">*</font>
+                </h:panelGroup>
+                <p:inputText value="#{q102Controller.dumpMyDetail_selected3.volume}" maxlength="20" 
+                             style="width: 100px; text-align: right;"/>
+                   
+                <h:panelGroup>
+                    <p:outputLabel value="หน่วย :" />
+                    <font class="require">*</font>
+                </h:panelGroup>
+                <p:selectOneMenu  value="#{q102Controller.dumpMyDetail_selected3.unit}"  style="width: 100px;">
+                     <f:selectItems value="#{comboController.equipments}" />
+                </p:selectOneMenu>
+
+                <h:panelGroup>
+                    <p:outputLabel  value="ราคา/หน่วย(ค่าของ) :" />
+                    <font class="require">*</font>
+                </h:panelGroup>
+                 <h:panelGroup>
+                     <p:inputText  value="#{q102Controller.dumpMyDetail_selected3.valueUnit}" maxlength="20" style="width: 100px;text-align: right;"/>
+                </h:panelGroup>
+                
+                <h:panelGroup>
+                    <p:outputLabel  value="ราคา/หน่วย(ค่าติดตั้ง) :" />
+                </h:panelGroup>
+                 <h:panelGroup>
+                     <p:inputText  value="#{q102Controller.dumpMyDetail_selected3.installUnit}" maxlength="20" style="width: 100px;text-align: right;"/>
+                </h:panelGroup>
+               
+            </p:panelGrid>
+
+            <br/>
+            <h:panelGroup layout="block" style="text-align: center" >
+                <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                 actionListener="#{q102Controller.addDetail3()}">
+                </p:commandButton> 
+                <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 oncomplete="PF('selectDetail_dialog3').hide();"
+                                 actionListener="#{q102Controller.clearData_sysDetail3()}" />
+            </h:panelGroup>
+        </h:form>
+
+
+    </p:dialog>
+
+</ui:composition>
+        

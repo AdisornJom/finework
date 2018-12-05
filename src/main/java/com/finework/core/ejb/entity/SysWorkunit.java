@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "SysWorkunit.findAll", query = "SELECT s FROM SysWorkunit s")})
 public class SysWorkunit implements Serializable {
+
+    @OneToMany(mappedBy = "workunitId")
+    private List<SysCreatejob> sysCreatejobList;
     
     @OneToMany(mappedBy = "workunitId")
     private List<SysPrepareTransport> sysPrepareTransportList;
@@ -229,6 +232,15 @@ public class SysWorkunit implements Serializable {
 
     public void setSysTransportationList(List<SysTransportation> sysTransportationList) {
         this.sysTransportationList = sysTransportationList;
+    }
+
+    @XmlTransient
+    public List<SysCreatejob> getSysCreatejobList() {
+        return sysCreatejobList;
+    }
+
+    public void setSysCreatejobList(List<SysCreatejob> sysCreatejobList) {
+        this.sysCreatejobList = sysCreatejobList;
     }
 
     

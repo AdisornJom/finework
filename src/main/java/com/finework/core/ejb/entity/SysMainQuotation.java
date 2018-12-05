@@ -47,6 +47,10 @@ public class SysMainQuotation implements Serializable, Comparator<SysMainQuotati
     @Size(max = 200)
     @Column(name = "subject")
     private String subject;
+    
+    @Column(name = "typeform")
+    private Integer typeForm;
+    
     @Size(max = 50)
     @Column(name = "documentno")
     private String documentno;
@@ -103,14 +107,41 @@ public class SysMainQuotation implements Serializable, Comparator<SysMainQuotati
     @Size(max = 255)
     @Column(name = "quotationImg1")
     private String quotationImg1;
+    @Size(max = 255)
+    @Column(name = "quotationImg1_2")
+    private String quotationImg1_2;
+    @Size(max = 255)
+    @Column(name = "quotationImg1_3")
+    private String quotationImg1_3;
+    @Size(max = 255)
+    @Column(name = "quotationImg1_4")
+    private String quotationImg1_4;
     
     @Size(max = 255)
     @Column(name = "quotationImg2")
     private String quotationImg2;
+    @Size(max = 255)
+    @Column(name = "quotationImg2_2")
+    private String quotationImg2_2;
+    @Size(max = 255)
+    @Column(name = "quotationImg2_3")
+    private String quotationImg2_3;
+    @Size(max = 255)
+    @Column(name = "quotationImg2_4")
+    private String quotationImg2_4;
     
     @Size(max = 255)
     @Column(name = "quotationImg3")
     private String quotationImg3;
+    @Size(max = 255)
+    @Column(name = "quotationImg3_2")
+    private String quotationImg3_2;
+    @Size(max = 255)
+    @Column(name = "quotationImg3_3")
+    private String quotationImg3_3;
+    @Size(max = 255)
+    @Column(name = "quotationImg3_4")
+    private String quotationImg3_4;
 
     public SysMainQuotation() {
     }
@@ -263,6 +294,87 @@ public class SysMainQuotation implements Serializable, Comparator<SysMainQuotati
     public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
     }
+
+    public String getQuotationImg1_2() {
+        return quotationImg1_2;
+    }
+
+    public void setQuotationImg1_2(String quotationImg1_2) {
+        this.quotationImg1_2 = quotationImg1_2;
+    }
+
+    public String getQuotationImg1_3() {
+        return quotationImg1_3;
+    }
+
+    public void setQuotationImg1_3(String quotationImg1_3) {
+        this.quotationImg1_3 = quotationImg1_3;
+    }
+
+    public String getQuotationImg1_4() {
+        return quotationImg1_4;
+    }
+
+    public void setQuotationImg1_4(String quotationImg1_4) {
+        this.quotationImg1_4 = quotationImg1_4;
+    }
+
+    public String getQuotationImg2_2() {
+        return quotationImg2_2;
+    }
+
+    public void setQuotationImg2_2(String quotationImg2_2) {
+        this.quotationImg2_2 = quotationImg2_2;
+    }
+
+    public String getQuotationImg2_3() {
+        return quotationImg2_3;
+    }
+
+    public void setQuotationImg2_3(String quotationImg2_3) {
+        this.quotationImg2_3 = quotationImg2_3;
+    }
+
+    public String getQuotationImg2_4() {
+        return quotationImg2_4;
+    }
+
+    public void setQuotationImg2_4(String quotationImg2_4) {
+        this.quotationImg2_4 = quotationImg2_4;
+    }
+
+    public String getQuotationImg3_2() {
+        return quotationImg3_2;
+    }
+
+    public void setQuotationImg3_2(String quotationImg3_2) {
+        this.quotationImg3_2 = quotationImg3_2;
+    }
+
+    public String getQuotationImg3_3() {
+        return quotationImg3_3;
+    }
+
+    public void setQuotationImg3_3(String quotationImg3_3) {
+        this.quotationImg3_3 = quotationImg3_3;
+    }
+
+    public String getQuotationImg3_4() {
+        return quotationImg3_4;
+    }
+
+    public void setQuotationImg3_4(String quotationImg3_4) {
+        this.quotationImg3_4 = quotationImg3_4;
+    }
+
+    public Integer getTypeForm() {
+        return typeForm;
+    }
+
+    public void setTypeForm(Integer typeForm) {
+        this.typeForm = typeForm;
+    }
+    
     
 
     @XmlTransient

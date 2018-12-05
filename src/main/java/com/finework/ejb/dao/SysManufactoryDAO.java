@@ -45,6 +45,24 @@ public class SysManufactoryDAO extends AbstractDAO<SysManufactory> {
         return q.getResultList();
     }
     
+     public List<SysManufactory> findSysManufactoryList(String nickname) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT m FROM SysManufactory m ");
+        sb.append("where 1=1 ");
+        
+        if (null != nickname && nickname.length() > 0) {
+            sb.append("and m.contractorId.contractorNickname like :contractor ");
+        }
+        sb.append("GROUP BY m.contractorId.contractorNickname ");
+        sb.append("order by m.contractorId.contractorNickname asc ");
+        Query q = em.createQuery(sb.toString());
+        if (null != nickname && nickname.length() > 0) {
+            q.setParameter("contractor", "%" + nickname + "%");
+        }
+
+        return q.getResultList();
+    }
+    
     public List<SysManufactory> findSysManufactoryList(String documentno,SysContractor contractor) {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT m FROM SysManufactory m ");
@@ -142,6 +160,7 @@ public class SysManufactoryDAO extends AbstractDAO<SysManufactory> {
             sb.append("and m.factoryDate <= :toDate ");
         }
         sb.append("ORDER BY m.factoryId DESC ");
+        // sb.append("ORDER BY m.sysManufactoryRealList.factoryRealId DESC ");
 
         Query q = em.createQuery(sb.toString());
         if (null != documentno && documentno.length() > 0) {

@@ -32,6 +32,10 @@ public class ManufactoryFacade {
        return manufactoryBO.findSysManufactoryList();
     }
     
+    public List<SysManufactory> findSysManufactoryList(String nickname) throws Exception {
+       return manufactoryBO.findSysManufactoryList(nickname);
+    }
+    
     public List<SysManufactory> findSysManufactoryList(String documentno,SysContractor contractor) throws Exception {
         return manufactoryBO.findSysManufactoryList(documentno,contractor);
     }

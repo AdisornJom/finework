@@ -10,8 +10,10 @@ import com.finework.core.ejb.entity.SysForeman;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.apache.commons.lang3.StringUtils;
 
 
 @Stateless
@@ -61,5 +63,17 @@ public class SysForemanDAO extends AbstractDAO<SysForeman> {
         q.setParameter("foremanId", foremanId );
         
         return (SysForeman)q.getSingleResult();
+    }
+    
+    public SysForeman isExistUser(String username) {
+        Query q = em.createQuery("select o from SysForeman o where lower(o.username) =?1 ");
+        q.setParameter(1, StringUtils.lowerCase(username));
+        try {
+            SysForeman u = (SysForeman) q.getSingleResult();
+            em.refresh(u);
+            return u;
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

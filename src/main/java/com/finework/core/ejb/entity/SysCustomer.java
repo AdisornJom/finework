@@ -85,6 +85,9 @@ public class SysCustomer implements Serializable {
     @Column(name = "modified_dt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDt;
+    
+    @Column(name = "customer_code")
+    private String customerCode;
 
     public SysCustomer() {
     }
@@ -246,5 +249,12 @@ public class SysCustomer implements Serializable {
         this.customerType = customerType;
     }
 
+    public String getCustomerCode() {
+        return customerCode;
+    }
+
+    public void setCustomerCode(String customerCode) {
+        this.customerCode = customerCode;
+    }
 
 }

@@ -45,7 +45,8 @@ public class SysCustomerDAO extends AbstractDAO<SysCustomer> {
         if(null != status && status.length() > 0){
             sb.append("and o.status =:status  ");
         }
-
+        sb.append(" order by createdDt desc");
+        
         Query q = em.createQuery(sb.toString());
         if(null != customerNameTh && customerNameTh.length() > 0){
             q.setParameter("customerNameTh", "%" + customerNameTh + "%");
@@ -53,6 +54,8 @@ public class SysCustomerDAO extends AbstractDAO<SysCustomer> {
         if(null != status && status.length() > 0){
             q.setParameter("status", status );
         }
+        
+        
         return q.getResultList();
     }
      

@@ -14,12 +14,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -36,8 +39,22 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SysForeman.findAll", query = "SELECT s FROM SysForeman s")})
 public class SysForeman implements Serializable {
 
+    @Size(max = 64)
+    @Column(name = "username")
+    private String username;
+    @Size(max = 64)
+    @Column(name = "password")
+    private String password;
+   
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    @ManyToOne
+    private SysFormanRole roleId;
+
     @OneToMany(mappedBy = "foremanId")
     private List<SysTransportation> sysTransportationList;
+    
+    @OneToMany(mappedBy = "foremanId")
+    private List<SysCreatejob> sysCreatejobList;
 
 //    @OneToMany(mappedBy = "foremanId")
 //    private List<SysPaymentManufactory> sysPaymentManufactoryList;
@@ -89,6 +106,12 @@ public class SysForeman implements Serializable {
     @Column(name = "modified_dt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDt;
+    
+    
+    @Transient
+    private String newPassword;
+    @Transient
+    private String confirmPassword;
 
     public SysForeman() {
     }
@@ -243,6 +266,55 @@ public class SysForeman implements Serializable {
 
     public void setSysTransportationList(List<SysTransportation> sysTransportationList) {
         this.sysTransportationList = sysTransportationList;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @XmlTransient
+    public List<SysCreatejob> getSysCreatejobList() {
+        return sysCreatejobList;
+    }
+
+    public void setSysCreatejobList(List<SysCreatejob> sysCreatejobList) {
+        this.sysCreatejobList = sysCreatejobList;
+    }
+
+    public SysFormanRole getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(SysFormanRole roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
 

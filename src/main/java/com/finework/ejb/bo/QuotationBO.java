@@ -29,8 +29,8 @@ public class QuotationBO {
     @EJB
     private SysQuotation3DetailDAO sysQuotation3DetailDAO;
 
-    public List<SysMainQuotation> findSysMainQuotationListByCriteriaForReport(String documentno, String subject, Date startDate, Date toDate) throws Exception {
-        List<SysMainQuotation> sysQuotation = sysQuotationDAO.findSysMainQuotationListByCriteria(documentno, subject, startDate, toDate);
+    public List<SysMainQuotation> findSysMainQuotationListByCriteriaForReport(String documentno, String subject, Date startDate, Date toDate,Integer typeform) throws Exception {
+        List<SysMainQuotation> sysQuotation = sysQuotationDAO.findSysMainQuotationListByCriteria(documentno, subject, startDate, toDate,typeform);
         for (SysMainQuotation u : sysQuotation) {
             u.getSysMainQuotation1List().toString();
             u.getSysMainQuotation2List().toString();

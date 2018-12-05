@@ -1,0 +1,828 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 370px;
+        }
+
+        .customDialog .ui-dialog-title {
+            font-size: 150% !important;
+            color: #ffffff;
+        }
+
+        .customDialog .ui-dialog-content {
+            padding: 0;
+            margin: 10px 10px;
+        }
+        .customDialog .ui-dialog-titlebar.ui-widget-header {
+            background: #C0C0C0;
+            color: black;
+            box-shadow: none;
+        }
+        .autoComplete .ui-autocomplete-loading { background: white url('resources/images/iconSafari.gif') right center no-repeat; }
+
+        .ui-autocomplete-loading { background: white url('resources/images/iconSafari.gif') right center no-repeat; }
+        .pe-inputNumber {
+            text-align: right;
+            width:120px;
+            float:right;
+            font-size: 24px;
+        }
+
+    </style>
+    <p:panel header="Q102 - แก้ไขใบเสนอราคา(ฟอร์มเดียว)">
+
+        <h:form id="listForm">
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+
+            <p:panel id="panel1" style="max-width: 900px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:panel id="panel2" header="#{msgs['m101.commoninfo']}"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+                    <h:panelGroup>
+                        <p:outputLabel value="เลขที่ ："/>
+                    </h:panelGroup>
+                    <h:outputText value="#{q102Controller.selected.documentno}"   styleClass="lb_bold"/>
+                        
+                    <h:panelGroup>
+                        <p:outputLabel value="เรื่อง ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:inputText id="subject" value="#{q102Controller.selected.subject}" style="width: 400px;" />
+
+                    <h:panelGroup>
+                        <p:outputLabel value="เรียน ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:inputText id="invite" value="#{q102Controller.selected.invite}" style="width: 400px;" />
+
+                    <h:panelGroup>
+                        <p:outputLabel value="อีเมล์ ："/>
+                    </h:panelGroup>
+                    <p:inputText id="email" value="#{q102Controller.selected.email}" style="width: 150px;" />
+
+                    <h:panelGroup>
+                        <p:outputLabel value="วันที่ทำรายการ ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:calendar  binding="#{bindingController.calendar}" value="#{q102Controller.selected.quotationDate}" size="10" />
+
+                    <h:panelGroup>
+                        <p:outputLabel value="หัวข้อ ："/>
+                    </h:panelGroup>
+                    <p:inputTextarea id="remark" value="#{q102Controller.selected.remark}" cols="30" rows="3" 
+                                     maxlength="250" style="width: 400px;" />
+
+                </p:panelGrid>
+            </p:panel>
+
+            <p:panel  id="detail_list1" style="border: 0px">
+                <p:panel  header="รายละเอียด" style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank" >
+                        <h:panelGroup>
+                            <p:outputLabel value="หมวดเรื่อง ：" styleClass="bold"/>
+                            <font class="require">*</font>
+                        </h:panelGroup>
+                        <p:inputTextarea id="heading" value="#{q102Controller.selected.heading}" cols="30" rows="2" 
+                                         maxlength="250" style="width: 400px;" />
+                    </p:panelGrid>
+
+                    <p:spacer/><p:outputLabel value="รายละเอียด Group 1 ："/>
+                    <p:commandButton id="addDetail" styleClass="search-btn" style="margin: 5px" 
+                                     binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" 
+                                     actionListener="#{q102Controller.prepareEdit()}"
+                                     oncomplete="PF('selectDetail_dialog').show()" update="listFormDetail:detail">
+                    </p:commandButton>
+
+                    <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{q102Controller.selected.sysMainQuotation1List}" var="detail">
+                        <p:column headerText="ลำดับ" style="width: 30px;">
+                            <h:outputText value="#{detail.seq}" />
+                        </p:column>
+                        
+                        <p:column headerText="รายการ" style="width: 179px;">
+                            <h:outputText value="#{detail.detail}" />
+                        </p:column>
+
+                        <p:column headerText="ปริมาณ" style="width: 25px;">
+                            <h:outputText  value="#{detail.volume}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="หน่วย" style="width: 40px;">
+                            <h:outputText value="#{detail.unit}"  />
+                        </p:column>
+
+                        <p:column headerText="ราคา/หน่วย(ของ)" style="width: 50px;">
+                            <h:outputText value="#{detail.valueUnit}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="ราคา/หน่วย(ติดตั้ง)" style="width: 50px;">
+                            <h:outputText value="#{detail.installUnit}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="จำนวนเงิน"  style="width: 50px;">
+                            <h:outputText value="#{detail.amount}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="#{msgs['common.manage']}" style="width: 26px;text-align: center">
+                            <p:commandButton title="#{msgs['btn.delete']}" icon="fa fa-trash" action="#{q102Controller.deleteDetail1()}" styleClass="delete-btn"
+                                             update="listForm:dt_itemDetail listForm:footer_itemDetail listForm:footer_itemDetail4" global="false">
+                                <f:setPropertyActionListener value="#{detail}" target="#{q102Controller.dumpMyDetail_selected1}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:panelGrid id="footer_itemDetail" columns="3" layout="grid"  columnClasses="ui-grid-col-11,ui-grid-col-3,ui-grid-col-1" styleClass="ui-panelgrid-blank"> 
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q102Controller.total1}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>
+
+                        <h:panelGroup >
+                            <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q102Controller.total1_vat}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>  
+
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวมทั้งสิ้น ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q102Controller.total1_net}" 
+                                          style="float:right;background-color:#ccff99"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/> 
+
+                        <h:panelGroup>
+                            <h:outputText value="== #{q102Controller.convertPriceToString(q102Controller.total1_net)} ==" style="float:left;position: relative;left: 50%;color: #ec0000;font-size: 15px"  styleClass="lb_bold"/>
+                        </h:panelGroup>
+                        <h:panelGroup/>
+                        <h:panelGroup/>  
+                    </p:panelGrid>
+                   
+                    <p:panelGrid columns="5" layout="grid"  columnClasses="ui-grid-col-1,ui-grid-col-5,ui-grid-col-1,ui-grid-col-2,ui-grid-col-3" styleClass="ui-panelgrid-blank" >
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพเดิม 1:"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.selected.quotationImg1}" width="430"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        
+                        <h:panelGroup>
+                            <p:outputLabel value="ภาพใหม่ 1:"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg11">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.newFile1_1}" width="430"/>
+                            <h:outputLabel value="การอัฟไฟล์ jpeg, png เท่านั้น" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel value="อัพโหลดรูปภาพ 1:"/>
+                        <p:fileUpload fileUploadListener="#{q102Controller.handleFileUpload1_1}" 
+                                      auto="true"
+                                      mode="advanced"
+                                      sequential="true"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 215px;" update="newimg11"/>
+                        
+                        
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพเดิม 2:"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.selected.quotationImg1_2}" width="430"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <h:panelGroup>
+                            <p:outputLabel value="ภาพใหม่ 2:"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg12">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.newFile1_2}" width="430"/>
+                            <h:outputLabel value="การอัฟไฟล์ jpeg, png เท่านั้น" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel value="อัพโหลดรูปภาพ 2:"/>
+                        <p:fileUpload fileUploadListener="#{q102Controller.handleFileUpload1_2}" 
+                                      auto="true"
+                                      mode="advanced"
+                                      sequential="true"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 215px;" update="newimg12"/>
+                        
+                        
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพเดิม 3:"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.selected.quotationImg1_3}" width="430"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <h:panelGroup>
+                            <p:outputLabel value="ภาพใหม่ 3:"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg13">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.newFile1_3}" width="430"/>
+                            <h:outputLabel value="การอัฟไฟล์ jpeg, png เท่านั้น" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel value="อัพโหลดรูปภาพ 3:"/>
+                        <p:fileUpload fileUploadListener="#{q102Controller.handleFileUpload1_3}" 
+                                      auto="true"
+                                      mode="advanced"
+                                      sequential="true"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 215px;" update="newimg13"/>
+                        
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพเดิม 4:"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.selected.quotationImg1_4}" width="430"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <h:panelGroup>
+                            <p:outputLabel value="ภาพใหม่ 4:"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg14">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.newFile1_4}" width="430"/>
+                            <h:outputLabel value="การอัฟไฟล์ jpeg, png เท่านั้น" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel value="อัพโหลดรูปภาพ 4:"/>
+                        <p:fileUpload fileUploadListener="#{q102Controller.handleFileUpload1_4}" 
+                                      auto="true"
+                                      mode="advanced"
+                                      sequential="true"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 215px;" update="newimg14"/>
+                        
+                    </p:panelGrid>
+                    
+                    <br/>
+                    <p:separator style="width:907px;height:2px;background:black;" />
+                    <br/>
+                    <p:spacer/><p:outputLabel value="รายละเอียด Group 2 ："/>
+                    <p:commandButton id="addDetail2" styleClass="search-btn" style="margin: 5px" 
+                                     binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" 
+                                     actionListener="#{q102Controller.prepareEdit()}"
+                                     oncomplete="PF('selectDetail_dialog2').show()" update="listFormDetail2:detail2">
+                    </p:commandButton>
+                    <p:dataTable id="dt_itemDetail2" binding="#{bindingController.dataTableModel}" value="#{q102Controller.selected.sysMainQuotation2List}" var="detail">
+                        <p:column headerText="ลำดับ" style="width: 30px;">
+                            <h:outputText value="#{detail.seq}" />
+                        </p:column>
+                        
+                        <p:column headerText="รายการ" style="width: 179px;">
+                            <h:outputText value="#{detail.detail}" />
+                        </p:column>
+
+                        <p:column headerText="ปริมาณ" style="width: 25px;">
+                            <h:outputText  value="#{detail.volume}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="หน่วย" style="width: 40px;">
+                            <h:outputText value="#{detail.unit}"  />
+                        </p:column>
+
+                        <p:column headerText="ราคา/หน่วย(ของ)" style="width: 50px;">
+                            <h:outputText value="#{detail.valueUnit}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="ราคา/หน่วย(ติดตั้ง)" style="width: 50px;">
+                            <h:outputText value="#{detail.installUnit}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="จำนวนเงิน"  style="width: 50px;">
+                            <h:outputText value="#{detail.amount}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="#{msgs['common.manage']}" style="width: 26px;text-align: center">
+                            <p:commandButton title="#{msgs['btn.delete']}" icon="fa fa-trash" action="#{q102Controller.deleteDetail2()}" styleClass="delete-btn"
+                                             update="listForm:dt_itemDetail2 listForm:footer_itemDetail2 listForm:footer_itemDetail4" global="false">
+                                <f:setPropertyActionListener value="#{detail}" target="#{q102Controller.dumpMyDetail_selected2}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:panelGrid id="footer_itemDetail2" columns="3" layout="grid"  columnClasses="ui-grid-col-11,ui-grid-col-3,ui-grid-col-1" styleClass="ui-panelgrid-blank"> 
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q102Controller.total2}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>
+
+                        <h:panelGroup >
+                            <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q102Controller.total2_vat}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>  
+
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวมทั้งสิ้น ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q102Controller.total2_net}" 
+                                          style="float:right;background-color:#ccff99"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/> 
+
+                        <h:panelGroup>
+                            <h:outputText value="== #{q102Controller.convertPriceToString(q102Controller.total2_net)} ==" style="float:left;position: relative;left: 50%;color: #ec0000;font-size: 15px"  styleClass="lb_bold"/>
+                        </h:panelGroup>
+                        <h:panelGroup/>
+                        <h:panelGroup/>  
+
+                    </p:panelGrid>
+                    
+                    <p:panelGrid columns="5" layout="grid"  columnClasses="ui-grid-col-1,ui-grid-col-5,ui-grid-col-1,ui-grid-col-2,ui-grid-col-3" styleClass="ui-panelgrid-blank" >
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพเดิม 1:"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.selected.quotationImg2}" width="430"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพใหม่ 1:"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg21">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.newFile2_1}" width="430"/>
+                            <h:outputLabel value="การอัฟไฟล์ jpeg, png เท่านั้น" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel value="อัพโหลดรูปภาพ 1:"/>
+                        <p:fileUpload fileUploadListener="#{q102Controller.handleFileUpload2_1}" 
+                                      auto="true"
+                                      mode="advanced"
+                                      sequential="true"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 215px;" update="newimg21"/>
+                        
+                        
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพเดิม 2:"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.selected.quotationImg2_2}" width="430"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพใหม่ 2:"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg22">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.newFile2_2}" width="430"/>
+                            <h:outputLabel value="การอัฟไฟล์ jpeg, png เท่านั้น" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel value="อัพโหลดรูปภาพ 2:"/>
+                        <p:fileUpload fileUploadListener="#{q102Controller.handleFileUpload2_2}" 
+                                      auto="true"
+                                      mode="advanced"
+                                      sequential="true"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 215px;" update="newimg22"/>
+                        
+                        
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพเดิม 3:"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.selected.quotationImg2_3}" width="430"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพใหม่ 3 :"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg23">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.newFile2_3}" width="430"/>
+                            <h:outputLabel value="การอัฟไฟล์ jpeg, png เท่านั้น" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel value="อัพโหลดรูปภาพ 3:"/>
+                        <p:fileUpload fileUploadListener="#{q102Controller.handleFileUpload2_3}" 
+                                      auto="true"
+                                      mode="advanced"
+                                      sequential="true"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 215px;" update="newimg23"/>
+                        
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพเดิม 4:"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.selected.quotationImg2_4}" width="430"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพใหม่ 4:"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg24">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.newFile2_4}" width="430"/>
+                            <h:outputLabel value="การอัฟไฟล์ jpeg, png เท่านั้น" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel value="อัพโหลดรูปภาพ 4 :"/>
+                        <p:fileUpload fileUploadListener="#{q102Controller.handleFileUpload2_4}" 
+                                      auto="true"
+                                      mode="advanced"
+                                      sequential="true"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 215px;" update="newimg24"/>
+                        
+                    </p:panelGrid>
+                    
+                    
+                    <br/>
+                    <p:separator style="width:907px;height:2px;background:black;" />
+                    <br/>
+                    <p:spacer/><p:outputLabel value="รายละเอียด Group 3 ："/>
+                    <p:commandButton id="addDetail3" styleClass="search-btn" style="margin: 5px" 
+                                     binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" 
+                                     actionListener="#{q102Controller.prepareEdit()}"
+                                     oncomplete="PF('selectDetail_dialog3').show()" update="listFormDetail3:detail3">
+                    </p:commandButton>
+                    <p:dataTable id="dt_itemDetail3" binding="#{bindingController.dataTableModel}" value="#{q102Controller.selected.sysMainQuotation3List}" var="detail">
+                        <p:column headerText="ลำดับ" style="width: 30px;">
+                            <h:outputText value="#{detail.seq}" />
+                        </p:column>
+                        
+                        <p:column headerText="รายการ" style="width: 179px;">
+                            <h:outputText value="#{detail.detail}" />
+                        </p:column>
+
+                        <p:column headerText="ปริมาณ" style="width: 25px;">
+                            <h:outputText  value="#{detail.volume}"  style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="หน่วย" style="width: 40px;">
+                            <h:outputText value="#{detail.unit}"  />
+                        </p:column>
+
+                        <p:column headerText="ราคา/หน่วย(ของ)" style="width: 50px;">
+                            <h:outputText value="#{detail.valueUnit}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="ราคา/หน่วย(ติดตั้ง)" style="width: 50px;">
+                            <h:outputText value="#{detail.installUnit}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="จำนวนเงิน"  style="width: 50px;">
+                            <h:outputText value="#{detail.amount}" style="float: right;">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>     
+                        </p:column>
+
+                        <p:column headerText="#{msgs['common.manage']}" style="width: 26px;text-align: center">
+                            <p:commandButton title="#{msgs['btn.delete']}" icon="fa fa-trash" action="#{q102Controller.deleteDetail3()}" styleClass="delete-btn"
+                                             update="listForm:dt_itemDetail3 listForm:footer_itemDetail3 listForm:footer_itemDetail4" global="false">
+                                <f:setPropertyActionListener value="#{detail}" target="#{q102Controller.dumpMyDetail_selected3}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:panelGrid id="footer_itemDetail3" columns="3" layout="grid"  columnClasses="ui-grid-col-11,ui-grid-col-3,ui-grid-col-1" styleClass="ui-panelgrid-blank"> 
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q102Controller.total3}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>
+
+                        <h:panelGroup >
+                            <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q102Controller.total3_vat}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>  
+
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวมทั้งสิ้น ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q102Controller.total3_net}" 
+                                          style="float:right;background-color:#ccff99"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/> 
+
+                        <h:panelGroup>
+                            <h:outputText value="== #{q102Controller.convertPriceToString(q102Controller.total3_net)} ==" style="float:left;position: relative;left: 50%;color: #ec0000;font-size: 15px"  styleClass="lb_bold"/>
+                        </h:panelGroup>
+                        <h:panelGroup/>
+                        <h:panelGroup/>  
+
+                    </p:panelGrid>
+                   
+                    <p:panelGrid columns="5" layout="grid"  columnClasses="ui-grid-col-1,ui-grid-col-5,ui-grid-col-1,ui-grid-col-2,ui-grid-col-3" styleClass="ui-panelgrid-blank" >
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพเดิม 1:"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.selected.quotationImg3}" width="430"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพใหม่ 1:"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg31">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.newFile3_1}" width="430"/>
+                            <h:outputLabel value="การอัฟไฟล์ jpeg, png เท่านั้น" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel value="อัพโหลดรูปภาพ 1 :"/>
+                        <p:fileUpload fileUploadListener="#{q102Controller.handleFileUpload3_1}" 
+                                      auto="true"
+                                      mode="advanced"
+                                      sequential="true"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 215px;" update="newimg31"/>
+                        
+                        
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพเดิม 2:"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.selected.quotationImg3_2}" width="430"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพใหม่ 2:"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg32">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.newFile3_2}" width="430"/>
+                            <h:outputLabel value="การอัฟไฟล์ jpeg, png เท่านั้น" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel value="อัพโหลดรูปภาพ 2:"/>
+                        <p:fileUpload fileUploadListener="#{q102Controller.handleFileUpload3_2}" 
+                                      auto="true"
+                                      mode="advanced"
+                                      sequential="true"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 215px;" update="newimg32"/>
+                        
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพเดิม 3:"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.selected.quotationImg3_3}" width="430"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพใหม่ 3:"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg33">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.newFile3_3}" width="430"/>
+                            <h:outputLabel value="การอัฟไฟล์ jpeg, png เท่านั้น" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel value="อัพโหลดรูปภาพ 3 :"/>
+                        <p:fileUpload fileUploadListener="#{q102Controller.handleFileUpload3_3}" 
+                                      auto="true"
+                                      mode="advanced"
+                                      sequential="true"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 215px;" update="newimg33"/>
+                        
+                        
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพเดิม 4:"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.selected.quotationImg3_4}" width="430"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <p:outputLabel />
+                        <h:panelGroup>
+                            <p:outputLabel value="รูปภาพใหม่ 4:"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="newimg34">
+                            <h:graphicImage value="#{commonController.IMAGES_URL}/quotation1/#{q102Controller.newFile3_4}" width="430"/>
+                            <h:outputLabel value="การอัฟไฟล์ jpeg, png เท่านั้น" style="font-weight: bolder;" styleClass="sub-label"/>
+                        </h:panelGroup>
+                        <p:outputLabel />
+                        <p:outputLabel value="อัพโหลดรูปภาพ 4 :"/>
+                        <p:fileUpload fileUploadListener="#{q102Controller.handleFileUpload3_4}" 
+                                      auto="true"
+                                      mode="advanced"
+                                      sequential="true"
+                                      skinSimple="true"
+                                      sizeLimit="307200000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      style="margin-bottom: 4px;width: 215px;" update="newimg34"/>
+                        
+                    </p:panelGrid>
+                    
+
+                    <br/>
+                    <p:separator style="width:907px;height:2px;background:black;" />
+                    <br/>
+                    <p:spacer/><p:outputLabel value=" รวบรวมรายการทั้งหมด ：" style="color: red;"/>
+                     <p:panelGrid id="footer_itemDetail4" columns="3" layout="grid"  columnClasses="ui-grid-col-11,ui-grid-col-3,ui-grid-col-1" styleClass="ui-panelgrid-blank"> 
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q102Controller.total}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>
+
+                        <h:panelGroup >
+                            <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q102Controller.total_vat}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>  
+
+                        <h:panelGroup >
+                            <p:outputLabel value="จำนวนเงินรวมทั้งสิ้น ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputText value="#{q102Controller.total_net}" 
+                                          style="float:right;background-color:#ccff99"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/> 
+
+                        <h:panelGroup>
+                            <h:outputText value="== #{q102Controller.convertPriceToString(q102Controller.total_net)} ==" style="float:left;position: relative;left: 50%;color: #ec0000;font-size: 15px"  styleClass="lb_bold"/>
+                        </h:panelGroup>
+                        <h:panelGroup/>
+                        <h:panelGroup/>  
+
+                    </p:panelGrid>
+                </p:panel>
+            </p:panel>
+
+            <h:panelGroup style="margin: 5px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{q102Controller.edit()}" styleClass="edit-btn" update=":content"/>
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 actionListener="#{q102Controller.cancel('quotation/q102/index')}" styleClass="clear-btn" update=":content"/>
+            </h:panelGroup>
+        </h:form>
+    </p:panel>
+
+    <ui:include src="dialog_detail.xhtml" />
+    <ui:include src="dialog_detail_2.xhtml" />
+    <ui:include src="dialog_detail_3.xhtml" />
+
+</ui:composition>

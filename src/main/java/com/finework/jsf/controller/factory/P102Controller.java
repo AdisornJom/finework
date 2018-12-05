@@ -422,22 +422,32 @@ public class P102Controller extends BaseController {
     }
     
      //Auto complete customer
+//     public List<SysManufactory> completeManufactory(String query) {
+//         List<SysManufactory> filteredSysManufactory = new ArrayList<>();
+//       try {
+//            List<String> sysManufactory_list=new ArrayList();
+//            List<SysManufactory> allSysManufactory = manufactoryFacade.findSysManufactoryList();
+//            for (SysManufactory sysManufactory:allSysManufactory) {
+//               if(sysManufactory.getContractorId().getContractorNickname()!=null && sysManufactory.getContractorId().getContractorNickname().length()>0){
+//                if(sysManufactory.getContractorId().getContractorNickname().toLowerCase().startsWith(query)) {
+//                    if (!sysManufactory_list.contains(sysManufactory.getContractorId().getContractorNickname())) {
+//                        filteredSysManufactory.add(sysManufactory);
+//                        sysManufactory_list.add(sysManufactory.getContractorId().getContractorNickname());
+//                    }
+//                    
+//                }
+//               }
+//            }
+//         } catch (Exception ex) {
+//            LOG.error(ex);
+//        }
+//        return filteredSysManufactory;
+//    }
+    
      public List<SysManufactory> completeManufactory(String query) {
          List<SysManufactory> filteredSysManufactory = new ArrayList<>();
        try {
-            List<String> sysManufactory_list=new ArrayList();
-            List<SysManufactory> allSysManufactory = manufactoryFacade.findSysManufactoryList();
-            for (SysManufactory sysManufactory:allSysManufactory) {
-               if(sysManufactory.getContractorId().getContractorNickname()!=null && sysManufactory.getContractorId().getContractorNickname().length()>0){
-                if(sysManufactory.getContractorId().getContractorNickname().toLowerCase().startsWith(query)) {
-                    if (!sysManufactory_list.contains(sysManufactory.getContractorId().getContractorNickname())) {
-                        filteredSysManufactory.add(sysManufactory);
-                        sysManufactory_list.add(sysManufactory.getContractorId().getContractorNickname());
-                    }
-                    
-                }
-               }
-            }
+            filteredSysManufactory = manufactoryFacade.findSysManufactoryList(query);
          } catch (Exception ex) {
             LOG.error(ex);
         }

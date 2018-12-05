@@ -50,6 +50,10 @@ public class ManufactoryBO {
         return sysManufactoryDAO.findSysManufactoryList();
     }
     
+    public List<SysManufactory> findSysManufactoryList(String nickname) throws Exception {
+        return sysManufactoryDAO.findSysManufactoryList(nickname);
+    }
+    
     public List<SysManufactory> findSysManufactoryList(String documentno,SysContractor contractor) throws Exception {
         return sysManufactoryDAO.findSysManufactoryList(documentno,contractor);
     }

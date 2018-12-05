@@ -21,8 +21,8 @@ public class QuotationFacade {
     private QuotationBO quotationBO;
 
 
-    public List<SysMainQuotation> findSysMainQuotationListByCriteria(String documentno,String subject, Date startDate, Date toDate) throws Exception {
-       return quotationBO.findSysMainQuotationListByCriteriaForReport(documentno, subject, startDate, toDate);
+    public List<SysMainQuotation> findSysMainQuotationListByCriteria(String documentno,String subject, Date startDate, Date toDate,Integer typeform) throws Exception {
+       return quotationBO.findSysMainQuotationListByCriteriaForReport(documentno, subject, startDate, toDate,typeform);
     }
     
     public SysMainQuotation  findByPK(Integer id){

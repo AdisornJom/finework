@@ -3,9 +3,11 @@ package com.finework.jsf.common;
 import com.finework.core.ejb.entity.AdminUserRole;
 import com.finework.core.ejb.entity.Language;
 import com.finework.core.ejb.entity.SysSeleteitem;
+import com.finework.core.util.Constants;
 import com.finework.ejb.facade.ComboFacade;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
@@ -33,6 +35,7 @@ public class ComboController extends BaseController {
     private List<SelectItem> extraIncome;
     private List<SelectItem> extraIncomenovat;
     private List<SelectItem> whtTypes;
+    private List<SelectItem> whtTypeRents;
     private List<SelectItem> paymentOuts;
 
     @PostConstruct
@@ -73,9 +76,14 @@ public class ComboController extends BaseController {
             
             List<SysSeleteitem> seleteItems_wht= comboFacade.findSysSeleteitemByCriteria("whtTypes");
             whtTypes = new ArrayList<>();
+            whtTypeRents = new ArrayList<>();
             if(null!=seleteItems_wht && seleteItems_wht.size()>0){
-                for(SysSeleteitem detail:seleteItems_wht)
+                for(SysSeleteitem detail:seleteItems_wht){
+                    if(Objects.equals(Constants.WHT_SEQ_3, detail.getTypeName())){
+                        whtTypeRents.add(new SelectItem(detail.getTypeKey(),detail.getTypeName()));
+                    }
                     whtTypes.add(new SelectItem(detail.getTypeKey(),detail.getTypeName()));
+                }
             }
             
             List<SysSeleteitem> seleteItems_whtPay= comboFacade.findSysSeleteitemByCriteria("whtPaymentouts");
@@ -151,6 +159,14 @@ public class ComboController extends BaseController {
 
     public void setPaymentOuts(List<SelectItem> paymentOuts) {
         this.paymentOuts = paymentOuts;
+    }
+
+    public List<SelectItem> getWhtTypeRents() {
+        return whtTypeRents;
+    }
+
+    public void setWhtTypeRents(List<SelectItem> whtTypeRents) {
+        this.whtTypeRents = whtTypeRents;
     }
 
   
