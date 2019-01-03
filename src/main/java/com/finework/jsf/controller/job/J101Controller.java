@@ -11,6 +11,7 @@ import com.finework.core.util.JsfUtil;
 import com.finework.core.util.MessageBundleLoader;
 import com.finework.core.util.DateTimeUtil;
 import com.finework.core.util.ThaiBaht;
+import com.finework.core.utils.UploadUtil;
 import com.finework.ejb.facade.CreateJobFacade;
 import com.finework.ejb.facade.CustomerFacade;
 import com.finework.ejb.facade.ForemanFacade;
@@ -25,6 +26,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -333,7 +335,7 @@ public class J101Controller extends BaseController {
             LOG.error(ex);
         }
     }
-     
+    
     //==== Strat Group ==========
       public void searchUserGroup() {
         try {
@@ -390,8 +392,8 @@ public class J101Controller extends BaseController {
     public void deleteDetail(){
         try {
              //delete total 
+             UploadUtil.deleteFileUpload("uploadJob".concat("/").concat(selected.getWorkunitId().getWorkunitName()), null, createJob_selected.getJobImg());
              selected.getSysCreatejobDetailList().remove(createJob_selected);
-            // checkTotalPrice();
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
             LOG.error(ex);

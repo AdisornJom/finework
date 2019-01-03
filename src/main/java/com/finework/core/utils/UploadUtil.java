@@ -108,6 +108,22 @@ public class UploadUtil {
        // return realPath;
        return sFileName;
     }
+    
+    public static void deleteFileUpload(String folder, String subFolder, String fileName){
+        String realPath = null;
+        try {
+            String imagesDir = MessageBundleLoader.getConfigProperties("imagesDir");
+            if (subFolder != null && subFolder.length() != 0) {
+                folder = folder.concat("//").concat(subFolder);
+            }
+            realPath = folder.concat("//").concat(fileName);
+            File file = new File(imagesDir.concat("//").concat(realPath));
+            boolean success = file.delete();
+            
+        } catch (Exception ex) {
+            Logger.getLogger(UploadUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 
 }

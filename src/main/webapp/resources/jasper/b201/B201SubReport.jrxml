@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="B102SubReport" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a0dc101b-2a12-4673-a8cb-593a0fe767dd">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="B201SubReport" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a0dc101b-2a12-4673-a8cb-593a0fe767dd">
 	<property name="ireport.zoom" value="1.2100000000000006"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -24,8 +24,8 @@
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<textField isStretchWithOverflow="true">
-				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="42" y="0" width="270" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="7dd36b72-d983-4cb3-8f7a-55fd01fa9b3e"/>
+			<textField isStretchWithOverflow="true" evaluationTime="Band">
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="47" y="0" width="254" height="20" isPrintWhenDetailOverflows="true" uuid="7dd36b72-d983-4cb3-8f7a-55fd01fa9b3e"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -33,13 +33,13 @@
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font fontName="Tahoma"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{detail}]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Band">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="392" y="0" width="70" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="6eee6075-1b09-4a76-95e3-83eb107e8f88"/>
+			<textField isStretchWithOverflow="true" evaluationTime="Band">
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="393" y="0" width="75" height="20" isPrintWhenDetailOverflows="true" uuid="6eee6075-1b09-4a76-95e3-83eb107e8f88"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -47,13 +47,13 @@
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Right" verticalAlignment="Top">
-					<font fontName="Tahoma"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{priceUnit}]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Band">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="466" y="0" width="68" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="f223e929-4684-404d-bbc8-65ec65bd98c4"/>
+			<textField isStretchWithOverflow="true" evaluationTime="Band">
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="469" y="0" width="86" height="20" isPrintWhenDetailOverflows="true" uuid="f223e929-4684-404d-bbc8-65ec65bd98c4"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -61,13 +61,13 @@
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Right" verticalAlignment="Top">
-					<font fontName="Tahoma"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{priceTotal}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" evaluationTime="Band">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="1" y="0" width="33" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="9558b601-6dcb-455a-9ee7-8b742a7c6c7c"/>
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="1" y="0" width="39" height="20" isPrintWhenDetailOverflows="true" uuid="9558b601-6dcb-455a-9ee7-8b742a7c6c7c"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -75,13 +75,13 @@
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Tahoma"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{seq}]]></textFieldExpression>
 			</textField>
-			<textField evaluationTime="Band">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" isPrintRepeatedValues="false" x="319" y="0" width="71" height="20" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="c0948337-73e6-4bf9-b9b4-d0cf1dc96f6a"/>
+			<textField isStretchWithOverflow="true" evaluationTime="Band">
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="329" y="0" width="58" height="20" isPrintWhenDetailOverflows="true" uuid="c0948337-73e6-4bf9-b9b4-d0cf1dc96f6a"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -89,8 +89,8 @@
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Right" verticalAlignment="Top">
-					<font fontName="Tahoma"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{volumn}]]></textFieldExpression>
 			</textField>

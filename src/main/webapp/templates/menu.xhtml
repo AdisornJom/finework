@@ -98,12 +98,19 @@
             </p:submenu>
             
             <p:submenu label="ใบเสนอราคา" icon="fa fa fa-gavel" >
-                 <p:menuitem value="Q101 - ใบเสนอราคา"  actionListener="#{naviController.next('quotation/q101/index','Q101Controller','Q101 - ใบเสนอราคา')}" ajax="false"/>
+                 <p:menuitem value="Q101 - ใบเสนอราคา(ฟอร์มคู่)"  actionListener="#{naviController.next('quotation/q101/index','Q101Controller','Q101 - ใบเสนอราคา(ฟอร์มคู่)')}" ajax="false"/>
+                 <p:menuitem value="Q102 - ใบเสนอราคา(ฟอร์มเดียว)"  actionListener="#{naviController.next('quotation/q102/index','Q102Controller','Q102 - ใบเสนอราคา(ฟอร์มเดียว)')}" ajax="false"/>
+                 <p:menuitem value="Q103 - รายงานสรุปใบเสนอราคา" rendered="false" actionListener="#{naviController.next('quotation/q103/index','Q103Controller','Q103 - รายงานสรุปใบเสนอราคา')}" ajax="false"/>
             </p:submenu>
             
             <p:submenu label="ภาษี" icon="fa fa-balance-scale" >
                  <p:menuitem value="W101 - หักภาษี ณ ที่จ่าย(3%)"  actionListener="#{naviController.next('wht/w101/index','W101Controller','W101 - หักภาษี ณ ที่จ่าย(3%)')}" ajax="false"/>
                  <p:menuitem value="W102 - หักภาษี ณ ที่จ่าย(1%)"  actionListener="#{naviController.next('wht/w102/index','W102Controller','W102 - หักภาษี ณ ที่จ่าย(1%)')}" ajax="false"/>
+                 <p:menuitem value="W103 - หักภาษี ณ ที่จ่าย(5%)"  actionListener="#{naviController.next('wht/w103/index','W103Controller','W103 - หักภาษี ณ ที่จ่าย(5%)')}" ajax="false"/>
+            </p:submenu>
+            
+            <p:submenu label="สร้างงาน" icon="fa fa-drivers-license-o" >
+                 <p:menuitem value="J101 - ถ่ายภาพโครงการ"  actionListener="#{naviController.next('job/j101/index','J101Controller','J101 - ถ่ายภาพโครงการ')}" ajax="false"/>
             </p:submenu>
 
             <p:submenu label="#{msgs['menu.admin']}" icon="fa fa-users" rendered="#{p:ifGranted('ROLE_ADMIN')}">

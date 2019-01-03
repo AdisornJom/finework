@@ -420,7 +420,7 @@ public class B202Controller extends BaseController {
             map.put("bill_date",DateTimeUtil.cvtDateForShow(rpt_sysbilling.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")));
 
             map.put("reportCode", "B202");
-            report.exportSubReport_Template("template.jpg","b202", new String[]{"B202Report","B202SubReport"}, "Sales_Invoice", map, reportList_);
+            report.exportSubReport_Template_1("template.jpg","b202", new String[]{"B202Report","B202SubReport"}, "Sales_Invoice", map, reportList_);
             
             //add print form
             SysPrintBilling sysPrintBilling =new SysPrintBilling();

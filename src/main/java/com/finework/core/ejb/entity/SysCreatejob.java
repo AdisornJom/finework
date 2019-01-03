@@ -9,8 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -86,8 +88,13 @@ public class SysCreatejob implements Serializable {
     @JoinColumn(name = "workunit_id", referencedColumnName = "workunit_id")
     @ManyToOne
     private SysWorkunit workunitId;
-    @OneToMany(mappedBy = "jobId")
+    
+    
+   // @OneToMany(mappedBy = "jobId")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "jobId", cascade = CascadeType.ALL,orphanRemoval=true)
     private List<SysCreatejobDetail> sysCreatejobDetailList;
+    
+    
 
     public SysCreatejob() {
     }
