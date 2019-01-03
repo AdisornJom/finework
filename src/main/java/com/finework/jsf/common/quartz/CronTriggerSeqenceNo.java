@@ -48,9 +48,12 @@ public class CronTriggerSeqenceNo {
 
             CronTrigger trigger1 = TriggerBuilder.newTrigger()
                     .withIdentity("trigger1", "group1")
-                    .withSchedule(CronScheduleBuilder.cronSchedule("0 0 1 1 * ?"))
+                    .withSchedule(CronScheduleBuilder.cronSchedule("1 0 0 1 * ?"))
                     .build();
             /* 0 0 1 1 * ? ทำงานทุก วันที่ 1 เดือน 1 */
+            /* 1 0 0 1 * ?  At 12:00:01 AM, on day 1 of the month */
+            
+            
             
             //.withSchedule(CronScheduleBuilder.cronSchedule("0/10 * * * * ?")).build();
             /* 0/10 * * * * ? ทำงานทุก 10 วินาที */

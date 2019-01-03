@@ -28,8 +28,7 @@ public class NativeDAO {
             conn = jdbcUtil.getMysqlConnection();
             stm = conn.createStatement();
 
-            String sql = "update sys_sequence set runningno = 0  "
-                    + " where startnewyear = 'Y'";
+            String sql = "update sys_sequence set runningno = 0  where id=27 and startnewyear = 'Y'";
             stm.executeUpdate(sql);
 
         } catch (SQLException ex) {

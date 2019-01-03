@@ -79,9 +79,9 @@
         <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
     </listener>
     
-<!--    <listener>
+    <listener>
         <listener-class>org.quartz.ee.servlet.QuartzInitializerListener</listener-class>
-    </listener>-->
+    </listener>
     
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="B201Report" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="26" bottomMargin="20" uuid="eb53d534-0f9f-4a9b-a4a2-98e2a6d8d8ae">
 	<property name="ireport.zoom" value="1.3310000000000228"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="82"/>
+	<property name="ireport.y" value="370"/>
 	<parameter name="cust_name" class="java.lang.String"/>
 	<parameter name="cust_address" class="java.lang.String"/>
 	<parameter name="send_date" class="java.lang.String"/>
@@ -156,7 +156,7 @@
 		<band height="208" splitType="Stretch">
 			<elementGroup/>
 			<textField>
-				<reportElement mode="Opaque" x="-17" y="78" width="302" height="24" backcolor="#FFFFFF" uuid="ed7c844f-3037-4719-b990-86430c5180a1"/>
+				<reportElement mode="Opaque" x="-17" y="78" width="337" height="24" backcolor="#FFFFFF" uuid="ed7c844f-3037-4719-b990-86430c5180a1"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -165,7 +165,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="12" isBold="true"/>
+					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{price_char}]]></textFieldExpression>
 			</textField>

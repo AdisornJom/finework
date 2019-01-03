@@ -41,8 +41,11 @@ public class SequenceController extends BaseController {
             if(null!=sysSequence){
                 Integer nextNumber= sysSequence.getRunningno()+sysSequence.getIncrementno(); 
                 if(Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE.equals(runingType)){
+//                    String formatNo=StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
+//                    runningNo=sysSequence.getPrefix()+formatNo+sysSequence.getSuffix();
+                    String formatRunning=DateTimeUtil.cvtDateForShow(DateTimeUtil.currentDate(),"yyyyMM",new Locale("th", "TH"));
                     String formatNo=StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
-                    runningNo=sysSequence.getPrefix()+formatNo+sysSequence.getSuffix();
+                    runningNo=sysSequence.getPrefix()+formatRunning+formatNo+sysSequence.getSuffix();
                 }else{
                     String formatRunning=DateTimeUtil.cvtDateForShow(DateTimeUtil.currentDate(),"yyyyMM",new Locale("th", "TH"));
                     String formatNo=StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
@@ -68,8 +71,11 @@ public class SequenceController extends BaseController {
                 sequenceFacade.editSequence(sysSequence);
 
                 if(Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE.equals(runingType)){
-                     String formatNo=StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
-                     runningNo=sysSequence.getPrefix()+formatNo+sysSequence.getSuffix();
+//                     String formatNo=StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
+//                     runningNo=sysSequence.getPrefix()+formatNo+sysSequence.getSuffix();
+                    String formatRunning=DateTimeUtil.cvtDateForShow(DateTimeUtil.currentDate(),runingFormat,new Locale("th", "TH"));
+                    String formatNo=StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
+                    runningNo=sysSequence.getPrefix()+formatRunning+formatNo+sysSequence.getSuffix();
                 }else{
                     String formatRunning=DateTimeUtil.cvtDateForShow(DateTimeUtil.currentDate(),runingFormat,new Locale("th", "TH"));
                     String formatNo=StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);

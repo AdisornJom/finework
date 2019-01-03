@@ -218,7 +218,7 @@
 				<textFieldExpression><![CDATA[$P{price_total}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Opaque" x="-17" y="78" width="302" height="24" backcolor="#FFFFFF" uuid="28d1c606-753c-4e4d-9655-a8e374edff5a"/>
+				<reportElement mode="Opaque" x="-17" y="78" width="337" height="24" backcolor="#FFFFFF" uuid="28d1c606-753c-4e4d-9655-a8e374edff5a"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -227,7 +227,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="12" isBold="true"/>
+					<font fontName="Tahoma" size="11" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{price_char}]]></textFieldExpression>
 			</textField>

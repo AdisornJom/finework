@@ -184,11 +184,11 @@ public class B202Controller extends BaseController {
                 RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
                 return;
             }
-            if (null==selected.getBillDateLast()){
-                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "วันที่ครบกำหนดชำระ"));
-                RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
-                return;
-            }
+//            if (null==selected.getBillDateLast()){
+//                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "วันที่ครบกำหนดชำระ"));
+//                RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+//                return;
+//            }
 //            if (null==workunit_selected) {
 //                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "หน่วยงาน"));
 //                RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
@@ -304,11 +304,11 @@ public class B202Controller extends BaseController {
                 RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
                 return;
             }
-            if (null==selected.getBillDateLast()){
-                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "วันที่ครบกำหนดชำระ"));
-                RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
-                return;
-            }
+//            if (null==selected.getBillDateLast()){
+//                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "วันที่ครบกำหนดชำระ"));
+//                RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+//                return;
+//            }
 //             if (null==selected.getRealTotalPrice() || selected.getRealTotalPrice()<=0) {
 //                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "จำนวนเงินที่เรียกเก็บจริง"));
 //                RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
@@ -417,7 +417,8 @@ public class B202Controller extends BaseController {
             //map.put("price_total",NumberUtils.numberFormat(rpt_sysbilling.getRealTotalPrice(),"#,##0.00"));
             map.put("price_char",(rpt_sysbilling.getBillTotalPrice()==0.0?"":new ThaiBaht().getText(rpt_sysbilling.getBillTotalPrice())));
             //map.put("price_char",(rpt_sysbilling.getBillTotalPrice()==0.0?"":new ThaiBaht().getText(rpt_sysbilling.getRealTotalPrice())));
-            map.put("bill_date",DateTimeUtil.cvtDateForShow(rpt_sysbilling.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")));
+            //map.put("bill_date",DateTimeUtil.cvtDateForShow(rpt_sysbilling.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")));
+            map.put("bill_date",null!=rpt_sysbilling.getBillDateLast()?DateTimeUtil.cvtDateForShow(rpt_sysbilling.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")):"");
 
             map.put("reportCode", "B202");
             report.exportSubReport_Template_1("template.jpg","b202", new String[]{"B202Report","B202SubReport"}, "Sales_Invoice", map, reportList_);
@@ -495,7 +496,8 @@ public class B202Controller extends BaseController {
                     //map.put("price_total",NumberUtils.numberFormat(rpt_sysbilling.getRealTotalPrice(),"#,##0.00"));
                     map.put("price_char",(rpt_sysbilling.getBillTotalPrice()==0.0?"":new ThaiBaht().getText(rpt_sysbilling.getBillTotalPrice())));
                     //map.put("price_char",(rpt_sysbilling.getBillTotalPrice()==0.0?"":new ThaiBaht().getText(rpt_sysbilling.getRealTotalPrice())));
-                    map.put("bill_date",DateTimeUtil.cvtDateForShow(rpt_sysbilling.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")));
+                    //map.put("bill_date",DateTimeUtil.cvtDateForShow(rpt_sysbilling.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")));
+                    map.put("bill_date",null!=rpt_sysbilling.getBillDateLast()?DateTimeUtil.cvtDateForShow(rpt_sysbilling.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")):"");
 
                     map.put("reportCode", "B202");
                     JasperPrint print= report.exportSubReport_Template_mearge("template.jpg","b201", new String[]{"B201Report","B201SubReport"}, "Good_Reciept", map, reportList_);
@@ -723,7 +725,7 @@ public class B202Controller extends BaseController {
     }
    
    public void runningNoCustomer() {
-        String sequence_no=sequence.updateRunningNO(1,Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE,"");
+        String sequence_no=sequence.updateRunningNO(1,Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE,"yyMM");
         this.selected.setDocumentno(sequence_no);
     } 
    
