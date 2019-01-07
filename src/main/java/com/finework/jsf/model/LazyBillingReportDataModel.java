@@ -200,7 +200,7 @@ public class LazyBillingReportDataModel extends LazyDataModel<SysBilling> implem
      * @return
      */
     @Override
-    public Object getWrappedData() {
+    public List<SysBilling> getWrappedData() {
         return datasource;
     }
 

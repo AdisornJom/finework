@@ -85,6 +85,11 @@
                     <h:panelGroup>
                        <p:inputText id="volume1" value="#{p102Controller.selected.volumeReal}" maxlength="20" 
                                  style="width: 130px; text-align: right;"/>
+                       
+                       <ui:remove>
+                       <p:keyboard id="volume1" value="#{p102Controller.selected.volumeReal}" keypadOnly="true"
+                                   maxlength="20"  style="text-align: right;width: 103px;"/>
+                       </ui:remove>
                        <h:outputText  value="  #{p102Controller.selected.manufactoryDetailId.unit}"  styleClass="lb_bold"/>
                     </h:panelGroup>
                     

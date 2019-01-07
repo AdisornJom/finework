@@ -218,7 +218,7 @@
                                 </h:outputText>   
                             </f:facet> 
                             <f:facet name="input">  
-                                <p:inputText  value="#{detail.realNo}" maxlength="20" style="text-align: right;width: 103px;"/>
+                                <p:keyboard id="keypad" value="#{detail.realNo}" keypadOnly="true" style="text-align: right;width: 103px;"/>
                             </f:facet>  
                         </p:cellEditor>  
                     </p:column>

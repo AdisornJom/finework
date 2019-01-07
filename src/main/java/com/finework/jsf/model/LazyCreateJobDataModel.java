@@ -201,7 +201,7 @@ public class LazyCreateJobDataModel extends LazyDataModel<SysCreatejob> implemen
      * @return
      */
     @Override
-    public Object getWrappedData() {
+    public List<SysCreatejob> getWrappedData() {
         return datasource;
     }
 

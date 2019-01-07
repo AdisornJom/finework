@@ -540,3 +540,7 @@ ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-st
     background: url(../images/bank/icbc.png) no-repeat top left;
     display: block;
 }
+
+.ui-state-highlight .ui-icon {
+     background-image: url(/finework/javax.faces.resource/images/ui-icons_000000_256x240.png.xhtml?ln=primefaces-bootstrap) !important; 
+}

@@ -192,7 +192,7 @@ public class LazyMaterialDataModel extends LazyDataModel<SysMaterial> implements
      * @return
      */
     @Override
-    public Object getWrappedData() {
+    public List<SysMaterial> getWrappedData() {
         return datasource;
     }
 

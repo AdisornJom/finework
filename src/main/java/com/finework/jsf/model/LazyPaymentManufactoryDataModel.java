@@ -191,7 +191,7 @@ public class LazyPaymentManufactoryDataModel extends LazyDataModel<SysPaymentMan
      * @return
      */
     @Override
-    public Object getWrappedData() {
+    public List<SysPaymentManufactory> getWrappedData() {
         return datasource;
     }
 

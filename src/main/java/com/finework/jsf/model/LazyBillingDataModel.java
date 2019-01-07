@@ -198,7 +198,7 @@ public class LazyBillingDataModel extends LazyDataModel<SysBilling> implements S
      * @return
      */
     @Override
-    public Object getWrappedData() {
+    public List<SysBilling> getWrappedData() {
         return datasource;
     }
 

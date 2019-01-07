@@ -194,7 +194,7 @@ public class LazyMaterialNotMovingDataModel extends LazyDataModel<SysMaterial> i
      * @return
      */
     @Override
-    public Object getWrappedData() {
+    public List<SysMaterial> getWrappedData() {
         return datasource;
     }
 

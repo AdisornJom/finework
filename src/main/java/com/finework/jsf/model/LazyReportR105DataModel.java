@@ -194,7 +194,7 @@ public class LazyReportR105DataModel extends LazyDataModel<ReportR105TO> impleme
      * @return
      */
     @Override
-    public Object getWrappedData() {
+    public List<ReportR105TO> getWrappedData() {
         return datasource;
     }
 

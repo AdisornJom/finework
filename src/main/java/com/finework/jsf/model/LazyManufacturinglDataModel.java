@@ -191,7 +191,7 @@ public class LazyManufacturinglDataModel extends LazyDataModel<SysManufacturing>
      * @return
      */
     @Override
-    public Object getWrappedData() {
+    public List<SysManufacturing> getWrappedData() {
         return datasource;
     }
 
