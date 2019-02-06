@@ -30,6 +30,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -98,7 +99,12 @@ public class B201Controller extends BaseController {
     private SysWorkunit workunit_selected;
     private SysDetail detail_selected;
    
-    
+    //draft
+    private Map<String,String> months;
+    private String month;
+    private Date selectDtDraft;
+    private Date minDtDraft;
+    private Date maxDtDraft;
    
     @PostConstruct
     @Override
@@ -115,6 +121,44 @@ public class B201Controller extends BaseController {
 //        } catch (Exception ex) {
 //            LOG.error(ex);
 //        }
+        
+      /*  HashMap<Integer,String> months_ = new HashMap<>();
+        TextStyle ts = TextStyle.FULL;
+        Locale l = new Locale("th", "TH");
+        for ( Month mo : Month.values () ) {
+            Integer monthNumber = mo.getValue (); // 1-12.
+            String monthName = mo.getDisplayName ( ts ,l);
+            months_.put(monthNumber, monthName);
+           // System.out.println ( "month: " + month + " | monthNumber: " + result + " | monthName: " + monthName );
+        }
+        Set<Entry<Integer, String>> set = months_.entrySet();
+        List<Entry<Integer, String>> list = new ArrayList<>(set);
+        Collections.sort(list, (Map.Entry<Integer, String> o1, Map.Entry<Integer, String> o2) -> (o1.getKey()).compareTo(o2.getKey()) //Ascending order
+        //return (o2.getValue()).compareTo( o1.getValue() );//Descending order
+        );
+        
+        months=new HashMap<>();
+        list.stream().forEach((entry) -> {
+            NumberFormat numberFormatter = new DecimalFormat("00");
+            String result = numberFormatter.format(entry.getKey());
+            months.put(result, entry.getValue());
+        });
+        
+        month=DateTimeUtil.cvtDateForShow(DateTimeUtil.getSystemDate(), "MM");*/
+      
+        Calendar cal1 = new GregorianCalendar(Locale.US);
+        cal1.setTime(DateTimeUtil.getSystemDate());
+        cal1.set(Calendar.DAY_OF_MONTH, 1);
+        cal1.add(Calendar.MONTH, -12);
+        this.minDtDraft=cal1.getTime();
+
+        Calendar cal2 = new GregorianCalendar(Locale.US);
+        cal2.setTime(DateTimeUtil.getSystemDate());
+        cal2.set(Calendar.DAY_OF_MONTH, cal2.getActualMaximum(Calendar.DAY_OF_MONTH));
+        cal2.add(Calendar.MONTH, +12);
+        this.maxDtDraft=cal2.getTime();
+        
+        this.selectDtDraft=DateTimeUtil.getSystemDate();
 
         search();
     }
@@ -134,9 +178,16 @@ public class B201Controller extends BaseController {
         selected = new SysBilling();
         blDetail_selected=new SysBillingDetail();
         
-        String sequence_no=sequence.runningNO(1,Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE);
+        String yearMonth = DateTimeUtil.cvtDateForShow(selectDtDraft, "yyMM", new Locale("th", "TH")); 
+        String sequence_no=sequence.runningNoNew(yearMonth);
         this.selected.setDocumentno(sequence_no);
         next(page);
+    }
+    
+    public void selectDateDraft(){
+        String yearMonth = DateTimeUtil.cvtDateForShow(selectDtDraft, "yyMM", new Locale("th", "TH")); 
+        String sequence_no=sequence.runningNoNew(yearMonth);
+        this.selected.setDocumentno(sequence_no);
     }
     
     public void prepareEdit(String page) {
@@ -241,7 +292,7 @@ public class B201Controller extends BaseController {
             //update running no.
 //            String sequence_no=sequence.updateRunningNO(1,Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE);
 //            selected.setDocumentno(sequence_no);
-            runningNoCustomer();
+            runningNoCustomer(DateTimeUtil.getSystemDate());
             
             billingFacade.createSysBilling(selected);
          
@@ -270,7 +321,7 @@ public class B201Controller extends BaseController {
              selected.setBillingType(Constants.BILLING_GOOD_RECEIPT);
              selected.setCustomerId(new SysCustomer(1));
              selected.setWorkunitId(new SysWorkunit(1));
-             selected.setSendDate(DateTimeUtil.getSystemDate());
+             selected.setSendDate(selectDtDraft);
              selected.setCreatedBy(userInfo.getAdminUser().getUsername());
              selected.setCreatedDt(DateTimeUtil.getSystemDate());
              selected.setModifiedBy(userInfo.getAdminUser().getUsername());
@@ -283,7 +334,7 @@ public class B201Controller extends BaseController {
              selected.setRealTotalPrice(0.00);
 
              //update running no.
-             runningNoCustomer();
+             runningNoCustomer(selectDtDraft);
 
              billingFacade.createSysBilling(selected);
             }
@@ -727,11 +778,11 @@ public class B201Controller extends BaseController {
         return filteredCustomers;
     }
    
-    public void runningNoCustomer() {
-//        String sequence_no=sequence.runningNO(1,Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE);
-//        this.selected.setDocumentno(sequence_no);
-        
-        String sequence_no=sequence.updateRunningNO(1,Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE,"yyMM");
+    public void runningNoCustomer(Date date) {        
+//        String yearMonth = DateTimeUtil.cvtDateForShow(selectDtDraft, "yyyyMM", new Locale("th", "TH")); 
+//        String sequence_no=sequence.runningNoNew(yearMonth);
+        String yearMonth = DateTimeUtil.cvtDateForShow(date, "yyMM", new Locale("th", "TH")); 
+        String sequence_no=sequence.runningNoNew(yearMonth);
         this.selected.setDocumentno(sequence_no);
     } 
     //Auto complete workunit
@@ -938,5 +989,46 @@ public class B201Controller extends BaseController {
         this.draftNo = draftNo;
     }
 
+    public Map<String, String> getMonths() {
+        return months;
+    }
+
+    public void setMonths(Map<String, String> months) {
+        this.months = months;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public Date getSelectDtDraft() {
+        return selectDtDraft;
+    }
+
+    public void setSelectDtDraft(Date selectDtDraft) {
+        this.selectDtDraft = selectDtDraft;
+    }
+
+    public Date getMinDtDraft() {
+        return minDtDraft;
+    }
+
+    public void setMinDtDraft(Date minDtDraft) {
+        this.minDtDraft = minDtDraft;
+    }
+
+    public Date getMaxDtDraft() {
+        return maxDtDraft;
+    }
+
+    public void setMaxDtDraft(Date maxDtDraft) {
+        this.maxDtDraft = maxDtDraft;
+    }
+
+    
    
 }

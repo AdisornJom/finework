@@ -48,19 +48,36 @@
             </p:panel>
 
             <p:panel id="panel2" header="การจองหมายเลข"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
-                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-2" styleClass="ui-panelgrid-blank">
+                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-3" styleClass="ui-panelgrid-blank">
                     <h:panelGroup >
-                        <p:outputLabel value="เลขที่ ปัจจุบัน ："/>
+                        <p:outputLabel value="วันเดือนปี ออกเลขจอง ："/>
                     </h:panelGroup>
-                    <h:outputText value="#{b202Controller.selected.documentno}"   styleClass="lb_bold"/>
+                    <p:calendar id="startDate" value="#{b202Controller.selectDtDraft}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy"  size="10" requiredMessage="#{msgs['messages.code.1022']}" 
+                                mindate="#{b202Controller.minDtDraft}" maxdate="#{b202Controller.maxDtDraft}">
+                        <p:ajax event="dateSelect" listener="#{b202Controller.selectDateDraft()}" update="listForm:documentno" global="false"/>
+                        <ui:remove><p:ajax event="change" listener="#{b202Controller.selectDateDraft()}"/></ui:remove> 
+                    </p:calendar>
+
+                    <ui:remove>
+                    <p:selectOneMenu id="month" value="#{b202Controller.month}" style="width:150px">
+                        <f:selectItems value="#{b202Controller.months.entrySet()}" var="entry" 
+                                       itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+                    </p:selectOneMenu>
+                    </ui:remove>
+                    
+                    <h:panelGroup >
+                        <p:outputLabel value="เลขที่บิลเริมตั้งแต่ ："/>
+                    </h:panelGroup>
+                    <h:outputText id="documentno" value="#{b202Controller.selected.documentno}"   styleClass="lb_bold"/>
                     
                     <h:panelGroup>
                         <p:outputLabel value="เลขที่ ต้องการจอง จำนวน ："/>
                         <font class="require">*</font>
                     </h:panelGroup>
                     <pe:inputNumber  decimalPlaces="0" value="#{b202Controller.draftNo}"  emptyValue="0" styleClass="lb_bold" style="width: 20px;" rendered="false"/>
-                    <p:inputNumber value="#{b202Controller.draftNo}" minValue="0" emptyValue="0"  inputStyle="text-align: right;width:152px;" />
-
+                     <p:inputNumber value="#{b202Controller.draftNo}" minValue="0" emptyValue="0"  decimalPlaces="0"
+                                    inputStyle="text-align: right;width:152px;" />
                 </p:panelGrid>
             </p:panel>
 

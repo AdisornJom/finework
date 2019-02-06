@@ -3,6 +3,7 @@ package com.finework.ejb.facade;
 import com.finework.core.ejb.entity.SysCustomer;
 import com.finework.core.ejb.entity.SysSequence;
 import com.finework.ejb.bo.SequenceBO;
+import java.math.BigInteger;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -51,6 +52,10 @@ public class SequenceFacade {
    
     public void deleteSequence(SysSequence sysSequence) throws Exception {
        sequenceBO.deleteSequence(sysSequence);
+    }
+    
+    public Double findSysSequenceBillingNewByYearMonth(String yearMonth) throws Exception{
+       return sequenceBO.findSysSequenceBillingNewByYearMonth(yearMonth);
     }
 
 }

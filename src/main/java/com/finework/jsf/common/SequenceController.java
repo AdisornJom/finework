@@ -5,6 +5,7 @@ import com.finework.core.ejb.entity.SysSequence;
 import com.finework.core.util.Constants;
 import com.finework.core.util.StringUtil;
 import com.finework.ejb.facade.SequenceFacade;
+import java.math.BigInteger;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
 
@@ -58,10 +59,23 @@ public class SequenceController extends BaseController {
         return runningNo;
     }
     
+    public String runningNoNew(String yearMonth){
+        String runningNo="";
+        try{
+            Double running=sequenceFacade.findSysSequenceBillingNewByYearMonth(yearMonth);
+            String formatNo=StringUtil.customFormat(Constants.FORMAT_RUNNING_GOOD_RECEIPT_SALE_INVOICE, running.intValue());
+            runningNo = yearMonth+formatNo;
+               
+        }catch(Exception ex){
+            LOG.error(ex);
+        }
+        return runningNo;
+    }
+    
     public String updateRunningNO(Integer customerId,String runingType,String runingFormat){
          String runningNo="";
         try{
-            SysSequence sysSequence=sequenceFacade.findSysSequenceByCustomerIdRunningType(customerId,runingType);
+            SysSequence sysSequence=sequenceFacade.findSysSequenceByCustomerIdRunningType(customerId,(runingType));
             if(null!=sysSequence){
                 Integer nextNumber=  sysSequence.getRunningno()+sysSequence.getIncrementno(); 
 
@@ -87,6 +101,7 @@ public class SequenceController extends BaseController {
         }
         return runningNo;
     }
+    
 
     public UserInfoController getUserInfo() {
         return userInfo;

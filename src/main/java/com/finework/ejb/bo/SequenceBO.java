@@ -3,6 +3,7 @@ package com.finework.ejb.bo;
 import com.finework.core.ejb.entity.SysCustomer;
 import com.finework.core.ejb.entity.SysSequence;
 import com.finework.ejb.dao.SysSequenceDAO;
+import java.math.BigInteger;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -46,6 +47,10 @@ public class SequenceBO {
     
     public void deleteSequence (SysSequence sysSequence) throws Exception{
         sysSequenceDAO.remove(sysSequence);
+    }
+    
+    public Double findSysSequenceBillingNewByYearMonth(String yearMonth) throws Exception{
+       return sysSequenceDAO.findSysSequenceBillingNewByYearMonth(yearMonth);
     }
     
     

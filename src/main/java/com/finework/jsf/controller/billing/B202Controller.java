@@ -22,6 +22,10 @@ import com.finework.jsf.common.BaseController;
 import com.finework.jsf.common.NaviController;
 import com.finework.jsf.common.SequenceController;
 import com.finework.jsf.common.UserInfoController;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.time.Month;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -30,6 +34,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -94,6 +100,13 @@ public class B202Controller extends BaseController {
     private SysDetail detail_selected;
    
     private Double draftNo;
+    
+    //draft
+    private Map<String,String> months;
+    private String month;
+    private Date selectDtDraft;
+    private Date minDtDraft;
+    private Date maxDtDraft;
    
     @PostConstruct
     @Override
@@ -111,6 +124,20 @@ public class B202Controller extends BaseController {
 //            LOG.error(ex);
 //        }
 
+        Calendar cal1 = new GregorianCalendar(Locale.US);
+        cal1.setTime(DateTimeUtil.getSystemDate());
+        cal1.set(Calendar.DAY_OF_MONTH, 1);
+        cal1.add(Calendar.MONTH, -12);
+        this.minDtDraft=cal1.getTime();
+
+        Calendar cal2 = new GregorianCalendar(Locale.US);
+        cal2.setTime(DateTimeUtil.getSystemDate());
+        cal2.set(Calendar.DAY_OF_MONTH, cal2.getActualMaximum(Calendar.DAY_OF_MONTH));
+        cal2.add(Calendar.MONTH, +12);
+        this.maxDtDraft=cal2.getTime();
+        
+        this.selectDtDraft=DateTimeUtil.getSystemDate();
+        
         search();
     }
     
@@ -130,9 +157,16 @@ public class B202Controller extends BaseController {
         selected = new SysBilling();
         blDetail_selected=new SysBillingDetail();
         
-        String sequence_no=sequence.runningNO(1,Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE);
+        String yearMonth = DateTimeUtil.cvtDateForShow(selectDtDraft, "yyMM", new Locale("th", "TH")); 
+        String sequence_no=sequence.runningNoNew(yearMonth);
         this.selected.setDocumentno(sequence_no);
         next(page);
+    }
+    
+    public void selectDateDraft(){
+        String yearMonth = DateTimeUtil.cvtDateForShow(selectDtDraft, "yyMM", new Locale("th", "TH")); 
+        String sequence_no=sequence.runningNoNew(yearMonth);
+        this.selected.setDocumentno(sequence_no);
     }
       
     public void prepareEdit(String page) {
@@ -236,7 +270,7 @@ public class B202Controller extends BaseController {
             
 //            String sequence_no=sequence.updateRunningNO(1,Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE);
 //            selected.setDocumentno(sequence_no);
-            runningNoCustomer();
+            runningNoCustomer(DateTimeUtil.getSystemDate());
             
             billingFacade.createSysBilling(selected);
          
@@ -265,7 +299,7 @@ public class B202Controller extends BaseController {
              selected.setBillingType(Constants.BILLING_SALES_INVOICE);
              selected.setCustomerId(new SysCustomer(1));
              selected.setWorkunitId(new SysWorkunit(1));
-             selected.setSendDate(DateTimeUtil.getSystemDate());
+             selected.setSendDate(selectDtDraft);
              selected.setCreatedBy(userInfo.getAdminUser().getUsername());
              selected.setCreatedDt(DateTimeUtil.getSystemDate());
              selected.setModifiedBy(userInfo.getAdminUser().getUsername());
@@ -278,7 +312,7 @@ public class B202Controller extends BaseController {
              selected.setRealTotalPrice(0.00);
 
              //update running no.
-             runningNoCustomer();
+             runningNoCustomer(selectDtDraft);
 
              billingFacade.createSysBilling(selected);
             }
@@ -724,8 +758,12 @@ public class B202Controller extends BaseController {
         return filteredCustomers;
     }
    
-   public void runningNoCustomer() {
-        String sequence_no=sequence.updateRunningNO(1,Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE,"yyMM");
+   public void runningNoCustomer(Date date) {
+//        String sequence_no=sequence.updateRunningNO(1,Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE_NEW,"yyMM");
+//        this.selected.setDocumentno(sequence_no);
+        
+        String yearMonth = DateTimeUtil.cvtDateForShow(date, "yyMM", new Locale("th", "TH")); 
+        String sequence_no=sequence.runningNoNew(yearMonth);
         this.selected.setDocumentno(sequence_no);
     } 
    
@@ -929,6 +967,46 @@ public class B202Controller extends BaseController {
 
     public void setDraftNo(Double draftNo) {
         this.draftNo = draftNo;
+    }
+
+    public Map<String, String> getMonths() {
+        return months;
+    }
+
+    public void setMonths(Map<String, String> months) {
+        this.months = months;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public Date getSelectDtDraft() {
+        return selectDtDraft;
+    }
+
+    public void setSelectDtDraft(Date selectDtDraft) {
+        this.selectDtDraft = selectDtDraft;
+    }
+
+    public Date getMinDtDraft() {
+        return minDtDraft;
+    }
+
+    public void setMinDtDraft(Date minDtDraft) {
+        this.minDtDraft = minDtDraft;
+    }
+
+    public Date getMaxDtDraft() {
+        return maxDtDraft;
+    }
+
+    public void setMaxDtDraft(Date maxDtDraft) {
+        this.maxDtDraft = maxDtDraft;
     }
 
        

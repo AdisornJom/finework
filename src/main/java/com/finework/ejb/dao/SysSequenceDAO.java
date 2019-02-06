@@ -8,13 +8,14 @@ package com.finework.ejb.dao;
 import com.finework.core.ejb.entity.SysCustomer;
 import com.finework.core.util.Persistence;
 import com.finework.core.ejb.entity.SysSequence;
+import com.finework.core.util.Constants;
+import java.math.BigInteger;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.apache.commons.lang3.StringUtils;
 
 
 @Stateless
@@ -99,6 +100,22 @@ public class SysSequenceDAO extends AbstractDAO<SysSequence> {
                 + "where o.customerId not in(select c.customerId.customerId from SysSequence c)"); 
         
         return q.getResultList();
+    }
+    
+    public Double findSysSequenceBillingNewByYearMonth(String yearMonth) {        
+        StringBuilder sb = new StringBuilder();
+        sb.append("select coalesce(max(SUBSTRING(documentno ,5 ))+1,1) from sys_billing where ");
+        sb.append(" (billing_type= '").append(Constants.BILLING_GOOD_RECEIPT).append("'");
+        sb.append(" or billing_type = '").append(Constants.BILLING_SALES_INVOICE).append("')");
+        sb.append(" and SUBSTRING(documentno,1, 4)= '").append(yearMonth).append("'");
+
+        Query q = em.createNativeQuery(sb.toString());
+        try {
+            Double result = (Double) q.getSingleResult();
+            return (result == null) ? 0d : result;
+        } catch (NoResultException noe) {
+            return 0d;
+        }
     }
     
 }

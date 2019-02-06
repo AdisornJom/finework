@@ -48,18 +48,29 @@
             </p:panel>
 
             <p:panel id="panel2" header="การจองหมายเลข"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
-                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-2" styleClass="ui-panelgrid-blank">
+                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-3" styleClass="ui-panelgrid-blank">
                     <h:panelGroup >
-                        <p:outputLabel value="เลขที่ ปัจจุบัน ："/>
+                        <p:outputLabel value="วันเดือนปี ออกเลขจอง ："/>
                     </h:panelGroup>
-                    <h:outputText value="#{b201Controller.selected.documentno}"   styleClass="lb_bold"/>
+                    <p:calendar id="startDate" value="#{b201Controller.selectDtDraft}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy"  size="10" requiredMessage="#{msgs['messages.code.1022']}" 
+                                mindate="#{b201Controller.minDtDraft}" maxdate="#{b201Controller.maxDtDraft}">
+                        <p:ajax event="dateSelect" listener="#{b201Controller.selectDateDraft()}" update="listForm:documentno" global="false"/>
+                        <ui:remove><p:ajax event="change" listener="#{b201Controller.selectDateDraft()}"/></ui:remove> 
+                    </p:calendar>
+                    
+                    <h:panelGroup >
+                        <p:outputLabel value="เลขที่บิลเริมตั้งแต่ ："/>
+                    </h:panelGroup>
+                    <h:outputText id="documentno" value="#{b201Controller.selected.documentno}"   styleClass="lb_bold"/>
                     
                     <h:panelGroup>
                         <p:outputLabel value="เลขที่ ต้องการจอง จำนวน ："/>
                         <font class="require">*</font>
                     </h:panelGroup>
                     <pe:inputNumber  decimalPlaces="0" value="#{b201Controller.draftNo}"  emptyValue="0" styleClass="lb_bold" style="width: 20px;" rendered="false"/>
-                     <p:inputNumber value="#{b201Controller.draftNo}" minValue="0" emptyValue="0" inputStyle="text-align: right;width:152px;" />
+                     <p:inputNumber value="#{b201Controller.draftNo}" minValue="0" emptyValue="0"  decimalPlaces="0"
+                                    inputStyle="text-align: right;width:152px;" />
                 </p:panelGrid>
             </p:panel>
 
