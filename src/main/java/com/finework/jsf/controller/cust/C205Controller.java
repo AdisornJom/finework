@@ -104,7 +104,7 @@ public class C205Controller extends BaseController {
                     return;
                 }
 
-                selected.setPassword(MD5Generator.md5(MD5Generator.md5(selected.getNewPassword())));
+                selected.setPassword(MD5Generator.md5(selected.getNewPassword()));
             }
 
             if (StringUtils.isBlank(selected.getForemanNameTh())
@@ -190,7 +190,7 @@ public class C205Controller extends BaseController {
                     return;
                 }
 
-                selected.setPassword(MD5Generator.md5(MD5Generator.md5(selected.getNewPassword())));
+                selected.setPassword(MD5Generator.md5(selected.getNewPassword()));
             }
 
             if (StringUtils.isBlank(selected.getForemanNameTh())

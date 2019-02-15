@@ -72,8 +72,8 @@
                          <font class="require">*</font>
                      </h:panelGroup>
                      <h:panelGroup>
-                         <p:inputText id="volume" value="#{p101Controller.facDetail_selected.volumeTarget}" maxlength="20" 
-                                      style="width: 120px; text-align: right;vertical-align:middle"/> <p:spacer/>
+                         <p:keyboard id="volume" value="#{p101Controller.facDetail_selected.volumeTarget}" keypadOnly="true" maxlength="20" 
+                                     style="width: 120px; text-align: right;vertical-align:middle"/><p:spacer/>
                          <p:selectOneMenu id="unit" value="#{p101Controller.facDetail_selected.unit}"  style="width: 100px;vertical-align:middle">
                              <f:selectItems value="#{comboController.equipments}" />
                          </p:selectOneMenu>

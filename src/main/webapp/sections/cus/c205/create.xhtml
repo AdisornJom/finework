@@ -8,15 +8,50 @@
 
     <p:panel header="C205 - สร้างข้อมูลผู้ควบคุมงาน(โฟร์แมน)">
         <h:form id="listForm">
-            
+
             <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
-            
+
             <p:panel style="max-width: 800px;margin-bottom: 10px;border: 0px;text-align: right">
                 <h:panelGroup>
                     <font class="require">*</font>
                     <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
                 </h:panelGroup>
             </p:panel>
+
+            <p:fieldset legend="ข้อมูลส่วนตัว" style="border: 0px;">
+                <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <div class="ui-fluid">
+                        <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                            <h:panelGroup>
+                                <p:outputLabel for="username" value="ชื่อผู้ใช้งาน :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="username" value="#{c205Controller.selected.username}"  style="width: 430px;">
+                                </p:inputText>
+                                <div class="text-helper">ชื่อผู้ใช้ต้องประกอบด้วยตัวอักษรภาษาอังกฤษ a-z หรือ ตัวเลขเท่านั้น จำนวนตัวอักษร 6-14 ตัวอักษร</div>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="password1" value="รหัสผ่าน :" />
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:password id="password1" value="#{c205Controller.selected.newPassword}"
+                                            feedback="true" promptLabel="#{msgs['userinfo.passwd.input']}" 
+                                            goodLabel="#{msgs['userinfo.passwd.good']}" weakLabel="#{msgs['userinfo.passwd.weak']}" 
+                                            strongLabel="#{msgs['userinfo.passwd.strong']}" style="width: 430px;">
+                                </p:password>
+                                <p:outputLabel value=" รหัสผ่านต้องเป็นตัวอักษรภาษาอังกฤษรวมกับตัวเลขอย่างน้อย 6 ตัวอักษร" styleClass="sub-label"/>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <p:outputLabel for="password2" value="ยืนยันรหัสผ่าน :" />
+                            </h:panelGroup>
+                            <p:password id="password2" value="#{c205Controller.selected.confirmPassword}" style="width: 430px;"/>
+                        </p:panelGrid>
+                    </div>
+
+                </p:panel>
+            </p:fieldset>
 
             <p:fieldset legend="#{msgs['desc']}" style="border: 0px;">
                 <p:panel style="max-width: 800px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
@@ -36,14 +71,14 @@
                             <h:panelGroup>
                                 <p:inputText id="item_name_en" value="#{c205Controller.selected.foremanNameEn}" style="width: 430px;"/>
                             </h:panelGroup>
-                            
-                             <h:panelGroup>
+
+                            <h:panelGroup>
                                 <p:outputLabel for="item_nickname_en" value="ชื่อเล่นผู้ควบคุมงาน :" />
                             </h:panelGroup>
                             <h:panelGroup>
                                 <p:inputText id="item_nickname_en" value="#{c205Controller.selected.foremanNickname}" style="width: 430px;"/>
                             </h:panelGroup>
-                            
+
                             <h:panelGroup>
                                 <p:outputLabel for="address" value="ที่อยู่ผู้ควบคุมงาน :" />
                                 <font class="require">*</font>
@@ -51,28 +86,28 @@
                             <h:panelGroup>
                                 <p:inputTextarea id="address" value="#{c205Controller.selected.foremanAddress}" cols="50" rows="4" maxlength="250" style="width: 430px;"/>
                             </h:panelGroup>
-                            
-                             <h:panelGroup>
+
+                            <h:panelGroup>
                                 <p:outputLabel for="tel" value="เบอร์โทร :" />
                             </h:panelGroup>
                             <h:panelGroup>
                                 <p:inputText id="tel" value="#{c205Controller.selected.tel}" style="width: 430px;"/>
                             </h:panelGroup>
-                            
-                             <h:panelGroup>
+
+                            <h:panelGroup>
                                 <p:outputLabel for="taxid" value="Tax ID :" />
                             </h:panelGroup>
                             <h:panelGroup>
                                 <p:inputMask id="taxid" value="#{c205Controller.selected.taxId}" mask="9-9999-99999-99-9" style="width: 430px;"/>
                             </h:panelGroup>
-                            
+
                             <h:panelGroup>
                                 <p:outputLabel for="line" value="LINE ID :" />
                             </h:panelGroup>
                             <h:panelGroup>
                                 <p:inputText id="line" value="#{c205Controller.selected.foremanLineId}" style="width: 430px;"/>
                             </h:panelGroup>
-                           
+
                         </p:panelGrid>
                     </div>
 
