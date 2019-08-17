@@ -21,87 +21,109 @@ public class SequenceController extends BaseController {
 
     private static final Logger LOG = Logger.getLogger(SequenceController.class);
     public static final String CONTROLLER_NAME = "sequenceController";
-    
+
     @Inject
     private UserInfoController userInfo;
 
     @EJB
     private SequenceFacade sequenceFacade;
 
-
     @PostConstruct
     @Override
     public void init() {
-       
+
     }
-    
-    public String runningNO(Integer customerId,String runingType){
-        String runningNo="";
-        try{
-            SysSequence sysSequence=sequenceFacade.findSysSequenceByCustomerIdRunningType(customerId,runingType);
-            if(null!=sysSequence){
-                Integer nextNumber= sysSequence.getRunningno()+sysSequence.getIncrementno(); 
-                if(Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE.equals(runingType)){
+
+    public String runningNO(Integer customerId, String runingType) {
+        String runningNo = "";
+        try {
+            SysSequence sysSequence = sequenceFacade.findSysSequenceByCustomerIdRunningType(customerId, runingType);
+            if (null != sysSequence) {
+                Integer nextNumber = sysSequence.getRunningno() + sysSequence.getIncrementno();
+                if (Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE.equals(runingType)) {
 //                    String formatNo=StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
 //                    runningNo=sysSequence.getPrefix()+formatNo+sysSequence.getSuffix();
-                    String formatRunning=DateTimeUtil.cvtDateForShow(DateTimeUtil.currentDate(),"yyyyMM",new Locale("th", "TH"));
-                    String formatNo=StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
-                    runningNo=sysSequence.getPrefix()+formatRunning+formatNo+sysSequence.getSuffix();
-                }else{
-                    String formatRunning=DateTimeUtil.cvtDateForShow(DateTimeUtil.currentDate(),"yyyyMM",new Locale("th", "TH"));
-                    String formatNo=StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
-                    runningNo=sysSequence.getPrefix()+formatRunning+formatNo+sysSequence.getSuffix();
+                    String formatRunning = DateTimeUtil.cvtDateForShow(DateTimeUtil.currentDate(), "yyyyMM", new Locale("th", "TH"));
+                    String formatNo = StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
+                    runningNo = sysSequence.getPrefix() + formatRunning + formatNo + sysSequence.getSuffix();
+                } else {
+                    String formatRunning = DateTimeUtil.cvtDateForShow(DateTimeUtil.currentDate(), "yyyyMM", new Locale("th", "TH"));
+                    String formatNo = StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
+                    runningNo = sysSequence.getPrefix() + formatRunning + formatNo + sysSequence.getSuffix();
                 }
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             LOG.error(ex);
         }
         return runningNo;
     }
-    
-    public String runningNoNew(String yearMonth){
-        String runningNo="";
-        try{
-            Double running=sequenceFacade.findSysSequenceBillingNewByYearMonth(yearMonth);
-            String formatNo=StringUtil.customFormat(Constants.FORMAT_RUNNING_GOOD_RECEIPT_SALE_INVOICE, running.intValue());
-            runningNo = yearMonth+formatNo;
-               
-        }catch(Exception ex){
+
+    public String runningNoNew(String yearMonth) {
+        String runningNo = "";
+        try {
+            Double running = sequenceFacade.findSysSequenceBillingNewByYearMonth(yearMonth);
+            String formatNo = StringUtil.customFormat(Constants.FORMAT_RUNNING_GOOD_RECEIPT_SALE_INVOICE, running.intValue());
+            runningNo = yearMonth + formatNo;
+
+        } catch (Exception ex) {
             LOG.error(ex);
         }
         return runningNo;
     }
-    
-    public String updateRunningNO(Integer customerId,String runingType,String runingFormat){
-         String runningNo="";
-        try{
-            SysSequence sysSequence=sequenceFacade.findSysSequenceByCustomerIdRunningType(customerId,(runingType));
-            if(null!=sysSequence){
-                Integer nextNumber=  sysSequence.getRunningno()+sysSequence.getIncrementno(); 
+
+    public String runningNoNewQuoation(String yearMonth) {
+        String runningNo = "";
+        try {
+            Double running = this.sequenceFacade.findSysSequenceQuotationByYearMonth(yearMonth);
+            String formatNo = StringUtil.customFormat(Constants.FORMAT_RUNNING_GOOD_RECEIPT_SALE_INVOICE, running.intValue());
+            runningNo = yearMonth + formatNo;
+        } catch (Exception ex) {
+            LOG.error(ex);
+        }
+        return runningNo;
+    }
+
+    public String runningNoNewChildQuoation(String documentno) {
+        String runningNo = "";
+        try {
+            Double running = this.sequenceFacade.findSysSequenceQuotationChildByYearMonth(documentno);
+
+            runningNo = documentno.concat("-").concat(String.valueOf(running.intValue()));
+        } catch (Exception ex) {
+            LOG.error(ex);
+        }
+        return runningNo;
+    }
+
+    public String updateRunningNO(Integer customerId, String runingType, String runingFormat) {
+        String runningNo = "";
+        try {
+            SysSequence sysSequence = sequenceFacade.findSysSequenceByCustomerIdRunningType(customerId, (runingType));
+            if (null != sysSequence) {
+                Integer nextNumber = sysSequence.getRunningno() + sysSequence.getIncrementno();
 
                 sysSequence.setRunningno(nextNumber);
                 sysSequence.setModifiedBy(userInfo.getAdminUser().getUsername());
                 sysSequence.setModifiedDt(DateTimeUtil.getSystemDate());
                 sequenceFacade.editSequence(sysSequence);
 
-                if(Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE.equals(runingType)){
+                if (Constants.SEQUNCE_NO_GOOD_RECEIPT_SALE_INVOICE.equals(runingType)) {
 //                     String formatNo=StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
 //                     runningNo=sysSequence.getPrefix()+formatNo+sysSequence.getSuffix();
-                    String formatRunning=DateTimeUtil.cvtDateForShow(DateTimeUtil.currentDate(),runingFormat,new Locale("th", "TH"));
-                    String formatNo=StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
-                    runningNo=sysSequence.getPrefix()+formatRunning+formatNo+sysSequence.getSuffix();
-                }else{
-                    String formatRunning=DateTimeUtil.cvtDateForShow(DateTimeUtil.currentDate(),runingFormat,new Locale("th", "TH"));
-                    String formatNo=StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
-                    runningNo=sysSequence.getPrefix()+formatRunning+formatNo+sysSequence.getSuffix();
+                    String formatRunning = DateTimeUtil.cvtDateForShow(DateTimeUtil.currentDate(), runingFormat, new Locale("th", "TH"));
+                    String formatNo = StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
+                    runningNo = sysSequence.getPrefix() + formatRunning + formatNo + sysSequence.getSuffix();
+                } else {
+                    String formatRunning = DateTimeUtil.cvtDateForShow(DateTimeUtil.currentDate(), runingFormat, new Locale("th", "TH"));
+                    String formatNo = StringUtil.customFormat(sysSequence.getCurrentnext(), nextNumber);
+                    runningNo = sysSequence.getPrefix() + formatRunning + formatNo + sysSequence.getSuffix();
                 }
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             LOG.error(ex);
         }
         return runningNo;
     }
-    
 
     public UserInfoController getUserInfo() {
         return userInfo;
@@ -110,7 +132,5 @@ public class SequenceController extends BaseController {
     public void setUserInfo(UserInfoController userInfo) {
         this.userInfo = userInfo;
     }
-    
-
 
 }

@@ -33,8 +33,12 @@
                 <h:outputText value="#{(rowNumber+1)}" />
             </p:column>
 
-            <p:column headerText="เลขที่" sortBy="#{item.documentno}" style="width: 90px;">
+            <p:column headerText="เลขที่" sortBy="#{item.documentno}" style="width: 50px;">
                 <h:outputText value="#{item.documentno}"/>
+            </p:column>
+            
+            <p:column headerText="เลขที่(อ้างอิง)" sortBy="#{item.childDocumentno}" style="width: 50px;">
+                <h:outputText value="#{item.childDocumentno}"/>
             </p:column>
             
             <p:column headerText="เรื่อง"  style="width: 160px;">

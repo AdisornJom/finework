@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            /*background-image: url("./resources/images/ui-icons_333333_256x240.png");*/
+        }
+    </style>
+
+    <h:form id="listForm">
+        <p:dataTable var="item" value="#{i106Controller.items}" binding="#{bindingController.dataTableModel}" >
+
+            <p:column headerText="No" style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+            
+            <p:column headerText="ชื่อวัสดุ" sortBy="#{item.materialId.materialDesc}" style="width: 200px;">
+                <h:outputText value="#{item.materialId.materialDesc}"/>
+            </p:column>
+            
+            <p:column headerText="ชื่อผู้รับเหมา" sortBy="#{item.expensesId.contractorId.contractorNameTh}" style="width: 75px;">
+                <h:outputText value="#{item.expensesId.contractorId.contractorNameTh}"/>
+            </p:column>
+            
+            <p:column headerText="ชื่อเล่นผู้รับเหมา" sortBy="#{item.expensesId.contractorId.contractorNickname}" style="width: 71px;">
+                <h:outputText value="#{item.expensesId.contractorId.contractorNickname}"/>
+            </p:column>
+            
+            <p:column headerText="ประเภท" sortBy="#{item.expensesId.status}" style="width: 60px;">
+                <h:outputText value="#{item.expensesId.status eq 'Y' ? 'เบิกสินค้า' : item.expensesId.status eq 'B' ? 'ยืมสินค้า':'ปรับปรุง Stock'}" 
+                              style="color: #{item.expensesId.status eq 'Y' ? 'green' : item.expensesId.status eq 'B' ?'blue':'red'}"/>
+            </p:column>
+            
+             <p:column  headerText="จำนวน"  style="width: 57px;text-align: center">
+                 <h:outputText value="#{item.quantity}" style="float: right;color:red;font-size: 18px;" styleClass="lb_bold" >
+                    <f:convertNumber  pattern="#,##0"/>
+                </h:outputText>   
+            </p:column>
+            
+            <p:column headerText="วันที่จ่ายวัสดุภัณฑ์" sortBy="#{item.expensesId.expensesDate}" style="width: 80px;text-align: center">
+                <h:outputText value="#{item.expensesId.expensesDate}">
+                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column headerText="#{msgs['createdt']}" sortBy="#{item.expensesId.createdDt}" style="width: 80px;text-align: center">
+                <h:outputText value="#{item.expensesId.createdDt}">
+                    <f:convertDateTime pattern="dd-MM-yyyy HH:mm"/>
+                </h:outputText>
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{i106Controller.items.size()}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

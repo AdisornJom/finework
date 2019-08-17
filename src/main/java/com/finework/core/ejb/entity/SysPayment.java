@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.finework.core.ejb.entity;
 
 import java.io.Serializable;
@@ -10,7 +5,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,237 +14,244 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author Lenovo
- */
 @Entity
-@Table(name = "sys_payment")
-@NamedQueries({
-    @NamedQuery(name = "SysPayment.findAll", query = "SELECT s FROM SysPayment s")})
-public class SysPayment implements Serializable , Comparator<SysPayment> {
+@Table(name="sys_payment")
+@NamedQueries({@javax.persistence.NamedQuery(name="SysPayment.findAll", query="SELECT s FROM SysPayment s")})
+public class SysPayment
+  implements Serializable, Comparator<SysPayment>
+{
+  private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "payment_id")
-    private Integer paymentId;
-    @Size(max = 50)
-    @Column(name = "payment_type")
-    private String paymentType;
-    @Size(max = 50)
-    @Column(name = "documentno")
-    private String documentno;
-    @Column(name = "payment_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date paymentDate;
-    @Size(max = 500)
-    @Column(name = "remark")
-    private String remark;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "payment_total")
-    private Double paymentTotal;
-    @Column(name = "payment_vat")
-    private Double paymentVat;
-    @Column(name = "payment_total_price")
-    private Double paymentTotalPrice;
-    @Column(name = "real_total_price")
-    private Double realTotalPrice;
-    @Column(name = "bill_date_last")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date billDateLast;
-    @Column(name = "created_dt")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDt;
-    @Size(max = 45)
-    @Column(name = "created_by")
-    private String createdBy;
-    @Column(name = "modified_dt")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date modifiedDt;
-    @Size(max = 45)
-    @Column(name = "modified_by")
-    private String modifiedBy;
-    
-    //@OneToMany(mappedBy = "paymentId")
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "paymentId", cascade = CascadeType.ALL,orphanRemoval=true)
-    private List<SysPaymentDetail> sysPaymentDetailList;
-    
-    @JoinColumn(name = "workunit_id", referencedColumnName = "workunit_id")
-    @ManyToOne
-    private SysWorkunit workunitId;
+  @Id
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  @Basic(optional=false)
+  @Column(name="payment_id")
+  private Integer paymentId;
 
-    public SysPayment() {
-    }
+  @Size(max=50)
+  @Column(name="payment_type")
+  private String paymentType;
 
-    public SysPayment(Integer paymentId) {
-        this.paymentId = paymentId;
-    }
+  @Size(max=50)
+  @Column(name="documentno")
+  private String documentno;
 
-    public Integer getPaymentId() {
-        return paymentId;
-    }
+  @Column(name="payment_date")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date paymentDate;
 
-    public void setPaymentId(Integer paymentId) {
-        this.paymentId = paymentId;
-    }
+  @Size(max=500)
+  @Column(name="remark")
+  private String remark;
 
-    public String getDocumentno() {
-        return documentno;
-    }
+  @Column(name="payment_total")
+  private Double paymentTotal;
 
-    public void setDocumentno(String documentno) {
-        this.documentno = documentno;
-    }
+  @Column(name="payment_vat")
+  private Double paymentVat;
 
-    public Date getPaymentDate() {
-        return paymentDate;
-    }
+  @Column(name="payment_total_price")
+  private Double paymentTotalPrice;
 
-    public void setPaymentDate(Date paymentDate) {
-        this.paymentDate = paymentDate;
-    }
+  @Column(name="real_total_price")
+  private Double realTotalPrice;
 
-    public String getRemark() {
-        return remark;
-    }
+  @Column(name="bill_date_last")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date billDateLast;
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
+  @Column(name="created_dt")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date createdDt;
 
-    public Double getPaymentTotal() {
-        return paymentTotal;
-    }
+  @Size(max=45)
+  @Column(name="created_by")
+  private String createdBy;
 
-    public void setPaymentTotal(Double paymentTotal) {
-        this.paymentTotal = paymentTotal;
-    }
+  @Column(name="modified_dt")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date modifiedDt;
 
-    public Double getPaymentVat() {
-        return paymentVat;
-    }
+  @Size(max=45)
+  @Column(name="modified_by")
+  private String modifiedBy;
 
-    public void setPaymentVat(Double paymentVat) {
-        this.paymentVat = paymentVat;
-    }
+  @OneToMany(fetch=FetchType.EAGER, mappedBy="paymentId", cascade={javax.persistence.CascadeType.ALL}, orphanRemoval=true)
+  private List<SysPaymentDetail> sysPaymentDetailList;
 
-    public Double getPaymentTotalPrice() {
-        return paymentTotalPrice;
-    }
+  @JoinColumn(name="workunit_id", referencedColumnName="workunit_id")
+  @ManyToOne
+  private SysWorkunit workunitId;
 
-    public void setPaymentTotalPrice(Double paymentTotalPrice) {
-        this.paymentTotalPrice = paymentTotalPrice;
-    }
+  public SysPayment()
+  {
+  }
 
-    public Double getRealTotalPrice() {
-        return realTotalPrice;
-    }
+  public SysPayment(Integer paymentId)
+  {
+    this.paymentId = paymentId;
+  }
 
-    public void setRealTotalPrice(Double realTotalPrice) {
-        this.realTotalPrice = realTotalPrice;
-    }
+  public Integer getPaymentId() {
+    return this.paymentId;
+  }
 
-    public Date getBillDateLast() {
-        return billDateLast;
-    }
+  public void setPaymentId(Integer paymentId) {
+    this.paymentId = paymentId;
+  }
 
-    public void setBillDateLast(Date billDateLast) {
-        this.billDateLast = billDateLast;
-    }
+  public String getDocumentno() {
+    return this.documentno;
+  }
 
-    public Date getCreatedDt() {
-        return createdDt;
-    }
+  public void setDocumentno(String documentno) {
+    this.documentno = documentno;
+  }
 
-    public void setCreatedDt(Date createdDt) {
-        this.createdDt = createdDt;
-    }
+  public Date getPaymentDate() {
+    return this.paymentDate;
+  }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
+  public void setPaymentDate(Date paymentDate) {
+    this.paymentDate = paymentDate;
+  }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+  public String getRemark() {
+    return this.remark;
+  }
 
-    public Date getModifiedDt() {
-        return modifiedDt;
-    }
+  public void setRemark(String remark) {
+    this.remark = remark;
+  }
 
-    public void setModifiedDt(Date modifiedDt) {
-        this.modifiedDt = modifiedDt;
-    }
+  public Double getPaymentTotal() {
+    return this.paymentTotal;
+  }
 
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
+  public void setPaymentTotal(Double paymentTotal) {
+    this.paymentTotal = paymentTotal;
+  }
 
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
+  public Double getPaymentVat() {
+    return this.paymentVat;
+  }
 
-    public List<SysPaymentDetail> getSysPaymentDetailList() {
-        return sysPaymentDetailList;
-    }
+  public void setPaymentVat(Double paymentVat) {
+    this.paymentVat = paymentVat;
+  }
 
-    public void setSysPaymentDetailList(List<SysPaymentDetail> sysPaymentDetailList) {
-        this.sysPaymentDetailList = sysPaymentDetailList;
-    }
+  public Double getPaymentTotalPrice() {
+    return this.paymentTotalPrice;
+  }
 
-    public SysWorkunit getWorkunitId() {
-        return workunitId;
-    }
+  public void setPaymentTotalPrice(Double paymentTotalPrice) {
+    this.paymentTotalPrice = paymentTotalPrice;
+  }
 
-    public void setWorkunitId(SysWorkunit workunitId) {
-        this.workunitId = workunitId;
-    }
+  public Double getRealTotalPrice() {
+    return this.realTotalPrice;
+  }
 
-    public String getPaymentType() {
-        return paymentType;
-    }
+  public void setRealTotalPrice(Double realTotalPrice) {
+    this.realTotalPrice = realTotalPrice;
+  }
 
-    public void setPaymentType(String paymentType) {
-        this.paymentType = paymentType;
-    }
-    
+  public Date getBillDateLast() {
+    return this.billDateLast;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (paymentId != null ? paymentId.hashCode() : 0);
-        return hash;
-    }
+  public void setBillDateLast(Date billDateLast) {
+    this.billDateLast = billDateLast;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SysPayment)) {
-            return false;
-        }
-        SysPayment other = (SysPayment) object;
-        if ((this.paymentId == null && other.paymentId != null) || (this.paymentId != null && !this.paymentId.equals(other.paymentId))) {
-            return false;
-        }
-        return true;
-    }
+  public Date getCreatedDt() {
+    return this.createdDt;
+  }
 
-    @Override
-    public String toString() {
-        return "com.finework.core.ejb.entity.SysPayment[ paymentId=" + paymentId + " ]";
+  public void setCreatedDt(Date createdDt) {
+    this.createdDt = createdDt;
+  }
+
+  public String getCreatedBy() {
+    return this.createdBy;
+  }
+
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  public Date getModifiedDt() {
+    return this.modifiedDt;
+  }
+
+  public void setModifiedDt(Date modifiedDt) {
+    this.modifiedDt = modifiedDt;
+  }
+
+  public String getModifiedBy() {
+    return this.modifiedBy;
+  }
+
+  public void setModifiedBy(String modifiedBy) {
+    this.modifiedBy = modifiedBy;
+  }
+
+  public List<SysPaymentDetail> getSysPaymentDetailList() {
+    return this.sysPaymentDetailList;
+  }
+
+  public void setSysPaymentDetailList(List<SysPaymentDetail> sysPaymentDetailList) {
+    this.sysPaymentDetailList = sysPaymentDetailList;
+  }
+
+  public SysWorkunit getWorkunitId() {
+    return this.workunitId;
+  }
+
+  public void setWorkunitId(SysWorkunit workunitId) {
+    this.workunitId = workunitId;
+  }
+
+  public String getPaymentType() {
+    return this.paymentType;
+  }
+
+  public void setPaymentType(String paymentType) {
+    this.paymentType = paymentType;
+  }
+
+  public int hashCode()
+  {
+    int hash = 0;
+    hash += (this.paymentId != null ? this.paymentId.hashCode() : 0);
+    return hash;
+  }
+
+  public boolean equals(Object object)
+  {
+    if (!(object instanceof SysPayment)) {
+      return false;
     }
-    
-    @Override
-    public int compare(SysPayment o1, SysPayment o2) {
-       return o2.getPaymentId().compareTo(o1.getPaymentId());
+    SysPayment other = (SysPayment)object;
+    if (((this.paymentId == null) && (other.paymentId != null)) || ((this.paymentId != null) && (!this.paymentId.equals(other.paymentId)))) {
+      return false;
     }
+    return true;
+  }
+
+  public String toString()
+  {
+    return "com.finework.core.ejb.entity.SysPayment[ paymentId=" + this.paymentId + " ]";
+  }
+
+  public int compare(SysPayment o1, SysPayment o2)
+  {
+    return o2.getPaymentId().compareTo(o1.getPaymentId());
+  }
 }

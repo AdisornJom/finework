@@ -1,22 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.finework.core.utils;
 
+import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 
-/**
- *
- * @author Lenovo
- */
-
-public final class ThaiBahtString {
-    
+public final class ThaiBahtString
+{
   private static final String[] SCALE_TH = { "ล้าน", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "" };
   private static final String[] DIGIT_TH = { "ศูนย์", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า" };
   private static final String[] SYMBOLS_TH = { "ลบ", "บาท", "ถ้วน", "สตางค์", "ยี่", "เอ็ด", ",", " ", "฿" };
@@ -137,10 +128,9 @@ public final class ThaiBahtString {
 
   public static void main(String[] args)
   {
-    System.out.println("Negative value of -1257.5463 : " + new ThaiBahtString().getText(-1257.5463D));
-    System.out.println("Positive value of 1234.5463 : " + new ThaiBahtString().getText(1234.5463D));
-    System.out.println("Negative string value of -1,234.5463 : " + new ThaiBahtString().getText("-1,234.5463"));
-    System.out.println("Positive string value of 1,234.5463 : " + new ThaiBahtString().getText("1,234.5463"));
+    System.out.println(new StringBuilder().append("Negative value of -1257.5463 : ").append(new ThaiBahtString().getText(-1257.5463D)).toString());
+    System.out.println(new StringBuilder().append("Positive value of 1234.5463 : ").append(new ThaiBahtString().getText(1234.5463D)).toString());
+    System.out.println(new StringBuilder().append("Negative string value of -1,234.5463 : ").append(new ThaiBahtString().getText("-1,234.5463")).toString());
+    System.out.println(new StringBuilder().append("Positive string value of 1,234.5463 : ").append(new ThaiBahtString().getText("1,234.5463")).toString());
   }
-
 }

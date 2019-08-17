@@ -7,119 +7,96 @@ import java.text.MessageFormat;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import org.apache.log4j.Logger;
 
-public class ArtifactVersionResolver {
+public class ArtifactVersionResolver
+{
+  private static final Logger LOG = Logger.getLogger(ArtifactVersionResolver.class);
+  private static final Pattern GROUP_AND_ARTIFACT = Pattern.compile("^([\\w\\.\\-]+):([\\w\\.\\-]+)$");
+  private static final String CLASSPATH_RESOURCE = "META-INF/maven/{0}/{1}/pom.properties";
+  private static final String WEBAPP_RESOURCE = "/META-INF/maven/{0}/{1}/pom.properties";
 
-    private static final Logger LOG = Logger.getLogger(ArtifactVersionResolver.class);
-    private final static Pattern GROUP_AND_ARTIFACT = Pattern.compile("^([\\w\\.\\-]+):([\\w\\.\\-]+)$");
+  public String resolveVersion(String groupAndArtifact)
+  {
+    Matcher matcher = GROUP_AND_ARTIFACT.matcher(groupAndArtifact != null ? groupAndArtifact
+      .trim() : "");
 
-    private final static String CLASSPATH_RESOURCE = "META-INF/maven/{0}/{1}/pom.properties";
+    if (!matcher.matches()) {
+      LOG.warn("Invalid artifact identifier: " + groupAndArtifact);
+      return null;
+    }
 
-    private final static String WEBAPP_RESOURCE = "/META-INF/maven/{0}/{1}/pom.properties";
+    String groupId = matcher.group(1);
+    String artifactId = matcher.group(2);
 
-    public String resolveVersion(String groupAndArtifact) {
+    URL propertiesFile = getPropertiesFileFromClassPath(groupId, artifactId);
 
-        // match against required pattern
-        Matcher matcher = GROUP_AND_ARTIFACT.matcher(
-                groupAndArtifact != null ? groupAndArtifact.trim() : "");
+    if (propertiesFile == null) {
+      propertiesFile = getPropertiesFileFromWebappRoot(groupId, artifactId);
+    }
 
-        // no match? abort!
-        if (!matcher.matches()) {
-            LOG.warn("Invalid artifact identifier: " + groupAndArtifact);
-            return null;
-        }
+    if (propertiesFile != null) {
+      LOG.warn("Found project properties: " + propertiesFile);
+      return getVersionFromProjectProperties(propertiesFile);
+    }
 
-        // get group and artifact from pattern
-        String groupId = matcher.group(1);
-        String artifactId = matcher.group(2);
+    LOG.warn("No project properties found for: " + groupAndArtifact);
+    return null;
+  }
 
-        // try to load properties from classpath
-        URL propertiesFile = getPropertiesFileFromClassPath(groupId, artifactId);
+  private URL getPropertiesFileFromClassPath(String groupId, String artifactId)
+  {
+    ClassLoader cl = Thread.currentThread().getContextClassLoader();
 
-        // not found? try it via the servlet context
-        if (propertiesFile == null) {
-            propertiesFile = getPropertiesFileFromWebappRoot(groupId, artifactId);
-        }
+    if (cl == null) {
+      cl = getClass().getClassLoader();
+    }
 
-        // if we have found anything, resolve the version
-        if (propertiesFile != null) {
-            LOG.warn("Found project properties: " + propertiesFile);
-            return getVersionFromProjectProperties(propertiesFile);
-        }
+    String path = MessageFormat.format("META-INF/maven/{0}/{1}/pom.properties", new Object[] { groupId, artifactId });
+    return cl.getResource(path);
+  }
 
-        // nothing found
-        LOG.warn("No project properties found for: " + groupAndArtifact);
-        return null;
+  private URL getPropertiesFileFromWebappRoot(String groupId, String artifactId)
+  {
+    FacesContext facesContext = FacesContext.getCurrentInstance();
+    if (facesContext == null) {
+      return null;
+    }
+
+    Object externalContext = facesContext.getExternalContext().getContext();
+    if ((externalContext instanceof ServletContext))
+    {
+      ServletContext servletContext = (ServletContext)externalContext;
+      try
+      {
+        String path = MessageFormat.format("/META-INF/maven/{0}/{1}/pom.properties", new Object[] { groupId, artifactId });
+        return servletContext.getResource(path);
+      }
+      catch (MalformedURLException e) {
+        LOG.warn("No project properties found for: " + e.getMessage());
+      }
 
     }
 
-    private URL getPropertiesFileFromClassPath(String groupId, String artifactId) {
+    return null;
+  }
 
-        // get the context class loader
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+  private String getVersionFromProjectProperties(URL url)
+  {
+    try
+    {
+      Properties props = new Properties();
+      props.load(url.openStream());
 
-        // fall back to class loader of the current class
-        if (cl == null) {
-            cl = this.getClass().getClassLoader();
-        }
-
-        // try to load project properties
-        String path = MessageFormat.format(CLASSPATH_RESOURCE, groupId, artifactId);
-        return cl.getResource(path);
-
+      String version = props.getProperty("version");
+      LOG.warn("version: " + version);
+      return version;
     }
-
-    private URL getPropertiesFileFromWebappRoot(String groupId, String artifactId) {
-
-        // try to get FacesContext
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        if (facesContext == null) {
-            return null;
-        }
-
-        // is it a ServletContext?
-        Object externalContext = facesContext.getExternalContext().getContext();
-        if (externalContext instanceof ServletContext) {
-
-            // cast to ServletContext
-            ServletContext servletContext = (ServletContext) externalContext;
-
-            try {
-
-                // try to get project properties
-                String path = MessageFormat.format(WEBAPP_RESOURCE, groupId, artifactId);
-                return servletContext.getResource(path);
-
-            } catch (MalformedURLException e) {
-                LOG.warn("No project properties found for: " + e.getMessage());
-            }
-
-        }
-
-        return null;
-    }
-
-    private String getVersionFromProjectProperties(URL url) {
-
-        try {
-
-            // create properties and load values from URL
-            Properties props = new Properties();
-            props.load(url.openStream());
-
-            // get version from properties
-            String version = props.getProperty("version");
-            LOG.warn("version: " + version);
-            return version;
-
-        } catch (IOException e) {
-            LOG.warn("IOException : " + e.getMessage());
-            return null;
-        }
-    }
-
+    catch (IOException e) {
+      LOG.warn("IOException : " + e.getMessage());
+    }return null;
+  }
 }

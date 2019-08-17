@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 370px;
+        }
+
+        .customDialog .ui-dialog-title {
+            font-size: 150% !important;
+            color: #ffffff;
+        }
+
+        .customDialog .ui-dialog-content {
+            padding: 0;
+            margin: 10px 10px;
+        }
+        .customDialog .ui-dialog-titlebar.ui-widget-header {
+            background: #C0C0C0;
+            color: black;
+            box-shadow: none;
+        }
+        .autoComplete .ui-autocomplete-loading { background: white url('resources/images/iconSafari.gif') right center no-repeat; }
+
+        .ui-autocomplete-loading { background: white url('resources/images/iconSafari.gif') right center no-repeat; }
+        .pe-inputNumber {
+            text-align: right;
+            width:120px;
+            float:right;
+            font-size: 24px;
+        }
+
+    </style>
+    <p:panel header="Q103 - ใบเสนอราคา(Upload)">
+
+        <h:form id="listForm">
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+
+            <p:panel id="panel1" style="max-width: 900px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:panel id="panel2" header="#{msgs['m101.commoninfo']}"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+                    <ui:remove>
+                        <h:panelGroup>
+                            <p:outputLabel value="เลขที่ ："/>
+                            <font class="require">*</font>
+                        </h:panelGroup>
+                        <p:inputText id="documentno" value="#{q103Controller.selected.documentno}" style="width: 400px;" />
+                    </ui:remove>
+                    
+                    <h:panelGroup>
+                        <p:outputLabel value="เรื่อง ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:inputText id="subject" value="#{q103Controller.selected.subject}" style="width: 400px;" />
+
+                    <h:panelGroup>
+                        <p:outputLabel value="วันที่ทำรายการ ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:calendar  binding="#{bindingController.calendar}" value="#{q103Controller.selected.quotationDate}" size="10" />
+
+                    <h:panelGroup>
+                        <p:outputLabel value="หัวข้อ ："/>
+                    </h:panelGroup>
+                    <p:inputTextarea id="remark" value="#{q103Controller.selected.remark}" cols="30" rows="3" 
+                                     maxlength="250" style="width: 400px;" />
+                    
+                    <h:panelGroup>
+                        <p:outputLabel value="หมวดเรื่อง ：" styleClass="bold"/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <p:inputTextarea id="heading" value="#{q103Controller.selected.heading}" cols="30" rows="2" 
+                                     maxlength="250" style="width: 400px;" />
+
+                </p:panelGrid>
+            </p:panel>
+
+            <p:panel  id="detail_list1" style="border: 0px">
+                <p:panel  header="รายละเอียด" style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                    <p:panelGrid columns="3" layout="grid"  columnClasses="ui-grid-col-2,ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+                        <h:panelGroup id="file_label1">
+                            <p:outputLabel value="ไฟล์ใหม่ (1)" styleClass="label" rendered="#{q103Controller.newFile1 != null}"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="file_name1">
+                            <p:outputLabel value="#{q103Controller.file1.fileName}" style="color:blue;font-weight: bold;" rendered="#{q103Controller.newFile1 != null}"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="upPnl1">
+                        <p:fileUpload id="file_upload1" auto="true" fileUploadListener="#{q103Controller.handleFileUpload1}"
+                                      update="upPnl1,file_label1,file_name1"
+                                      mode="advanced"
+                                      skinSimple="true"
+                                      sizeLimit="10000000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(pdf|doc|docx|xls|xlsx)$/"
+                                      invalidFileMessage="ชนิดของไฟล์ต้องเป็น *.pdf, *.docx, *.doc, *.xlsx, *.xls เท่านั้น"
+                                      invalidSizeMessage="ขนาดไฟล์ ไม่เกิน 10M"
+                                      messageTemplate=" "/>
+                        <p:outputLabel value="(เอกสาร *.pdf,*.docx,*.doc,*.xlsx,*.xls และขนาดไม่เกิน 10M เท่านั้น)" style="color: #036fab" />
+                        </h:panelGroup>
+                        
+                        
+                        <h:panelGroup id="file_label2">
+                            <p:outputLabel value="ไฟล์ใหม่ (2)" styleClass="label" rendered="#{q103Controller.newFile2 != null}"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="file_name2">
+                            <p:outputLabel value="#{q103Controller.file2.fileName}" style="color:blue;font-weight: bold;" rendered="#{q103Controller.newFile2 != null}"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="upPnl2">
+                        <p:fileUpload id="file_upload2" auto="true" fileUploadListener="#{q103Controller.handleFileUpload2}"
+                                      update="upPnl2,file_label2,file_name2"
+                                      mode="advanced"
+                                      skinSimple="true"
+                                      sizeLimit="10000000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(pdf|doc|docx|xls|xlsx)$/"
+                                      invalidFileMessage="ชนิดของไฟล์ต้องเป็น *.pdf, *.docx, *.doc, *.xlsx, *.xls เท่านั้น"
+                                      invalidSizeMessage="ขนาดไฟล์ ไม่เกิน 10M"
+                                      messageTemplate=" "/>
+                        <p:outputLabel value="(เอกสาร *.pdf,*.docx,*.doc,*.xlsx,*.xls และขนาดไม่เกิน 10M เท่านั้น)" style="color: #036fab" />
+                        </h:panelGroup>
+                        
+                        
+                        <h:panelGroup id="file_label3">
+                            <p:outputLabel value="ไฟล์ใหม่ (3)" styleClass="label" rendered="#{q103Controller.newFile3 != null}"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="file_name3">
+                            <p:outputLabel value="#{q103Controller.file3.fileName}" style="color:blue;font-weight: bold;" rendered="#{q103Controller.newFile3 != null}"/>
+                        </h:panelGroup>
+                        <h:panelGroup id="upPnl3">
+                        <p:fileUpload id="file_upload3" auto="true" fileUploadListener="#{q103Controller.handleFileUpload3}"
+                                      update="upPnl3,file_label3,file_name3"
+                                      mode="advanced"
+                                      skinSimple="true"
+                                      sizeLimit="10000000"
+                                      cancelLabel="#{msgs['btn.cancel']}"
+                                      uploadLabel="#{msgs['btn.upload']}"
+                                      label="#{msgs['btn.choose']}"
+                                      allowTypes="/(\.|\/)(pdf|doc|docx|xls|xlsx)$/"
+                                      invalidFileMessage="ชนิดของไฟล์ต้องเป็น *.pdf, *.docx, *.doc, *.xlsx, *.xls เท่านั้น"
+                                      invalidSizeMessage="ขนาดไฟล์ ไม่เกิน 10M"
+                                      messageTemplate=" "/>
+                        <p:outputLabel value="(เอกสาร *.pdf,*.docx,*.doc,*.xlsx,*.xls และขนาดไม่เกิน 10M เท่านั้น)" style="color: #036fab" />
+                        </h:panelGroup>
+                    </p:panelGrid>
+                </p:panel>
+            </p:panel>
+
+            <h:panelGroup style="margin: 5px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{q103Controller.create()}" styleClass="edit-btn" update=":content"/>
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 actionListener="#{q103Controller.cancel('quotation/q103/index')}" styleClass="clear-btn" update=":content"/>
+            </h:panelGroup>
+        </h:form>
+    </p:panel>
+
+</ui:composition>

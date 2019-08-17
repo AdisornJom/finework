@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <style type="text/css">
+        .ui-widget-content .ui-icon {
+            /*background-image: url("./resources/images/ui-icons_333333_256x240.png");*/
+        }
+    </style>
+
+   <h:form id="listForm">
+        <p:dataTable id="billingTable1" var="item" value="#{q103Controller.items}"
+                     selection="#{q103Controller.printSelected}" rowKey="#{item.quotationId}" 
+                     binding="#{bindingController.dataTableModel}">
+<ui:remove>
+            <p:column selectionMode="multiple" style="text-align: center;width: 30px;" />
+</ui:remove>
+            <p:column headerText="ลำดับ" style="text-align: center;width: 32px;">
+                <h:outputText value="#{(rowNumber+1)}" />
+            </p:column>
+
+            <p:column headerText="เลขที่" sortBy="#{item.documentno}" style="width: 90px;">
+                <h:outputText value="#{item.documentno}"/>
+            </p:column>
+            
+            <p:column headerText="เรื่อง"  style="width: 160px;">
+                <h:outputText value="#{item.subject}"/>
+            </p:column>
+            
+            <p:column headerText="หัวข้อ"  style="width: 160px;">
+                <h:outputText value="#{item.remark}"/>
+            </p:column>
+            
+            <p:column  headerText="วันที่เริ่มทำรายการ " sortBy="#{item.sendDate}" style="width: 90px;text-align: center">
+                <h:outputText value="#{item.quotationDate}">
+                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                </h:outputText>
+            </p:column>
+            
+            <p:column  headerText="ใบเสนอราคา(1) "  style="width:90px;text-align: center">
+                <p:commandLink ajax="false" title="#{q103Controller.selected.quotationImg1}" 
+                               action="#{q103Controller.handleFileDownload(item.quotationImg1)}"  target="_blank">
+                    <p:outputLabel value="#{item.quotationImg1}" style="font-weight: bold;cursor: pointer;"/>
+                </p:commandLink>
+            </p:column>
+            
+            <p:column  headerText="ใบเสนอราคา(2) "  style="width:90px;text-align: center">
+                <p:commandLink ajax="false" title="#{q103Controller.selected.quotationImg2}" 
+                               action="#{q103Controller.handleFileDownload(item.quotationImg2)}"  target="_blank">
+                    <p:outputLabel value="#{item.quotationImg2}" style="font-weight: bold;cursor: pointer;"/>
+                </p:commandLink>
+            </p:column>
+            
+            <p:column  headerText="ใบเสนอราคา(3) "  style="width:90px;text-align: center">
+                <p:commandLink ajax="false" title="#{q103Controller.selected.quotationImg3}" 
+                               action="#{q103Controller.handleFileDownload(item.quotationImg3)}"  target="_blank">
+                    <p:outputLabel value="#{item.quotationImg3}" style="font-weight: bold;cursor: pointer;"/>
+                </p:commandLink>
+            </p:column>
+            
+            <p:column style="width: 85px;text-align: center">
+                <p:tooltip for="edit" value="#{msgs['btn.edit']}" trackMouse="true"/>
+                <p:commandButton id="edit" icon="fa fa-edit"  action="#{q103Controller.prepareEdit('quotation/q103/edit')}" update=":content" styleClass="edit-btn">
+                    <f:setPropertyActionListener value="#{item}" target="#{q103Controller.selected}" />
+                </p:commandButton>
+
+                <p:tooltip for="del" value="#{msgs['btn.delete']}" trackMouse="true"/>
+                <p:commandButton id="del" icon="fa fa-trash"  action="#{q103Controller.delete()}" update=":content" styleClass="delete-btn">
+                    <p:confirm header="#{msgs['dialog.confirm']}" message="#{msgs['dialog.message']}" />
+                    <f:setPropertyActionListener value="#{item}" target="#{q103Controller.selected}" />
+                </p:commandButton>
+            </p:column>
+
+            <f:facet name="footer">
+                <h:outputText value="#{msgs['messages.code.2022']} "/>
+                <h:outputText value="#{q103Controller.items.size()}">
+                    <f:convertNumber pattern="#,##0"/>
+                </h:outputText>
+                <h:outputText value=" #{msgs['messages.code.2023']}"/>
+            </f:facet>
+        </p:dataTable>
+
+    </h:form>
+
+</ui:composition>

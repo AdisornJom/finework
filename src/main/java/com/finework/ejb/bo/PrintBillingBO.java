@@ -5,19 +5,16 @@ import com.finework.ejb.dao.SysPrintBillingDAO;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-/**
- *
- * @author Adisorn j.
- */
-@Stateless(name = "finework.PrintBillingBO")
-public class PrintBillingBO {
+@Stateless(name="finework.PrintBillingBO")
+public class PrintBillingBO
+{
 
-    @EJB
-    private SysPrintBillingDAO sysPrintBillingDAO;
-    
-    public void createSysPrintBilling(SysPrintBilling sysPrintBilling) throws Exception{
-        sysPrintBillingDAO.create(sysPrintBilling);
-    } 
-    
-   
+  @EJB
+  private SysPrintBillingDAO sysPrintBillingDAO;
+
+  public void createSysPrintBilling(SysPrintBilling sysPrintBilling)
+    throws Exception
+  {
+    this.sysPrintBillingDAO.create(sysPrintBilling);
+  }
 }

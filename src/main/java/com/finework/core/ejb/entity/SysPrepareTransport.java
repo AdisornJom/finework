@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.finework.core.ejb.entity;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -28,223 +21,226 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Lenovo
- */
 @Entity
-@Table(name = "sys_prepare_transport")
+@Table(name="sys_prepare_transport")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "SysPrepareTransport.findAll", query = "SELECT s FROM SysPrepareTransport s")})
-public class SysPrepareTransport implements Serializable {
+@NamedQueries({@javax.persistence.NamedQuery(name="SysPrepareTransport.findAll", query="SELECT s FROM SysPrepareTransport s")})
+public class SysPrepareTransport
+  implements Serializable
+{
+  private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "prepare_tp_id")
-    private Integer prepareTpId;
-    @Size(max = 50)
-    @Column(name = "document_no")
-    private String documentNo;
-    @Column(name = "prepare_tp_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date prepareTpDate;
-    @Column(name = "tp_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date tpDate;
-    @Column(name = "investigate_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date investigateDate;
-    @Size(max = 255)
-    @Column(name = "remark")
-    private String remark;
-    @Column(name = "status")
-    private Integer status;
-    @Column(name = "created_dt")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDt;
-    @Size(max = 45)
-    @Column(name = "created_by")
-    private String createdBy;
-    @Column(name = "modified_dt")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date modifiedDt;
-    @Size(max = 45)
-    @Column(name = "modified_by")
-    private String modifiedBy;
-        
-   // @OneToMany(mappedBy = "prepareTpId")
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "prepareTpId", cascade = CascadeType.ALL,orphanRemoval=true)
-    private List<SysTransportationDetail> sysTransportationDetailList;
-    
-    //@OneToMany(mappedBy = "prepareTpId")
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "prepareTpId", cascade = CascadeType.ALL,orphanRemoval=true)
-    private List<SysPrepareTransportDetail> sysPrepareTransportDetailList;
-    
-    
-    @JoinColumn(name = "foreman_id", referencedColumnName = "foreman_id")
-    @ManyToOne
-    private SysForeman foremanId;
-    
-    @JoinColumn(name = "workunit_id", referencedColumnName = "workunit_id")
-    @ManyToOne
-    private SysWorkunit workunitId;
+  @Id
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  @Basic(optional=false)
+  @Column(name="prepare_tp_id")
+  private Integer prepareTpId;
 
-    public SysPrepareTransport() {
-    }
+  @Size(max=50)
+  @Column(name="document_no")
+  private String documentNo;
 
-    public SysPrepareTransport(Integer prepareTpId) {
-        this.prepareTpId = prepareTpId;
-    }
+  @Column(name="prepare_tp_date")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date prepareTpDate;
 
-    public Integer getPrepareTpId() {
-        return prepareTpId;
-    }
+  @Column(name="tp_date")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date tpDate;
 
-    public void setPrepareTpId(Integer prepareTpId) {
-        this.prepareTpId = prepareTpId;
-    }
+  @Column(name="investigate_date")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date investigateDate;
 
-    public String getDocumentNo() {
-        return documentNo;
-    }
+  @Size(max=255)
+  @Column(name="remark")
+  private String remark;
 
-    public void setDocumentNo(String documentNo) {
-        this.documentNo = documentNo;
-    }
+  @Column(name="status")
+  private Integer status;
 
-    public Date getPrepareTpDate() {
-        return prepareTpDate;
-    }
+  @Column(name="created_dt")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date createdDt;
 
-    public void setPrepareTpDate(Date prepareTpDate) {
-        this.prepareTpDate = prepareTpDate;
-    }
+  @Size(max=45)
+  @Column(name="created_by")
+  private String createdBy;
 
-    public String getRemark() {
-        return remark;
-    }
+  @Column(name="modified_dt")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date modifiedDt;
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
+  @Size(max=45)
+  @Column(name="modified_by")
+  private String modifiedBy;
 
-    public Integer getStatus() {
-        return status;
-    }
+  @OneToMany(fetch=FetchType.EAGER, mappedBy="prepareTpId", cascade={javax.persistence.CascadeType.ALL}, orphanRemoval=true)
+  private List<SysTransportationDetail> sysTransportationDetailList;
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+  @OneToMany(fetch=FetchType.EAGER, mappedBy="prepareTpId", cascade={javax.persistence.CascadeType.ALL}, orphanRemoval=true)
+  private List<SysPrepareTransportDetail> sysPrepareTransportDetailList;
 
-    public Date getCreatedDt() {
-        return createdDt;
-    }
+  @JoinColumn(name="foreman_id", referencedColumnName="foreman_id")
+  @ManyToOne
+  private SysForeman foremanId;
 
-    public void setCreatedDt(Date createdDt) {
-        this.createdDt = createdDt;
-    }
+  @JoinColumn(name="workunit_id", referencedColumnName="workunit_id")
+  @ManyToOne
+  private SysWorkunit workunitId;
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
+  public SysPrepareTransport()
+  {
+  }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+  public SysPrepareTransport(Integer prepareTpId)
+  {
+    this.prepareTpId = prepareTpId;
+  }
 
-    public Date getModifiedDt() {
-        return modifiedDt;
-    }
+  public Integer getPrepareTpId() {
+    return this.prepareTpId;
+  }
 
-    public void setModifiedDt(Date modifiedDt) {
-        this.modifiedDt = modifiedDt;
-    }
+  public void setPrepareTpId(Integer prepareTpId) {
+    this.prepareTpId = prepareTpId;
+  }
 
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
+  public String getDocumentNo() {
+    return this.documentNo;
+  }
 
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
+  public void setDocumentNo(String documentNo) {
+    this.documentNo = documentNo;
+  }
 
-    @XmlTransient
-    public List<SysTransportationDetail> getSysTransportationDetailList() {
-        return sysTransportationDetailList;
-    }
+  public Date getPrepareTpDate() {
+    return this.prepareTpDate;
+  }
 
-    public void setSysTransportationDetailList(List<SysTransportationDetail> sysTransportationDetailList) {
-        this.sysTransportationDetailList = sysTransportationDetailList;
-    }
+  public void setPrepareTpDate(Date prepareTpDate) {
+    this.prepareTpDate = prepareTpDate;
+  }
 
-    @XmlTransient
-    public List<SysPrepareTransportDetail> getSysPrepareTransportDetailList() {
-        return sysPrepareTransportDetailList;
-    }
+  public String getRemark() {
+    return this.remark;
+  }
 
-    public void setSysPrepareTransportDetailList(List<SysPrepareTransportDetail> sysPrepareTransportDetailList) {
-        this.sysPrepareTransportDetailList = sysPrepareTransportDetailList;
-    }
+  public void setRemark(String remark) {
+    this.remark = remark;
+  }
 
-    public SysForeman getForemanId() {
-        return foremanId;
-    }
+  public Integer getStatus() {
+    return this.status;
+  }
 
-    public void setForemanId(SysForeman foremanId) {
-        this.foremanId = foremanId;
-    }
-    
-     public SysWorkunit getWorkunitId() {
-        return workunitId;
-    }
+  public void setStatus(Integer status) {
+    this.status = status;
+  }
 
-    public void setWorkunitId(SysWorkunit workunitId) {
-        this.workunitId = workunitId;
-    }
+  public Date getCreatedDt() {
+    return this.createdDt;
+  }
 
-    public Date getTpDate() {
-        return tpDate;
-    }
+  public void setCreatedDt(Date createdDt) {
+    this.createdDt = createdDt;
+  }
 
-    public void setTpDate(Date tpDate) {
-        this.tpDate = tpDate;
-    }
+  public String getCreatedBy() {
+    return this.createdBy;
+  }
 
-    public Date getInvestigateDate() {
-        return investigateDate;
-    }
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
 
-    public void setInvestigateDate(Date investigateDate) {
-        this.investigateDate = investigateDate;
-    }
-    
+  public Date getModifiedDt() {
+    return this.modifiedDt;
+  }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (prepareTpId != null ? prepareTpId.hashCode() : 0);
-        return hash;
-    }
+  public void setModifiedDt(Date modifiedDt) {
+    this.modifiedDt = modifiedDt;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SysPrepareTransport)) {
-            return false;
-        }
-        SysPrepareTransport other = (SysPrepareTransport) object;
-        if ((this.prepareTpId == null && other.prepareTpId != null) || (this.prepareTpId != null && !this.prepareTpId.equals(other.prepareTpId))) {
-            return false;
-        }
-        return true;
-    }
+  public String getModifiedBy() {
+    return this.modifiedBy;
+  }
 
-    @Override
-    public String toString() {
-        return "com.finework.core.ejb.entity.SysPrepareTransport[ prepareTpId=" + prepareTpId + " ]";
+  public void setModifiedBy(String modifiedBy) {
+    this.modifiedBy = modifiedBy;
+  }
+
+  @XmlTransient
+  public List<SysTransportationDetail> getSysTransportationDetailList() {
+    return this.sysTransportationDetailList;
+  }
+
+  public void setSysTransportationDetailList(List<SysTransportationDetail> sysTransportationDetailList) {
+    this.sysTransportationDetailList = sysTransportationDetailList;
+  }
+
+  @XmlTransient
+  public List<SysPrepareTransportDetail> getSysPrepareTransportDetailList() {
+    return this.sysPrepareTransportDetailList;
+  }
+
+  public void setSysPrepareTransportDetailList(List<SysPrepareTransportDetail> sysPrepareTransportDetailList) {
+    this.sysPrepareTransportDetailList = sysPrepareTransportDetailList;
+  }
+
+  public SysForeman getForemanId() {
+    return this.foremanId;
+  }
+
+  public void setForemanId(SysForeman foremanId) {
+    this.foremanId = foremanId;
+  }
+
+  public SysWorkunit getWorkunitId() {
+    return this.workunitId;
+  }
+
+  public void setWorkunitId(SysWorkunit workunitId) {
+    this.workunitId = workunitId;
+  }
+
+  public Date getTpDate() {
+    return this.tpDate;
+  }
+
+  public void setTpDate(Date tpDate) {
+    this.tpDate = tpDate;
+  }
+
+  public Date getInvestigateDate() {
+    return this.investigateDate;
+  }
+
+  public void setInvestigateDate(Date investigateDate) {
+    this.investigateDate = investigateDate;
+  }
+
+  public int hashCode()
+  {
+    int hash = 0;
+    hash += (this.prepareTpId != null ? this.prepareTpId.hashCode() : 0);
+    return hash;
+  }
+
+  public boolean equals(Object object)
+  {
+    if (!(object instanceof SysPrepareTransport)) {
+      return false;
     }
-    
+    SysPrepareTransport other = (SysPrepareTransport)object;
+    if (((this.prepareTpId == null) && (other.prepareTpId != null)) || ((this.prepareTpId != null) && (!this.prepareTpId.equals(other.prepareTpId)))) {
+      return false;
+    }
+    return true;
+  }
+
+  public String toString()
+  {
+    return "com.finework.core.ejb.entity.SysPrepareTransport[ prepareTpId=" + this.prepareTpId + " ]";
+  }
 }

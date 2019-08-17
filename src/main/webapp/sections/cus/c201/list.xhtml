@@ -25,6 +25,10 @@
                 <h:outputText value="#{(rowNumber+1)}" />
             </p:column>
             
+            <p:column headerText="รหัสหน่วยงาน" sortBy="#{item.workunitCode}" style="width: 50px;">
+                <h:outputText value="#{item.workunitCode}"/>
+            </p:column>
+            
             <p:column headerText="#{msgs['c201.custom.name_th']}" sortBy="#{item.workunitName}" style="width: 220px;">
                 <h:outputText value="#{item.workunitName}"/>
             </p:column>

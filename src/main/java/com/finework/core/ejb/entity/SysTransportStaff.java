@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.finework.core.ejb.entity;
 
 import java.io.Serializable;
@@ -16,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,475 +21,497 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Lenovo
- */
 @Entity
-@Table(name = "sys_transport_staff")
+@Table(name="sys_transport_staff")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "SysTransportStaff.findAll", query = "SELECT s FROM SysTransportStaff s")})
-public class SysTransportStaff implements Serializable, Comparator<SysTransportStaff> {
-
-    @OneToMany(mappedBy = "transportstaffId")
-    private List<SysTransportStaffSpecial> sysTransportStaffSpecialList;
-
-     // @OneToMany(fetch = FetchType.EAGER, mappedBy = "tpstaffId", cascade = CascadeType.ALL)
-    @OneToMany(mappedBy = "tpstaffId")
-    private List<SysTransportation> sysTransportationList;
-    
-    //@OneToMany(fetch = FetchType.EAGER, mappedBy = "tpcarstaffId1", cascade = CascadeType.ALL)
-    @OneToMany(mappedBy = "tpcarstaffId1")
-    private List<SysTransportation> sysTransportationList1;
-     
-    //@OneToMany(fetch = FetchType.EAGER, mappedBy = "tpcarstaffId2", cascade = CascadeType.ALL)
-    @OneToMany(mappedBy = "tpcarstaffId2")
-    private List<SysTransportation> sysTransportationList2;
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "transportstaff_id")
-    private Integer transportstaffId;
-    @Size(max = 250)
-    @Column(name = "transportstaff_name_th")
-    private String transportstaffNameTh;
-    @Size(max = 150)
-    @Column(name = "transportstaff_name_en")
-    private String transportstaffNameEn;
-    @Size(max = 250)
-    @Column(name = "transportstaff_nickname")
-    private String transportstaffNickname;
-    @Size(max = 255)
-    @Column(name = "transportstaff_address")
-    private String transportstaffAddress;
-    @Size(max = 150)
-    @Column(name = "tel")
-    private String tel;
-    @Size(max = 20)
-    @Column(name = "tax_id")
-    private String taxId;
-    @Size(max = 250)
-    @Column(name = "transportstaff_lineid")
-    private String transportstaffLineid;
-    @Column(name = "transportstaff_type")
-    private Integer transportstaffType;
-    @Column(name = "transport_type")
-    private Integer transportType;
-    @Column(name = "salary")
-    private Double salary;
-    @Column(name = "earning_perday")
-    private Double earningPerday;
-    @Column(name = "allowance")
-    private Double allowance;
-    @Column(name = "rent_house")
-    private Double rentHouse;
-    @Column(name = "tel_charge")
-    private Double telCharge;
-    @Column(name = "daily_wage")
-    private Double dailyWage;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1)
-    @Column(name = "status")
-    private String status;
-    @Column(name = "created_dt")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDt;
-    @Size(max = 45)
-    @Column(name = "created_by")
-    private String createdBy;
-    @Size(max = 45)
-    @Column(name = "modified_by")
-    private String modifiedBy;
-    @Column(name = "modified_dt")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date modifiedDt;
-    
-    @Transient
-    private Double totalAmount;//เงินเดือน
-    @Transient
-    private Double valueWorking;//รายได้ต่อวัน
-    @Transient
-    private Double totalIncome;//รายได้
-    @Transient
-    private Double totalIncomeVat;//หัก 3%
-    @Transient
-    private Double totalIncomeNet;//รายได้รวมหลังหลัง 3%
-    @Transient
-    private Integer perTrip;//เบี้ยต่อวัน
-    @Transient
-    private Double totalAllowance;//ค่าประกัน
-    @Transient
-    private Double totalExp;//รวมค่าใช้จ่าย
-    @Transient
-    private Double totalSpecial;//รายได้พิเศษ ต้องหัก 3%
-    @Transient
-    private Double totalSpecialnoVat;//รายายได้พิเศษ ไม่ต้องหัก 3%
-    @Transient
-    private Double totallastNet;
-    @Transient
-    private List<SysTranspostationExp> transportationExp;//
-    @Transient
-    private List<SysTransportStaffSpecial> sysTransportStaffSpecialNovatList;
-
-    public SysTransportStaff() {
-    }
+@NamedQueries({@javax.persistence.NamedQuery(name="SysTransportStaff.findAll", query="SELECT s FROM SysTransportStaff s")})
+public class SysTransportStaff
+  implements Serializable, Comparator<SysTransportStaff>
+{
 
-    public Double getValueWorking() {
-        return valueWorking;
-    }
+  @OneToMany(mappedBy="transportstaffId")
+  private List<SysTransportStaffSpecial> sysTransportStaffSpecialList;
 
-    public void setValueWorking(Double valueWorking) {
-        this.valueWorking = valueWorking;
-    }
+  @OneToMany(mappedBy="tpstaffId")
+  private List<SysTransportation> sysTransportationList;
 
-    public Double getTotallastNet() {
-        return totallastNet;
-    }
+  @OneToMany(mappedBy="tpcarstaffId1")
+  private List<SysTransportation> sysTransportationList1;
 
-    public void setTotallastNet(Double totallastNet) {
-        this.totallastNet = totallastNet;
-    }
-    
+  @OneToMany(mappedBy="tpcarstaffId2")
+  private List<SysTransportation> sysTransportationList2;
+  private static final long serialVersionUID = 1L;
 
-    public SysTransportStaff(Integer transportstaffId) {
-        this.transportstaffId = transportstaffId;
-    }
+  @Id
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  @Basic(optional=false)
+  @Column(name="transportstaff_id")
+  private Integer transportstaffId;
 
-    public SysTransportStaff(Integer transportstaffId, String status) {
-        this.transportstaffId = transportstaffId;
-        this.status = status;
-    }
+  @Size(max=250)
+  @Column(name="transportstaff_name_th")
+  private String transportstaffNameTh;
 
-    public Integer getTransportstaffId() {
-        return transportstaffId;
-    }
+  @Size(max=150)
+  @Column(name="transportstaff_name_en")
+  private String transportstaffNameEn;
 
-    public void setTransportstaffId(Integer transportstaffId) {
-        this.transportstaffId = transportstaffId;
-    }
+  @Size(max=250)
+  @Column(name="transportstaff_nickname")
+  private String transportstaffNickname;
 
-    public String getTransportstaffNameTh() {
-        return transportstaffNameTh;
-    }
+  @Size(max=255)
+  @Column(name="transportstaff_address")
+  private String transportstaffAddress;
 
-    public void setTransportstaffNameTh(String transportstaffNameTh) {
-        this.transportstaffNameTh = transportstaffNameTh;
-    }
+  @Size(max=150)
+  @Column(name="tel")
+  private String tel;
 
-    public String getTransportstaffNameEn() {
-        return transportstaffNameEn;
-    }
+  @Size(max=20)
+  @Column(name="tax_id")
+  private String taxId;
 
-    public void setTransportstaffNameEn(String transportstaffNameEn) {
-        this.transportstaffNameEn = transportstaffNameEn;
-    }
+  @Size(max=250)
+  @Column(name="transportstaff_lineid")
+  private String transportstaffLineid;
 
-    public String getTransportstaffNickname() {
-        return transportstaffNickname;
-    }
+  @Column(name="transportstaff_type")
+  private Integer transportstaffType;
 
-    public void setTransportstaffNickname(String transportstaffNickname) {
-        this.transportstaffNickname = transportstaffNickname;
-    }
+  @Column(name="transport_type")
+  private Integer transportType;
 
-    public String getTransportstaffAddress() {
-        return transportstaffAddress;
-    }
+  @Column(name="salary")
+  private Double salary;
 
-    public void setTransportstaffAddress(String transportstaffAddress) {
-        this.transportstaffAddress = transportstaffAddress;
-    }
+  @Column(name="earning_perday")
+  private Double earningPerday;
 
-    public String getTel() {
-        return tel;
-    }
+  @Column(name="allowance")
+  private Double allowance;
 
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
+  @Column(name="rent_house")
+  private Double rentHouse;
 
-    public String getTaxId() {
-        return taxId;
-    }
+  @Column(name="tel_charge")
+  private Double telCharge;
 
-    public void setTaxId(String taxId) {
-        this.taxId = taxId;
-    }
+  @Column(name="daily_wage")
+  private Double dailyWage;
 
-    public String getTransportstaffLineid() {
-        return transportstaffLineid;
-    }
+  @Basic(optional=false)
+  @NotNull
+  @Size(min=1, max=1)
+  @Column(name="status")
+  private String status;
 
-    public void setTransportstaffLineid(String transportstaffLineid) {
-        this.transportstaffLineid = transportstaffLineid;
-    }
+  @Column(name="created_dt")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date createdDt;
 
-    public Integer getTransportstaffType() {
-        return transportstaffType;
-    }
+  @Size(max=45)
+  @Column(name="created_by")
+  private String createdBy;
 
-    public void setTransportstaffType(Integer transportstaffType) {
-        this.transportstaffType = transportstaffType;
-    }
+  @Size(max=45)
+  @Column(name="modified_by")
+  private String modifiedBy;
 
-    public Double getSalary() {
-        return salary;
-    }
+  @Column(name="modified_dt")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date modifiedDt;
 
-    public void setSalary(Double salary) {
-        this.salary = salary;
-    }
+  @Transient
+  private Double totalAmount;
 
-    public Double getAllowance() {
-        return allowance;
-    }
+  @Transient
+  private Double valueWorking;
 
-    public void setAllowance(Double allowance) {
-        this.allowance = allowance;
-    }
+  @Transient
+  private Double totalIncome;
 
-    public Double getRentHouse() {
-        return rentHouse;
-    }
+  @Transient
+  private Double totalIncomeVat;
 
-    public void setRentHouse(Double rentHouse) {
-        this.rentHouse = rentHouse;
-    }
+  @Transient
+  private Double totalIncomeNet;
 
-    public Double getTelCharge() {
-        return telCharge;
-    }
+  @Transient
+  private Integer perTrip;
 
-    public void setTelCharge(Double telCharge) {
-        this.telCharge = telCharge;
-    }
+  @Transient
+  private Double totalAllowance;
 
-    public Double getDailyWage() {
-        return dailyWage;
-    }
+  @Transient
+  private Double totalExp;
 
-    public void setDailyWage(Double dailyWage) {
-        this.dailyWage = dailyWage;
-    }
+  @Transient
+  private Double totalSpecial;
 
-    public String getStatus() {
-        return status;
-    }
+  @Transient
+  private Double totalSpecialnoVat;
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  @Transient
+  private Double totallastNet;
 
-    public Date getCreatedDt() {
-        return createdDt;
-    }
+  @Transient
+  private List<SysTranspostationExp> transportationExp;
 
-    public void setCreatedDt(Date createdDt) {
-        this.createdDt = createdDt;
-    }
+  @Transient
+  private List<SysTransportStaffSpecial> sysTransportStaffSpecialNovatList;
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
+  public SysTransportStaff()
+  {
+  }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+  public Double getValueWorking()
+  {
+    return this.valueWorking;
+  }
 
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
+  public void setValueWorking(Double valueWorking) {
+    this.valueWorking = valueWorking;
+  }
 
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
+  public Double getTotallastNet() {
+    return this.totallastNet;
+  }
 
-    public Date getModifiedDt() {
-        return modifiedDt;
-    }
+  public void setTotallastNet(Double totallastNet) {
+    this.totallastNet = totallastNet;
+  }
 
-    public void setModifiedDt(Date modifiedDt) {
-        this.modifiedDt = modifiedDt;
-    }
+  public SysTransportStaff(Integer transportstaffId)
+  {
+    this.transportstaffId = transportstaffId;
+  }
 
-    public Integer getTransportType() {
-        return transportType;
-    }
+  public SysTransportStaff(Integer transportstaffId, String status) {
+    this.transportstaffId = transportstaffId;
+    this.status = status;
+  }
 
-    public void setTransportType(Integer transportType) {
-        this.transportType = transportType;
-    }
+  public Integer getTransportstaffId() {
+    return this.transportstaffId;
+  }
 
-    public Double getEarningPerday() {
-        return earningPerday;
-    }
+  public void setTransportstaffId(Integer transportstaffId) {
+    this.transportstaffId = transportstaffId;
+  }
 
-    public void setEarningPerday(Double earningPerday) {
-        this.earningPerday = earningPerday;
-    }
-    
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (transportstaffId != null ? transportstaffId.hashCode() : 0);
-        return hash;
-    }
+  public String getTransportstaffNameTh() {
+    return this.transportstaffNameTh;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SysTransportStaff)) {
-            return false;
-        }
-        SysTransportStaff other = (SysTransportStaff) object;
-        if ((this.transportstaffId == null && other.transportstaffId != null) || (this.transportstaffId != null && !this.transportstaffId.equals(other.transportstaffId))) {
-            return false;
-        }
-        return true;
-    }
+  public void setTransportstaffNameTh(String transportstaffNameTh) {
+    this.transportstaffNameTh = transportstaffNameTh;
+  }
 
-    @Override
-    public String toString() {
-        return "com.finework.core.ejb.entity.SysTransportStaff[ transportstaffId=" + transportstaffId + " ]";
-    }
+  public String getTransportstaffNameEn() {
+    return this.transportstaffNameEn;
+  }
 
-    @XmlTransient
-    public List<SysTransportation> getSysTransportationList() {
-        return sysTransportationList;
-    }
+  public void setTransportstaffNameEn(String transportstaffNameEn) {
+    this.transportstaffNameEn = transportstaffNameEn;
+  }
 
-    public void setSysTransportationList(List<SysTransportation> sysTransportationList) {
-        this.sysTransportationList = sysTransportationList;
-    }
+  public String getTransportstaffNickname() {
+    return this.transportstaffNickname;
+  }
 
-    @XmlTransient
-    public List<SysTransportation> getSysTransportationList1() {
-        return sysTransportationList1;
-    }
+  public void setTransportstaffNickname(String transportstaffNickname) {
+    this.transportstaffNickname = transportstaffNickname;
+  }
 
-    public void setSysTransportationList1(List<SysTransportation> sysTransportationList1) {
-        this.sysTransportationList1 = sysTransportationList1;
-    }
+  public String getTransportstaffAddress() {
+    return this.transportstaffAddress;
+  }
 
-    @XmlTransient
-    public List<SysTransportation> getSysTransportationList2() {
-        return sysTransportationList2;
-    }
+  public void setTransportstaffAddress(String transportstaffAddress) {
+    this.transportstaffAddress = transportstaffAddress;
+  }
 
-    public void setSysTransportationList2(List<SysTransportation> sysTransportationList2) {
-        this.sysTransportationList2 = sysTransportationList2;
-    }
-    
-    @Override
-    public int compare(SysTransportStaff o1, SysTransportStaff o2) {
-       return o2.getTransportstaffId().compareTo(o1.getTransportstaffId());
-    }
+  public String getTel() {
+    return this.tel;
+  }
 
-    public Double getTotalIncome() {
-        return totalIncome;
-    }
+  public void setTel(String tel) {
+    this.tel = tel;
+  }
 
-    public void setTotalIncome(Double totalIncome) {
-        this.totalIncome = totalIncome;
-    }
+  public String getTaxId() {
+    return this.taxId;
+  }
 
-    public Double getTotalIncomeVat() {
-        return totalIncomeVat;
-    }
+  public void setTaxId(String taxId) {
+    this.taxId = taxId;
+  }
 
-    public void setTotalIncomeVat(Double totalIncomeVat) {
-        this.totalIncomeVat = totalIncomeVat;
-    }
+  public String getTransportstaffLineid() {
+    return this.transportstaffLineid;
+  }
 
-    public Double getTotalIncomeNet() {
-        return totalIncomeNet;
-    }
+  public void setTransportstaffLineid(String transportstaffLineid) {
+    this.transportstaffLineid = transportstaffLineid;
+  }
 
-    public void setTotalIncomeNet(Double totalIncomeNet) {
-        this.totalIncomeNet = totalIncomeNet;
-    }
+  public Integer getTransportstaffType() {
+    return this.transportstaffType;
+  }
 
-   
-    public Integer getPerTrip() {
-        return perTrip;
-    }
+  public void setTransportstaffType(Integer transportstaffType) {
+    this.transportstaffType = transportstaffType;
+  }
 
-    public void setPerTrip(Integer perTrip) {
-        this.perTrip = perTrip;
-    }
+  public Double getSalary() {
+    return this.salary;
+  }
 
-    public Double getTotalExp() {
-        return totalExp;
-    }
+  public void setSalary(Double salary) {
+    this.salary = salary;
+  }
 
-    public void setTotalExp(Double totalExp) {
-        this.totalExp = totalExp;
-    }
+  public Double getAllowance() {
+    return this.allowance;
+  }
 
-    public List<SysTranspostationExp> getTransportationExp() {
-        return transportationExp;
-    }
+  public void setAllowance(Double allowance) {
+    this.allowance = allowance;
+  }
 
-    public void setTransportationExp(List<SysTranspostationExp> transportationExp) {
-        this.transportationExp = transportationExp;
-    }
+  public Double getRentHouse() {
+    return this.rentHouse;
+  }
 
-    public Double getTotalAmount() {
-        return totalAmount;
-    }
+  public void setRentHouse(Double rentHouse) {
+    this.rentHouse = rentHouse;
+  }
 
-    public void setTotalAmount(Double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
+  public Double getTelCharge() {
+    return this.telCharge;
+  }
 
-    public Double getTotalAllowance() {
-        return totalAllowance;
-    }
+  public void setTelCharge(Double telCharge) {
+    this.telCharge = telCharge;
+  }
 
-    public void setTotalAllowance(Double totalAllowance) {
-        this.totalAllowance = totalAllowance;
-    }
+  public Double getDailyWage() {
+    return this.dailyWage;
+  }
 
-    public Double getTotalSpecial() {
-        return totalSpecial;
-    }
+  public void setDailyWage(Double dailyWage) {
+    this.dailyWage = dailyWage;
+  }
 
-    public void setTotalSpecial(Double totalSpecial) {
-        this.totalSpecial = totalSpecial;
-    }
-    
-
-    @XmlTransient
-    public List<SysTransportStaffSpecial> getSysTransportStaffSpecialList() {
-        return sysTransportStaffSpecialList;
-    }
+  public String getStatus() {
+    return this.status;
+  }
 
-    public void setSysTransportStaffSpecialList(List<SysTransportStaffSpecial> sysTransportStaffSpecialList) {
-        this.sysTransportStaffSpecialList = sysTransportStaffSpecialList;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public List<SysTransportStaffSpecial> getSysTransportStaffSpecialNovatList() {
-        return sysTransportStaffSpecialNovatList;
-    }
+  public Date getCreatedDt() {
+    return this.createdDt;
+  }
 
-    public void setSysTransportStaffSpecialNovatList(List<SysTransportStaffSpecial> sysTransportStaffSpecialNovatList) {
-        this.sysTransportStaffSpecialNovatList = sysTransportStaffSpecialNovatList;
-    }
+  public void setCreatedDt(Date createdDt) {
+    this.createdDt = createdDt;
+  }
 
-    public Double getTotalSpecialnoVat() {
-        return totalSpecialnoVat;
-    }
+  public String getCreatedBy() {
+    return this.createdBy;
+  }
+
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  public String getModifiedBy() {
+    return this.modifiedBy;
+  }
 
-    public void setTotalSpecialnoVat(Double totalSpecialnoVat) {
-        this.totalSpecialnoVat = totalSpecialnoVat;
+  public void setModifiedBy(String modifiedBy) {
+    this.modifiedBy = modifiedBy;
+  }
+
+  public Date getModifiedDt() {
+    return this.modifiedDt;
+  }
+
+  public void setModifiedDt(Date modifiedDt) {
+    this.modifiedDt = modifiedDt;
+  }
+
+  public Integer getTransportType() {
+    return this.transportType;
+  }
+
+  public void setTransportType(Integer transportType) {
+    this.transportType = transportType;
+  }
+
+  public Double getEarningPerday() {
+    return this.earningPerday;
+  }
+
+  public void setEarningPerday(Double earningPerday) {
+    this.earningPerday = earningPerday;
+  }
+
+  public int hashCode()
+  {
+    int hash = 0;
+    hash += (this.transportstaffId != null ? this.transportstaffId.hashCode() : 0);
+    return hash;
+  }
+
+  public boolean equals(Object object)
+  {
+    if (!(object instanceof SysTransportStaff)) {
+      return false;
+    }
+    SysTransportStaff other = (SysTransportStaff)object;
+    if (((this.transportstaffId == null) && (other.transportstaffId != null)) || ((this.transportstaffId != null) && (!this.transportstaffId.equals(other.transportstaffId)))) {
+      return false;
     }
-    
-    
-    
-    
+    return true;
+  }
+
+  public String toString()
+  {
+    return "com.finework.core.ejb.entity.SysTransportStaff[ transportstaffId=" + this.transportstaffId + " ]";
+  }
+
+  @XmlTransient
+  public List<SysTransportation> getSysTransportationList() {
+    return this.sysTransportationList;
+  }
+
+  public void setSysTransportationList(List<SysTransportation> sysTransportationList) {
+    this.sysTransportationList = sysTransportationList;
+  }
+
+  @XmlTransient
+  public List<SysTransportation> getSysTransportationList1() {
+    return this.sysTransportationList1;
+  }
+
+  public void setSysTransportationList1(List<SysTransportation> sysTransportationList1) {
+    this.sysTransportationList1 = sysTransportationList1;
+  }
+
+  @XmlTransient
+  public List<SysTransportation> getSysTransportationList2() {
+    return this.sysTransportationList2;
+  }
+
+  public void setSysTransportationList2(List<SysTransportation> sysTransportationList2) {
+    this.sysTransportationList2 = sysTransportationList2;
+  }
+
+  public int compare(SysTransportStaff o1, SysTransportStaff o2)
+  {
+    return o2.getTransportstaffId().compareTo(o1.getTransportstaffId());
+  }
+
+  public Double getTotalIncome() {
+    return this.totalIncome;
+  }
+
+  public void setTotalIncome(Double totalIncome) {
+    this.totalIncome = totalIncome;
+  }
+
+  public Double getTotalIncomeVat() {
+    return this.totalIncomeVat;
+  }
+
+  public void setTotalIncomeVat(Double totalIncomeVat) {
+    this.totalIncomeVat = totalIncomeVat;
+  }
+
+  public Double getTotalIncomeNet() {
+    return this.totalIncomeNet;
+  }
+
+  public void setTotalIncomeNet(Double totalIncomeNet) {
+    this.totalIncomeNet = totalIncomeNet;
+  }
+
+  public Integer getPerTrip()
+  {
+    return this.perTrip;
+  }
+
+  public void setPerTrip(Integer perTrip) {
+    this.perTrip = perTrip;
+  }
+
+  public Double getTotalExp() {
+    return this.totalExp;
+  }
+
+  public void setTotalExp(Double totalExp) {
+    this.totalExp = totalExp;
+  }
+
+  public List<SysTranspostationExp> getTransportationExp() {
+    return this.transportationExp;
+  }
+
+  public void setTransportationExp(List<SysTranspostationExp> transportationExp) {
+    this.transportationExp = transportationExp;
+  }
+
+  public Double getTotalAmount() {
+    return this.totalAmount;
+  }
+
+  public void setTotalAmount(Double totalAmount) {
+    this.totalAmount = totalAmount;
+  }
+
+  public Double getTotalAllowance() {
+    return this.totalAllowance;
+  }
+
+  public void setTotalAllowance(Double totalAllowance) {
+    this.totalAllowance = totalAllowance;
+  }
+
+  public Double getTotalSpecial() {
+    return this.totalSpecial;
+  }
+
+  public void setTotalSpecial(Double totalSpecial) {
+    this.totalSpecial = totalSpecial;
+  }
+
+  @XmlTransient
+  public List<SysTransportStaffSpecial> getSysTransportStaffSpecialList()
+  {
+    return this.sysTransportStaffSpecialList;
+  }
+
+  public void setSysTransportStaffSpecialList(List<SysTransportStaffSpecial> sysTransportStaffSpecialList) {
+    this.sysTransportStaffSpecialList = sysTransportStaffSpecialList;
+  }
+
+  public List<SysTransportStaffSpecial> getSysTransportStaffSpecialNovatList() {
+    return this.sysTransportStaffSpecialNovatList;
+  }
+
+  public void setSysTransportStaffSpecialNovatList(List<SysTransportStaffSpecial> sysTransportStaffSpecialNovatList) {
+    this.sysTransportStaffSpecialNovatList = sysTransportStaffSpecialNovatList;
+  }
+
+  public Double getTotalSpecialnoVat() {
+    return this.totalSpecialnoVat;
+  }
+
+  public void setTotalSpecialnoVat(Double totalSpecialnoVat) {
+    this.totalSpecialnoVat = totalSpecialnoVat;
+  }
 }

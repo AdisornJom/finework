@@ -3,98 +3,91 @@ package com.finework.core.utils;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import org.apache.log4j.Logger;
 
-public class LazyVersionMap implements Map<String, String> {
+public class LazyVersionMap
+  implements Map<String, String>
+{
+  private static final Logger LOG = Logger.getLogger(LazyVersionMap.class);
+  private final ArtifactVersionResolver resolver;
+  private final Map<String, String> cache = new HashMap();
 
-    private static final Logger LOG = Logger.getLogger(LazyVersionMap.class);
+  public LazyVersionMap(ArtifactVersionResolver resolver) {
+    this.resolver = resolver;
+  }
 
-    private final ArtifactVersionResolver resolver;
-
-    private final Map<String, String> cache = new HashMap<String, String>();
-
-    public LazyVersionMap(ArtifactVersionResolver resolver) {
-        this.resolver = resolver;
+  public String get(Object key)
+  {
+    if (key == null) {
+      return null;
     }
 
-    @Override
-    public String get(Object key) {
+    String groupAndArtifact = key.toString();
 
-        // check for null argument
-        if (key == null) {
-            return null;
-        }
-
-        // the key is always a string
-        String groupAndArtifact = key.toString();
-
-        // check for an existing result
-        if (cache.containsKey(groupAndArtifact)) {
-            String cachedVersion = cache.get(groupAndArtifact);
-            return cachedVersion;
-        }
-
-        // resolve and cache result
-        String version = resolver.resolveVersion(groupAndArtifact);
-        cache.put(groupAndArtifact, version);
-        return version;
-
+    if (this.cache.containsKey(groupAndArtifact)) {
+      String cachedVersion = (String)this.cache.get(groupAndArtifact);
+      return cachedVersion;
     }
 
-    @Override
-    public void clear() {
-        throw new UnsupportedOperationException();
-    }
+    String version = this.resolver.resolveVersion(groupAndArtifact);
+    this.cache.put(groupAndArtifact, version);
+    return version;
+  }
 
-    @Override
-    public boolean containsKey(Object key) {
-        return get(key) != null;
-    }
+  public void clear()
+  {
+    throw new UnsupportedOperationException();
+  }
 
-    @Override
-    public boolean containsValue(Object value) {
-        return cache.containsValue(value);
-    }
+  public boolean containsKey(Object key)
+  {
+    return get(key) != null;
+  }
 
-    @Override
-    public Set<java.util.Map.Entry<String, String>> entrySet() {
-        return cache.entrySet();
-    }
+  public boolean containsValue(Object value)
+  {
+    return this.cache.containsValue(value);
+  }
 
-    @Override
-    public boolean isEmpty() {
-        return cache.isEmpty();
-    }
+  public Set<Map.Entry<String, String>> entrySet()
+  {
+    return this.cache.entrySet();
+  }
 
-    @Override
-    public Set<String> keySet() {
-        return cache.keySet();
-    }
+  public boolean isEmpty()
+  {
+    return this.cache.isEmpty();
+  }
 
-    @Override
-    public String put(String key, String value) {
-        throw new UnsupportedOperationException();
-    }
+  public Set<String> keySet()
+  {
+    return this.cache.keySet();
+  }
 
-    @Override
-    public void putAll(Map<? extends String, ? extends String> m) {
-        throw new UnsupportedOperationException();
-    }
+  public String put(String key, String value)
+  {
+    throw new UnsupportedOperationException();
+  }
 
-    @Override
-    public String remove(Object key) {
-        throw new UnsupportedOperationException();
-    }
+  public void putAll(Map<? extends String, ? extends String> m)
+  {
+    throw new UnsupportedOperationException();
+  }
 
-    @Override
-    public int size() {
-        return cache.size();
-    }
+  public String remove(Object key)
+  {
+    throw new UnsupportedOperationException();
+  }
 
-    @Override
-    public Collection<String> values() {
-        return cache.values();
-    }
+  public int size()
+  {
+    return this.cache.size();
+  }
 
+  public Collection<String> values()
+  {
+    return this.cache.values();
+  }
 }

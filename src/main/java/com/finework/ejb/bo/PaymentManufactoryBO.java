@@ -2,6 +2,9 @@ package com.finework.ejb.bo;
 
 import com.finework.core.ejb.entity.ReportR105TO;
 import com.finework.core.ejb.entity.SysContractor;
+import com.finework.core.ejb.entity.SysManufactoryDetail;
+import com.finework.core.ejb.entity.SysManufactoryReal;
+import com.finework.core.ejb.entity.SysManufacturing;
 import com.finework.core.ejb.entity.SysPaymentManufactory;
 import com.finework.core.ejb.entity.SysPaymentManufactoryDetail;
 import com.finework.ejb.dao.SysPaymentManufactoryDAO;
@@ -14,22 +17,20 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-/**
- *
- * @author Adisorn j.
- */
-@Stateless(name = "finework.PaymentManufactoryBO")
-public class PaymentManufactoryBO {
+@Stateless(name="finework.PaymentManufactoryBO")
+public class PaymentManufactoryBO
+{
 
-    @EJB
-    private SysPaymentManufactoryDAO sysPaymentManufactoryDAO;
-    @EJB
-    private SysPaymentManufactoryDetailDAO sysPaymentManufactoryDetailDAO;
-    @EJB
-    private SysPaymentManufactoryExpDetailDAO sysPaymentManufactoryExpDetailDAO;
+  @EJB
+  private SysPaymentManufactoryDAO sysPaymentManufactoryDAO;
 
-    
-    public SysPaymentManufactory findSysPaymentManufactoryById(Integer id){
+  @EJB
+  private SysPaymentManufactoryDetailDAO sysPaymentManufactoryDetailDAO;
+
+  @EJB
+  private SysPaymentManufactoryExpDetailDAO sysPaymentManufactoryExpDetailDAO;
+
+   public SysPaymentManufactory findSysPaymentManufactoryById(Integer id){
       //return  sysPaymentManufactoryDAO.findSysPaymentManufactoryById(id);
         SysPaymentManufactory sysPaymentManufactory = sysPaymentManufactoryDAO.findSysPaymentManufactoryById(id);
         for (SysPaymentManufactoryDetail detail : sysPaymentManufactory.getSysPaymentManufactoryDetailList()) {
@@ -52,29 +53,29 @@ public class PaymentManufactoryBO {
         
         return sysPaymentManufactory;
     }
-    
-    public List<SysPaymentManufactory> findSysPaymentManufactoryList() throws Exception {
-        return sysPaymentManufactoryDAO.findSysPaymentManufactoryList();
+
+  public List<SysPaymentManufactory> findSysPaymentManufactoryList() throws Exception {
+    return this.sysPaymentManufactoryDAO.findSysPaymentManufactoryList();
+  }
+
+  public List<SysPaymentManufactory> findSysPaymentManufactoryList(String documentno, SysContractor contractor) throws Exception {
+    return this.sysPaymentManufactoryDAO.findSysPaymentManufactoryList(documentno, contractor);
+  }
+
+  public List<SysPaymentManufactory> findSysPaymentManufactoryListByCriteria(String documentno, SysContractor contractor, Date startDate, Date toDate, int[] range) throws Exception {
+    List<SysPaymentManufactory> sysManufactory = this.sysPaymentManufactoryDAO.findSysPaymentManufactoryListByCriteria(documentno, contractor, startDate, toDate, range);
+    for (SysPaymentManufactory u : sysManufactory) {
+      u.getSysPaymentManufactoryDetailList().toString();
+      u.getSysPaymentManufactoryExpdetailList().toString();
     }
-    
-    public List<SysPaymentManufactory> findSysPaymentManufactoryList(String documentno,SysContractor contractor) throws Exception {
-        return sysPaymentManufactoryDAO.findSysPaymentManufactoryList(documentno,contractor);
-    }
-    
-    public List<SysPaymentManufactory> findSysPaymentManufactoryListByCriteria(String documentno,SysContractor contractor, Date startDate, Date toDate, int[] range) throws Exception {
-        List<SysPaymentManufactory> sysManufactory = sysPaymentManufactoryDAO.findSysPaymentManufactoryListByCriteria(documentno,contractor, startDate, toDate,range);
-        for (SysPaymentManufactory u : sysManufactory) {
-            u.getSysPaymentManufactoryDetailList().toString();
-            u.getSysPaymentManufactoryExpdetailList().toString();
-        }
-        return sysManufactory;
-    }
-    
-    public int countSysPaymentManufactoryListByCriteria(String documentno,SysContractor contractor, Date startDate, Date toDate) throws Exception {
-       return sysPaymentManufactoryDAO.countSysPaymentManufactoryListByCriteria(documentno,contractor, startDate, toDate);
-    }
-    
-    
+    return sysManufactory;
+  }
+
+  public int countSysPaymentManufactoryListByCriteria(String documentno, SysContractor contractor, Date startDate, Date toDate) throws Exception {
+    return this.sysPaymentManufactoryDAO.countSysPaymentManufactoryListByCriteria(documentno, contractor, startDate, toDate);
+  }
+
+      
      public List<SysPaymentManufactory> findSysPaymentManufactoryOverDrawListByCriteria(String documentno,SysContractor contractor, Date startDate, Date toDate) throws Exception {
           List<SysPaymentManufactory> sysPaymentManufactory =sysPaymentManufactoryDAO.findSysPaymentManufactoryOverDrawListByCriteria(documentno,contractor, startDate, toDate);
           for (SysPaymentManufactory u : sysPaymentManufactory) {
@@ -154,69 +155,69 @@ public class PaymentManufactoryBO {
         }
         return sysManufactory;
     }*/
-    
-  
-     public SysPaymentManufactory findSysPaymentManufactoryById(SysPaymentManufactory sysManufactory) throws Exception {
-        return sysPaymentManufactoryDAO.findSysPaymentManufactoryById(sysManufactory.getPaymentFactoryId());
-    }
-    
-    public void createSysPaymentManufactory(SysPaymentManufactory sysPaymentManufactory) throws Exception{
-        sysPaymentManufactoryDAO.create(sysPaymentManufactory);
-    }
-    
-    public void editSysPaymentManufactory(SysPaymentManufactory sysPaymentManufactory) throws Exception{
-        sysPaymentManufactoryDAO.edit(sysPaymentManufactory);
-    }
-    
-    public void deleteSysPaymentManufactory (SysPaymentManufactory sysPaymentManufactory) throws Exception{
-        sysPaymentManufactoryDAO.remove(sysPaymentManufactory);
-    }
-    
-    
-    
-    //=========================
-     public void createSysPaymentManufactoryDetail(SysPaymentManufactoryDetail sysPaymentManufactoryDetail) throws Exception{
-        sysPaymentManufactoryDetailDAO.create(sysPaymentManufactoryDetail);
-    }
-    
-    public void editSysPaymentManufactoryDetail(SysPaymentManufactoryDetail sysPaymentManufactoryDetail) throws Exception{
-        sysPaymentManufactoryDetailDAO.edit(sysPaymentManufactoryDetail);
-    }
-    
-    public void deleteSysPaymentManufactoryDetail (SysPaymentManufactoryDetail sysPaymentManufactoryDetail) throws Exception{
-        sysPaymentManufactoryDetailDAO.remove(sysPaymentManufactoryDetail);
-    }
-    
-    public void deletePaymentManufactoryIdOnDetail(Integer payment_factory_id) throws Exception {
-        sysPaymentManufactoryDetailDAO.deletePaymentManufactoryIdOnDetail(payment_factory_id);
-    }
-    
-  
-    public void deletePaymentManufactoryExpensesIdOnDetail(Integer payment_factory_id) throws Exception {
-        sysPaymentManufactoryExpDetailDAO.deletePaymentManufactoryExpensesIdOnDetail(payment_factory_id);
-    }
-    
-    //Report
-    public List<ReportR105TO> findReportR105List(Integer contractorId, Date dateFrom, Date dateTo) throws Exception {
-        return sysPaymentManufactoryDAO.findReportR105List(contractorId, dateFrom, dateTo);
-    }
-    
-    public List<ReportR105TO> findReportR105List(Integer contractorId, Date dateFrom, Date dateTo, int[] range) throws Exception {
-        return sysPaymentManufactoryDAO.findReportR105List(contractorId, dateFrom, dateTo, range);
-    }
-    
-    public BigInteger count_reportR105List(Integer contractorId, Date dateFrom, Date dateTo) throws Exception {
-        return sysPaymentManufactoryDAO.count_reportR105List(contractorId, dateFrom, dateTo);
-    }
-    
-    public List<SysPaymentManufactory> findSysPaymentManufactoryR106List(Date dateFrom, Date dateTo, int[] range) throws Exception {
-        return sysPaymentManufactoryDAO.findSysPaymentManufactoryR106List(dateFrom, dateTo, range);
-    }
-    
-    public int countSysPaymentManufactoryR106List(Date dateFrom, Date dateTo) throws Exception {
-        return sysPaymentManufactoryDAO.countSysPaymentManufactoryR106List(dateFrom, dateTo);
-    }
-    public BigDecimal sumSysPaymentManufactoryR106List(Date dateFrom, Date dateTo) throws Exception {
-        return sysPaymentManufactoryDAO.sumSysPaymentManufactoryR106List(dateFrom, dateTo);
-    }
+
+  public SysPaymentManufactory findSysPaymentManufactoryById(SysPaymentManufactory sysManufactory)
+    throws Exception
+  {
+    return this.sysPaymentManufactoryDAO.findSysPaymentManufactoryById(sysManufactory.getPaymentFactoryId());
+  }
+
+  public void createSysPaymentManufactory(SysPaymentManufactory sysPaymentManufactory) throws Exception {
+    this.sysPaymentManufactoryDAO.create(sysPaymentManufactory);
+  }
+
+  public void editSysPaymentManufactory(SysPaymentManufactory sysPaymentManufactory) throws Exception {
+    this.sysPaymentManufactoryDAO.edit(sysPaymentManufactory);
+  }
+
+  public void deleteSysPaymentManufactory(SysPaymentManufactory sysPaymentManufactory) throws Exception {
+    this.sysPaymentManufactoryDAO.remove(sysPaymentManufactory);
+  }
+
+  public void createSysPaymentManufactoryDetail(SysPaymentManufactoryDetail sysPaymentManufactoryDetail)
+    throws Exception
+  {
+    this.sysPaymentManufactoryDetailDAO.create(sysPaymentManufactoryDetail);
+  }
+
+  public void editSysPaymentManufactoryDetail(SysPaymentManufactoryDetail sysPaymentManufactoryDetail) throws Exception {
+    this.sysPaymentManufactoryDetailDAO.edit(sysPaymentManufactoryDetail);
+  }
+
+  public void deleteSysPaymentManufactoryDetail(SysPaymentManufactoryDetail sysPaymentManufactoryDetail) throws Exception {
+    this.sysPaymentManufactoryDetailDAO.remove(sysPaymentManufactoryDetail);
+  }
+
+  public void deletePaymentManufactoryIdOnDetail(Integer payment_factory_id) throws Exception {
+    this.sysPaymentManufactoryDetailDAO.deletePaymentManufactoryIdOnDetail(payment_factory_id);
+  }
+
+  public void deletePaymentManufactoryExpensesIdOnDetail(Integer payment_factory_id) throws Exception
+  {
+    this.sysPaymentManufactoryExpDetailDAO.deletePaymentManufactoryExpensesIdOnDetail(payment_factory_id);
+  }
+
+  public List<ReportR105TO> findReportR105List(Integer contractorId, Date dateFrom, Date dateTo) throws Exception
+  {
+    return this.sysPaymentManufactoryDAO.findReportR105List(contractorId, dateFrom, dateTo);
+  }
+
+  public List<ReportR105TO> findReportR105List(Integer contractorId, Date dateFrom, Date dateTo, int[] range) throws Exception {
+    return this.sysPaymentManufactoryDAO.findReportR105List(contractorId, dateFrom, dateTo, range);
+  }
+
+  public BigInteger count_reportR105List(Integer contractorId, Date dateFrom, Date dateTo) throws Exception {
+    return this.sysPaymentManufactoryDAO.count_reportR105List(contractorId, dateFrom, dateTo);
+  }
+
+  public List<SysPaymentManufactory> findSysPaymentManufactoryR106List(Date dateFrom, Date dateTo, int[] range) throws Exception {
+    return this.sysPaymentManufactoryDAO.findSysPaymentManufactoryR106List(dateFrom, dateTo, range);
+  }
+
+  public int countSysPaymentManufactoryR106List(Date dateFrom, Date dateTo) throws Exception {
+    return this.sysPaymentManufactoryDAO.countSysPaymentManufactoryR106List(dateFrom, dateTo);
+  }
+  public BigDecimal sumSysPaymentManufactoryR106List(Date dateFrom, Date dateTo) throws Exception {
+    return this.sysPaymentManufactoryDAO.sumSysPaymentManufactoryR106List(dateFrom, dateTo);
+  }
 }

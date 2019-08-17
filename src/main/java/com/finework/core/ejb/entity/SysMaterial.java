@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.finework.core.ejb.entity;
 
 import java.io.Serializable;
@@ -17,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,70 +21,75 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Lenovo
- */
 @Entity
 @Table(name = "sys_material")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SysMaterial.findAll", query = "SELECT s FROM SysMaterial s")})
+    @javax.persistence.NamedQuery(name = "SysMaterial.findAll", query = "SELECT s FROM SysMaterial s")})
 public class SysMaterial implements Serializable {
 
-   
-
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "material_id")
     private Integer materialId;
+
     @Size(max = 200)
     @Column(name = "material_code")
     private String materialCode;
+
     @Size(max = 255)
     @Column(name = "material_desc")
     private String materialDesc;
+
     @Size(max = 255)
     @Column(name = "material_desc_en")
     private String materialDescEn;
+
     @Size(max = 255)
     @Column(name = "material_img")
     private String materialImg;
+
     @Size(max = 255)
     @Column(name = "material_img_dimension")
     private String materialImgDimension;
+
     @Size(max = 255)
     @Column(name = "material_img_detail")
     private String materialImgDetail;
+
     @Size(max = 255)
     @Column(name = "detail")
     private String detail;
-    
+
     @Column(name = "price")
     private Double price;
 
     @Column(name = "weight_kg")
     private Double weightKg;
+
     @Column(name = "amount")
     private Double amount;
+
     @Size(max = 50)
     @Column(name = "unit")
     private String unit;
+
     @Column(name = "unit_price")
     private Double unitPrice;
 
     @Column(name = "alert_stock_flag", nullable = false, columnDefinition = "TINYINT(1) default 0")
     private Boolean alertStockFlag;
-    
+
     @Column(name = "alert_stock")
     private Double alertStock;
-    
+
     @Size(max = 1)
     @Column(name = "status")
     private String status;
-    
+
     @Column(name = "receipts_last_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date receiptsLastDate;
@@ -102,33 +101,41 @@ public class SysMaterial implements Serializable {
     @Column(name = "created_dt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDt;
+
     @Size(max = 50)
     @Column(name = "created_by")
     private String createdBy;
+
     @Column(name = "modified_dt")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDt;
+
     @Size(max = 45)
     @Column(name = "modified_by")
     private String modifiedBy;
-    
+
     @OneToMany(mappedBy = "materialId")
     private List<SysMaterialReceipts> sysMaterialReceiptsList;
+
     @OneToMany(mappedBy = "materialId")
     private List<SysMaterialExpensesDetail> sysMaterialExpensesDetailList;
-    
+
     @JoinColumn(name = "classify_id", referencedColumnName = "classify_id")
     @ManyToOne
     private SysMaterialClassify classifyId;
-    
+
     @Transient
     private Double quantity;
+
     @Transient
     private Boolean checkStock;
+
     @Transient
-    private Double balance;//มูลค่ารวม
+    private Double balance;
+
     @Transient
-    private Double balnaceQuantity;//น้ำหนักัวเฉลี่ย
+    private Double balnaceQuantity;
+
     @Transient
     private Integer rangeMonth;
 
@@ -140,7 +147,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Integer getMaterialId() {
-        return materialId;
+        return this.materialId;
     }
 
     public void setMaterialId(Integer materialId) {
@@ -148,7 +155,7 @@ public class SysMaterial implements Serializable {
     }
 
     public String getMaterialCode() {
-        return materialCode;
+        return this.materialCode;
     }
 
     public void setMaterialCode(String materialCode) {
@@ -156,7 +163,7 @@ public class SysMaterial implements Serializable {
     }
 
     public String getMaterialDesc() {
-        return materialDesc;
+        return this.materialDesc;
     }
 
     public void setMaterialDesc(String materialDesc) {
@@ -164,7 +171,7 @@ public class SysMaterial implements Serializable {
     }
 
     public String getMaterialDescEn() {
-        return materialDescEn;
+        return this.materialDescEn;
     }
 
     public void setMaterialDescEn(String materialDescEn) {
@@ -172,7 +179,7 @@ public class SysMaterial implements Serializable {
     }
 
     public String getMaterialImg() {
-        return materialImg;
+        return this.materialImg;
     }
 
     public void setMaterialImg(String materialImg) {
@@ -180,7 +187,7 @@ public class SysMaterial implements Serializable {
     }
 
     public String getMaterialImgDimension() {
-        return materialImgDimension;
+        return this.materialImgDimension;
     }
 
     public void setMaterialImgDimension(String materialImgDimension) {
@@ -188,7 +195,7 @@ public class SysMaterial implements Serializable {
     }
 
     public String getDetail() {
-        return detail;
+        return this.detail;
     }
 
     public void setDetail(String detail) {
@@ -196,7 +203,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Double getQuantity() {
-        return quantity;
+        return this.quantity;
     }
 
     public void setQuantity(Double quantity) {
@@ -204,7 +211,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Double getPrice() {
-        return price;
+        return this.price;
     }
 
     public void setPrice(Double price) {
@@ -212,7 +219,7 @@ public class SysMaterial implements Serializable {
     }
 
     public String getStatus() {
-        return status;
+        return this.status;
     }
 
     public void setStatus(String status) {
@@ -220,7 +227,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Date getCreatedDt() {
-        return createdDt;
+        return this.createdDt;
     }
 
     public void setCreatedDt(Date createdDt) {
@@ -228,7 +235,7 @@ public class SysMaterial implements Serializable {
     }
 
     public String getCreatedBy() {
-        return createdBy;
+        return this.createdBy;
     }
 
     public void setCreatedBy(String createdBy) {
@@ -236,7 +243,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Date getModifiedDt() {
-        return modifiedDt;
+        return this.modifiedDt;
     }
 
     public void setModifiedDt(Date modifiedDt) {
@@ -244,11 +251,11 @@ public class SysMaterial implements Serializable {
     }
 
     public String getModifiedBy() {
-        return modifiedBy;
+        return this.modifiedBy;
     }
 
     public SysMaterialClassify getClassifyId() {
-        return classifyId;
+        return this.classifyId;
     }
 
     public void setClassifyId(SysMaterialClassify classifyId) {
@@ -256,7 +263,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Double getAlertStock() {
-        return alertStock;
+        return this.alertStock;
     }
 
     public void setAlertStock(Double alertStock) {
@@ -264,7 +271,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Date getReceiptsLastDate() {
-        return receiptsLastDate;
+        return this.receiptsLastDate;
     }
 
     public void setReceiptsLastDate(Date receiptsLastDate) {
@@ -272,7 +279,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Date getExpensesLastDate() {
-        return expensesLastDate;
+        return this.expensesLastDate;
     }
 
     public void setExpensesLastDate(Date expensesLastDate) {
@@ -284,7 +291,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Double getWeightKg() {
-        return weightKg;
+        return this.weightKg;
     }
 
     public void setWeightKg(Double weightKg) {
@@ -292,7 +299,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Double getAmount() {
-        return amount;
+        return this.amount;
     }
 
     public void setAmount(Double amount) {
@@ -300,7 +307,7 @@ public class SysMaterial implements Serializable {
     }
 
     public String getUnit() {
-        return unit;
+        return this.unit;
     }
 
     public void setUnit(String unit) {
@@ -308,7 +315,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Double getUnitPrice() {
-        return unitPrice;
+        return this.unitPrice;
     }
 
     public void setUnitPrice(Double unitPrice) {
@@ -316,7 +323,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Boolean getCheckStock() {
-        return checkStock;
+        return this.checkStock;
     }
 
     public void setCheckStock(Boolean checkStock) {
@@ -324,7 +331,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Double getBalance() {
-        return balance;
+        return this.balance;
     }
 
     public void setBalance(Double balance) {
@@ -332,7 +339,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Double getBalnaceQuantity() {
-        return balnaceQuantity;
+        return this.balnaceQuantity;
     }
 
     public void setBalnaceQuantity(Double balnaceQuantity) {
@@ -340,7 +347,7 @@ public class SysMaterial implements Serializable {
     }
 
     public String getMaterialImgDetail() {
-        return materialImgDetail;
+        return this.materialImgDetail;
     }
 
     public void setMaterialImgDetail(String materialImgDetail) {
@@ -348,7 +355,7 @@ public class SysMaterial implements Serializable {
     }
 
     public Integer getRangeMonth() {
-        return rangeMonth;
+        return this.rangeMonth;
     }
 
     public void setRangeMonth(Integer rangeMonth) {
@@ -356,42 +363,37 @@ public class SysMaterial implements Serializable {
     }
 
     public Boolean getAlertStockFlag() {
-        return alertStockFlag;
+        return this.alertStockFlag;
     }
 
     public void setAlertStockFlag(Boolean alertStockFlag) {
         this.alertStockFlag = alertStockFlag;
     }
-    
 
-    @Override
     public int hashCode() {
         int hash = 0;
-        hash += (materialId != null ? materialId.hashCode() : 0);
+        hash += (this.materialId != null ? this.materialId.hashCode() : 0);
         return hash;
     }
 
-    @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof SysMaterial)) {
             return false;
         }
         SysMaterial other = (SysMaterial) object;
-        if ((this.materialId == null && other.materialId != null) || (this.materialId != null && !this.materialId.equals(other.materialId))) {
+        if (((this.materialId == null) && (other.materialId != null)) || ((this.materialId != null) && (!this.materialId.equals(other.materialId)))) {
             return false;
         }
         return true;
     }
 
-    @Override
     public String toString() {
-        return "com.finework.core.ejb.entity.SysMaterial[ materialId=" + materialId + " ]";
+        return "com.finework.core.ejb.entity.SysMaterial[ materialId=" + this.materialId + " ]";
     }
 
     @XmlTransient
     public List<SysMaterialReceipts> getSysMaterialReceiptsList() {
-        return sysMaterialReceiptsList;
+        return this.sysMaterialReceiptsList;
     }
 
     public void setSysMaterialReceiptsList(List<SysMaterialReceipts> sysMaterialReceiptsList) {
@@ -400,11 +402,10 @@ public class SysMaterial implements Serializable {
 
     @XmlTransient
     public List<SysMaterialExpensesDetail> getSysMaterialExpensesDetailList() {
-        return sysMaterialExpensesDetailList;
+        return this.sysMaterialExpensesDetailList;
     }
 
     public void setSysMaterialExpensesDetailList(List<SysMaterialExpensesDetail> sysMaterialExpensesDetailList) {
         this.sysMaterialExpensesDetailList = sysMaterialExpensesDetailList;
     }
-    
 }

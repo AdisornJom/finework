@@ -478,6 +478,17 @@ ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-st
     background-color: #E59400 !important;
     color: #fff !important;
 }
+.print2-btn {
+    /* min-width: 120px !important; */
+    background-image: none !important;
+    background-color: #b7b900 !important;
+    color: #fff !important;
+}
+.print3-btn {
+    background-image: none !important;
+    background-color: #00cd0f !important;
+    color: #fff !important;
+}
 
 .ui-bank {
     background-position: 0 0;

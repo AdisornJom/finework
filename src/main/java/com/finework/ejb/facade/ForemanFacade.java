@@ -1,58 +1,52 @@
 package com.finework.ejb.facade;
 
 import com.finework.core.ejb.entity.SysForeman;
-import com.finework.core.ejb.entity.SysWorkunit;
-import com.finework.ejb.bo.ContractorBO;
-import com.finework.ejb.bo.CustomerBO;
 import com.finework.ejb.bo.ForemanBO;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-/**
- *
- * @author Adisorn J.
- */
 @Stateless
-public class ForemanFacade {
+public class ForemanFacade
+{
 
-    @EJB
-    private ForemanBO foremanBO;
+  @EJB
+  private ForemanBO foremanBO;
 
-  
-//=======================================================
-    public SysForeman findSysForeman(Integer id) throws Exception{
-        return foremanBO.findSysForeman(id);
-    }
-    
-    public List<SysForeman> findSysForemanList() throws Exception {
-       return foremanBO.findSysForemanList();
-    }
-    
-    public SysForeman findSysForeman(SysForeman sysCustomer) throws Exception {
-       return foremanBO.findSysForeman(sysCustomer);
-    }
-   
-    public List<SysForeman> findSysForemanListByCriteria(String foremanNameTh,String status) throws Exception {
-       return foremanBO.findSysForemanListByCriteria(foremanNameTh, status);
-    }
+  public SysForeman findSysForeman(Integer id)
+    throws Exception
+  {
+    return this.foremanBO.findSysForeman(id);
+  }
 
-   
-    public void createSysForeman(SysForeman sysContractor) throws Exception {
-       foremanBO.createSysForeman(sysContractor);
-    }
+  public List<SysForeman> findSysForemanList() throws Exception {
+    return this.foremanBO.findSysForemanList();
+  }
 
-   
-    public void editSysForeman(SysForeman sysContractor) throws Exception {
-        foremanBO.editSysForeman(sysContractor);
-    }
+  public SysForeman findSysForeman(SysForeman sysCustomer) throws Exception {
+    return this.foremanBO.findSysForeman(sysCustomer);
+  }
 
-   
-    public void deleteSysForeman(SysForeman sysContractor) throws Exception {
-       foremanBO.deleteSysForeman(sysContractor);
-    }
-    
-    public boolean isExistUser(String username) throws Exception {
-        return foremanBO.isExistUser(username);
-    }
+  public List<SysForeman> findSysForemanListByCriteria(String foremanNameTh, String status) throws Exception {
+    return this.foremanBO.findSysForemanListByCriteria(foremanNameTh, status);
+  }
+
+  public void createSysForeman(SysForeman sysContractor) throws Exception
+  {
+    this.foremanBO.createSysForeman(sysContractor);
+  }
+
+  public void editSysForeman(SysForeman sysContractor) throws Exception
+  {
+    this.foremanBO.editSysForeman(sysContractor);
+  }
+
+  public void deleteSysForeman(SysForeman sysContractor) throws Exception
+  {
+    this.foremanBO.deleteSysForeman(sysContractor);
+  }
+
+  public boolean isExistUser(String username) throws Exception {
+    return this.foremanBO.isExistUser(username);
+  }
 }

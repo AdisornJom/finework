@@ -9,50 +9,48 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-/**
- *
- * @author Adisorn J.
- */
 @Stateless
-public class PaymentFacade {
+public class PaymentFacade
+{
 
-    @EJB
-    private PaymentBO paymentBO;
+  @EJB
+  private PaymentBO paymentBO;
 
-   
-    public List<SysPayment> findSysPaymentList() throws Exception {
-       return paymentBO.findSysPaymentList();
-    }
+  public List<SysPayment> findSysPaymentList()
+    throws Exception
+  {
+    return this.paymentBO.findSysPaymentList();
+  }
 
-   
-    public List<SysPayment> findSysPaymentListByCriteria(String paymentType,String documentno,SysWorkunit workunitId, Date startDate, Date toDate) throws Exception {
-       return paymentBO.findSysPaymentListByCriteria(paymentType,documentno,workunitId, startDate, toDate);
-    }
+  public List<SysPayment> findSysPaymentListByCriteria(String paymentType, String documentno, SysWorkunit workunitId, Date startDate, Date toDate) throws Exception
+  {
+    return this.paymentBO.findSysPaymentListByCriteria(paymentType, documentno, workunitId, startDate, toDate);
+  }
 
-    
-    public SysPayment  findByPK(Integer id){
-       return  paymentBO.findByPK(id);
-    }
-   
-    public void createSysPayment(SysPayment sysPayment) throws Exception {
-       paymentBO.createSysPayment(sysPayment);
-    }
+  public SysPayment findByPK(Integer id)
+  {
+    return this.paymentBO.findByPK(id);
+  }
 
-   
-    public void editSysPayment(SysPayment sysPayment) throws Exception {
-        paymentBO.editSysPayment(sysPayment);
-    }
+  public void createSysPayment(SysPayment sysPayment) throws Exception {
+    this.paymentBO.createSysPayment(sysPayment);
+  }
 
-   
-    public void deleteSysPayment(SysPayment sysPayment) throws Exception {
-       paymentBO.deleteSysPayment(sysPayment);
-    }
+  public void editSysPayment(SysPayment sysPayment) throws Exception
+  {
+    this.paymentBO.editSysPayment(sysPayment);
+  }
 
-    public List<SysPaymentDetail> findSysPaymentDetailList(Integer paymentId) throws Exception {
-        return paymentBO.findSysPaymentDetailList(paymentId);
-    }
-    
-    public void deletePaymentIdOnDetail(Integer paymentId) throws Exception {
-        paymentBO.deletePaymentIdOnDetail(paymentId);
-    }
+  public void deleteSysPayment(SysPayment sysPayment) throws Exception
+  {
+    this.paymentBO.deleteSysPayment(sysPayment);
+  }
+
+  public List<SysPaymentDetail> findSysPaymentDetailList(Integer paymentId) throws Exception {
+    return this.paymentBO.findSysPaymentDetailList(paymentId);
+  }
+
+  public void deletePaymentIdOnDetail(Integer paymentId) throws Exception {
+    this.paymentBO.deletePaymentIdOnDetail(paymentId);
+  }
 }

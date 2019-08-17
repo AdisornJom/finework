@@ -7,50 +7,53 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class ReportR105TO implements Serializable {
+public class ReportR105TO
+  implements Serializable
+{
+  private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Column(name = "contractor_id")
-    private Integer contractorId;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "nickname")
-    private String nickname;
-    @Column(name = "factory_net")
-    private BigDecimal factoryNet;
+  @Id
+  @Column(name="contractor_id")
+  private Integer contractorId;
 
-    public Integer getContractorId() {
-        return contractorId;
-    }
+  @Column(name="name")
+  private String name;
 
-    public void setContractorId(Integer contractorId) {
-        this.contractorId = contractorId;
-    }
+  @Column(name="nickname")
+  private String nickname;
 
-    public String getName() {
-        return name;
-    }
+  @Column(name="factory_net")
+  private BigDecimal factoryNet;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public Integer getContractorId()
+  {
+    return this.contractorId;
+  }
 
-    public String getNickname() {
-        return nickname;
-    }
+  public void setContractorId(Integer contractorId) {
+    this.contractorId = contractorId;
+  }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-    public BigDecimal getFactoryNet() {
-        return factoryNet;
-    }
+  public String getName() {
+    return this.name;
+  }
 
-    public void setFactoryNet(BigDecimal factoryNet) {
-        this.factoryNet = factoryNet;
-    }
-   
-   
+  public void setName(String name) {
+    this.name = name;
+  }
 
+  public String getNickname() {
+    return this.nickname;
+  }
+
+  public void setNickname(String nickname) {
+    this.nickname = nickname;
+  }
+  public BigDecimal getFactoryNet() {
+    return this.factoryNet;
+  }
+
+  public void setFactoryNet(BigDecimal factoryNet) {
+    this.factoryNet = factoryNet;
+  }
 }

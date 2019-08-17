@@ -12,91 +12,90 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-/**
- *
- * @author Adisorn J.
- */
 @Stateless
-public class BillingFacade {
+public class BillingFacade
+{
 
-    @EJB
-    private BillingBO billingBO;
-    @EJB
-    private PrintBillingBO printBillingBO;
+  @EJB
+  private BillingBO billingBO;
 
-   
-    public List<SysBilling> findSysBillingList(String billingType) throws Exception {
-       return billingBO.findSysBillingList(billingType);
-    }
+  @EJB
+  private PrintBillingBO printBillingBO;
 
-    public List<SysBilling> findSysBillingListByCriteria(String billingType,String documentno,String companyName, Date startDate, Date toDate) throws Exception {
-       return billingBO.findSysBillingListByCriteria(billingType,documentno,companyName, startDate, toDate);
-    }
-    
-    //=======================================
-    public List<SysBilling> findSysBillingListByCriteria(String billingType,String documentno,String companyName, Date startDate, Date toDate, int[] range) throws Exception {
-       return billingBO.findSysBillingListByCriteria(billingType,documentno,companyName, startDate, toDate,range);
-    }
-    
-    public int countSysBillingListByCriteria(String billingType,String documentno,String companyName, Date startDate, Date toDate) throws Exception {
-       return billingBO.countSysBillingListByCriteria(billingType,documentno,companyName, startDate, toDate);
-    }
-    
-    //======================================
-    public List<SysBilling> findSysBillingListByCriteriaForReport(List<String> listNotBillingType,String billingType,String documentno,String companyName, Date startDate, Date toDate, int[] range) throws Exception {
-       return billingBO.findSysBillingListByCriteriaForReport(listNotBillingType,billingType,documentno,companyName, startDate, toDate,range);
-    }
-    
-    public int countSysBillingListByCriteriaForReport(List<String> listNotBillingType,String billingType,String documentno,String companyName, Date startDate, Date toDate) throws Exception {
-       return billingBO.countSysBillingListByCriteriaForReport(listNotBillingType,billingType,documentno,companyName, startDate, toDate);
-    }
-    
-    
-    //=================================
-    public List<SysBilling> findSysBillingWorkunitList(String billingType,String billingType2,SysWorkunit workunit) throws Exception {
-       return billingBO.findSysBillingWorkunitList(billingType,billingType2,workunit);
-    }
-    
-    public List<SysBilling> findSysBillingCustomerWorkunitListByCriteria(String billingType,String billingType2,String documentno,SysCustomer customer,SysWorkunit workunit) throws Exception {
-       return billingBO.findSysBillingCustomerWorkunitListByCriteria(billingType,billingType2,documentno,customer,workunit);
-    }
-    
-    
-    public SysBilling  findByPK(Integer id){
-       return  billingBO.findByPK(id);
-    }
-   
-    public void createSysBilling(SysBilling sysBilling) throws Exception {
-       billingBO.createSysBilling(sysBilling);
-    }
+  public List<SysBilling> findSysBillingList(String billingType)
+    throws Exception
+  {
+    return this.billingBO.findSysBillingList(billingType);
+  }
 
-   
-    public void editSysBilling(SysBilling sysBilling) throws Exception {
-        billingBO.editSysBilling(sysBilling);
-    }
+  public List<SysBilling> findSysBillingListByCriteria(String billingType, String documentno, String companyName, Date startDate, Date toDate) throws Exception {
+    return this.billingBO.findSysBillingListByCriteria(billingType, documentno, companyName, startDate, toDate);
+  }
 
-   
-    public void deleteSysBilling(SysBilling sysBilling) throws Exception {
-       billingBO.deleteSysBilling(sysBilling);
-    }
-//=======================================================
-    public void createSysBillingDetail(SysBillingDetail sysBillingDetail) throws Exception{
-        billingBO.createSysBillingDetail(sysBillingDetail);
-    }
-    
-    public void editSysBillingDetail(SysBillingDetail sysBillingDetail) throws Exception{
-        billingBO.editSysBillingDetail(sysBillingDetail);
-    }
-    
-    public void deleteSysBillingDetail (SysBillingDetail sysBillingDetail) throws Exception{
-        billingBO.deleteSysBillingDetail(sysBillingDetail);
-    }
-    
-    public void deleteBillingIdOnDetail(Integer billingId) throws Exception {
-        billingBO.deleteBillingIdOnDetail(billingId);
-    }
-    
-    public void createSysPrintBilling(SysPrintBilling sysPrintBilling) throws Exception {
-       printBillingBO.createSysPrintBilling(sysPrintBilling);
-    }
+  public List<SysBilling> findSysBillingListByCriteria(String billingType, String documentno, String companyName, Date startDate, Date toDate, int[] range) throws Exception
+  {
+    return this.billingBO.findSysBillingListByCriteria(billingType, documentno, companyName, startDate, toDate, range);
+  }
+
+  public int countSysBillingListByCriteria(String billingType, String documentno, String companyName, Date startDate, Date toDate) throws Exception {
+    return this.billingBO.countSysBillingListByCriteria(billingType, documentno, companyName, startDate, toDate);
+  }
+
+  public List<SysBilling> findSysBillingListByCriteriaForReport(List<String> listNotBillingType, String billingType, String documentno, String companyName, Date startDate, Date toDate, int[] range) throws Exception
+  {
+    return this.billingBO.findSysBillingListByCriteriaForReport(listNotBillingType, billingType, documentno, companyName, startDate, toDate, range);
+  }
+
+  public int countSysBillingListByCriteriaForReport(List<String> listNotBillingType, String billingType, String documentno, String companyName, Date startDate, Date toDate) throws Exception {
+    return this.billingBO.countSysBillingListByCriteriaForReport(listNotBillingType, billingType, documentno, companyName, startDate, toDate);
+  }
+
+  public List<SysBilling> findSysBillingWorkunitList(String billingType, String billingType2, SysWorkunit workunit)
+    throws Exception
+  {
+    return this.billingBO.findSysBillingWorkunitList(billingType, billingType2, workunit);
+  }
+
+  public List<SysBilling> findSysBillingCustomerWorkunitListByCriteria(String billingType, String billingType2, String documentno, SysCustomer customer, SysWorkunit workunit) throws Exception {
+    return this.billingBO.findSysBillingCustomerWorkunitListByCriteria(billingType, billingType2, documentno, customer, workunit);
+  }
+
+  public SysBilling findByPK(Integer id)
+  {
+    return this.billingBO.findByPK(id);
+  }
+
+  public void createSysBilling(SysBilling sysBilling) throws Exception {
+    this.billingBO.createSysBilling(sysBilling);
+  }
+
+  public void editSysBilling(SysBilling sysBilling) throws Exception
+  {
+    this.billingBO.editSysBilling(sysBilling);
+  }
+
+  public void deleteSysBilling(SysBilling sysBilling) throws Exception
+  {
+    this.billingBO.deleteSysBilling(sysBilling);
+  }
+
+  public void createSysBillingDetail(SysBillingDetail sysBillingDetail) throws Exception {
+    this.billingBO.createSysBillingDetail(sysBillingDetail);
+  }
+
+  public void editSysBillingDetail(SysBillingDetail sysBillingDetail) throws Exception {
+    this.billingBO.editSysBillingDetail(sysBillingDetail);
+  }
+
+  public void deleteSysBillingDetail(SysBillingDetail sysBillingDetail) throws Exception {
+    this.billingBO.deleteSysBillingDetail(sysBillingDetail);
+  }
+
+  public void deleteBillingIdOnDetail(Integer billingId) throws Exception {
+    this.billingBO.deleteBillingIdOnDetail(billingId);
+  }
+
+  public void createSysPrintBilling(SysPrintBilling sysPrintBilling) throws Exception {
+    this.printBillingBO.createSysPrintBilling(sysPrintBilling);
+  }
 }

@@ -26,270 +26,278 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-/**
- *
- * @author Adisorn j.
- */
-@Stateless(name = "finework.TransporterBO")
-public class TransporterBO {
+@Stateless(name="finework.TransporterBO")
+public class TransporterBO
+{
 
-    @EJB
-    private SysTransportStaffDAO sysTransportStaffDAO;
-    @EJB
-    private SysLogisticCarDAO sysLogisticCarDAO;
-    @EJB
-    private SysTransportServicesDAO sysTransportServicesDAO;
-    @EJB
-    private SysPrepareTransportDAO sysPrepareTransportDAO;
-    @EJB
-    private SysPrepareTransportDetailDAO sysPrepareTransportDetailDAO;
-    @EJB
-    private SysTransportationDAO sysTransportationDAO;
-    @EJB
-    private SysTransportationDetailDAO sysTransportationDetailDAO;
-    @EJB
-    private SysTransportationServiceDetailDAO sysTransportationServiceDetailDAO;
-    @EJB
-    private SysTransportationSpecialDetailDAO sysTransportationSpecialDetailDAO;
-    @EJB
-    private SysTransportationExpDAO sysTransportationExpDAO;
-    @EJB
-    private SysTransportStaffSpecialDAO sysTransportStaffSpecialDAO;
+  @EJB
+  private SysTransportStaffDAO sysTransportStaffDAO;
 
-    //=========================
-    public List<SysTransportStaff> findSysTransportStaffList() throws Exception {
-        return sysTransportStaffDAO.findSysTransportStaffList();
-    }
+  @EJB
+  private SysLogisticCarDAO sysLogisticCarDAO;
 
-    public List<SysTransportStaff> findSysTransportStaffList(Integer tranSportStaffType) throws Exception {
-        return sysTransportStaffDAO.findSysTransportStaffList(tranSportStaffType);
-    }
-     
-    public SysTransportStaff findSysTransportStaffById(SysTransportStaff sysTransportStaff) throws Exception {
-        return sysTransportStaffDAO.findSysTransportStaffById(sysTransportStaff.getTransportstaffId(),sysTransportStaff.getTransportstaffType());
-    }
-    
-    public SysTransportStaff findSysTransportAllStaffById(SysTransportStaff sysTransportStaff) throws Exception {
-        return sysTransportStaffDAO.findSysTransportStaffById(sysTransportStaff.getTransportstaffId());
-    }
-    
-    public List<SysTransportStaff> findSysTransportStaffListByCriteria(SysTransportStaff transportstaffId,Integer tranSportStaffType,String status) throws Exception {
-       return sysTransportStaffDAO.findSysTransportStaffByCriteria(transportstaffId, tranSportStaffType,status);
-    }
-    
-    public List<SysTransportStaff> findSysTransportStaffListByCriteria(String tranSportStaffNameTh,Integer tranSportStaffType,String status) throws Exception {
-       return sysTransportStaffDAO.findSysTransportStaffByCriteria(tranSportStaffNameTh, tranSportStaffType,status);
-    }
-    
-    public void createSysTransportStaff(SysTransportStaff sysTransportStaff) throws Exception{
-        sysTransportStaff.setStatus("Y");
-        sysTransportStaffDAO.create(sysTransportStaff);
-    }
-    
-    public void editSysTransportStaff(SysTransportStaff sysTransportStaff) throws Exception{
-        sysTransportStaffDAO.edit(sysTransportStaff);
-    }
-    
-    public void deleteSysTransportStaff (SysTransportStaff sysTransportStaff) throws Exception{
-        sysTransportStaffDAO.edit(sysTransportStaff);
-    }
-    
-    //==========================================
-     public List<SysLogisticCar> findSysLogisticCarList() throws Exception {
-        return sysLogisticCarDAO.findSysLogisticCarList();
-    }
-     
-    public SysLogisticCar findSysLogisticCar(SysLogisticCar sysLogisticCar) throws Exception {
-        return sysLogisticCarDAO.findSysLogisticCarById(sysLogisticCar.getLogisticId());
-    }
-    
-    public List<SysLogisticCar> findSysLogisticCarListByCriteria(String logisticRegisterCar,String logisticCarType,String status) throws Exception {
-       return sysLogisticCarDAO.findSysLogisticCarByCriteria(logisticRegisterCar, logisticCarType,status);
-    }
-    
-    public void createSysLogisticCar(SysLogisticCar sysLogisticCar) throws Exception{
-        sysLogisticCar.setStatus("Y");
-        sysLogisticCarDAO.create(sysLogisticCar);
-    }
-    
-    public void editSysLogisticCar(SysLogisticCar sysLogisticCar) throws Exception{
-        sysLogisticCarDAO.edit(sysLogisticCar);
-    }
-    
-    public void deleteSysLogisticCar (SysLogisticCar sysLogisticCar) throws Exception{
-        sysLogisticCarDAO.edit(sysLogisticCar);
-    }
-    
-    //================================================
-     public List<SysTransportServices> findSysTransportServicesList() throws Exception {
-        return sysTransportServicesDAO.findSysTransportServicesList();
-    }
+  @EJB
+  private SysTransportServicesDAO sysTransportServicesDAO;
 
-    public List<SysTransportServices> findSysTransportServicesListByCriteria(String tpserviceDesc,String status) throws Exception {
-       return sysTransportServicesDAO.findSysTransportServicesListByCriteria(tpserviceDesc,status);
-    }
-    
-    public SysTransportServices findSysTransportServices(SysTransportServices sysTransportServices) throws Exception {
-        return sysTransportServicesDAO.findSysTransportServicesById(sysTransportServices.getTpserviceId());
-    }
-    
-    public void createSysTransportServices(SysTransportServices sysTransportServices) throws Exception{
-        sysTransportServices.setStatus("Y");
-        sysTransportServicesDAO.create(sysTransportServices);
-    }
-    
-    public void editSysTransportServices(SysTransportServices sysTransportServices) throws Exception{
-        sysTransportServicesDAO.edit(sysTransportServices);
-    }
-    
-    public void deleteSysTransportServices (SysTransportServices sysTransportServices) throws Exception{
-        sysTransportServicesDAO.edit(sysTransportServices);
-    }
-    
-    //SysPrepareTransport=============
-     
-    public List<SysPrepareTransport> findSysPrepareTransportList() throws Exception {
-        return sysPrepareTransportDAO.findSysPrepareTransportList();
-    }
-     
-    public SysPrepareTransport findSysPrepareTransport(Integer prepareTpId) throws Exception {
-        return sysPrepareTransportDAO.findSysPrepareTransportById(prepareTpId);
-    }
-    
-    public void updateStatusSysPrepareTransportByprepareTpId(Integer status,Integer prepareTpId) throws Exception {
-        sysPrepareTransportDAO.updateStatusSysPrepareTransportByprepareTpId(status,prepareTpId);
-    }
-    
-    public List<SysPrepareTransport> findSysPrepareTransportListByCriteria(SysForeman foremanId,String documentno,SysWorkunit workunitId,Integer status,Date startDate, Date toDate) throws Exception {
-       return sysPrepareTransportDAO.findSysPrepareTransportListByCriteria(foremanId, documentno, workunitId,status, startDate, toDate);
-    }
-    
-    public void createSysPrepareTransport(SysPrepareTransport sysPrepareTransport) throws Exception{
-        sysPrepareTransportDAO.create(sysPrepareTransport);
-    }
-    
-    public void editSysPrepareTransport(SysPrepareTransport sysPrepareTransport) throws Exception{
-        sysPrepareTransportDAO.edit(sysPrepareTransport);
-    }
-    
-    public void deleteSysPrepareTransport (SysPrepareTransport sysPrepareTransport) throws Exception{
-        sysPrepareTransportDAO.remove(sysPrepareTransport);
-    }
+  @EJB
+  private SysPrepareTransportDAO sysPrepareTransportDAO;
 
-    public void deletePrepareTpIdOnDetail(Integer prepareTpId) throws Exception {
-        sysPrepareTransportDetailDAO.deletePrepareTpIdOnDetail(prepareTpId);
-    }
-    
-    public List<SysPrepareTransportDetail>   findSysPrepareTransportDetailByPrepareID(Integer prepareTpId) throws Exception {
-        return sysPrepareTransportDetailDAO.findSysPrepareTransportDetailByPrepareID(prepareTpId);
-    }
-    
-    
-    //SysTransportation=============
-    public List<SysTransportation> findSysTransportationList() throws Exception {
-        return sysTransportationDAO.findSysTransportationList();
-    }
-     
-    public SysTransportation findSysTransportation(Integer prepareTpId) throws Exception {
-        return sysTransportationDAO.findSysTransportationById(prepareTpId);
-    }
-    
-    public List<SysTransportation> findSysTransportationListByCriteria(SysForeman foremanId,String documentno,SysWorkunit workunitId,Integer status,Date startDate, Date toDate) throws Exception {
-       return sysTransportationDAO.findSysTransportationListByCriteria(foremanId, documentno, workunitId,status, startDate, toDate);
-    }
-    
-    public void createSysTransportation(SysTransportation sysTransportation) throws Exception{
-        sysTransportationDAO.create(sysTransportation);
-    }
-    
-    public void editSysTransportation(SysTransportation sysTransportation) throws Exception{
-        sysTransportationDAO.edit(sysTransportation);
-    }
-    
-    public void deleteSysTransportation (SysTransportation sysTransportation) throws Exception{
-        sysTransportationDAO.remove(sysTransportation);
-    }
+  @EJB
+  private SysPrepareTransportDetailDAO sysPrepareTransportDetailDAO;
 
-    public void deleteTransportationTpIdOnDetail(Integer transportId) throws Exception {
-        sysTransportationDetailDAO.deleteTransportationTpIdOnDetail(transportId);
-    }
-    
-    public void deleteTransportationServiceTpIdOnDetail(Integer transportId) throws Exception {
-        sysTransportationServiceDetailDAO.deleteTransportationServiceTpIdOnDetail(transportId);
-    }
-    
-    
-    public void deleteTransportationSpecialTpIdOnDetail(Integer transportId) throws Exception {
-        sysTransportationSpecialDetailDAO.deleteTransportationSpecialTpIdOnDetail(transportId);
-    }
-    
-    //finstaff
-    public List<SysTransportation> findStaffSysTransportationListByCriteria(SysTransportStaff transportstaffId,Integer status,Date startDate, Date toDate) throws Exception {
-       return sysTransportationDAO.findStaffSysTransportationListByCriteria(transportstaffId, status,startDate,toDate);
-    }
-    public List<SysTransportation> findStafffollow1SysTransportationListByCriteria(SysTransportStaff transportstaffId,Integer status,Date startDate, Date toDate) throws Exception {
-       return sysTransportationDAO.findStafffollow1SysTransportationListByCriteria(transportstaffId, status,startDate,toDate);
-    }
-    public List<SysTransportation> findStafffollow2SysTransportationListByCriteria(SysTransportStaff transportstaffId,Integer status,Date startDate, Date toDate) throws Exception {
-       return sysTransportationDAO.findStafffollow2SysTransportationListByCriteria(transportstaffId, status,startDate,toDate);
-    }
-    
-     //SysTransportationExp=============
-    public List<SysTranspostationExp> findSysTranspostationExpList() throws Exception {
-        return sysTransportationExpDAO.findSysTranspostationExpList();
-    }
-     
-    public SysTranspostationExp findSysTranspostationExpById(Integer prepareTpId) throws Exception {
-        return sysTransportationExpDAO.findSysTranspostationExpById(prepareTpId);
-    }
-    
-    public List<SysTranspostationExp> findSysTranspostationExpListByCriteria(SysTransportStaff transportstaffId,Date startDate, Date toDate) throws Exception {
-       return sysTransportationExpDAO.findSysTranspostationExpListByCriteria(transportstaffId, startDate, toDate);
-    }
-    
-    public void createSysTranspostationExp(SysTranspostationExp sysTranspostationExp) throws Exception{
-        sysTransportationExpDAO.create(sysTranspostationExp);
-    }
-    
-    public void editSysTranspostationExp(SysTranspostationExp sysTranspostationExp) throws Exception{
-        sysTransportationExpDAO.edit(sysTranspostationExp);
-    }
-    
-    public void deleteSysTranspostationExp(SysTranspostationExp sysTranspostationExp) throws Exception{
-        sysTransportationExpDAO.remove(sysTranspostationExp);
-    }
-    
-    public void deleteTransportationExpIdOnDetail(Integer expId) throws Exception {
-        sysTransportationExpDAO.deleteTransportationExpIdOnDetail(expId);
-    }
-    
-    
-    //SysTransportationSpcial=============
-    public List<SysTransportStaffSpecial> findSysTransportStaffSpecialList() throws Exception {
-        return sysTransportStaffSpecialDAO.findSysTransportStaffSpecialList();
-    }
-     
-    public SysTransportStaffSpecial findSysTransportStaffSpecialById(Integer specialtpId) throws Exception {
-        return sysTransportStaffSpecialDAO.findSysTransportStaffSpecialById(specialtpId);
-    }
-    
-    public List<SysTransportStaffSpecial> findSysTransportStaffSpecialListByCriteria(SysTransportStaff transportstaffId,Integer specialType,Date startDate, Date toDate) throws Exception {
-       return sysTransportStaffSpecialDAO.findSysTransportStaffSpecialListByCriteria(transportstaffId, specialType,startDate, toDate);
-    }
-    
-    public void createSysTransportStaffSpecial(SysTransportStaffSpecial sysTransportStaffSpecial) throws Exception{
-        sysTransportStaffSpecialDAO.create(sysTransportStaffSpecial);
-    }
-    
-    public void editSysTransportStaffSpecial(SysTransportStaffSpecial sysTransportStaffSpecial) throws Exception{
-        sysTransportStaffSpecialDAO.edit(sysTransportStaffSpecial);
-    }
-    
-    public void deleteSysTransportStaffSpecial(SysTransportStaffSpecial sysTransportStaffSpecial) throws Exception{
-        sysTransportStaffSpecialDAO.remove(sysTransportStaffSpecial);
-    }
-    
-    public void deleteSysTransportStaffSpecialIdOnDetail(Integer specialtpId) throws Exception {
-        sysTransportStaffSpecialDAO.deleteSysTransportStaffSpecialIdOnDetail(specialtpId);
-    }
+  @EJB
+  private SysTransportationDAO sysTransportationDAO;
+
+  @EJB
+  private SysTransportationDetailDAO sysTransportationDetailDAO;
+
+  @EJB
+  private SysTransportationServiceDetailDAO sysTransportationServiceDetailDAO;
+
+  @EJB
+  private SysTransportationSpecialDetailDAO sysTransportationSpecialDetailDAO;
+
+  @EJB
+  private SysTransportationExpDAO sysTransportationExpDAO;
+
+  @EJB
+  private SysTransportStaffSpecialDAO sysTransportStaffSpecialDAO;
+
+  public List<SysTransportStaff> findSysTransportStaffList()
+    throws Exception
+  {
+    return this.sysTransportStaffDAO.findSysTransportStaffList();
+  }
+
+  public List<SysTransportStaff> findSysTransportStaffList(Integer tranSportStaffType) throws Exception {
+    return this.sysTransportStaffDAO.findSysTransportStaffList(tranSportStaffType);
+  }
+
+  public SysTransportStaff findSysTransportStaffById(SysTransportStaff sysTransportStaff) throws Exception {
+    return this.sysTransportStaffDAO.findSysTransportStaffById(sysTransportStaff.getTransportstaffId(), sysTransportStaff.getTransportstaffType());
+  }
+
+  public SysTransportStaff findSysTransportAllStaffById(SysTransportStaff sysTransportStaff) throws Exception {
+    return this.sysTransportStaffDAO.findSysTransportStaffById(sysTransportStaff.getTransportstaffId());
+  }
+
+  public List<SysTransportStaff> findSysTransportStaffListByCriteria(SysTransportStaff transportstaffId, Integer tranSportStaffType, String status) throws Exception {
+    return this.sysTransportStaffDAO.findSysTransportStaffByCriteria(transportstaffId, tranSportStaffType, status);
+  }
+
+  public List<SysTransportStaff> findSysTransportStaffListByCriteria(String tranSportStaffNameTh, Integer tranSportStaffType, String status) throws Exception {
+    return this.sysTransportStaffDAO.findSysTransportStaffByCriteria(tranSportStaffNameTh, tranSportStaffType, status);
+  }
+
+  public void createSysTransportStaff(SysTransportStaff sysTransportStaff) throws Exception {
+    sysTransportStaff.setStatus("Y");
+    this.sysTransportStaffDAO.create(sysTransportStaff);
+  }
+
+  public void editSysTransportStaff(SysTransportStaff sysTransportStaff) throws Exception {
+    this.sysTransportStaffDAO.edit(sysTransportStaff);
+  }
+
+  public void deleteSysTransportStaff(SysTransportStaff sysTransportStaff) throws Exception {
+    this.sysTransportStaffDAO.edit(sysTransportStaff);
+  }
+
+  public List<SysLogisticCar> findSysLogisticCarList() throws Exception
+  {
+    return this.sysLogisticCarDAO.findSysLogisticCarList();
+  }
+
+  public SysLogisticCar findSysLogisticCar(SysLogisticCar sysLogisticCar) throws Exception {
+    return this.sysLogisticCarDAO.findSysLogisticCarById(sysLogisticCar.getLogisticId());
+  }
+
+  public List<SysLogisticCar> findSysLogisticCarListByCriteria(String logisticRegisterCar, String logisticCarType, String status) throws Exception {
+    return this.sysLogisticCarDAO.findSysLogisticCarByCriteria(logisticRegisterCar, logisticCarType, status);
+  }
+
+  public void createSysLogisticCar(SysLogisticCar sysLogisticCar) throws Exception {
+    sysLogisticCar.setStatus("Y");
+    this.sysLogisticCarDAO.create(sysLogisticCar);
+  }
+
+  public void editSysLogisticCar(SysLogisticCar sysLogisticCar) throws Exception {
+    this.sysLogisticCarDAO.edit(sysLogisticCar);
+  }
+
+  public void deleteSysLogisticCar(SysLogisticCar sysLogisticCar) throws Exception {
+    this.sysLogisticCarDAO.edit(sysLogisticCar);
+  }
+
+  public List<SysTransportServices> findSysTransportServicesList() throws Exception
+  {
+    return this.sysTransportServicesDAO.findSysTransportServicesList();
+  }
+
+  public List<SysTransportServices> findSysTransportServicesListByCriteria(String tpserviceDesc, String status) throws Exception {
+    return this.sysTransportServicesDAO.findSysTransportServicesListByCriteria(tpserviceDesc, status);
+  }
+
+  public SysTransportServices findSysTransportServices(SysTransportServices sysTransportServices) throws Exception {
+    return this.sysTransportServicesDAO.findSysTransportServicesById(sysTransportServices.getTpserviceId());
+  }
+
+  public void createSysTransportServices(SysTransportServices sysTransportServices) throws Exception {
+    sysTransportServices.setStatus("Y");
+    this.sysTransportServicesDAO.create(sysTransportServices);
+  }
+
+  public void editSysTransportServices(SysTransportServices sysTransportServices) throws Exception {
+    this.sysTransportServicesDAO.edit(sysTransportServices);
+  }
+
+  public void deleteSysTransportServices(SysTransportServices sysTransportServices) throws Exception {
+    this.sysTransportServicesDAO.edit(sysTransportServices);
+  }
+
+  public List<SysPrepareTransport> findSysPrepareTransportList()
+    throws Exception
+  {
+    return this.sysPrepareTransportDAO.findSysPrepareTransportList();
+  }
+
+  public SysPrepareTransport findSysPrepareTransport(Integer prepareTpId) throws Exception {
+    return this.sysPrepareTransportDAO.findSysPrepareTransportById(prepareTpId);
+  }
+
+  public void updateStatusSysPrepareTransportByprepareTpId(Integer status, Integer prepareTpId) throws Exception {
+    this.sysPrepareTransportDAO.updateStatusSysPrepareTransportByprepareTpId(status, prepareTpId);
+  }
+
+  public List<SysPrepareTransport> findSysPrepareTransportListByCriteria(SysForeman foremanId, String documentno, SysWorkunit workunitId, Integer status, Date startDate, Date toDate) throws Exception {
+    return this.sysPrepareTransportDAO.findSysPrepareTransportListByCriteria(foremanId, documentno, workunitId, status, startDate, toDate);
+  }
+
+  public void createSysPrepareTransport(SysPrepareTransport sysPrepareTransport) throws Exception {
+    this.sysPrepareTransportDAO.create(sysPrepareTransport);
+  }
+
+  public void editSysPrepareTransport(SysPrepareTransport sysPrepareTransport) throws Exception {
+    this.sysPrepareTransportDAO.edit(sysPrepareTransport);
+  }
+
+  public void deleteSysPrepareTransport(SysPrepareTransport sysPrepareTransport) throws Exception {
+    this.sysPrepareTransportDAO.remove(sysPrepareTransport);
+  }
+
+  public void deletePrepareTpIdOnDetail(Integer prepareTpId) throws Exception {
+    this.sysPrepareTransportDetailDAO.deletePrepareTpIdOnDetail(prepareTpId);
+  }
+
+  public List<SysPrepareTransportDetail> findSysPrepareTransportDetailByPrepareID(Integer prepareTpId) throws Exception {
+    return this.sysPrepareTransportDetailDAO.findSysPrepareTransportDetailByPrepareID(prepareTpId);
+  }
+
+  public List<SysTransportation> findSysTransportationList()
+    throws Exception
+  {
+    return this.sysTransportationDAO.findSysTransportationList();
+  }
+
+  public SysTransportation findSysTransportation(Integer prepareTpId) throws Exception {
+    return this.sysTransportationDAO.findSysTransportationById(prepareTpId);
+  }
+
+  public List<SysTransportation> findSysTransportationListByCriteria(SysForeman foremanId, String documentno, SysWorkunit workunitId, Integer status, Date startDate, Date toDate) throws Exception {
+    return this.sysTransportationDAO.findSysTransportationListByCriteria(foremanId, documentno, workunitId, status, startDate, toDate);
+  }
+
+  public void createSysTransportation(SysTransportation sysTransportation) throws Exception {
+    this.sysTransportationDAO.create(sysTransportation);
+  }
+
+  public void editSysTransportation(SysTransportation sysTransportation) throws Exception {
+    this.sysTransportationDAO.edit(sysTransportation);
+  }
+
+  public void deleteSysTransportation(SysTransportation sysTransportation) throws Exception {
+    this.sysTransportationDAO.remove(sysTransportation);
+  }
+
+  public void deleteTransportationTpIdOnDetail(Integer transportId) throws Exception {
+    this.sysTransportationDetailDAO.deleteTransportationTpIdOnDetail(transportId);
+  }
+
+  public void deleteTransportationServiceTpIdOnDetail(Integer transportId) throws Exception {
+    this.sysTransportationServiceDetailDAO.deleteTransportationServiceTpIdOnDetail(transportId);
+  }
+
+  public void deleteTransportationSpecialTpIdOnDetail(Integer transportId) throws Exception
+  {
+    this.sysTransportationSpecialDetailDAO.deleteTransportationSpecialTpIdOnDetail(transportId);
+  }
+
+  public List<SysTransportation> findStaffSysTransportationListByCriteria(SysTransportStaff transportstaffId, Integer status, Date startDate, Date toDate) throws Exception
+  {
+    return this.sysTransportationDAO.findStaffSysTransportationListByCriteria(transportstaffId, status, startDate, toDate);
+  }
+  public List<SysTransportation> findStafffollow1SysTransportationListByCriteria(SysTransportStaff transportstaffId, Integer status, Date startDate, Date toDate) throws Exception {
+    return this.sysTransportationDAO.findStafffollow1SysTransportationListByCriteria(transportstaffId, status, startDate, toDate);
+  }
+  public List<SysTransportation> findStafffollow2SysTransportationListByCriteria(SysTransportStaff transportstaffId, Integer status, Date startDate, Date toDate) throws Exception {
+    return this.sysTransportationDAO.findStafffollow2SysTransportationListByCriteria(transportstaffId, status, startDate, toDate);
+  }
+
+  public List<SysTranspostationExp> findSysTranspostationExpList() throws Exception
+  {
+    return this.sysTransportationExpDAO.findSysTranspostationExpList();
+  }
+
+  public SysTranspostationExp findSysTranspostationExpById(Integer prepareTpId) throws Exception {
+    return this.sysTransportationExpDAO.findSysTranspostationExpById(prepareTpId);
+  }
+
+  public List<SysTranspostationExp> findSysTranspostationExpListByCriteria(SysTransportStaff transportstaffId, Date startDate, Date toDate) throws Exception {
+    return this.sysTransportationExpDAO.findSysTranspostationExpListByCriteria(transportstaffId, startDate, toDate);
+  }
+
+  public void createSysTranspostationExp(SysTranspostationExp sysTranspostationExp) throws Exception {
+    this.sysTransportationExpDAO.create(sysTranspostationExp);
+  }
+
+  public void editSysTranspostationExp(SysTranspostationExp sysTranspostationExp) throws Exception {
+    this.sysTransportationExpDAO.edit(sysTranspostationExp);
+  }
+
+  public void deleteSysTranspostationExp(SysTranspostationExp sysTranspostationExp) throws Exception {
+    this.sysTransportationExpDAO.remove(sysTranspostationExp);
+  }
+
+  public void deleteTransportationExpIdOnDetail(Integer expId) throws Exception {
+    this.sysTransportationExpDAO.deleteTransportationExpIdOnDetail(expId);
+  }
+
+  public List<SysTransportStaffSpecial> findSysTransportStaffSpecialList()
+    throws Exception
+  {
+    return this.sysTransportStaffSpecialDAO.findSysTransportStaffSpecialList();
+  }
+
+  public SysTransportStaffSpecial findSysTransportStaffSpecialById(Integer specialtpId) throws Exception {
+    return this.sysTransportStaffSpecialDAO.findSysTransportStaffSpecialById(specialtpId);
+  }
+
+  public List<SysTransportStaffSpecial> findSysTransportStaffSpecialListByCriteria(SysTransportStaff transportstaffId, Integer specialType, Date startDate, Date toDate) throws Exception {
+    return this.sysTransportStaffSpecialDAO.findSysTransportStaffSpecialListByCriteria(transportstaffId, specialType, startDate, toDate);
+  }
+
+  public void createSysTransportStaffSpecial(SysTransportStaffSpecial sysTransportStaffSpecial) throws Exception {
+    this.sysTransportStaffSpecialDAO.create(sysTransportStaffSpecial);
+  }
+
+  public void editSysTransportStaffSpecial(SysTransportStaffSpecial sysTransportStaffSpecial) throws Exception {
+    this.sysTransportStaffSpecialDAO.edit(sysTransportStaffSpecial);
+  }
+
+  public void deleteSysTransportStaffSpecial(SysTransportStaffSpecial sysTransportStaffSpecial) throws Exception {
+    this.sysTransportStaffSpecialDAO.remove(sysTransportStaffSpecial);
+  }
+
+  public void deleteSysTransportStaffSpecialIdOnDetail(Integer specialtpId) throws Exception {
+    this.sysTransportStaffSpecialDAO.deleteSysTransportStaffSpecialIdOnDetail(specialtpId);
+  }
 }

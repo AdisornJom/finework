@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    
+    <p:dialog id="dlg1" header="กรอกรายเอียด" modal="true" 
+              widgetVar="selectDetail_dialog" width="600" 
+              binding="#{bindingController.defaultDialogModel}" closeOnEscape="true" styleClass="customDialog">
+
+        <h:form id="listFormDetail">
+            <p:panelGrid id="detail" columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-9" styleClass="ui-panelgrid-blank">
+                <h:panelGroup>
+                    <p:outputLabel value="หมวดเรื่อง ："/>
+                    <font class="require">*</font>
+                </h:panelGroup>
+                <p:selectOneMenu value="#{q100Controller.dumpMyDetail_selected1.heading}"  style="width: 340px !important"
+                                 converter="omnifaces.SelectItemsConverter" filter="true" filterMatchMode="contains">
+                    <f:selectItem itemValue="#{null}" itemLabel="--หมวดเรื่อง--"/>
+                    <f:selectItems value="#{q100Controller.headingItems}" var="headings" 
+                                   itemLabel="#{headings.headingValue}" itemValue="#{headings.headingValue}"/>
+                </p:selectOneMenu>
+
+                <h:panelGroup>
+                    <p:outputLabel value="รายการ ："/>
+                    <font class="require">*</font>
+                </h:panelGroup>
+                <p:selectOneMenu value="#{q100Controller.dumpMyDetail_selected1.heading}"  style="width: 340px !important"
+                                 converter="omnifaces.SelectItemsConverter" filter="true" filterMatchMode="contains">
+                    <f:selectItem itemValue="#{null}" itemLabel="--หมวดเรื่อง--"/>
+                    <f:selectItems value="#{q100Controller.headingItems}" var="headings" 
+                                   itemLabel="#{headings.headingValue}" itemValue="#{headings.headingValue}"/>
+                </p:selectOneMenu>
+                <p:inputTextarea value="#{q100Controller.dumpMyDetail_selected1.detail}" cols="30" rows="3" 
+                                 maxlength="250" style="width: 360px;" />
+
+                <h:panelGroup>
+                    <p:outputLabel  value="จำนวน :" />
+                    <font class="require">*</font>
+                </h:panelGroup>
+                <p:inputText  value="#{q100Controller.dumpMyDetail_selected1.volume}" maxlength="20"  style="width: 100px; text-align: right;"/>
+
+                <h:panelGroup>
+                    <p:outputLabel  value="ต่อ 1 ยูนิต :" />
+                </h:panelGroup>
+                <p:inputText  value="#{q100Controller.dumpMyDetail_selected1.volumePerUnit}" maxlength="20"  style="width: 100px; text-align: right;"/>
+
+                <h:panelGroup>
+                    <p:outputLabel  value="หน่วย :" />
+                    <font class="require">*</font>
+                </h:panelGroup>
+                <p:selectOneMenu  value="#{q100Controller.dumpMyDetail_selected1.unit}"  style="width: 100px;">
+                    <f:selectItems value="#{comboController.equipments}" />
+                </p:selectOneMenu>
+
+                <h:panelGroup>
+                    <p:outputLabel value="ราคา/ชิ้น :" />
+                    <font class="require">*</font>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <p:inputText  value="#{q100Controller.dumpMyDetail_selected1.valueUnit}" maxlength="20" style="width: 100px;text-align: right;"/>
+                </h:panelGroup>
+
+            </p:panelGrid>
+
+            <br/>
+            <h:panelGroup layout="block" style="text-align: center" >
+                <p:commandButton styleClass="edit-btn" binding="#{bindingController.btnSave}" value="#{msgs['btn.ok']}" ajax="false"
+                                 actionListener="#{q100Controller.addDetail1()}">
+                </p:commandButton> 
+                <p:commandButton styleClass="clear-btn"  binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 oncomplete="PF('selectDetail_dialog').hide();"
+                                 actionListener="#{q100Controller.clearData_sysDetail1()}" />
+            </h:panelGroup>
+        </h:form>
+
+
+    </p:dialog>
+
+</ui:composition>

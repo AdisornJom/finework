@@ -36,6 +36,7 @@
                 <p:menuitem value="I103 - วัสดุภัณฑ์นำออก"  actionListener="#{naviController.next('inventory/i103/index','i103Controller','I103 - วัสดุภัณฑ์นำออก')}" ajax="false"/>
                 <p:menuitem value="I104 - วัสดุภัณฑ์ใกล้จะหมด"  actionListener="#{naviController.next('inventory/i104/index','i104Controller','I104 - วัสดุภัณฑ์ใกล้จะหมด')}" ajax="false"/>
                 <p:menuitem value="I105 - สถานะการยืมคืนวัสดุภัณฑ์"  actionListener="#{naviController.next('inventory/i105/index','i105Controller','I105 - สถานะการยืมคืนวัสดุภัณฑ์')}" ajax="false"/>
+                <p:menuitem value="I106 - รายละเอียดวัสดุภัณฑ์นำออก"  actionListener="#{naviController.next('inventory/i106/index','i106Controller','I106 - รายละเอียดวัสดุภัณฑ์นำออก')}" ajax="false"/>
             </p:submenu>
             
             <p:submenu label="รายการการผลิต" icon="fa fa-cubes">
@@ -98,9 +99,10 @@
             </p:submenu>
             
             <p:submenu label="ใบเสนอราคา" icon="fa fa fa-gavel" >
+                 <p:menuitem value="Q100 - ใบเสนอราคา(ทั่วไป)"  actionListener="#{naviController.next('quotation/q100/index','Q100Controller','Q100 - ใบเสนอราคา(ทั่วไป)')}" ajax="false"/>
                  <p:menuitem value="Q101 - ใบเสนอราคา(ฟอร์มคู่)"  actionListener="#{naviController.next('quotation/q101/index','Q101Controller','Q101 - ใบเสนอราคา(ฟอร์มคู่)')}" ajax="false"/>
                  <p:menuitem value="Q102 - ใบเสนอราคา(ฟอร์มเดียว)"  actionListener="#{naviController.next('quotation/q102/index','Q102Controller','Q102 - ใบเสนอราคา(ฟอร์มเดียว)')}" ajax="false"/>
-                 <p:menuitem value="Q103 - รายงานสรุปใบเสนอราคา" rendered="false" actionListener="#{naviController.next('quotation/q103/index','Q103Controller','Q103 - รายงานสรุปใบเสนอราคา')}" ajax="false"/>
+                 <p:menuitem value="Q103 - ใบเสนอราคา(Upload)"  actionListener="#{naviController.next('quotation/q103/index','Q103Controller','Q103 - ใบเสนอราคา(Upload)')}" ajax="false"/>
             </p:submenu>
             
             <p:submenu label="ภาษี" icon="fa fa-balance-scale" >

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.finework.core.ejb.entity;
 
 import java.io.Serializable;
@@ -15,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -26,288 +20,294 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Lenovo
- */
 @Entity
-@Table(name = "sys_contractor")
+@Table(name="sys_contractor")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "SysContractor.findAll", query = "SELECT s FROM SysContractor s")})
-public class SysContractor implements Serializable {
+@NamedQueries({@javax.persistence.NamedQuery(name="SysContractor.findAll", query="SELECT s FROM SysContractor s")})
+public class SysContractor
+  implements Serializable
+{
 
-    @OneToMany(mappedBy = "contratorId")
-    private List<SysTransportation> sysTransportationList;
+  @OneToMany(mappedBy="contratorId")
+  private List<SysTransportation> sysTransportationList;
 
-    @OneToMany(mappedBy = "contractorId")
-    private List<SysExpensesManufactory> sysExpensesManufactoryList;
+  @OneToMany(mappedBy="contractorId")
+  private List<SysExpensesManufactory> sysExpensesManufactoryList;
 
-    @OneToMany(mappedBy = "contractorId")
-    private List<SysPaymentManufactory> sysPaymentManufactoryList;
+  @OneToMany(mappedBy="contractorId")
+  private List<SysPaymentManufactory> sysPaymentManufactoryList;
 
-    @OneToMany(mappedBy = "contractorId")
-    private List<SysManufactory> sysManufactoryList;
-    
-    @OneToMany(mappedBy = "contractorId")//ยืม เบิก ปรับปรุง stock
-    private List<SysMaterialExpenses> sysMaterialExpensesList;
-    
-    @OneToMany(mappedBy = "contractorId")//รับ คืน ปรับปรุง stock
-    private List<SysMaterialReceipts> sysMaterialReceiptsList;
+  @OneToMany(mappedBy="contractorId")
+  private List<SysManufactory> sysManufactoryList;
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "contractor_id")
-    private Integer contractorId;
-    @Size(max = 250)
-    @Column(name = "contractor_name_th")
-    private String contractorNameTh;
-    @Size(max = 150)
-    @Column(name = "contractor_name_en")
-    private String contractorNameEn;
-    @Size(max = 250)
-    @Column(name = "contractor_nickname")
-    private String contractorNickname;
-    @Size(max = 255)
-    @Column(name = "contractor_address")
-    private String contractorAddress;
-    @Size(max = 150)
-    @Column(name = "tel")
-    private String tel;
-    @Size(max = 20)
-    @Column(name = "tax_id")
-    private String taxId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1)
-    @Column(name = "status")
-    private String status;
-    @Column(name = "created_dt")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDt;
-    @Size(max = 45)
-    @Column(name = "created_by")
-    private String createdBy;
-    @Size(max = 45)
-    @Column(name = "modified_by")
-    private String modifiedBy;
-    @Column(name = "modified_dt")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date modifiedDt;
-    
-    
-    @Transient
-    private Double totalOutstanding;
-    @Transient
-    private List<SysManufactoryReal> sysManufactoryReals;
+  @OneToMany(mappedBy="contractorId")
+  private List<SysMaterialExpenses> sysMaterialExpensesList;
 
-    public SysContractor() {
+  @OneToMany(mappedBy="contractorId")
+  private List<SysMaterialReceipts> sysMaterialReceiptsList;
+  private static final long serialVersionUID = 1L;
+
+  @Id
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  @Basic(optional=false)
+  @Column(name="contractor_id")
+  private Integer contractorId;
+
+  @Size(max=250)
+  @Column(name="contractor_name_th")
+  private String contractorNameTh;
+
+  @Size(max=150)
+  @Column(name="contractor_name_en")
+  private String contractorNameEn;
+
+  @Size(max=250)
+  @Column(name="contractor_nickname")
+  private String contractorNickname;
+
+  @Size(max=255)
+  @Column(name="contractor_address")
+  private String contractorAddress;
+
+  @Size(max=150)
+  @Column(name="tel")
+  private String tel;
+
+  @Size(max=20)
+  @Column(name="tax_id")
+  private String taxId;
+
+  @Basic(optional=false)
+  @NotNull
+  @Size(min=1, max=1)
+  @Column(name="status")
+  private String status;
+
+  @Column(name="created_dt")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date createdDt;
+
+  @Size(max=45)
+  @Column(name="created_by")
+  private String createdBy;
+
+  @Size(max=45)
+  @Column(name="modified_by")
+  private String modifiedBy;
+
+  @Column(name="modified_dt")
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date modifiedDt;
+
+  @Transient
+  private Double totalOutstanding;
+
+  @Transient
+  private List<SysManufactoryReal> sysManufactoryReals;
+
+  public SysContractor()
+  {
+  }
+
+  public List<SysManufactoryReal> getSysManufactoryReals()
+  {
+    return this.sysManufactoryReals;
+  }
+
+  public void setSysManufactoryReals(List<SysManufactoryReal> sysManufactoryReals) {
+    this.sysManufactoryReals = sysManufactoryReals;
+  }
+
+  public Double getTotalOutstanding()
+  {
+    return this.totalOutstanding;
+  }
+
+  public void setTotalOutstanding(Double totalOutstanding) {
+    this.totalOutstanding = totalOutstanding;
+  }
+
+  public SysContractor(Integer contractorId)
+  {
+    this.contractorId = contractorId;
+  }
+
+  public SysContractor(Integer contractorId, String status) {
+    this.contractorId = contractorId;
+    this.status = status;
+  }
+
+  public Integer getContractorId() {
+    return this.contractorId;
+  }
+
+  public void setContractorId(Integer contractorId) {
+    this.contractorId = contractorId;
+  }
+
+  public String getContractorNameTh() {
+    return this.contractorNameTh;
+  }
+
+  public void setContractorNameTh(String contractorNameTh) {
+    this.contractorNameTh = contractorNameTh;
+  }
+
+  public String getContractorNameEn() {
+    return this.contractorNameEn;
+  }
+
+  public void setContractorNameEn(String contractorNameEn) {
+    this.contractorNameEn = contractorNameEn;
+  }
+
+  public String getContractorNickname() {
+    return this.contractorNickname;
+  }
+
+  public void setContractorNickname(String contractorNickname) {
+    this.contractorNickname = contractorNickname;
+  }
+
+  public String getContractorAddress() {
+    return this.contractorAddress;
+  }
+
+  public void setContractorAddress(String contractorAddress) {
+    this.contractorAddress = contractorAddress;
+  }
+
+  public String getTel() {
+    return this.tel;
+  }
+
+  public void setTel(String tel) {
+    this.tel = tel;
+  }
+
+  public String getTaxId() {
+    return this.taxId;
+  }
+
+  public void setTaxId(String taxId) {
+    this.taxId = taxId;
+  }
+
+  public String getStatus() {
+    return this.status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public Date getCreatedDt() {
+    return this.createdDt;
+  }
+
+  public void setCreatedDt(Date createdDt) {
+    this.createdDt = createdDt;
+  }
+
+  public String getCreatedBy() {
+    return this.createdBy;
+  }
+
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  public String getModifiedBy() {
+    return this.modifiedBy;
+  }
+
+  public void setModifiedBy(String modifiedBy) {
+    this.modifiedBy = modifiedBy;
+  }
+
+  public Date getModifiedDt() {
+    return this.modifiedDt;
+  }
+
+  public void setModifiedDt(Date modifiedDt) {
+    this.modifiedDt = modifiedDt;
+  }
+
+  public List<SysMaterialReceipts> getSysMaterialReceiptsList() {
+    return this.sysMaterialReceiptsList;
+  }
+
+  public void setSysMaterialReceiptsList(List<SysMaterialReceipts> sysMaterialReceiptsList) {
+    this.sysMaterialReceiptsList = sysMaterialReceiptsList;
+  }
+
+  public int hashCode()
+  {
+    int hash = 0;
+    hash += (this.contractorId != null ? this.contractorId.hashCode() : 0);
+    return hash;
+  }
+
+  public boolean equals(Object object)
+  {
+    if (!(object instanceof SysContractor)) {
+      return false;
     }
-
-    public List<SysManufactoryReal> getSysManufactoryReals() {
-        return sysManufactoryReals;
+    SysContractor other = (SysContractor)object;
+    if (((this.contractorId == null) && (other.contractorId != null)) || ((this.contractorId != null) && (!this.contractorId.equals(other.contractorId)))) {
+      return false;
     }
+    return true;
+  }
 
-    public void setSysManufactoryReals(List<SysManufactoryReal> sysManufactoryReals) {
-        this.sysManufactoryReals = sysManufactoryReals;
-    }
+  public String toString()
+  {
+    return "com.finework.core.ejb.entity.SysContractor[ contractorId=" + this.contractorId + " ]";
+  }
 
-    
-    public Double getTotalOutstanding() {
-        return totalOutstanding;
-    }
+  @XmlTransient
+  public List<SysMaterialExpenses> getSysMaterialExpensesList() {
+    return this.sysMaterialExpensesList;
+  }
 
-    public void setTotalOutstanding(Double totalOutstanding) {
-        this.totalOutstanding = totalOutstanding;
-    }
+  public void setSysMaterialExpensesList(List<SysMaterialExpenses> sysMaterialExpensesList) {
+    this.sysMaterialExpensesList = sysMaterialExpensesList;
+  }
 
-    
-    public SysContractor(Integer contractorId) {
-        this.contractorId = contractorId;
-    }
+  @XmlTransient
+  public List<SysManufactory> getSysManufactoryList()
+  {
+    return this.sysManufactoryList;
+  }
 
-    public SysContractor(Integer contractorId, String status) {
-        this.contractorId = contractorId;
-        this.status = status;
-    }
+  public void setSysManufactoryList(List<SysManufactory> sysManufactoryList) {
+    this.sysManufactoryList = sysManufactoryList;
+  }
 
-    public Integer getContractorId() {
-        return contractorId;
-    }
+  @XmlTransient
+  public List<SysPaymentManufactory> getSysPaymentManufactoryList() {
+    return this.sysPaymentManufactoryList;
+  }
 
-    public void setContractorId(Integer contractorId) {
-        this.contractorId = contractorId;
-    }
+  public void setSysPaymentManufactoryList(List<SysPaymentManufactory> sysPaymentManufactoryList) {
+    this.sysPaymentManufactoryList = sysPaymentManufactoryList;
+  }
 
-    public String getContractorNameTh() {
-        return contractorNameTh;
-    }
+  @XmlTransient
+  public List<SysExpensesManufactory> getSysExpensesManufactoryList() {
+    return this.sysExpensesManufactoryList;
+  }
 
-    public void setContractorNameTh(String contractorNameTh) {
-        this.contractorNameTh = contractorNameTh;
-    }
+  public void setSysExpensesManufactoryList(List<SysExpensesManufactory> sysExpensesManufactoryList) {
+    this.sysExpensesManufactoryList = sysExpensesManufactoryList;
+  }
 
-    public String getContractorNameEn() {
-        return contractorNameEn;
-    }
+  @XmlTransient
+  public List<SysTransportation> getSysTransportationList() {
+    return this.sysTransportationList;
+  }
 
-    public void setContractorNameEn(String contractorNameEn) {
-        this.contractorNameEn = contractorNameEn;
-    }
-
-    public String getContractorNickname() {
-        return contractorNickname;
-    }
-
-    public void setContractorNickname(String contractorNickname) {
-        this.contractorNickname = contractorNickname;
-    }
-
-    public String getContractorAddress() {
-        return contractorAddress;
-    }
-
-    public void setContractorAddress(String contractorAddress) {
-        this.contractorAddress = contractorAddress;
-    }
-
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
-
-    public String getTaxId() {
-        return taxId;
-    }
-
-    public void setTaxId(String taxId) {
-        this.taxId = taxId;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Date getCreatedDt() {
-        return createdDt;
-    }
-
-    public void setCreatedDt(Date createdDt) {
-        this.createdDt = createdDt;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
-
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
-
-    public Date getModifiedDt() {
-        return modifiedDt;
-    }
-
-    public void setModifiedDt(Date modifiedDt) {
-        this.modifiedDt = modifiedDt;
-    }
-
-    public List<SysMaterialReceipts> getSysMaterialReceiptsList() {
-        return sysMaterialReceiptsList;
-    }
-
-    public void setSysMaterialReceiptsList(List<SysMaterialReceipts> sysMaterialReceiptsList) {
-        this.sysMaterialReceiptsList = sysMaterialReceiptsList;
-    }
-    
-    
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (contractorId != null ? contractorId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SysContractor)) {
-            return false;
-        }
-        SysContractor other = (SysContractor) object;
-        if ((this.contractorId == null && other.contractorId != null) || (this.contractorId != null && !this.contractorId.equals(other.contractorId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.finework.core.ejb.entity.SysContractor[ contractorId=" + contractorId + " ]";
-    }
-
-    @XmlTransient
-    public List<SysMaterialExpenses> getSysMaterialExpensesList() {
-        return sysMaterialExpensesList;
-    }
-
-    public void setSysMaterialExpensesList(List<SysMaterialExpenses> sysMaterialExpensesList) {
-        this.sysMaterialExpensesList = sysMaterialExpensesList;
-    }
-    
-    
-    @XmlTransient
-    public List<SysManufactory> getSysManufactoryList() {
-        return sysManufactoryList;
-    }
-
-    public void setSysManufactoryList(List<SysManufactory> sysManufactoryList) {
-        this.sysManufactoryList = sysManufactoryList;
-    }
-
-    @XmlTransient
-    public List<SysPaymentManufactory> getSysPaymentManufactoryList() {
-        return sysPaymentManufactoryList;
-    }
-
-    public void setSysPaymentManufactoryList(List<SysPaymentManufactory> sysPaymentManufactoryList) {
-        this.sysPaymentManufactoryList = sysPaymentManufactoryList;
-    }
-
-    @XmlTransient
-    public List<SysExpensesManufactory> getSysExpensesManufactoryList() {
-        return sysExpensesManufactoryList;
-    }
-
-    public void setSysExpensesManufactoryList(List<SysExpensesManufactory> sysExpensesManufactoryList) {
-        this.sysExpensesManufactoryList = sysExpensesManufactoryList;
-    }
-
-    @XmlTransient
-    public List<SysTransportation> getSysTransportationList() {
-        return sysTransportationList;
-    }
-
-    public void setSysTransportationList(List<SysTransportation> sysTransportationList) {
-        this.sysTransportationList = sysTransportationList;
-    }
-
+  public void setSysTransportationList(List<SysTransportation> sysTransportationList) {
+    this.sysTransportationList = sysTransportationList;
+  }
 }

@@ -160,6 +160,16 @@
                         <h:panelGroup/>
 
                         <h:panelGroup >
+                            <p:outputLabel value="ส่วนลด ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup >
+                            <p:inputNumber value="#{q102Controller.total1_discount}" minValue="0" inputStyle="text-align: right;width:152px;" >
+                                <p:ajax event="blur" listener="#{q102Controller.checkTotalPrice1()}" update="listForm" global="false" />
+                            </p:inputNumber>
+                        </h:panelGroup>
+                        <h:panelGroup/>  
+
+                        <h:panelGroup >
                             <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>
                         </h:panelGroup>
                         <h:panelGroup>
@@ -278,6 +288,14 @@
                     <br/>
                     <p:separator style="width:907px;height:2px;background:black;" />
                     <br/>
+                    <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank" >
+                        <h:panelGroup>
+                            <p:outputLabel value="หมวดเรื่อง ：" styleClass="bold"/>
+                            <font class="require">*</font>
+                        </h:panelGroup>
+                        <p:inputTextarea id="heading2" value="#{q102Controller.selected.heading2}" cols="30" rows="2" 
+                                         maxlength="250" style="width: 400px;" />
+                    </p:panelGrid>
                     <p:spacer/><p:outputLabel value="รายละเอียด Group 2 ："/>
                     <p:commandButton id="addDetail2" styleClass="search-btn" style="margin: 5px" 
                                      binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" 
@@ -339,6 +357,16 @@
                             </h:outputText>  
                         </h:panelGroup>
                         <h:panelGroup/>
+
+                        <h:panelGroup >
+                            <p:outputLabel value="ส่วนลด ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup >
+                            <p:inputNumber value="#{q102Controller.total2_discount}" minValue="0" inputStyle="text-align: right;width:152px;" >
+                                <p:ajax event="blur" listener="#{q102Controller.checkTotalPrice2()}" update=":content" global="false" />
+                            </p:inputNumber>
+                        </h:panelGroup>
+                        <h:panelGroup/>  
 
                         <h:panelGroup >
                             <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>
@@ -460,6 +488,14 @@
                     <br/>
                     <p:separator style="width:907px;height:2px;background:black;" />
                     <br/>
+                    <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank" >
+                        <h:panelGroup>
+                            <p:outputLabel value="หมวดเรื่อง ：" styleClass="bold"/>
+                            <font class="require">*</font>
+                        </h:panelGroup>
+                        <p:inputTextarea id="heading3" value="#{q102Controller.selected.heading3}" cols="30" rows="2" 
+                                         maxlength="250" style="width: 400px;" />
+                    </p:panelGrid>
                     <p:spacer/><p:outputLabel value="รายละเอียด Group 3 ："/>
                     <p:commandButton id="addDetail3" styleClass="search-btn" style="margin: 5px" 
                                      binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" 
@@ -521,6 +557,16 @@
                             </h:outputText>  
                         </h:panelGroup>
                         <h:panelGroup/>
+
+                        <h:panelGroup >
+                            <p:outputLabel value="ส่วนลด ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup >
+                            <p:inputNumber value="#{q102Controller.total3_discount}" minValue="0" inputStyle="text-align: right;width:152px;" >
+                                <p:ajax event="blur" listener="#{q102Controller.checkTotalPrice3()}" update=":content" global="false" />
+                            </p:inputNumber>
+                        </h:panelGroup>
+                        <h:panelGroup/>  
 
                         <h:panelGroup >
                             <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>
@@ -654,6 +700,17 @@
                             </h:outputText>  
                         </h:panelGroup>
                         <h:panelGroup/>
+
+                        <h:panelGroup >
+                            <p:outputLabel value="ส่วนลด ：" style="float:right;"/>
+                        </h:panelGroup>
+                        <h:panelGroup >
+                            <h:outputText value="#{q102Controller.total_discount}" 
+                                          style="float:right;background-color:#C0C0C0"  styleClass="lb_bold">
+                                <f:convertNumber  pattern="#,##0.00"/>
+                            </h:outputText>  
+                        </h:panelGroup>
+                        <h:panelGroup/>  
 
                         <h:panelGroup >
                             <p:outputLabel value="ภาษีมูลค่าเพิ่ม ：" style="float:right;"/>

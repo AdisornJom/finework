@@ -6,349 +6,336 @@ import java.util.Locale;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
-import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.dialog.Dialog;
 
-/**
- *
- * @author s.aekasit
- */
 @RequestScoped
-@Named(BindingController.CONTROLLER_NAME)
-public class BindingController implements Serializable {
+@Named("bindingController")
+public class BindingController
+  implements Serializable
+{
+  public static final String CONTROLLER_NAME = "bindingController";
+  private CommandButton btnSelected;
+  private CommandButton btnReset;
+  private CommandButton btnView;
+  private CommandButton btnAdd;
+  private CommandButton btnEdit;
+  private CommandButton btnDelete;
+  private CommandButton btnExport;
+  private CommandButton btnExportExcel;
+  private CommandButton btnExportPdf;
+  private CommandButton btnImport;
+  private CommandButton btnSearch;
+  private CommandButton btnSave;
+  private CommandButton btnCancel;
+  private CommandButton btnBack;
+  private DataTable defaultDataTableModel;
+  private DataTable dataTableModel;
+  private DataTable lazyDataTableModel;
+  private Dialog defaultDialogModel;
+  private Dialog dialogModel;
+  private Calendar calendar;
+  public static final String NUMBER_PATTERN = "#,###";
+  public static final String DOUBLE_PATTERN = "#,##0.00";
+  public static final String DATE_PATTERN = "dd-MM-yyyy";
+  public static final String DATE_TIME_PATTERN = "dd-MM-yyyy HH:mm";
+  public static final String DATATABLE_ROWS_TEMPLATE = "10,50,100,500,1000";
+  public static final String DATATABLE_CURRENT_PAGE_REPORT_TEMPLATE = "({currentPage}/{totalPages})";
+  public static final String DATATABLE_PAGINATOR_TEMPLATE = "{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}";
+  public static final String DATATABLE_PAGINATOR_POSITION = "bottom";
+  public static final String DATATABLE_ROW_INDEX_VAR = "rowNumber";
+  public static final String DATATABLE_ROWS = "10";
+  public static final String CALENDAR_YEAR_RANG = "c-10:c+10";
+  public static final String DATATABLE_SORT_MODE = "multiple";
 
-    public static final String CONTROLLER_NAME = "bindingController";
+  public Dialog getDialogModel()
+  {
+    this.dialogModel = new Dialog();
+    this.dialogModel.setModal(true);
+    this.dialogModel.setMaximizable(false);
+    this.dialogModel.setClosable(true);
+    this.dialogModel.setResizable(false);
+    this.dialogModel.setShowHeader(true);
+    this.dialogModel.setCloseOnEscape(true);
+    this.dialogModel.setMinWidth(500);
+    return this.dialogModel;
+  }
 
-    private CommandButton btnSelected;
-    private CommandButton btnReset;
-    private CommandButton btnView;
-    private CommandButton btnAdd;
-    private CommandButton btnEdit;
-    private CommandButton btnDelete;
-    private CommandButton btnExport;
-    private CommandButton btnExportExcel;
-    private CommandButton btnExportPdf;
-    private CommandButton btnImport;
-    private CommandButton btnSearch;
-    private CommandButton btnSave;
-    private CommandButton btnCancel;
-    private CommandButton btnBack;
+  public Dialog getDefaultDialogModel() {
+    this.defaultDialogModel = new Dialog();
+    this.defaultDialogModel.setModal(true);
+    this.defaultDialogModel.setMaximizable(false);
+    this.defaultDialogModel.setClosable(true);
+    this.defaultDialogModel.setResizable(false);
+    this.defaultDialogModel.setShowHeader(true);
+    this.defaultDialogModel.setCloseOnEscape(true);
 
-    private DataTable defaultDataTableModel;
-    private DataTable dataTableModel;
-    private DataTable lazyDataTableModel;
-    private Dialog defaultDialogModel;
-    private Dialog dialogModel;
+    this.defaultDialogModel.setMinWidth(500);
+    this.defaultDialogModel.setFooter(MessageBundleLoader.getMessage("applications", "app.footer"));
 
-    private Calendar calendar;
+    return this.defaultDialogModel;
+  }
 
-    public static final String NUMBER_PATTERN = "#,###";
-    public static final String DOUBLE_PATTERN = "#,##0.00";
-    public static final String DATE_PATTERN = "dd-MM-yyyy";
-    public static final String DATE_TIME_PATTERN = "dd-MM-yyyy HH:mm";
-    public static final String DATATABLE_ROWS_TEMPLATE = "10,50,100,500,1000";
-    public static final String DATATABLE_CURRENT_PAGE_REPORT_TEMPLATE = "({currentPage}/{totalPages})";
-//    public static final String DATATABLE_CURRENT_PAGE_REPORT_TEMPLATE = "(ข้อมูล {startRecord} - {endRecord} จาก {totalRecords}, หน้า {currentPage}/{totalPages})";
-    public static final String DATATABLE_PAGINATOR_TEMPLATE = "{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}";
-    public static final String DATATABLE_PAGINATOR_POSITION = "bottom";
-    public static final String DATATABLE_ROW_INDEX_VAR = "rowNumber";
-    public static final String DATATABLE_ROWS = "10";
-    public static final String CALENDAR_YEAR_RANG = "c-10:c+10";
-    public static final String DATATABLE_SORT_MODE = "multiple";
+  public DataTable getDataTableModel() {
+    this.dataTableModel = new DataTable();
+    this.dataTableModel.setRows(Integer.parseInt("10"));
+    this.dataTableModel.setPaginator(true);
+    this.dataTableModel.setPaginatorPosition("bottom");
+    this.dataTableModel.setPaginatorTemplate("{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}");
+    this.dataTableModel.setRowsPerPageTemplate("10,50,100,500,1000");
+    this.dataTableModel.setCurrentPageReportTemplate("({currentPage}/{totalPages})");
+    this.dataTableModel.setRowIndexVar("rowNumber");
+    this.dataTableModel.setSortMode("multiple");
+    this.dataTableModel.setEmptyMessage(MessageBundleLoader.getMessage("messages.code.2015"));
+    return this.dataTableModel;
+  }
 
-    public Dialog getDialogModel() {
-        dialogModel = new Dialog();
-        dialogModel.setModal(true);
-        dialogModel.setMaximizable(false);
-        dialogModel.setClosable(true);
-        dialogModel.setResizable(false);
-        dialogModel.setShowHeader(true);
-        dialogModel.setCloseOnEscape(true);
-        dialogModel.setMinWidth(500);
-        return dialogModel;
-    }
+  public DataTable getDefaultDataTableModel() {
+    this.defaultDataTableModel = new DataTable();
+    this.defaultDataTableModel.setRows(Integer.parseInt("10"));
+    this.defaultDataTableModel.setPaginator(true);
+    this.defaultDataTableModel.setPaginatorPosition("bottom");
+    this.defaultDataTableModel.setPaginatorTemplate("{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}");
+    this.defaultDataTableModel.setRowsPerPageTemplate("10,50,100,500,1000");
+    this.defaultDataTableModel.setCurrentPageReportTemplate("({currentPage}/{totalPages})");
+    this.defaultDataTableModel.setRowIndexVar("rowNumber");
+    this.defaultDataTableModel.setSortMode("multiple");
+    ExpressionFactory exp = FacesContext.getCurrentInstance().getApplication().getExpressionFactory();
+    ELContext el = FacesContext.getCurrentInstance().getELContext();
+    ValueExpression valExp = exp.createValueExpression(el, "#{rowNumber mod 2 eq 0 ? 'even-row' : 'odd-row'}", String.class);
+    this.defaultDataTableModel.setValueExpression("rowStyleClass", valExp);
+    this.defaultDataTableModel.setEmptyMessage(MessageBundleLoader.getMessage("messages.code.2015"));
+    return this.defaultDataTableModel;
+  }
 
-    public Dialog getDefaultDialogModel() {
-        defaultDialogModel = new Dialog();
-        defaultDialogModel.setModal(true);
-        defaultDialogModel.setMaximizable(false);
-        defaultDialogModel.setClosable(true);
-        defaultDialogModel.setResizable(false);
-        defaultDialogModel.setShowHeader(true);
-        defaultDialogModel.setCloseOnEscape(true);
+  public DataTable getLazyDataTableModel() {
+    this.lazyDataTableModel = new DataTable();
+    this.lazyDataTableModel.setRows(Integer.parseInt("10"));
+    this.lazyDataTableModel.setPaginator(true);
+    this.lazyDataTableModel.setLazy(true);
+    this.lazyDataTableModel.setPaginatorPosition("bottom");
+    this.lazyDataTableModel.setPaginatorTemplate("{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}");
+    this.lazyDataTableModel.setRowsPerPageTemplate("10,50,100,500,1000");
+    this.lazyDataTableModel.setRowIndexVar("rowNumber");
+    this.lazyDataTableModel.setCurrentPageReportTemplate("({currentPage}/{totalPages})");
+    this.lazyDataTableModel.setEmptyMessage(MessageBundleLoader.getMessage("messages.code.2015"));
+    return this.lazyDataTableModel;
+  }
 
-//        defaultDialogModel.setAppendTo("@(body)");
-//        defaultDialogModel.setHeight("450");
-        defaultDialogModel.setMinWidth(500);
-        defaultDialogModel.setFooter(MessageBundleLoader.getMessage(MessageBundleLoader.APP_MESSAGE_PATH, "app.footer"));
-//        defaultDialogModel.setFooter("<font style=\"color: #666666;font-size: smaller;\">" + MessageBundleLoader.getMessage(MessageBundleLoader.APP_MESSAGE_PATH, "app.footer") + "</font>");
-        return defaultDialogModel;
-    }
+  public CommandButton getBtnView() {
+    this.btnView = new CommandButton();
+    this.btnView.setIcon("fa fa-file-o");
+    this.btnView.setGlobal(false);
+    this.btnView.setAjax(true);
 
-    public DataTable getDataTableModel() {
-        dataTableModel = new DataTable();
-        dataTableModel.setRows(Integer.parseInt(DATATABLE_ROWS));
-        dataTableModel.setPaginator(true);
-        dataTableModel.setPaginatorPosition(DATATABLE_PAGINATOR_POSITION);
-        dataTableModel.setPaginatorTemplate(DATATABLE_PAGINATOR_TEMPLATE);
-        dataTableModel.setRowsPerPageTemplate(DATATABLE_ROWS_TEMPLATE);
-        dataTableModel.setCurrentPageReportTemplate(DATATABLE_CURRENT_PAGE_REPORT_TEMPLATE);
-        dataTableModel.setRowIndexVar(DATATABLE_ROW_INDEX_VAR);
-        dataTableModel.setSortMode(DATATABLE_SORT_MODE);
-        dataTableModel.setEmptyMessage(MessageBundleLoader.getMessage("messages.code.2015"));
-        return dataTableModel;
-    }
+    return this.btnView;
+  }
 
-    public DataTable getDefaultDataTableModel() {
-        defaultDataTableModel = new DataTable();
-        defaultDataTableModel.setRows(Integer.parseInt(DATATABLE_ROWS));
-        defaultDataTableModel.setPaginator(true);
-        defaultDataTableModel.setPaginatorPosition(DATATABLE_PAGINATOR_POSITION);
-        defaultDataTableModel.setPaginatorTemplate(DATATABLE_PAGINATOR_TEMPLATE);
-        defaultDataTableModel.setRowsPerPageTemplate(DATATABLE_ROWS_TEMPLATE);
-        defaultDataTableModel.setCurrentPageReportTemplate(DATATABLE_CURRENT_PAGE_REPORT_TEMPLATE);
-        defaultDataTableModel.setRowIndexVar(DATATABLE_ROW_INDEX_VAR);
-        defaultDataTableModel.setSortMode(DATATABLE_SORT_MODE);
-        ExpressionFactory exp = FacesContext.getCurrentInstance().getApplication().getExpressionFactory();
-        ELContext el = FacesContext.getCurrentInstance().getELContext();
-        ValueExpression valExp = exp.createValueExpression(el, "#{rowNumber mod 2 eq 0 ? 'even-row' : 'odd-row'}", String.class);
-        defaultDataTableModel.setValueExpression("rowStyleClass", valExp);
-        defaultDataTableModel.setEmptyMessage(MessageBundleLoader.getMessage("messages.code.2015"));
-        return defaultDataTableModel;
-    }
+  public CommandButton getBtnAdd() {
+    this.btnAdd = new CommandButton();
+    this.btnAdd.setIcon("fa fa-plus");
 
-    public DataTable getLazyDataTableModel() {
-        lazyDataTableModel = new DataTable();
-        lazyDataTableModel.setRows(Integer.parseInt(DATATABLE_ROWS));
-        lazyDataTableModel.setPaginator(true);
-        lazyDataTableModel.setLazy(true);
-        lazyDataTableModel.setPaginatorPosition(DATATABLE_PAGINATOR_POSITION);
-        lazyDataTableModel.setPaginatorTemplate(DATATABLE_PAGINATOR_TEMPLATE);
-        lazyDataTableModel.setRowsPerPageTemplate(DATATABLE_ROWS_TEMPLATE);
-        lazyDataTableModel.setRowIndexVar(DATATABLE_ROW_INDEX_VAR);
-        lazyDataTableModel.setCurrentPageReportTemplate(DATATABLE_CURRENT_PAGE_REPORT_TEMPLATE);
-        lazyDataTableModel.setEmptyMessage(MessageBundleLoader.getMessage("messages.code.2015"));
-        return lazyDataTableModel;
-    }
+    this.btnAdd.setGlobal(false);
+    this.btnAdd.setAjax(true);
 
-    public CommandButton getBtnView() {
-        btnView = new CommandButton();
-        btnView.setIcon("fa fa-file-o");
-        btnView.setGlobal(false);
-        btnView.setAjax(true);
-//        btnView.setValue(MessageBundleLoader.getMessage("btn.view"));
-        return btnView;
-    }
+    return this.btnAdd;
+  }
 
-    public CommandButton getBtnAdd() {
-        btnAdd = new CommandButton();
-        btnAdd.setIcon("fa fa-plus");
-//        btnAdd.setStyleClass("add-btn");
-        btnAdd.setGlobal(false);
-        btnAdd.setAjax(true);
-//        btnAdd.setValue(MessageBundleLoader.getMessage("btn.add"));
-        return btnAdd;
-    }
+  public CommandButton getBtnEdit() {
+    this.btnEdit = new CommandButton();
+    this.btnEdit.setIcon("fa fa-edit");
+    this.btnEdit.setGlobal(false);
+    this.btnEdit.setAjax(true);
 
-    public CommandButton getBtnEdit() {
-        btnEdit = new CommandButton();
-        btnEdit.setIcon("fa fa-edit");
-        btnEdit.setGlobal(false);
-        btnEdit.setAjax(true);
-//        btnEdit.setValue(MessageBundleLoader.getMessage("btn.edit"));
-        return btnEdit;
-    }
+    return this.btnEdit;
+  }
 
-    public CommandButton getBtnDelete() {
-        btnDelete = new CommandButton();
-        btnDelete.setIcon("fa fa-trash");
-        btnDelete.setGlobal(false);
-        btnDelete.setAjax(true);
-//        btnDelete.setValue(MessageBundleLoader.getMessage("btn.delete"));
-        return btnDelete;
-    }
+  public CommandButton getBtnDelete() {
+    this.btnDelete = new CommandButton();
+    this.btnDelete.setIcon("fa fa-trash");
+    this.btnDelete.setGlobal(false);
+    this.btnDelete.setAjax(true);
 
-    public CommandButton getBtnSearch() {
-        btnSearch = new CommandButton();
-        btnSearch.setIcon("fa fa-search");
-//        btnSearch.setStyleClass("search-btn");
-//        btnSearch.setGlobal(false);
-        btnSearch.setAjax(true);
-//        btnSearch.setValue(MessageBundleLoader.getMessage("btn.search"));
-        return btnSearch;
-    }
+    return this.btnDelete;
+  }
 
-    public CommandButton getBtnExport() {
-        btnExport = new CommandButton();
-        btnExport.setIcon("fa fa-download");
-        btnExport.setGlobal(false);
-        btnExport.setAjax(false);
-//        btnExport.setValue(MessageBundleLoader.getMessage("btn.export"));
-        return btnExport;
-    }
+  public CommandButton getBtnSearch() {
+    this.btnSearch = new CommandButton();
+    this.btnSearch.setIcon("fa fa-search");
 
-    public CommandButton getBtnImport() {
-        btnImport = new CommandButton();
-        btnImport.setIcon("fa fa-upload");
-        btnImport.setGlobal(false);
-        btnImport.setAjax(true);
-//        btnImport.setValue(MessageBundleLoader.getMessage("btn.import"));
-        return btnImport;
-    }
+    this.btnSearch.setAjax(true);
 
-    public CommandButton getBtnSelected() {
-        btnSelected = new CommandButton();
-        btnSelected.setIcon("fa fa-check");
-        btnSelected.setGlobal(false);
-        btnSelected.setAjax(true);
-//        btnSelected.setValue(MessageBundleLoader.getMessage("btn.select"));
-        return btnSelected;
-    }
+    return this.btnSearch;
+  }
 
-    public CommandButton getBtnReset() {
-        btnReset = new CommandButton();
-        btnReset.setIcon("fa fa-ban");
-        btnReset.setGlobal(false);
-        btnReset.setAjax(true);
-//        btnReset.setValue(MessageBundleLoader.getMessage("btn.reset"));
-        return btnReset;
-    }
+  public CommandButton getBtnExport() {
+    this.btnExport = new CommandButton();
+    this.btnExport.setIcon("fa fa-download");
+    this.btnExport.setGlobal(false);
+    this.btnExport.setAjax(false);
 
-    public CommandButton getBtnExportExcel() {
-        btnExportExcel = new CommandButton();
-        btnExportExcel.setIcon("fa fa-file-excel-o");
-        btnExportExcel.setGlobal(false);
-        btnExportExcel.setAjax(false);
-//        btnExportExcel.setValue(MessageBundleLoader.getMessage("btn.export"));
-        return btnExportExcel;
-    }
+    return this.btnExport;
+  }
 
-    public CommandButton getBtnExportPdf() {
-        btnExportPdf = new CommandButton();
-        btnExportPdf.setIcon("fa fa-file-pdf-o");
-        btnExportPdf.setGlobal(false);
-        btnExportPdf.setAjax(false);
-//        btnExportPdf.setValue(MessageBundleLoader.getMessage("btn.export"));
-        return btnExportPdf;
-    }
+  public CommandButton getBtnImport() {
+    this.btnImport = new CommandButton();
+    this.btnImport.setIcon("fa fa-upload");
+    this.btnImport.setGlobal(false);
+    this.btnImport.setAjax(true);
 
-    public CommandButton getBtnSave() {
-        btnSave = new CommandButton();
-        btnSave.setIcon("fa fa-save");
-//        btnSave.setStyleClass("save-btn");
-//        btnSave.setValue(MessageBundleLoader.getMessage("btn.save"));
-        return btnSave;
-    }
+    return this.btnImport;
+  }
 
-    public CommandButton getBtnCancel() {
-        btnCancel = new CommandButton();
-        btnCancel.setIcon("fa fa-ban");
-//        btnCancel.setStyleClass("cancel-btn");
-//        btnCancel.setValue(MessageBundleLoader.getMessage("btn.cancel"));
-        return btnCancel;
-    }
+  public CommandButton getBtnSelected() {
+    this.btnSelected = new CommandButton();
+    this.btnSelected.setIcon("fa fa-check");
+    this.btnSelected.setGlobal(false);
+    this.btnSelected.setAjax(true);
 
-    public Calendar getCalendar() {
-        calendar = new Calendar();
-        calendar.setPattern("dd-MM-yyyy");
-        calendar.setShowOn("button");
-        calendar.setShowButtonPanel(true);
-        calendar.setNavigator(true);
-        calendar.setLocale(new Locale("en", "US"));
-        return calendar;
-    }
+    return this.btnSelected;
+  }
 
-    public CommandButton getBtnBack() {
-        btnBack = new CommandButton();
-        btnBack.setIcon("fa fa-reply");
-//        btnCancel.setStyleClass("cancel-btn");
-//        btnCancel.setValue(MessageBundleLoader.getMessage("btn.cancel"));
-        return btnBack;
-    }
+  public CommandButton getBtnReset() {
+    this.btnReset = new CommandButton();
+    this.btnReset.setIcon("fa fa-ban");
+    this.btnReset.setGlobal(false);
+    this.btnReset.setAjax(true);
 
-    public void setBtnBack(CommandButton btnBack) {
-        this.btnBack = btnBack;
-    }
+    return this.btnReset;
+  }
 
-    public void setDataTableModel(DataTable dataTableModel) {
-        this.dataTableModel = dataTableModel;
-    }
+  public CommandButton getBtnExportExcel() {
+    this.btnExportExcel = new CommandButton();
+    this.btnExportExcel.setIcon("fa fa-file-excel-o");
+    this.btnExportExcel.setGlobal(false);
+    this.btnExportExcel.setAjax(false);
 
-    public void setBtnSearch(CommandButton btnSearch) {
-        this.btnSearch = btnSearch;
-    }
+    return this.btnExportExcel;
+  }
 
-    public void setBtnView(CommandButton btnView) {
-        this.btnView = btnView;
-    }
+  public CommandButton getBtnExportPdf() {
+    this.btnExportPdf = new CommandButton();
+    this.btnExportPdf.setIcon("fa fa-file-pdf-o");
+    this.btnExportPdf.setGlobal(false);
+    this.btnExportPdf.setAjax(false);
 
-    public void setBtnAdd(CommandButton btnAdd) {
-        this.btnAdd = btnAdd;
-    }
+    return this.btnExportPdf;
+  }
 
-    public void setBtnEdit(CommandButton btnEdit) {
-        this.btnEdit = btnEdit;
-    }
+  public CommandButton getBtnSave() {
+    this.btnSave = new CommandButton();
+    this.btnSave.setIcon("fa fa-save");
 
-    public void setBtnDelete(CommandButton btnDelete) {
-        this.btnDelete = btnDelete;
-    }
+    return this.btnSave;
+  }
 
-    public void setBtnExport(CommandButton btnExport) {
-        this.btnExport = btnExport;
-    }
+  public CommandButton getBtnCancel() {
+    this.btnCancel = new CommandButton();
+    this.btnCancel.setIcon("fa fa-ban");
 
-    public void setBtnImport(CommandButton btnImport) {
-        this.btnImport = btnImport;
-    }
+    return this.btnCancel;
+  }
 
-    public void setDefaultDialogModel(Dialog defaultDialogModel) {
-        this.defaultDialogModel = defaultDialogModel;
-    }
+  public Calendar getCalendar() {
+    this.calendar = new Calendar();
+    this.calendar.setPattern("dd-MM-yyyy");
+    this.calendar.setShowOn("button");
+    this.calendar.setShowButtonPanel(true);
+    this.calendar.setNavigator(true);
+    this.calendar.setLocale(new Locale("en", "US"));
+    return this.calendar;
+  }
 
-    public void setDefaultDataTableModel(DataTable defaultDataTableModel) {
-        this.defaultDataTableModel = defaultDataTableModel;
-    }
+  public CommandButton getBtnBack() {
+    this.btnBack = new CommandButton();
+    this.btnBack.setIcon("fa fa-reply");
 
-    public void setLazyDataTableModel(DataTable lazyDataTableModel) {
-        this.lazyDataTableModel = lazyDataTableModel;
-    }
+    return this.btnBack;
+  }
 
-    public void setBtnSelected(CommandButton btnSelected) {
-        this.btnSelected = btnSelected;
-    }
+  public void setBtnBack(CommandButton btnBack) {
+    this.btnBack = btnBack;
+  }
 
-    public void setBtnReset(CommandButton btnReset) {
-        this.btnReset = btnReset;
-    }
+  public void setDataTableModel(DataTable dataTableModel) {
+    this.dataTableModel = dataTableModel;
+  }
 
-    public void setBtnExportExcel(CommandButton btnExportExcel) {
-        this.btnExportExcel = btnExportExcel;
-    }
+  public void setBtnSearch(CommandButton btnSearch) {
+    this.btnSearch = btnSearch;
+  }
 
-    public void setBtnExportPdf(CommandButton btnExportPdf) {
-        this.btnExportPdf = btnExportPdf;
-    }
+  public void setBtnView(CommandButton btnView) {
+    this.btnView = btnView;
+  }
 
-    public void setBtnSave(CommandButton btnSave) {
-        this.btnSave = btnSave;
-    }
+  public void setBtnAdd(CommandButton btnAdd) {
+    this.btnAdd = btnAdd;
+  }
 
-    public void setBtnCancel(CommandButton btnCancel) {
-        this.btnCancel = btnCancel;
-    }
+  public void setBtnEdit(CommandButton btnEdit) {
+    this.btnEdit = btnEdit;
+  }
 
-    public void setCalendar(Calendar calendar) {
-        this.calendar = calendar;
-    }
+  public void setBtnDelete(CommandButton btnDelete) {
+    this.btnDelete = btnDelete;
+  }
 
-    public void setDialogModel(Dialog dialogModel) {
-        this.dialogModel = dialogModel;
-    }
+  public void setBtnExport(CommandButton btnExport) {
+    this.btnExport = btnExport;
+  }
 
+  public void setBtnImport(CommandButton btnImport) {
+    this.btnImport = btnImport;
+  }
+
+  public void setDefaultDialogModel(Dialog defaultDialogModel) {
+    this.defaultDialogModel = defaultDialogModel;
+  }
+
+  public void setDefaultDataTableModel(DataTable defaultDataTableModel) {
+    this.defaultDataTableModel = defaultDataTableModel;
+  }
+
+  public void setLazyDataTableModel(DataTable lazyDataTableModel) {
+    this.lazyDataTableModel = lazyDataTableModel;
+  }
+
+  public void setBtnSelected(CommandButton btnSelected) {
+    this.btnSelected = btnSelected;
+  }
+
+  public void setBtnReset(CommandButton btnReset) {
+    this.btnReset = btnReset;
+  }
+
+  public void setBtnExportExcel(CommandButton btnExportExcel) {
+    this.btnExportExcel = btnExportExcel;
+  }
+
+  public void setBtnExportPdf(CommandButton btnExportPdf) {
+    this.btnExportPdf = btnExportPdf;
+  }
+
+  public void setBtnSave(CommandButton btnSave) {
+    this.btnSave = btnSave;
+  }
+
+  public void setBtnCancel(CommandButton btnCancel) {
+    this.btnCancel = btnCancel;
+  }
+
+  public void setCalendar(Calendar calendar) {
+    this.calendar = calendar;
+  }
+
+  public void setDialogModel(Dialog dialogModel) {
+    this.dialogModel = dialogModel;
+  }
 }

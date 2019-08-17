@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <style>
+        .left_panel{
+            width: 150px;
+        }
+        .ui-autocomplete-input{ 
+            width: 370px;
+        }
+
+        .customDialog .ui-dialog-title {
+            font-size: 150% !important;
+            color: #ffffff;
+        }
+
+        .customDialog .ui-dialog-content {
+            padding: 0;
+            margin: 10px 10px;
+        }
+        .customDialog .ui-dialog-titlebar.ui-widget-header {
+            background: #C0C0C0;
+            color: black;
+            box-shadow: none;
+        }
+        .pe-inputNumber {
+            text-align: right;
+            width:120px;
+            float:right;
+            font-size: 24px;
+        }
+    </style>
+    <p:panel header="Q103 - จองหมายเลข ใบเสนอราคา(Upload)">
+
+        <h:form id="listForm">
+            <p:messages id="create_msg" autoUpdate="false" showIcon="false" style="width: 98%;margin-left: auto;margin-right: auto;"/>
+
+            <p:panel id="panel1" style="max-width: 900px;margin-bottom: 10px;border: 0px;text-align: right">
+                <h:panelGroup>
+                    <font class="require">*</font>
+                    <h:outputLabel value=" Required Fields" style="font-weight: bolder;" styleClass="sub-label"/>
+                </h:panelGroup>
+            </p:panel>
+
+            <p:panel id="panel2" header="การจองหมายเลข"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
+                <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-3" styleClass="ui-panelgrid-blank">
+                    <h:panelGroup >
+                        <p:outputLabel value="วันเดือนปี ออกเลขจอง ："/>
+                    </h:panelGroup>
+                    <p:calendar id="startDate" value="#{q103Controller.selectDtDraft}" binding="#{bindingController.calendar}" 
+                                pattern="dd-MM-yyyy"  size="10" requiredMessage="#{msgs['messages.code.1022']}" 
+                                mindate="#{q103Controller.minDtDraft}" maxdate="#{q103Controller.maxDtDraft}">
+                        <p:ajax event="dateSelect" listener="#{q103Controller.selectDateDraft()}" update="listForm:documentno" global="false"/>
+                        <ui:remove><p:ajax event="change" listener="#{q103Controller.selectDateDraft()}"/></ui:remove> 
+                    </p:calendar>
+                    
+                    <h:panelGroup >
+                        <p:outputLabel value="เลขที่เริมตั้งแต่ ："/>
+                    </h:panelGroup>
+                    <h:outputText id="documentno" value="#{q103Controller.selected.documentno}"   styleClass="lb_bold"/>
+                    
+                    <h:panelGroup>
+                        <p:outputLabel value="เลขที่ ต้องการจอง จำนวน ："/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <pe:inputNumber  decimalPlaces="0" value="#{q103Controller.draftNo}"  emptyValue="0" styleClass="lb_bold" style="width: 20px;" rendered="false"/>
+                     <p:inputNumber value="#{q103Controller.draftNo}" minValue="0" emptyValue="0"  decimalPlaces="0"
+                                    inputStyle="text-align: right;width:152px;" />
+                </p:panelGrid>
+            </p:panel>
+
+            <h:panelGroup style="margin: 5px;">
+                <p:commandButton binding="#{bindingController.btnSave}" value="#{msgs['btn.save']}" 
+                                 actionListener="#{q103Controller.createDraft()}" styleClass="edit-btn" update=":content"/>
+                <p:commandButton binding="#{bindingController.btnCancel}" value="#{msgs['btn.cancel']}" 
+                                 actionListener="#{q103Controller.cancel('quotation/q103/index')}" styleClass="clear-btn" update=":content"/>
+            </h:panelGroup>
+        </h:form>
+    </p:panel>
+</ui:composition>

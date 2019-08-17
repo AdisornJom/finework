@@ -168,7 +168,4 @@ public class ComboController extends BaseController {
     public void setWhtTypeRents(List<SelectItem> whtTypeRents) {
         this.whtTypeRents = whtTypeRents;
     }
-
-  
-   
 }
