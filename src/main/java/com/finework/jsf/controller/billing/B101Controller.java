@@ -302,7 +302,8 @@ public class B101Controller extends BaseController {
             map.put("bill_date",DateTimeUtil.cvtDateForShow(rpt_sysbilling.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")));
             
             map.put("reportCode", "B101");
-            report.exportSubReport("b101", new String[]{"B101Report","B101SubReport"}, "BILL", map, reportList_);
+            //report.exportSubReport("b101", new String[]{"B101Report","B101SubReport"}, "BILL", map, reportList_);
+            report.exportSubReport_Heading("billing_note.png","b101", new String[]{"B101Report","B101SubReport"}, "BILL", map, reportList_); 
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
             LOG.error(ex);

@@ -78,7 +78,7 @@ public class Q100Controller extends BaseController
     private String total1_th;
     private SysCustomer cust_selected;
     private SysWorkunit workunit_selected;
-    private List<SysDetail> allSysDetail;
+    private List<SysDetail> allSysDetails;
     
     public Q100Controller() {
         this.total1 = 0.0;
@@ -92,7 +92,7 @@ public class Q100Controller extends BaseController
         try {
             this.allCustomers = (List<SysCustomer>)this.customerFacade.findSysCustomerList();
             this.allWorkunit = (List<SysWorkunit>)this.customerFacade.findSysWorkunitList();
-            this.allSysDetail = stockFacade.findSysDetailList();
+            this.allSysDetails = stockFacade.findSysDetailList();
             this.search();
             this.searchHeading();
         }
@@ -268,6 +268,23 @@ public class Q100Controller extends BaseController
         }
     }
     
+    public void approveStatus() {
+        try {
+            this.selected.setModifiedBy(this.userInfo.getAdminUser().getUsername());
+            this.selected.setModifiedDt(DateTimeUtil.getSystemDate());
+            this.quotationFacade.editSysMainQuotation(this.selected);
+            this.clearData();
+            this.clearDatatTotal1();
+            this.search();
+            JsfUtil.addFacesInformationMessage(MessageBundleLoader.getMessage("messages.code.4001"));
+            this.next("quotation/q100/index");
+        }
+        catch (Exception ex) {
+            JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
+            Q100Controller.LOG.error((Object)ex);
+        }
+    }
+    
     public void delete() {
         try {
             this.quotationFacade.deleteSysMainQuotation(this.selected);
@@ -339,7 +356,7 @@ public class Q100Controller extends BaseController
     
     public void addDetail1() {
         try {
-            if (this.dumpMyDetail_selected1.getUnit() == null || this.dumpMyDetail_selected1.getVolume() == null) {
+            if (this.dumpMyDetail_selected1.getHeading() == null || this.dumpMyDetail_selected1.getUnit() == null || this.dumpMyDetail_selected1.getVolume() == null) {
                 return;
             }
             if (this.dumpMyDetail_selected1.getValueUnit() == null && this.dumpMyDetail_selected1.getValueUnit() <= 0.0) {
@@ -453,6 +470,22 @@ public class Q100Controller extends BaseController
         return filteredWorkunit;
     }
     
+    public void renderPrice() {
+        String METHOD_NAME = "renderPrice";
+        try {
+            if(null !=dumpMyDetail_selected1.getSysDetail()){
+               dumpMyDetail_selected1.setDetail(dumpMyDetail_selected1.getSysDetail().getDetailDesc());
+               //dumpMyDetail_selected1.setValueUnit(dumpMyDetail_selected1.getSysDetail().getPrice());
+            }else{
+               dumpMyDetail_selected1.setDetail("");
+               //dumpMyDetail_selected1.setValueUnit(0.0);
+            }
+        } catch (Exception ex) {
+            LOG.error(METHOD_NAME + ":" + ex.getMessage());
+        }
+    }
+
+    
     public void runningNoCustomer(final Date date) {
         final String yearMonth = DateTimeUtil.cvtDateForShow(date, "yyMM", new Locale("th", "TH"));
         final String sequence_no = this.sequence.runningNoNewQuoation(yearMonth);
@@ -526,6 +559,10 @@ public class Q100Controller extends BaseController
             map.put("total1_net", NumberUtils.numberFormat(total1_net, "#,##0.00"));
             map.put("total1_char", (total1_net == 0.0) ? "" : new ThaiBaht().getText((Number)total1_net));
             map.put("reportCode", "Q100");
+            map.put("approve", null != rpt_sysDelivery.getApprove() ? rpt_sysDelivery.getApprove() : "-");
+            map.put("remark1", null != rpt_sysDelivery.getRemark1() ? rpt_sysDelivery.getRemark1() : "-");
+            map.put("userInfo", userInfo.getAdminUser().getFirstName()+"  "+userInfo.getAdminUser().getLastName());
+            
             report.exportSubReportQ100("q100", new String[] { "Q100Report", "Q100SubReport" }, "Q100", map, reportList_);
         }
         catch (Exception ex) {
@@ -603,6 +640,10 @@ public class Q100Controller extends BaseController
             map.put("total1_net", NumberUtils.numberFormat(total1_net, "#,##0.00"));
             map.put("total1_char", (total1_net == 0.0) ? "" : new ThaiBaht().getText((Number)total1_net));
             map.put("reportCode", "Q100");
+            map.put("approve", null != rpt_sysDelivery.getApprove() ? rpt_sysDelivery.getApprove() : "-");
+            map.put("remark1", null != rpt_sysDelivery.getRemark1() ? rpt_sysDelivery.getRemark1() : "-");
+            map.put("userInfo", userInfo.getAdminUser().getFirstName()+"  "+userInfo.getAdminUser().getLastName());
+            
             report.exportSubReportQ100("q100", new String[] { "Q100Report2", "Q100SubReport2" }, "Q100", map, reportList_);
         }
         catch (Exception ex) {
@@ -645,7 +686,7 @@ public class Q100Controller extends BaseController
                     bean.setValuePerUnit(NumberUtils.numberFormat((null != to.getVolumePerUnit() ? to.getVolumePerUnit() : 1.0), "#,##0"));
                     bean.setTotal(NumberUtils.numberFormat(to.getVolume() * ((null != to.getVolumePerUnit() ? to.getVolumePerUnit() : 1.0)), "#,##0"));
                     bean.setAmount(NumberUtils.numberFormat(to.getAmount(), "#,##0.00"));
-                    total1_ += to.getAmount() * ((null != to.getVolumePerUnit()) ? to.getVolumePerUnit() : 0.0);
+                    total1_ += to.getAmount() * ((null != to.getVolumePerUnit()) ? to.getVolumePerUnit() : 1.0);
                     reportList1.add(bean);
                 }
             }
@@ -682,6 +723,10 @@ public class Q100Controller extends BaseController
             map.put("total1_net", NumberUtils.numberFormat(total1_net, "#,##0.00"));
             map.put("total1_char", (total1_net == 0.0) ? "" : new ThaiBaht().getText((Number)total1_net));
             map.put("reportCode", "Q100");
+            map.put("approve", null != rpt_sysDelivery.getApprove() ? rpt_sysDelivery.getApprove() : "-");
+            map.put("remark1", null != rpt_sysDelivery.getRemark1() ? rpt_sysDelivery.getRemark1() : "-");
+            map.put("userInfo", userInfo.getAdminUser().getFirstName()+"  "+userInfo.getAdminUser().getLastName());
+            
             report.exportSubReportQ100("q100", new String[] { "Q100Report3", "Q100SubReport3" }, "Q100", map, reportList_);
         }
         catch (Exception ex) {
@@ -876,4 +921,13 @@ public class Q100Controller extends BaseController
     static {
         LOG = Logger.getLogger((Class)Q100Controller.class);
     }
+
+    public List<SysDetail> getAllSysDetails() {
+        return allSysDetails;
+    }
+
+    public void setAllSysDetails(List<SysDetail> allSysDetails) {
+        this.allSysDetails = allSysDetails;
+    }
+    
 }

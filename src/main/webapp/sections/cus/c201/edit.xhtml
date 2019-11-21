@@ -33,6 +33,14 @@
                     <div class="ui-fluid">
                         <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-7" styleClass="ui-panelgrid-blank">
                             <h:panelGroup>
+                                <p:outputLabel for="workunitcode" value="รหัสหน่วยงาน :" />
+                                <font class="require">*</font>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <p:inputText id="workunitcode" value="#{c201Controller.selected.workunitCode}" style="width: 400px;"/>
+                            </h:panelGroup>
+                            
+                            <h:panelGroup>
                                 <p:outputLabel for="item_name_th" value="#{msgs['c201.custom.name_th']} :" />
                                 <font class="require">*</font>
                             </h:panelGroup>

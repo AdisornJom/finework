@@ -30,6 +30,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
+import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -363,7 +365,8 @@ public class B107Controller extends BaseController {
            // map.put("bill_date",DateTimeUtil.cvtDateForShow(rpt_sysDelivery.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")));
             
             map.put("reportCode", "B107");
-            report.exportSubReport("b107", new String[]{"B107Report","B107SubReport"}, "B107", map, reportList_);
+            //report.exportSubReport("b107", new String[]{"B107Report","B107SubReport"}, "B107", map, reportList_);
+            report.exportSubReport_Heading("delivery_bill.png","b107", new String[]{"B107Report","B107Report"}, "B107", map, reportList_); 
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
             LOG.error(ex);
@@ -432,7 +435,7 @@ public class B107Controller extends BaseController {
                    // map.put("bill_date",DateTimeUtil.cvtDateForShow(rpt_sysbilling.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")));
 
                     map.put("reportCode", "B107");
-                    JasperPrint print= report.exportSubReport_Template_mearge("template.jpg","b107", new String[]{"B107Report","B107SubReport"}, "B107", map, reportList_);
+                    JasperPrint print= report.exportSubReport_Template_mearge_heading("delivery_bill.png","b107", new String[]{"B107Report","B107SubReport"}, "B107", map, reportList_);
                     jasperPrintList.add(print);
              }
              if(!printSelected.isEmpty()){
@@ -494,7 +497,7 @@ public class B107Controller extends BaseController {
          try {
              //validate field iteam 
               if (detail_selected==null
-                    ||StringUtils.isBlank(detail_selected.getDetailDesc())
+                    //||StringUtils.isBlank(detail_selected.getDetailDesc())
                     ||StringUtils.isBlank(dvDetail_selected.getBillConvert())
                     ||StringUtils.isBlank(dvDetail_selected.getHouseNo())
                     ||StringUtils.isBlank(dvDetail_selected.getUnit())
@@ -516,7 +519,8 @@ public class B107Controller extends BaseController {
             if (selected.getSysBillingDetailList() == null) 
                  selected.setSysBillingDetailList(new ArrayList<SysBillingDetail>());
              
-             dvDetail_selected.setId(detail_selected.getDetailId());
+             //dvDetail_selected.setId(detail_selected.getDetailId());--
+             dvDetail_selected.setId(getRandomNumberInRange(1,10000));
              dvDetail_selected.setDetailCode(detail_selected.getDetailCode());
              dvDetail_selected.setDetail(detail_selected.getDetailDesc());
              dvDetail_selected.setTotalPrice(price * dvDetail_selected.getVolume().doubleValue());
@@ -804,6 +808,15 @@ public class B107Controller extends BaseController {
 
     public void setRealTotalPrice(Double realTotalPrice) {
         this.realTotalPrice = realTotalPrice;
+    }
+    
+    private  int getRandomNumberInRange(int min, int max) {
+	if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
     }
    
 }

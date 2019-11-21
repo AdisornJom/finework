@@ -495,7 +495,7 @@ public class B203Controller extends BaseController {
            
             
             map.put("reportCode", "B203");
-            report.exportSubReport_Template("template.jpg","b203", new String[]{"B203Report","B203SubReport"}, "Payment", map, reportList_); 
+            report.exportSubReport_Heading("reciept.png","b203", new String[]{"B203Report","B203SubReport"}, "B203", map, reportList_); 
             
 //            //add print form
 //            SysPrintBilling sysPrintBilling =new SysPrintBilling();
@@ -556,7 +556,8 @@ public class B203Controller extends BaseController {
                     map.put("remark",StringUtils.isNotBlank(rpt_sysPayment.getRemark())?rpt_sysPayment.getRemark():"...........................................................................................");
 
                     map.put("reportCode", "B203");
-                    JasperPrint print= report.exportSubReport_Template_mearge("template.jpg","b203", new String[]{"B203Report","B203SubReport"}, "Payment", map, reportList_);
+                    //JasperPrint print= report.exportSubReport_Template_mearge("template.jpg","b203", new String[]{"B203Report","B203SubReport"}, "B203", map, reportList_);
+                    JasperPrint print= report.exportSubReport_Template_mearge_heading("reciept.png","b203", new String[]{"B203Report","B203SubReport"}, "B203", map, reportList_);
                     jasperPrintList.add(print);
                    
 //                    //add print form

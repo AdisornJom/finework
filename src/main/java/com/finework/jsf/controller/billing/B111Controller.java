@@ -363,7 +363,8 @@ public class B111Controller extends BaseController {
            // map.put("bill_date",DateTimeUtil.cvtDateForShow(rpt_sysDelivery.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")));
             
             map.put("reportCode", "B111");
-            report.exportSubReport("b111", new String[]{"B111Report","B111SubReport"}, "B111", map, reportList_);
+           // report.exportSubReport("b111", new String[]{"B111Report","B111SubReport"}, "B111", map, reportList_);
+            report.exportSubReport_Heading("delivery_bill.png","b111", new String[]{"B111Report","B111SubReport"}, "B111", map, reportList_); 
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
             LOG.error(ex);
@@ -431,7 +432,8 @@ public void printPdfMuti(){
                    // map.put("bill_date",DateTimeUtil.cvtDateForShow(rpt_sysbilling.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")));
 
                     map.put("reportCode", "B111");
-                    JasperPrint print= report.exportSubReport_Template_mearge("template.jpg","b111", new String[]{"B111Report","B111SubReport"}, "B111", map, reportList_);
+                    //JasperPrint print= report.exportSubReport_Template_mearge("template.jpg","b111", new String[]{"B111Report","B111SubReport"}, "B111", map, reportList_);
+                    JasperPrint print= report.exportSubReport_Template_mearge_heading("delivery_bill.png","b111", new String[]{"B111Report","B111SubReport"}, "B111", map, reportList_);
                     jasperPrintList.add(print);
                   
              }

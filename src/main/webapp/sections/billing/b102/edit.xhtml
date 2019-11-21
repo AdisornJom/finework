@@ -49,30 +49,30 @@
 
             <p:panel id="panel2" header="#{msgs['m101.commoninfo']}"  style="max-width: 900px;margin-bottom: 10px;border-right: 0px;border-radius: 0px;">
                 <p:panelGrid columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-6" styleClass="ui-panelgrid-blank">
-                     <h:panelGroup>
+                    <h:panelGroup>
                         <p:outputLabel value="เลขที่ ："/>
                     </h:panelGroup>
                     <h:panelGroup>
                         <h:outputText value="#{b102Controller.selected.documentno}"   styleClass="lb_bold"/>
                     </h:panelGroup>
-                    
+
                     <h:panelGroup>
                         <p:outputLabel value="ชื่อลูกค้า ："/>
                     </h:panelGroup>
                     <h:panelGroup>
-                          <h:outputText value="#{b102Controller.selected.customerId.customerNameTh}"   styleClass="lb_bold"/>
+                        <h:outputText value="#{b102Controller.selected.customerId.customerNameTh}"   styleClass="lb_bold"/>
                     </h:panelGroup>
 
                     <h:panelGroup>
                         <p:outputLabel value="ที่อยู่ลูกค้า ："/>
                     </h:panelGroup>
-                          <h:outputText value="#{b102Controller.selected.customerId.customerAddress}" styleClass="lb_bold"/>
+                    <h:outputText value="#{b102Controller.selected.customerId.customerAddress}" styleClass="lb_bold"/>
                     <h:panelGroup>
                         <p:outputLabel value="วันที่ทำรายการ ："/>
                     </h:panelGroup>
-                          <h:outputText value="#{b102Controller.selected.sendDate}" styleClass="lb_bold">
-                                <f:convertDateTime pattern="dd-MM-yyyy"/>
-                          </h:outputText>
+                    <h:outputText value="#{b102Controller.selected.sendDate}" styleClass="lb_bold">
+                        <f:convertDateTime pattern="dd-MM-yyyy"/>
+                    </h:outputText>
 
                     <h:panelGroup>
                         <p:outputLabel value="หน่วยงาน ："/>
@@ -80,15 +80,24 @@
                     </h:panelGroup>
                     <h:panelGroup>
                         <p:autoComplete id="workunit" dropdown="true" value="#{b102Controller.selected.workunitId}" 
-                                       completeMethod="#{b102Controller.completeWorkunit}" 
-                                                 var="wkunit" itemLabel="#{wkunit.workunitName}" 
-                                                 itemValue="#{wkunit}" 
-                                                 converter="#{workUnitConverter}"
-                                                 scrollHeight="250"  >
-                          <p:ajax event="query" global="false"/>
-                       </p:autoComplete>
+                                        completeMethod="#{b102Controller.completeWorkunit}" 
+                                        var="wkunit" itemLabel="#{wkunit.workunitName}" 
+                                        itemValue="#{wkunit}" 
+                                        converter="#{workUnitConverter}"
+                                        scrollHeight="250"  >
+                            <p:ajax event="query" global="false"/>
+                        </p:autoComplete>
                         <p:watermark  for="workunit" value="กรอกข้อมูลเพื่อ ค้นหา" />
                     </h:panelGroup>
+
+                    <h:panelGroup >
+                        <p:outputLabel value="วันที่ครบกำหนดชำระ ：" style="float:right;background-color:#ffbac0"/>
+                        <font class="require">*</font>
+                    </h:panelGroup>
+                    <h:panelGroup >
+                        <p:calendar  binding="#{bindingController.calendar}" value="#{b102Controller.selected.billDateLast}" size="10" disabled="#{b102Controller.selected.flag eq 'B201'}"/>
+                    </h:panelGroup>
+                    <h:panelGroup/>
                 </p:panelGrid>
             </p:panel>
 

@@ -44,6 +44,18 @@
                 </h:outputText>     
             </p:column>
             
+            <p:column  headerText="สถานะใบกำกับภาษี" sortBy="#{item.flag}" style="width: 90px;text-align: center">
+                <h:outputText value="#{item.flag eq 'B201'?'ออกใบกำกับภาษีแล้ว':''}" style="color:red;" styleClass="lb_bold"/>
+            </p:column>
+            
+            <p:column headerText="กำกับภาษี" style="width: 30px;text-align: center">
+                  <p:tooltip for="b201" value="ใบกำกับภาษี" trackMouse="true"/>
+                  <p:commandButton id="b201" icon="fa fa-files-o"  action="#{b102Controller.createB201()}" disabled="#{item.flag eq 'B201'}"
+                                 update=":content" styleClass="edit-btn" ajax="fasle">
+                    <f:setPropertyActionListener value="#{item}" target="#{b102Controller.selected}" />
+                </p:commandButton>
+            </p:column>
+            
             <p:column style="width: 85px;text-align: center">
                   <p:tooltip for="report" value="ออกรายงาน" trackMouse="true"/>
                 <p:commandButton id="report" icon="fa fa-print"  action="#{b102Controller.reportPDF()}"

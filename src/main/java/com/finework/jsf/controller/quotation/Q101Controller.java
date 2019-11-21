@@ -1,5 +1,6 @@
 package com.finework.jsf.controller.quotation;
 
+import com.finework.core.ejb.entity.SysDetail;
 import com.finework.core.ejb.entity.SysMainQuotation;
 import com.finework.core.ejb.entity.SysMainQuotation1;
 import com.finework.core.ejb.entity.SysMainQuotation2;
@@ -44,8 +45,8 @@ import org.primefaces.model.UploadedFile;
 
 @Named(Q101Controller.CONTROLLER_NAME)
 @SessionScoped
-public class Q101Controller extends BaseController
-{
+public class Q101Controller extends BaseController{
+    
   private static final Logger LOG = Logger.getLogger(Q101Controller.class);
   public static final String CONTROLLER_NAME = "q101Controller";
 
@@ -104,12 +105,19 @@ public class Q101Controller extends BaseController
   private UploadedFile file3;
   private String newFile3 = "no_product.png";
   public static Map<String, String> CONFIG;
+  
+  private List<SysDetail> allSysDetails;
 
   @PostConstruct
-  public void init()
-  {
-    CONFIG = LoadConfig.loadFileDefault();
-    search();
+  public void init(){
+      try {
+          CONFIG = LoadConfig.loadFileDefault();
+          search();
+          this.allSysDetails = stockFacade.findSysDetailList();
+      } catch (Exception ex) {
+          JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
+          LOG.error(ex);
+      }
   }
 
   public void next(String path) {
@@ -982,15 +990,22 @@ public class Q101Controller extends BaseController
 
       map.put("price_total", NumberUtils.numberFormat(Double.valueOf(total1_net + total2_net + total3_net), "#,##0.00"));
       map.put("price_char", total1 == 0.0 ? "" : new ThaiBaht().getText(total1_net + total2_net + total3_net));
+      map.put("approve", null != rpt_sysDelivery.getApprove() ? rpt_sysDelivery.getApprove() : "-");
 
       String path = ((String)CONFIG.get("images.url")).concat("/quotation/");
       map.put("reportCode", "Q101");
       if ((cklist1) && (cklist2) && (cklist3))
-        report.exportSubReportQ101("q101", new String[] { "Q101Report3", "Q101SubReport1", "Q101SubReport2", "Q101SubReport3" }, "Q101", map, reportList_, new String[] { path + rpt_sysDelivery.getQuotationImg1(), path + rpt_sysDelivery.getQuotationImg2(), path + rpt_sysDelivery.getQuotationImg3() });
+        report.exportSubReportQ101("q101", new String[] { "Q101Report3", "Q101SubReport1", "Q101SubReport2", "Q101SubReport3" }, "Q101", map, reportList_, new String[] { 
+            (null!=rpt_sysDelivery.getQuotationImg1())? path + rpt_sysDelivery.getQuotationImg1():null, 
+            (null!=rpt_sysDelivery.getQuotationImg2())? path + rpt_sysDelivery.getQuotationImg2():null,
+            (null!=rpt_sysDelivery.getQuotationImg3())? path + rpt_sysDelivery.getQuotationImg3():null });
       else if ((cklist1) && (cklist2))
-        report.exportSubReportQ101("q101", new String[] { "Q101Report2", "Q101SubReport2_1", "Q101SubReport2_2" }, "Q101", map, reportList_, new String[] { path + rpt_sysDelivery.getQuotationImg1(), path + rpt_sysDelivery.getQuotationImg2(), "" });
+        report.exportSubReportQ101("q101", new String[] { "Q101Report2", "Q101SubReport2_1", "Q101SubReport2_2" }, "Q101", map, reportList_, new String[] { 
+            (null!=rpt_sysDelivery.getQuotationImg1())? path + rpt_sysDelivery.getQuotationImg1():null, 
+            (null!=rpt_sysDelivery.getQuotationImg2())? path + rpt_sysDelivery.getQuotationImg2():null, "" });
       else
-        report.exportSubReportQ101("q101", new String[] { "Q101Report1", "Q101SubReport1" }, "Q101", map, reportList_, new String[] { path + rpt_sysDelivery.getQuotationImg1(), "", "" });
+          report.exportSubReportQ101("q101", new String[] { "Q101Report1", "Q101SubReport1" }, "Q101", map, reportList_, 
+                  new String[] { (null!=rpt_sysDelivery.getQuotationImg1())? path + rpt_sysDelivery.getQuotationImg1():null, "", "" });
     }
     catch (Exception ex) {
       JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
@@ -1128,16 +1143,23 @@ public class Q101Controller extends BaseController
 
         map.put("price_total", NumberUtils.numberFormat(Double.valueOf(total1_net + total2_net + total3_net), "#,##0.00"));
         map.put("price_char", total1 == 0.0 ? "" : new ThaiBaht().getText(total1_net + total2_net + total3_net));
+        map.put("approve", null != rpt_sysDelivery.getApprove() ? rpt_sysDelivery.getApprove() : "-");
 
         JasperPrint print = null;
         String path = ((String)CONFIG.get("images.url")).concat("/quotation/");
         map.put("reportCode", "Q101");
         if ((cklist1) && (cklist2) && (cklist3))
-          print = report.exportSubReportQ101mearge("q101", new String[] { "Q101Report3", "Q101SubReport1", "Q101SubReport2", "Q101SubReport3" }, "Q101", map, reportList_, new String[] { path + rpt_sysDelivery.getQuotationImg1(), path + rpt_sysDelivery.getQuotationImg2(), path + rpt_sysDelivery.getQuotationImg3() });
+          print = report.exportSubReportQ101mearge("q101", new String[] { "Q101Report3", "Q101SubReport1", "Q101SubReport2", "Q101SubReport3" }, "Q101", map, reportList_, new String[] { 
+             (null != rpt_sysDelivery.getQuotationImg1()) ? path + rpt_sysDelivery.getQuotationImg1() : null,
+             (null != rpt_sysDelivery.getQuotationImg2()) ? path + rpt_sysDelivery.getQuotationImg2() : null,
+             (null != rpt_sysDelivery.getQuotationImg3()) ? path + rpt_sysDelivery.getQuotationImg3() : null});
         else if ((cklist1) && (cklist2))
-          print = report.exportSubReportQ101mearge("q101", new String[] { "Q101Report2", "Q101SubReport2_1", "Q101SubReport2_2" }, "Q101", map, reportList_, new String[] { path + rpt_sysDelivery.getQuotationImg1(), path + rpt_sysDelivery.getQuotationImg2(), "" });
+          print = report.exportSubReportQ101mearge("q101", new String[] { "Q101Report2", "Q101SubReport2_1", "Q101SubReport2_2" }, "Q101", map, reportList_, new String[] { 
+             (null != rpt_sysDelivery.getQuotationImg1()) ? path + rpt_sysDelivery.getQuotationImg1() : null,
+             (null != rpt_sysDelivery.getQuotationImg2()) ? path + rpt_sysDelivery.getQuotationImg2() : null, "" });
         else {
-          print = report.exportSubReportQ101mearge("q101", new String[] { "Q101Report1", "Q101SubReport1" }, "Q101", map, reportList_, new String[] { path + rpt_sysDelivery.getQuotationImg1(), "", "" });
+          print = report.exportSubReportQ101mearge("q101", new String[] { "Q101Report1", "Q101SubReport1" }, "Q101", map, reportList_, new String[] { 
+             (null != rpt_sysDelivery.getQuotationImg1()) ? path + rpt_sysDelivery.getQuotationImg1() : null, "", "" });
         }
         jasperPrintList.add(print);
       }
@@ -1434,4 +1456,14 @@ public class Q101Controller extends BaseController
   public void setTotal3_discount(Double total3_discount) {
     this.total3_discount = total3_discount;
   }
+
+    public List<SysDetail> getAllSysDetails() {
+        return allSysDetails;
+    }
+
+    public void setAllSysDetails(List<SysDetail> allSysDetails) {
+        this.allSysDetails = allSysDetails;
+    }
+  
+  
 }

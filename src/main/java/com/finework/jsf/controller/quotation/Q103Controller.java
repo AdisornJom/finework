@@ -203,11 +203,11 @@ public class Q103Controller extends BaseController
   {
     try
     {
-      if (StringUtils.isBlank(this.selected.getDocumentno())) {
-        JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", new Object[] { "เลขที่" }));
-        RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
-        return;
-      }
+//      if (StringUtils.isBlank(this.selected.getDocumentno())) {
+//        JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", new Object[] { "เลขที่" }));
+//        RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+//        return;
+//      }
 
       if (StringUtils.isBlank(this.selected.getSubject())) {
         JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", new Object[] { "เรื่อง" }));

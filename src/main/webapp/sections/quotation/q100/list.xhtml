@@ -71,6 +71,12 @@
             <p:column  headerText="สถานะ" sortBy="#{item.status}" style="width:50px;text-align: center;font-weight: bold;">
                 <h:outputText value="#{item.status}" style="color:#{item.status eq PFConstants.STATUS_APPROVE ?'green':item.status eq PFConstants.STATUS_CANCEL ?'red':''}"/>
             </p:column>
+            <p:column  headerText="ปรับสถานะ"  style="width:15px;text-align: center;font-weight: bold;">
+                <p:tooltip for="status" value="ปรับสถานะ" trackMouse="true"/>
+                <p:commandButton id="status" icon="fa fa-exchange"  action="#{q100Controller.prepareEdit('quotation/q100/edit-status')}" update=":content" styleClass="edit-btn">
+                    <f:setPropertyActionListener value="#{item}" target="#{q100Controller.selected}" />
+                </p:commandButton>
+            </p:column>
             
             <p:column style="width: 100px;text-align: center">
                 <p:tooltip for="report" value="แบบที่ 1" trackMouse="true"/>

@@ -266,6 +266,68 @@ public class B102Controller extends BaseController {
             LOG.error(ex);
         }
     }
+    
+    public void createB201() {
+      try {
+            //update staus
+            selected.setFlag("B201");
+            selected.setModifiedBy(userInfo.getAdminUser().getUsername());
+            selected.setModifiedDt(DateTimeUtil.getSystemDate()); 
+            billingFacade.editSysBilling(selected);
+
+            //insert Billing
+            selected.setBillingId(null);
+            selected.setBillingType(Constants.BILLING_GOOD_RECEIPT);
+            selected.setSendDate(DateTimeUtil.getSystemDate());
+            selected.setCreatedBy(userInfo.getAdminUser().getUsername());
+            selected.setCreatedDt(DateTimeUtil.getSystemDate());
+            selected.setModifiedBy(userInfo.getAdminUser().getUsername());
+            selected.setModifiedDt(DateTimeUtil.getSystemDate());
+            
+            //insertDetail
+            Double total_detail=0.0;
+            List<SysBillingDetail> detal_add=new ArrayList();
+            for(SysBillingDetail sysBillDetail_:selected.getSysBillingDetailList()){
+                sysBillDetail_.setId(null);//auto generate id on db
+                sysBillDetail_.setBillingId(selected);
+                total_detail=total_detail+sysBillDetail_.getTotalPrice();
+                detal_add.add(sysBillDetail_);
+            }
+            
+            checkTotalPrice();
+            
+            selected.setSysBillingDetailList(detal_add);
+            selected.setBillDiscount(this.total_discount);
+            selected.setBillTotal(this.total);
+            selected.setBillVat(this.total_vat);
+            selected.setBillTotalPrice(this.total_net);
+            selected.setRealTotalPrice(this.realTotalPrice);
+             
+            if(null != selected.getBillDateLast()){
+               runningNoCustomerB201(DateTimeUtil.getSystemDate());
+            }else{
+                JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessageFormat("messages.code.2002", "วันที่ครบกำหนดชำระ"));
+                RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+                return;
+            }
+            
+            billingFacade.createSysBilling(selected);
+         
+            clearData();
+            clearDatatTotal();
+            search();
+            JsfUtil.addFacesInformationMessage(MessageBundleLoader.getMessage("messages.code.4001"));
+            RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
+        } catch (Exception ex) {
+            JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
+            LOG.error(ex);
+        }
+    }
+    public void runningNoCustomerB201(Date date) {        
+        String yearMonth = DateTimeUtil.cvtDateForShow(date, "yyMM", new Locale("th", "TH")); 
+        String sequence_no=sequence.runningNoNew(yearMonth);
+        this.selected.setDocumentno(sequence_no);
+    } 
 
     @Override
     public void delete() {

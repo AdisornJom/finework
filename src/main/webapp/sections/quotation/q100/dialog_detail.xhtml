@@ -28,14 +28,13 @@
                     <p:outputLabel value="รายการ ："/>
                     <font class="require">*</font>
                 </h:panelGroup>
-                <p:selectOneMenu value="#{q100Controller.dumpMyDetail_selected1.heading}"  style="width: 340px !important"
+                <p:selectOneMenu value="#{q100Controller.dumpMyDetail_selected1.sysDetail}"  style="width: 340px !important"
                                  converter="omnifaces.SelectItemsConverter" filter="true" filterMatchMode="contains">
-                    <f:selectItem itemValue="#{null}" itemLabel="--หมวดเรื่อง--"/>
-                    <f:selectItems value="#{q100Controller.headingItems}" var="headings" 
-                                   itemLabel="#{headings.headingValue}" itemValue="#{headings.headingValue}"/>
+                    <f:selectItem itemValue="#{null}" itemLabel="--รายการสินค้า--"/>
+                    <f:selectItems value="#{q100Controller.allSysDetails}" var="detals" 
+                                   itemLabel="#{detals.detailDesc}" itemValue="#{detals}"/>
+                     <p:ajax event="change"  listener="#{q100Controller.renderPrice()}" update="unitpriceStandard"  process="@this unitpriceStandard" global="false" />
                 </p:selectOneMenu>
-                <p:inputTextarea value="#{q100Controller.dumpMyDetail_selected1.detail}" cols="30" rows="3" 
-                                 maxlength="250" style="width: 360px;" />
 
                 <h:panelGroup>
                     <p:outputLabel  value="จำนวน :" />
@@ -61,7 +60,12 @@
                     <font class="require">*</font>
                 </h:panelGroup>
                 <h:panelGroup>
-                    <p:inputText  value="#{q100Controller.dumpMyDetail_selected1.valueUnit}" maxlength="20" style="width: 100px;text-align: right;"/>
+                     <p:inputText  value="#{q100Controller.dumpMyDetail_selected1.valueUnit}" maxlength="20"  style="width: 100px; text-align: right;"/>
+                     <p:spacer/><p:spacer/>
+                     <p:outputLabel  value=" ราคามาตรฐาน :" />
+                     <h:outputText id="unitpriceStandard" value="#{q100Controller.dumpMyDetail_selected1.sysDetail.price}" style="width: 50px;color:green;" styleClass="lb_bold">
+                             <f:convertNumber  pattern="#,##0.00"/>
+                     </h:outputText> 
                 </h:panelGroup>
 
             </p:panelGrid>

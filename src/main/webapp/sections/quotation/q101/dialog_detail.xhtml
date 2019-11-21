@@ -8,11 +8,11 @@
                 xmlns:h="http://java.sun.com/jsf/html">
 
     <p:dialog id="dlg1" header="กรอกรายเอียด Group 1....." modal="true" 
-              widgetVar="selectDetail_dialog" width="600" 
+              widgetVar="selectDetail_dialog" width="750" 
               binding="#{bindingController.defaultDialogModel}" closeOnEscape="true" styleClass="customDialog">
        
         <h:form id="listFormDetail">
-            <p:panelGrid id="detail" columns="2" layout="grid"  columnClasses="ui-grid-col-4,ui-grid-col-7" styleClass="ui-panelgrid-blank">
+            <p:panelGrid id="detail" columns="2" layout="grid"  columnClasses="ui-grid-col-3,ui-grid-col-9" styleClass="ui-panelgrid-blank">
                 <h:panelGroup>
                     <p:outputLabel value="ลำดับ ："/>
                 </h:panelGroup>
@@ -20,9 +20,14 @@
                 
                 <h:panelGroup>
                     <p:outputLabel value="รายการ ："/>
+                    <font class="require">*</font>
                 </h:panelGroup>
-                <p:inputTextarea value="#{q101Controller.dumpMyDetail_selected1.detail}" cols="30" rows="3" 
-                                     maxlength="250" style="width: 360px;" />
+                <p:selectOneMenu value="#{q101Controller.dumpMyDetail_selected1.detail}"  style="width: 400px !important"
+                                 converter="omnifaces.SelectItemsConverter" filter="true" filterMatchMode="contains">
+                    <f:selectItem itemValue="#{null}" itemLabel="--รายการสินค้า--"/>
+                    <f:selectItems value="#{q101Controller.allSysDetails}" var="detals" 
+                                   itemLabel="#{detals.detailDesc}" itemValue="#{detals.detailDesc}"/>
+                </p:selectOneMenu>
 
                 <h:panelGroup>
                     <p:outputLabel for="volume" value="ปริมาณ :" />

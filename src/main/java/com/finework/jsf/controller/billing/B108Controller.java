@@ -31,6 +31,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -362,7 +363,8 @@ public class B108Controller extends BaseController {
            // map.put("bill_date",DateTimeUtil.cvtDateForShow(rpt_sysDelivery.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")));
             
             map.put("reportCode", "B108");
-            report.exportSubReport("b108", new String[]{"B108Report","B108SubReport"}, "B108", map, reportList_);
+           // report.exportSubReport("b108", new String[]{"B108Report","B108SubReport"}, "B108", map, reportList_);
+            report.exportSubReport_Heading("delivery_bill.png","b108", new String[]{"B108Report","B108SubReport"}, "B108", map, reportList_); 
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
             LOG.error(ex);
@@ -429,7 +431,8 @@ public void printPdfMuti(){
                    // map.put("bill_date",DateTimeUtil.cvtDateForShow(rpt_sysbilling.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")));
 
                     map.put("reportCode", "B108");
-                    JasperPrint print= report.exportSubReport_Template_mearge("template.jpg","b108", new String[]{"B108Report","B108SubReport"}, "B108", map, reportList_);
+                   // JasperPrint print= report.exportSubReport_Template_mearge("template.jpg","b108", new String[]{"B108Report","B108SubReport"}, "B108", map, reportList_);
+                    JasperPrint print= report.exportSubReport_Template_mearge_heading("delivery_bill.png","b108", new String[]{"B108Report","B108SubReport"}, "B108", map, reportList_);
                     jasperPrintList.add(print);
                   
              }
@@ -509,7 +512,8 @@ public void printPdfMuti(){
             if (selected.getSysBillingDetailList() == null) 
                  selected.setSysBillingDetailList(new ArrayList<SysBillingDetail>());
              
-             dvDetail_selected.setId(detail_selected.getDetailId());
+            // dvDetail_selected.setId(detail_selected.getDetailId());
+             dvDetail_selected.setId(getRandomNumberInRange(1,10000));
              dvDetail_selected.setDetail(detail_selected.getDetailDesc());
              dvDetail_selected.setTotalPrice(price * dvDetail_selected.getVolume().doubleValue());
              //is match
@@ -822,4 +826,13 @@ public void printPdfMuti(){
         this.realTotalPrice = realTotalPrice;
     }
 
+    private  int getRandomNumberInRange(int min, int max) {
+	if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
+   
 }

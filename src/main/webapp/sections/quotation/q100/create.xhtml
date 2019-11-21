@@ -116,6 +116,17 @@
                     <p:selectOneMenu value="#{q100Controller.selected.status}" converter="omnifaces.SelectItemsConverter" filter="true" filterMatchMode="contains">
                         <f:selectItems value="#{PFConstants.LIST_STATUS}"/>
                     </p:selectOneMenu>
+                    
+                    <h:panelGroup>
+                        <p:outputLabel value="ผู้อนุมัติ ："/>
+                    </h:panelGroup>
+                    <p:inputText  value="#{q100Controller.selected.approve}" style="width: 200px;" />
+                    
+                    <h:panelGroup>
+                        <p:outputLabel value="หมายเหตุ ："/>
+                    </h:panelGroup>
+                    <p:inputTextarea id="remark1" value="#{q100Controller.selected.remark1}" cols="30" rows="4" 
+                                     maxlength="950" style="width: 400px;" />
 
                 </p:panelGrid>
             </p:panel>
@@ -156,7 +167,7 @@
                     <br/><p:outputLabel value="รายการ" styleClass="bold"/>
                     <p:commandButton id="addDetail" styleClass="search-btn" style="margin: 5px" 
                                      binding="#{bindingController.btnAdd}" value="#{msgs['btn.add']}" 
-                                     oncomplete="PF('selectDetail_dialog').show()" update="">
+                                     oncomplete="PF('selectDetail_dialog').show()" update="dlg1">
                     </p:commandButton>
 
                     <p:dataTable id="dt_itemDetail" binding="#{bindingController.dataTableModel}" value="#{q100Controller.selected.sysGeneralQuotationDetailList}" var="detail">

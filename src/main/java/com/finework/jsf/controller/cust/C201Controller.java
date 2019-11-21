@@ -68,8 +68,13 @@ public class C201Controller extends BaseController {
     @Override
     public void create() {
         try {
+            if (StringUtils.isBlank(selected.getWorkunitCode())) {
+                JsfUtil.addFacesErrorMessage("กรุณากรอกข้อมูล รหัสหน่วยงาน");
+                RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                return;
+            }
+            
             if (StringUtils.isBlank(selected.getWorkunitName())) {
-
                 JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.2001"));
                 RequestContext.getCurrentInstance().scrollTo("listForm:create_msg");
                 return;
@@ -101,12 +106,17 @@ public class C201Controller extends BaseController {
     @Override
     public void edit() {
         try {
+            if (StringUtils.isBlank(selected.getWorkunitCode())) {
+                JsfUtil.addFacesErrorMessage("กรุณากรอกข้อมูล รหัสหน่วยงาน");
+                RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
+                return;
+            }
+            
             if (StringUtils.isBlank(selected.getWorkunitName())) {
-
                 JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.2001"));
                 RequestContext.getCurrentInstance().scrollTo("listForm:edit_msg");
                 return;
-            };
+            }
             selected.setModifiedBy(userInfo.getAdminUser().getUsername());
             selected.setModifiedDt(DateTimeUtil.getSystemDate());
             customFacade.editSysWorkunit(selected);

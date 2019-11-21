@@ -374,7 +374,8 @@ public class B105Controller extends BaseController {
            // map.put("bill_date",DateTimeUtil.cvtDateForShow(rpt_sysDelivery.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")));
             
             map.put("reportCode", "B105");
-            report.exportSubReport("b105", new String[]{"B105Report","B105SubReport"}, "B105", map, reportList_);
+           // report.exportSubReport("b105", new String[]{"B105Report","B105SubReport"}, "B105", map, reportList_);
+            report.exportSubReport_Heading("invoice.png","b105", new String[]{"B105Report","B105SubReport"}, "B105", map, reportList_); 
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
             LOG.error(ex);
@@ -441,7 +442,8 @@ public class B105Controller extends BaseController {
                     map.put("price_char",(rpt_sysbilling.getBillTotalPrice()==0.0?"":new ThaiBaht().getText(rpt_sysbilling.getBillTotalPrice())));
 
                     map.put("reportCode", "B105");
-                    JasperPrint print= report.exportSubReport_Template_mearge("template.jpg","b105", new String[]{"B105Report","B105SubReport"}, "B105", map, reportList_);
+                    //JasperPrint print= report.exportSubReport_Template_mearge("template.jpg","b105", new String[]{"B105Report","B105SubReport"}, "B105", map, reportList_);
+                    JasperPrint print= report.exportSubReport_Template_mearge_heading("invoice.png","b105", new String[]{"B105Report","B105SubReport"}, "B105", map, reportList_);
                     jasperPrintList.add(print);
                   
              }

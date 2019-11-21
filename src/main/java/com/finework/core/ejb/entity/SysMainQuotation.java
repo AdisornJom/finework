@@ -78,6 +78,10 @@ public class SysMainQuotation implements Serializable, Comparator<SysMainQuotati
     @Size(max = 500)
     @Column(name = "remark")
     private String remark;
+    
+    @Size(max = 5000)
+    @Column(name = "remark1")
+    private String remark1;
 
     @Column(name = "total")
     private Double total;
@@ -107,6 +111,9 @@ public class SysMainQuotation implements Serializable, Comparator<SysMainQuotati
     @Size(max = 45)
     @Column(name = "modified_by")
     private String modifiedBy;
+    
+    @Column(name = "approve")
+    private String approve;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "quotationId", cascade = {javax.persistence.CascadeType.ALL}, orphanRemoval = true)
     private List<SysMainQuotation1> sysMainQuotation1List;
@@ -557,6 +564,22 @@ public class SysMainQuotation implements Serializable, Comparator<SysMainQuotati
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getApprove() {
+        return approve;
+    }
+
+    public void setApprove(String approve) {
+        this.approve = approve;
+    }
+
+    public String getRemark1() {
+        return remark1;
+    }
+
+    public void setRemark1(String remark1) {
+        this.remark1 = remark1;
     }
     
 }

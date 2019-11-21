@@ -368,7 +368,8 @@ public class B104Controller extends BaseController {
            // map.put("bill_date",DateTimeUtil.cvtDateForShow(rpt_sysDelivery.getBillDateLast(), "dd/MM/yyyy", new Locale("th", "TH")));
             
             map.put("reportCode", "B104");
-            report.exportSubReport("b104", new String[]{"B104Report","B104SubReport"}, "Delivery", map, reportList_);
+            //report.exportSubReport("b104", new String[]{"B104Report","B104SubReport"}, "Delivery", map, reportList_);
+            report.exportSubReport_Heading("delivery_bill.png","b104", new String[]{"B104Report","B104SubReport"}, "Delivery", map, reportList_); 
         } catch (Exception ex) {
             JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
             LOG.error(ex);

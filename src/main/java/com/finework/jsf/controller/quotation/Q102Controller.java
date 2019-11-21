@@ -1,6 +1,6 @@
 package com.finework.jsf.controller.quotation;
 
-import com.finework.core.ejb.entity.AdminUser;
+import com.finework.core.ejb.entity.SysDetail;
 import com.finework.core.ejb.entity.SysMainQuotation;
 import com.finework.core.ejb.entity.SysMainQuotation1;
 import com.finework.core.ejb.entity.SysMainQuotation2;
@@ -123,12 +123,19 @@ public class Q102Controller extends BaseController
   private String newFile3_3 = "no_product.png";
   private String newFile3_4 = "no_product.png";
   public static Map<String, String> CONFIG;
+  
+  private List<SysDetail> allSysDetails;
 
   @PostConstruct
-  public void init()
-  {
-    CONFIG = LoadConfig.loadFileDefault();
-    search();
+  public void init(){
+      try {
+          CONFIG = LoadConfig.loadFileDefault();
+          search();
+          this.allSysDetails = stockFacade.findSysDetailList();
+      } catch (Exception ex) {
+          JsfUtil.addFacesErrorMessage(MessageBundleLoader.getMessage("messages.code.9001"));
+          LOG.error(ex);
+      }
   }
 
   public void next(String path) {
@@ -1152,6 +1159,7 @@ public class Q102Controller extends BaseController
       map.put("heading1", null != rpt_sysDelivery.getHeading() ? rpt_sysDelivery.getHeading() : "");
       map.put("heading2", null != rpt_sysDelivery.getHeading2() ? rpt_sysDelivery.getHeading2() : "");
       map.put("heading3", null != rpt_sysDelivery.getHeading3() ? rpt_sysDelivery.getHeading3() : "");
+      map.put("approve", null != rpt_sysDelivery.getApprove() ? rpt_sysDelivery.getApprove() : "-");
 
       String path = ((String)CONFIG.get("images.url")).concat("/quotation1/");
       map.put("reportCode", "Q102");
@@ -1350,6 +1358,7 @@ public class Q102Controller extends BaseController
         map.put("heading1", null != rpt_sysDelivery.getHeading() ? rpt_sysDelivery.getHeading() : "");
         map.put("heading2", null != rpt_sysDelivery.getHeading2() ? rpt_sysDelivery.getHeading2() : "");
         map.put("heading3", null != rpt_sysDelivery.getHeading3() ? rpt_sysDelivery.getHeading3() : "");
+        map.put("approve", null != rpt_sysDelivery.getApprove() ? rpt_sysDelivery.getApprove() : "-");
 
         JasperPrint print = null;
         String path = ((String)CONFIG.get("images.url")).concat("/quotation1/");
@@ -1882,4 +1891,14 @@ public class Q102Controller extends BaseController
   public void setTotal3_discount(Double total3_discount) {
     this.total3_discount = total3_discount;
   }
+
+    public List<SysDetail> getAllSysDetails() {
+        return allSysDetails;
+    }
+
+    public void setAllSysDetails(List<SysDetail> allSysDetails) {
+        this.allSysDetails = allSysDetails;
+    }
+  
+  
 }

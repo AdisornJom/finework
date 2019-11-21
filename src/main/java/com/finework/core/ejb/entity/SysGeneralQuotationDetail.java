@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -61,6 +62,9 @@ public class SysGeneralQuotationDetail
 
   @Column(name="heading")
   private String heading;
+  
+  @Transient
+  private SysDetail sysDetail;
 
   public SysGeneralQuotationDetail()
   {
@@ -158,6 +162,15 @@ public class SysGeneralQuotationDetail
   public void setHeading(String heading) {
     this.heading = heading;
   }
+
+    public SysDetail getSysDetail() {
+        return sysDetail;
+    }
+
+    public void setSysDetail(SysDetail sysDetail) {
+        this.sysDetail = sysDetail;
+    }
+  
 
   public int hashCode()
   {
